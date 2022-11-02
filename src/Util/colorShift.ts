@@ -1,3 +1,5 @@
+//@ts-nocheck
+/* eslint-disable */
 /** @format */
 
 interface RGB {
@@ -80,3 +82,4 @@ export function rgba(color: string, alpha: number): string {
         );
     }
 }
+

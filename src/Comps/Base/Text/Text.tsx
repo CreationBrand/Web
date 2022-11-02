@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css, SerializedStyles } from '@emotion/react'
-import theme from 'Global/theme'
+import theme from 'Global/Theme'
 
 export const Brand = css({
     color: '#f7f7f8',
@@ -24,7 +24,7 @@ export const Title1 = css({
 
 export const Label = css({
     color: '#f7f7f8',
-    fontFamily: theme.typography.font.pri,
+    fontFamily: theme.typography.pri,
     fontWeight: '700',
     fontSize: '13px',
     marginBottom: theme.spacing(2)
@@ -32,14 +32,14 @@ export const Label = css({
 
 export const buttonText = css({
     color: 'inherit',
-    fontFamily: theme.typography.font.pri,
+    fontFamily: theme.typography.pri,
     fontWeight: '700',
     fontSize: '13px'
 })
 
 export const Link = css({
     color: '#bf94ff',
-    fontFamily: theme.typography.font.pri,
+    fontFamily: theme.typography.pri,
     fontSize: '12px',
     fontWeight: 400,
     marginTop: theme.spacing(2),
@@ -51,7 +51,7 @@ export const Link = css({
 
 export const Muted = css({
     color: '#adadb8',
-    fontFamily: theme.typography.font.pri,
+    fontFamily: theme.typography.pri,
     fontSize: '12px',
     fontWeight: 400,
     marginTop: theme.spacing(2)
@@ -60,7 +60,7 @@ export const Muted = css({
 
 export const Error = css({
     color: '#ff4763',
-    fontFamily: theme.typography.font.pri,
+    fontFamily: theme.typography.pri,
     fontSize: '12px',
     fontWeight: 400,
     marginTop: theme.spacing(2)

@@ -4,16 +4,20 @@ import { css } from '@emotion/react'
 import Button from 'Comps/Inputs/Button/Button'
 import Input from 'Comps/Inputs/Input/Input'
 import Tri from 'Comps/Views/Layout/Tri'
-import Nav from 'Comps/Views/Nav/Nav'
-import Paper from 'Comps/Base/Paper'
+import Nav from 'Stories/Nav/Nav'
+import Paper from 'Stories/Paper'
 import { useState } from 'react'
-import InteractiveList from 'Comps/Base/InteractiveList/InteractiveList'
 import CommunityTree from 'Stories/CommunityTree/CommunityTree'
 import Status from 'Stories/Status/Status'
-
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { communityState, personState, triState } from 'State/atoms'
+import CommunityControls from 'Stories/CommunityControls/CommunityControls'
+import { Outlet } from 'react-router-dom'
 const Home = () => {
-    const [l, sl] = useState(false)
-    const [r, sr] = useState(false)
+    const [l, r] = useRecoilValue(triState)
+    const setTri = useSetRecoilState(triState)
+    const person = useRecoilValue(personState)
+    const community = useRecoilValue(communityState)
 
     let c = {
         input: css({
@@ -24,34 +28,23 @@ const Home = () => {
 
     return (
         <Tri left={l} right={r}>
+
             <Paper background="sec" width="100%" height="100%" radius="m" >
-                <Status/>
+                <Status {...person} />
             </Paper>
+
             <Paper background="tri" width="100%" height="100%" radius="m">
-                <Nav>
-                    <Button varient="text" palette="pri" label="P" />
-                    <Input so={c.input}></Input>
-                </Nav>
-                <button
-                    onClick={() => {
-                        sl(!l)
-                    }}
-                >
-                    L BUTTON
-                </button>
-                <button
-                    onClick={() => {
-                        sr(!r)
-                    }}
-                >
-                    R BUTTON
-                </button>
+                <Nav l={l} r={r} setTri={setTri} />
+                <Outlet />
             </Paper>
+
             <Paper background="sec" width="100%" height="100%" radius="m">
-                <CommunityTree></CommunityTree>
+                <CommunityTree />
+                <CommunityControls />
             </Paper>
         </Tri>
     )
 }
 
 export default Home
+

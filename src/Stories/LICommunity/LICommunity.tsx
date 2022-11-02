@@ -5,68 +5,45 @@
 
 import { css } from '@emotion/react'
 import { Label, Muted } from 'Comps/Base/Text/Text'
-import theme from 'Global/theme'
+import theme from 'Global/Theme'
+import { Link, useLocation } from 'react-router-dom'
 import Chip from 'Stories/Chip/Chip'
 import Icon from 'Stories/Icon/Icon'
-
-const C = {
-
-    container: css({
-        height: '40px',
-        margin: '2px 10px 2px 10px',
-        borderRadius: '4px',
-        display:'flex',
-        alignItems:'center',
-        padding:'0px 10px 0px 10px',
-        '&:hover': {
-            background: theme.background.tri
-        }
-    }),
-    icon: css({}),
-    title: css({
-    
-    }),
-    chips: css({})
-}
+import { smBold } from 'Stories/Text/Text'
 
 const CommunityElement = ({ props }: any) => {
-    //   const { isRoute, reRoute } = useRoute(`community/${props.public_id}`);
+    const location = useLocation()
 
-    var handleClick = (e:any) => {
-        e.stopPropagation()
-        // reRoute(
-        //   `community/${props.public_id}`,
-        //   `${props.title}`,
-        //   "community"
-        // );
+    var handleClick = (e: any) => e.stopPropagation()
 
+    const C = {
+        container: css({
+            height: '40px',
+            margin: '2px 10px 2px 10px',
+            borderRadius: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '0px 10px 0px 10px',
+            background: location.pathname === `/c/${props.public_id}` ? 'hsla(0,0%,100%,.1)' : 'none',
+            '&:hover': {
+                background: theme.background.tri
+            }
+        }),
+        title: css({
+            marginLeft: '8px',
+        }),
     }
 
-    // var chips: any = []
-    // for (var i in props.roles) {
-    //     chips.push(
-    //         <Chip
-    //             key={i}
-    //             title={props.roles[i].title}
-    //             color={props.roles[i].color}
-    //             showBullet={true}
-    //             clickable={false}
-    //         />
-    //     )
-    // }
-
     return (
-        <div css={C.container} onClick={handleClick}>
-            <Icon/>
-            {/* <img
-                css={C.icon}
-                alt=" "
-                src={`${process.env.REACT_APP_CLOUDFRONT}/community/preview/${props.title}`}
-            /> */}
-            <div css={C.title}>
-                <div css={Label}>c/{props.title}</div>
+        <Link to={`c/${props.public_id}`} onClick={handleClick}>
+            <div css={C.container}>
+                <Icon />
+                <div css={C.title}>
+                    <div css={smBold}>c/{props.title}</div>
+                </div>
             </div>
-        </div>
+        </Link>
+
     )
 }
 

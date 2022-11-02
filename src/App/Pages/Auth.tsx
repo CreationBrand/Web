@@ -1,24 +1,27 @@
 /** @jsxImportSource @emotion/react */
 
-import Mono from 'Comps/Views/Layout/Mono'
+import Mono from 'Stories/Mono'
 import Grid from 'Comps/Unstyled/Grid/Grid'
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
 import { Outlet } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
+import ServerStatus from 'Stories/ServerStatus/ServerStatus'
 
 const Auth = () => {
     let location = useLocation()
 
     return (
-        <Mono background="pri">
+        <Mono background="pri" >
             <Grid
                 root
                 width="100%"
                 height="100%"
                 justify="center"
                 align="center"
+                zIndex={20}
+                padding={2}
             >
-                <LayoutGroup>
+                <LayoutGroup >
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={location.pathname}
@@ -30,6 +33,7 @@ const Auth = () => {
                     </AnimatePresence>
                 </LayoutGroup>
             </Grid>
+            <ServerStatus/>
         </Mono>
     )
 }

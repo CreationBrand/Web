@@ -3,7 +3,7 @@
 import { css } from '@emotion/react'
 import useWindow from 'Hooks/useWindow'
 import { createContext } from 'react'
-import theme from 'Global/theme'
+import theme from 'Global/Theme'
 
 const { Consumer, Provider }: any = createContext(false)
 
@@ -29,6 +29,8 @@ const P = ({ children, props }: any) => {
     else currentBp = 'x'
 
     const s = css({
+        zIndex: props.zIndex,
+        padding: props.padding ? theme.spacing(props.padding) : '0px',
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'row',
@@ -85,6 +87,8 @@ const C = ({ children, props }: any) => {
                 }
 
                 const s = css({
+                    padding: props.padding ? theme.spacing(props.padding) : '0px',
+                    zIndex: props.zIndex,
                     display: 'flex',
                     boxSizing: 'border-box',
                     flexDirection: props.column ? 'column' : 'row',
@@ -119,6 +123,8 @@ export interface Props {
     ungap?: number
     width?: any
     height?: any
+    zIndex?: number
+    padding?: number
     //points
     s?: boolean | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
     m?: boolean | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12

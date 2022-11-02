@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import Paper from 'Comps/Base/Paper'
+import Paper from 'Stories/Paper'
 import { Label, Link as Accent, Muted, Title1 } from 'Comps/Base/Text/Text'
-import Button from 'Comps/Inputs/Button/Button'
 import Input from 'Comps/Inputs/Input/Input'
 import Grid from 'Comps/Unstyled/Grid/Grid'
 import { useForm, Resolver } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { signUpCognito } from 'Service/Auth'
 import { post } from 'Service/Request'
+import { Button } from '@mui/material'
 
 // const resolver: Resolver<FormValues> = async (values) => {
 //     return {
@@ -105,13 +105,13 @@ const Signup = (props: Props) => {
                 </Grid>
 
                 <Grid s={12}>
-                    <Button
+                <Button
                         onClick={onSubmit}
-                        varient="fill"
-                        palette="pri"
-                        label="Sign Up"
-                        autoWidth
-                    />
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        size='small'
+                    >login</Button>
 
                     <h3 css={Muted}>
                         Have an account?{' '}

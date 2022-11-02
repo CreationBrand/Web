@@ -1,18 +1,21 @@
 /** @jsxImportSource @emotion/react */
-import { css, useTheme } from '@emotion/react'
+import { css} from '@emotion/react'
 import { forwardRef, useState } from 'react'
 import { Muted, Error } from 'Comps/Base/Text/Text'
-import { selectPalette } from 'Util/selectPalette'
+import { useTheme } from '@mui/material/styles';
 
 const Input = forwardRef((props: Props, ref: any) => {
-    const theme: any = useTheme()
-    const colors = selectPalette(props)
+
+    const theme:any = useTheme()
+
+    console.log(theme)
+    let colors = theme.palette.primary;
 
     const s = css(props.so, {
         background: theme.background.pen,
         border: '2px solid',
-        borderColor: props.error ? colors.default : theme.background.pen,
-        color: colors.contrast,
+        borderColor: props.error ? colors.main : theme.background.pen,
+        color: colors.contrastText,
         height: '30px',
         borderRadius: theme.radius.m,
         width: '100%',
@@ -23,7 +26,7 @@ const Input = forwardRef((props: Props, ref: any) => {
             border: `2px solid hsla(0,0%,100%,.1)`
         },
         '&:focus': {
-            border: `2px solid ${colors.default}`,
+            border: `2px solid ${colors.main}`,
             background: theme.background.pri
         }
     })

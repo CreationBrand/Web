@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
-import Mono from 'Comps/Views/Layout/Mono'
+import Mono from 'Stories/Mono'
 import Grid from 'Comps/Unstyled/Grid/Grid'
+import Paper from 'Stories/Paper'
+import { CircularProgress } from '@mui/material'
 
 const Loading = () => {
     return (
@@ -13,7 +15,7 @@ const Loading = () => {
                 justify="center"
                 align="center"
             >
-                Loading
+                <CircularProgress size={60} />
             </Grid>
         </Mono>
     )

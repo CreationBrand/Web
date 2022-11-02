@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import Paper from 'Comps/Base/Paper'
+import Paper from 'Stories/Paper'
 import { Brand, Label, Link as Accent, Muted } from 'Comps/Base/Text/Text'
-import Button from 'Comps/Inputs/Button/Button'
 import Input from 'Comps/Inputs/Input/Input'
 import Grid from 'Comps/Unstyled/Grid/Grid'
 import { useForm } from 'react-hook-form'
 import { loginCognito } from 'Service/Cognito'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
+import { Button } from '@mui/material'
 
 const s = css({
     maxWidth: '400px',
@@ -34,7 +34,7 @@ const Login = (props: Props) => {
         console.log(req)
     })
 
-    const handleClick = () => {}
+    const handleClick = () => { }
 
     return (
         <Paper
@@ -44,6 +44,7 @@ const Login = (props: Props) => {
             background="sec"
             radius="m"
             padding={6}
+            elevation={'x'}
         >
             <Grid s={12} gap={5}>
                 <Grid s={12} column>
@@ -69,11 +70,11 @@ const Login = (props: Props) => {
                 <Grid s={12}>
                     <Button
                         onClick={onSubmit}
-                        varient="fill"
-                        palette="pri"
-                        label="Log In"
-                        autoWidth
-                    />
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        size='small'
+                    >login</Button>
                     <h3 css={Muted}>
                         Need an account?{' '}
                         <Link to="/auth/signup" css={Accent}>
@@ -88,4 +89,4 @@ const Login = (props: Props) => {
 
 export default Login
 
-export interface Props {}
+export interface Props { }

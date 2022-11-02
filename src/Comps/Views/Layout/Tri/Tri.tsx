@@ -5,9 +5,9 @@ import { css, useTheme } from '@emotion/react'
 import { useDrag, useGesture } from '@use-gesture/react'
 import { useRef, useEffect, useState } from 'react'
 import { animated, useSpring } from 'react-spring'
+import theme from 'Global/Theme'
 
 const Tri = (props: Props) => {
-    const theme: any = useTheme()
     const ref: any = useRef(null)
     const size = 'l'
 

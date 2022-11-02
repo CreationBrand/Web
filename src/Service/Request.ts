@@ -1,5 +1,6 @@
+import colorLog from "Util/colorLog";
+
 var get = async (path: string) => {
-    console.log(`${process.env.REACT_APP_ENDPOINT}/${path}`);
     var request = await fetch(`${process.env.REACT_APP_ENDPOINT}/${path}`, {
       method: "GET",
       credentials: "include",

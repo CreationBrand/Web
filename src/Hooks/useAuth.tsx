@@ -11,6 +11,7 @@ import {
     roleState
 } from 'State/atoms'
 import { connectSocket } from 'Service/Socket'
+import colorLog from 'Util/colorLog'
 // import { socketAuth } from "Services/socket";
 
 var useAuth = () => {
@@ -28,13 +29,17 @@ var useAuth = () => {
             try {
                 let session = await verifyCognito()
                 if (!session) {
+                    colorLog('Invalid Session', 'warn')
+
                     setLoading(false)
                 } else {
                     await connectSocket()
                     var request = await get('user')
 
                     if (request !== false) {
+                        colorLog('[REST] Auth Sucess', 'success')
                         // socketAuth(request);
+                        console.log(request)
                         setM(request.messengers)
                         setP(request.person)
                         setC(request.communitys)
@@ -46,8 +51,7 @@ var useAuth = () => {
                     }
                 }
             } catch (e) {
-                console.log('catched', e)
-
+                colorLog('[REST] Connection Failed', 'error')
                 setLoading(false)
             }
         }

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import Paper from 'Comps/Base/Paper'
+import Paper from 'Stories/Paper'
 import { Label, Link, Muted, Title1 } from 'Comps/Base/Text/Text'
 import Button from 'Comps/Inputs/Button/Button'
 import Input from 'Comps/Inputs/Input/Input'

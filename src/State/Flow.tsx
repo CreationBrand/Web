@@ -8,6 +8,12 @@ import { atom } from 'recoil'
 //     },
 // })
 
+export const socketFlow = atom({
+    key: 'socketFlow',
+    default: {},
+})
+
+
 
 export const authFlow = atom({
     key: 'authFlow',

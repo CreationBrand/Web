@@ -1,4 +1,7 @@
 import { atom } from "recoil";
+import { person } from "./Types";
+import { localStorageEffect } from "./Effects";
+
 
 // LAYOUT
 export const overlayState = atom({
@@ -21,7 +24,7 @@ export const navState = atom({
 // USER DATA
 export const personState = atom({
   key: "personState",
-  default: {} as personStateI,
+  default: {} as person,
 });
 export const communityState = atom({
   key: "communityState",
@@ -55,6 +58,8 @@ interface personStateI {
   created_at: string;
   updated_at: string;
 }
+
+
 interface communityStateI {
   id: number;
   title: string;
@@ -98,3 +103,14 @@ interface navStateI {
   type: navType;
 }
 type navType = "post" | "comment" | "imageEdit" | "community";
+
+
+
+
+export const triState = atom({
+  key: "triState",
+  default: [true, true],
+  effects: [
+    localStorageEffect('triState'),
+  ]
+});
