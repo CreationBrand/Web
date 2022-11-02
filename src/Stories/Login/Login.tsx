@@ -3,13 +3,12 @@
 import { css } from '@emotion/react'
 import Paper from 'Stories/Paper'
 import { Brand, Label, Link as Accent, Muted } from 'Comps/Base/Text/Text'
-import Input from 'Comps/Inputs/Input/Input'
 import Grid from 'Comps/Unstyled/Grid/Grid'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { loginCognito } from 'Service/Cognito'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
-import { Button } from '@mui/material'
+import { Button, Input } from '@mui/material'
 
 const s = css({
     maxWidth: '400px',
@@ -21,17 +20,24 @@ const Login = (props: Props) => {
         register,
         handleSubmit,
         setError,
+        control,
         formState: { errors }
     } = useForm()
 
     const navigate = useNavigate()
 
     const onSubmit = handleSubmit(async (data) => {
-        console.log(data)
 
         let req = await loginCognito(data.username, data.password, navigate)
 
-        console.log(req)
+        if (!req) {
+            setError('username', {
+                message: 'Invalid username or password'
+            })
+            setError('password', {
+                message: 'Invalid username or password'
+            })
+        }
     })
 
     const handleClick = () => { }
@@ -52,18 +58,50 @@ const Login = (props: Props) => {
                 </Grid>
                 <Grid s={12} column>
                     <h3 css={Label}>Username</h3>
-                    <Input
+
+                    <Controller
+                        name="username"
+                        control={control}
+                        defaultValue=""
+                        rules={{ required: true }}
+                        render={({ field: { onChange, value } }) =>
+                            <Input
+                                error={(errors.username) ? true : false}
+                                autoComplete="off"
+                                onChange={onChange}
+                                value={value}
+                                disableUnderline
+                                fullWidth
+                            />}
+                    />
+
+                    {/* <Input
                         error={errors.username ? true : false}
                         control={register('username', { required: true })}
-                    />
+                    /> */}
                 </Grid>
 
                 <Grid s={12} column>
                     <h3 css={Label}>Password</h3>
-                    <Input
-                        error={errors.password ? true : false}
-                        control={register('password', { required: true })}
+
+
+                    <Controller
+                        name="password"
+                        control={control}
+                        defaultValue=""
+                        rules={{ required: true }}
+                        render={({ field: { onChange, value } }) =>
+                            <Input
+                                error={(errors.password) ? true : false}
+                                autoComplete="off"
+                                onChange={onChange}
+                                value={value}
+                                disableUnderline
+                                fullWidth
+                            />}
                     />
+
+
                     <h3 css={Accent}>Forgot Password?</h3>
                 </Grid>
 

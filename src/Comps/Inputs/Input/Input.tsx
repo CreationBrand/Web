@@ -8,7 +8,6 @@ const Input = forwardRef((props: Props, ref: any) => {
 
     const theme:any = useTheme()
 
-    console.log(theme)
     let colors = theme.palette.primary;
 
     const s = css(props.so, {
