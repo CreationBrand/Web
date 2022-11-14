@@ -125,7 +125,7 @@ export const verifyCognito = async () => {
                             token,
                             12
                         )
-                        resolve(true)
+                        resolve(session.accessToken.payload)
                     } catch (error) {
                         resolve(false)
                     }

@@ -23,20 +23,20 @@ const theme: any = createTheme({
         MuiInput: {
             styleOverrides: {
                 root: {
-                    borderRadius:'4px',
-                    height: '30px',
+                    borderRadius: '4px',
+                    // height: '30px',
                     border: '2px solid #464649',
                     background: '#464649',
-                    paddingLeft:'4px',
-                    paddingRight:'4px',
+                    paddingLeft: '4px',
+                    paddingRight: '4px',
                     '&:hover': {
                         border: `2px solid hsla(0,0%,100%,.1)`
                     },
                     "&.Mui-focused": {
                         border: '2px solid #9147ff',
-                        background:'#0e0e10',
+                        background: '#0e0e10',
                     },
-                    '&.Mui-error':{
+                    '&.Mui-error': {
                         border: '2px solid red',
                     }
                 },
@@ -47,6 +47,17 @@ const theme: any = createTheme({
             styleOverrides: {
                 paper: {
                     background: '#202225',
+                },
+            },
+        },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    fontFamily:'Roboto',
+                    textTransform: 'none',
+                },
+                label: {
+                    textTransform: 'none',
                 },
             },
         },
@@ -66,9 +77,9 @@ const theme: any = createTheme({
 
 
     background: {
-        pri: '#0e0e10',
-        sec: '#202225',
-        tri: '#2f3136',
+        pri: '#0f0e10',
+        sec: '#181820',
+        tri: '#272732',
         qua: '#36393f',
         pen: '#464649'
     },
@@ -96,6 +107,10 @@ const theme: any = createTheme({
         secondary: {
             main: '#b9bbbe',
         },
+        tri:{
+            main: '#414052',
+            contrastText:'#fff',
+        },
         background: {
             default: '#0e0e10',
             paper: '#2f3136',
@@ -107,8 +122,30 @@ const theme: any = createTheme({
     typography: {
         pri: 'Inter',
         sec: 'Noto Sans',
-        tri: 'Roboto'
+        tri: 'Roboto',
+        quad: 'Ubuntu',
     },
 });
 
 export default theme;
+
+
+
+
+declare module '@mui/material/styles' {
+    interface Palette {
+      tri: Palette['primary'];
+    }
+  
+    // allow configuration using `createTheme`
+    interface PaletteOptions {
+      tri?: PaletteOptions['primary'];
+    }
+  }
+  
+  // Update the Button's color prop options
+  declare module '@mui/material/Button' {
+    interface ButtonPropsColorOverrides {
+      tri: true;
+    }
+  }

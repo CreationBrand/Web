@@ -3,63 +3,68 @@
 import { css } from "@emotion/react";
 import useSocketRequest from "Hooks/useSocketRequest";
 import { useParams } from "react-router-dom";
-import { useGetRecoilValueInfo_UNSTABLE, useRecoilValue } from "recoil";
+import { useGetRecoilValueInfo_UNSTABLE, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { socketFlow } from "State/Flow";
+import ComPreview from "Stories/ComPreview/ComPreview";
+import ControlBar from "Stories/ControlBar/ControlBar";
+import DynamicVirtual from "Stories/DynamicVirtual/DynamicVirtual";
+import FilterBar from "Stories/FilterBar/FilterBar";
 import { heading2, normal } from "Stories/Text/Text";
+
+import { contentFlow } from 'State/Flow'
+import { useEffect } from "react";
+import colorLog from "Util/colorLog";
+import ListLoader from "Stories/ListLoader/ListLoader";
 
 
 const C = {
-    pane: css({
-        width: "100%",
-        height: "200px",
-        background: '#151618',
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-end',
-        padding: '24px',
-    }),
-    avatar: css({
-        width: "100px",
-        height: "60px",
-        background: '#292b2f',
-        borderRadius: '4px',
-    }),
-    label: css({
-        height: '60px',
-        marginLeft: '24px',
+    container: css({
+        height: 'calc(100% - 50px)',
+        position: 'relative',
     }),
 }
 
 
 const Community = () => {
 
-
     let params = useParams();
-    
+    let [contentState, setFlow] = useRecoilState(contentFlow);
+
     const [error, loading, data] = useSocketRequest('community', { public_id: params.public_id })
+
+
+    useEffect(() => {
+        if (data.status === 'ok') {
+            colorLog('[STATE] Setting Content Flow', 'info')
+            setFlow({
+                type: 'community',
+                title: data.community.title,
+                public_id: data.community.public_id,
+                roleSet: data.roleSet,
+                roles: data.roles,
+                list: [],
+                page:0,
+            })
+        }
+    }, [data, params.public_id])
+
 
     if (loading) return <div>Loading...</div>
     if (error) return <div>Error: {error}</div>
-    
-
-    return <div>
-
-        <div css={C.pane}>
-
-            {/* image */}
-            <div css={C.avatar}>
-            </div>
-
-            <div css={C.label}>
-
-                <div css={heading2}>{data.community.title}</div>
-                <div css={normal}>{data.community.description}</div>
-            </div>
-            {/* <div css={C.settings}></div> */}
-
-        </div>
 
 
+    const list = [
+        <ComPreview title={data.community.title} description={data.community.description} />,
+        <FilterBar />,
+        ...contentState.list,
+        <ListLoader/>]
+
+
+    return <div id="COMMUNITY" css={C.container}>
+
+        <DynamicVirtual rows={list} />
+
+        <ControlBar />
 
     </div>
 }

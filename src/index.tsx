@@ -9,7 +9,6 @@ import { ThemeProvider } from '@mui/material/styles';
 
 
 ReactDOM.render(
-    <React.StrictMode>
         <RecoilRoot>
         <RecoilNexus />
             <BrowserRouter>
@@ -18,7 +17,7 @@ ReactDOM.render(
                 </ThemeProvider>
             </BrowserRouter>
         </RecoilRoot>
-    </React.StrictMode>,
+ ,
 
     document.getElementById('root')
 )

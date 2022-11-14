@@ -1,15 +1,18 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
+import { xsLabel } from 'Stories/Text/Text'
 
 const C = {
     container: css({
         width: 'fit-content',
-        height: '16px',
+        height: '14px',
         background: 'rgb(59, 59, 59)',
         borderRadius: '4px',
         paddingRight: '4px',
+        paddingLeft: '4px',
         display: 'flex',
+        marginTop:'2px',
         justifyContent: 'start',
         alignItems: 'center'
     }),
@@ -21,7 +24,10 @@ const C = {
         margin: '0 4px',
         background: '$text-muted'
     }),
-    title: css({ fontSize: '10px', lineHeight: '16px' })
+    title: css({
+        fontSize: '10px', lineHeight: '16px',
+        color: '#fff'
+    })
 }
 
 const Chip = ({ title, color, showBullet, clickable, onClick }: props) => {
@@ -30,7 +36,7 @@ const Chip = ({ title, color, showBullet, clickable, onClick }: props) => {
             {showBullet && (
                 <div css={C.bullet} style={{ background: `#${color}` }}></div>
             )}
-            <div css={C.title} style={{ color: `#${color}` }}>
+            <div css={xsLabel}>
                 {title}
             </div>
         </div>

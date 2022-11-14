@@ -1,19 +1,28 @@
 import { atom } from 'recoil'
 
-// export const appFlow = atom({
-//     key: 'appFlow',
-//     default: {
-//       auth: authFlow
-
-//     },
-// })
 
 export const socketFlow = atom({
     key: 'socketFlow',
     default: {},
 })
 
+export const contentFlow = atom({
+    key: 'contentFlow',
+    default: {
+        type: null,
+        public_id: null,
+        title: null,
+        roleSet: {},
+    } as any,
+})
 
+export const errorFlow = atom({
+    key: 'errorFlow',
+    default: {
+        type: null,
+        message: null,
+    },
+})
 
 export const authFlow = atom({
     key: 'authFlow',

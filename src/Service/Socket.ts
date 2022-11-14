@@ -2,7 +2,7 @@ import { getRecoil, setRecoil } from 'recoil-nexus'
 import { io, Socket } from 'socket.io-client'
 import { communityData } from 'State/Data'
 import colorLog from 'Util/colorLog'
-import { socketFlow } from 'State/Flow'
+import { errorFlow, socketFlow } from 'State/Flow'
 import { DefaultEventsMap } from '@socket.io/component-emitter'
 
 let socket: Socket<DefaultEventsMap, DefaultEventsMap>
@@ -32,8 +32,15 @@ export const connectSocket = async () => {
     })
 
 
-    socket.io.on("error", (error) => {
+
+    socket.on("error", (error: any) => {
+        setRecoil(errorFlow, { type: error.type, message: error.message })
+    });
+
+    socket.io.on("error", (error: any) => {
         colorLog('[SOCKET] Connection Failed', 'error')
+        // setRecoil(errorFlow, {error: error.type, type: 'socket'})
+
     });
 
 
@@ -55,4 +62,21 @@ const parseCookies = () => {
         output[name[name.length - 1]] = pair.splice(1).join('=')
     })
     return output
+}
+
+
+export const socketRequest = async (event: string, message: any) => {
+
+    if (socket !== null && socket !== undefined && !socket.connected) return false
+
+    return new Promise((resolve, reject) => {
+        socket.emit(event, message, (data: any) => {
+            if (data.error) {
+                reject(data.error)
+            } else {
+                resolve(data)
+            }
+        })
+    });
+
 }

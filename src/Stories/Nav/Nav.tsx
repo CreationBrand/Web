@@ -24,7 +24,7 @@ const Nav = (props: Props) => {
 
     })
 
-    return <div css={s}>
+    return <div css={s} id="NAV">
 
         <IconButton aria-label="delete" size="medium" onClick={handleL}
             sx={{ borderRadius: 1, height: '32px', width: '32px' }}>
