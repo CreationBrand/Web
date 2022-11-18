@@ -29,7 +29,7 @@ const C = {
 }
 
 
-const Community = () => {
+const Default = ({ type }: Props) => {
 
     // navagation
     let params = useParams();
@@ -39,29 +39,19 @@ const Community = () => {
     let [activeList, setActiveList]: any = useRecoilState(activeListData);
     let [contentState, setFlow] = useRecoilState(contentFlow);
 
-    // requests community data
-    const [error, loading, data] = useSocketRequest('community', {community_id: params.community_id })
-
     useEffect(() => {
-        if (data.status === 'ok') {
-            colorLog('[STATE] Setting Content Flow', 'info')
-            setFlow({
-                type: 'community',
-                title: data.community.title,
-                public_id: data.community.public_id,
-                roleSet: data.roleSet,
-                roles: data.roles,
-                page: 0,
-            })
-        }
-    }, [data])
+        colorLog('[STATE] Setting Content Flow', 'info')
+        setFlow({
+            type: 'default',
+            title: type,
+            page: 0,
+        })
+    }, [type])
 
 
     useEffect(() => {
         (async () => {
-            let req: any = await socketRequest('post-list', {
-                community_id: params.community_id,
-                filter: 'new',
+            let req: any = await socketRequest(`${type}-list`, {
                 page: page,
             })
             if (req.status === 'ok') {
@@ -71,7 +61,7 @@ const Community = () => {
                     posts.push(<Post data={req.posts[i]} />)
                 }
                 if (page === 0) {
-                    await setActiveList([<FilterBar />, posts])
+                    await setActiveList([posts])
                 } else {
                     await setActiveList([...activeList, posts])
                 }
@@ -79,12 +69,7 @@ const Community = () => {
         })()
     }, [page, params.public_id])
 
-
-    if (loading) return <div>Loading...</div>
-    if (error) return <div>Error: {error}</div>
-
     const list = [
-        <ComPreview title={data.community.title} description={data.community.description} />,
         ...activeList,
         <ListLoader page={page} setPage={setPage} />]
 
@@ -100,4 +85,9 @@ const Community = () => {
 }
 
 
-export default Community
+export default Default
+
+
+interface Props {
+    type: string
+}

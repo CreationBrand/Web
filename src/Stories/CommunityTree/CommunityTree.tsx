@@ -67,7 +67,7 @@ function Group(props: any) {
 
     return (
         <motion.li layout onClick={toggleOpen} initial={{ borderRadius: 10 }}>
-            <motion.div css={C.container} layout>
+            <motion.div css={C.container} key={props.data.title} layout>
 
                 {!isOpen ? <KeyboardArrowUpRoundedIcon sx={{ height: '20px' }}
                     color='secondary' /> : <KeyboardArrowDownRoundedIcon

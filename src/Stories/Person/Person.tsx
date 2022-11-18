@@ -6,12 +6,11 @@ import theme from "Global/Theme";
 import Chip from "Stories/Chip/Chip";
 import { bold, heading3, mutedBold, normal, smBold, smMuted, xsMuted } from "Stories/Text/Text";
 
-
-
 const C = {
     container: css({
         height: '56px',
         width: '100%',
+        maxWidth:'250px',
         overflow: 'hidden',
         display: 'flex',
         background: theme.background.tri,
@@ -33,7 +32,6 @@ const C = {
         height: '40px',
         width: '40px',
         objectFit: 'cover',
-
     }),
     content: css({
         width: 'calc(100% - 56px)',

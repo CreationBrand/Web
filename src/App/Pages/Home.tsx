@@ -1,20 +1,26 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import Button from 'Comps/Inputs/Button/Button'
 import Input from 'Comps/Inputs/Input/Input'
 import Tri from 'Comps/Views/Layout/Tri'
 import Nav from 'Stories/Nav/Nav'
 import Paper from 'Stories/Paper'
-import { useState } from 'react'
 import CommunityTree from 'Stories/CommunityTree/CommunityTree'
-import Status from 'Stories/Status/Status'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { communityState, personState, roleState, triState } from 'State/atoms'
 import CommunityControls from 'Stories/CommunityControls/CommunityControls'
 import { Outlet } from 'react-router-dom'
 import Person from 'Stories/Person/Person'
 import { globalRoleData } from 'State/Data'
+
+import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded';
+
+
+import HouseRoundedIcon from '@mui/icons-material/HouseRounded';
+
+import NavButton from 'Stories/NavButton/NavButton'
+
+
 const Home = () => {
     const [l, r] = useRecoilValue(triState)
     const setTri = useSetRecoilState(triState)
@@ -29,7 +35,7 @@ const Home = () => {
         })
     }
 
-    console.log(person, roles)
+    // console.log(person, roles)
     return (
         <Tri left={l} right={r}>
 
@@ -40,7 +46,16 @@ const Home = () => {
                     nickname={person.nickname}
                     public_id={person.public_id}
                     status={'active'}
-                     />
+                />
+
+                <NavButton label="Home" icon={<HouseRoundedIcon />} path="home" />
+                <NavButton label="Trending" icon={<WhatshotRoundedIcon />} path="trending" />
+
+
+
+
+
+
             </Paper>
 
             <Paper background="tri" width="100%" height="100%" radius="m">

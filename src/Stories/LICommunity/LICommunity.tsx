@@ -35,7 +35,7 @@ const CommunityElement = ({ props }: any) => {
     }
 
     return (
-        <Link to={`c/${props.public_id}`} onClick={handleClick}>
+        <Link to={`c/${props.public_id}`} onClick={handleClick} key={props.title}>
             <div css={C.container}>
                 <Icon />
                 <div css={C.title}>

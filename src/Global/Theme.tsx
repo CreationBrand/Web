@@ -80,7 +80,7 @@ const theme: any = createTheme({
         pri: '#0f0e10',
         sec: '#181820',
         tri: '#272732',
-        qua: '#36393f',
+        qua: '#343442',
         pen: '#464649'
     },
 

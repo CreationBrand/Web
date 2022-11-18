@@ -13,6 +13,9 @@ function RowVirtualizerDynamic({ rows }: any) {
 
   const C = {
     container: css({
+      overflowY:'hidden',
+      overflowX:'hidden',
+
       height: "calc(100% - 50px)",
     }),
   }

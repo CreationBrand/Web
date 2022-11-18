@@ -12,6 +12,13 @@ export const globalRoleData = atom({
     default: {} as any,
 })
 
+export const activeListData = atom({
+    key: 'activeListData',
+    default: [] as any,
+})
+
+
+
 export const communityData = atom({
     key: 'communityData',
     default: [],
