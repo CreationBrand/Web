@@ -5,7 +5,6 @@ import Input from 'Comps/Inputs/Input/Input'
 import Tri from 'Comps/Views/Layout/Tri'
 import Nav from 'Stories/Nav/Nav'
 import Paper from 'Stories/Paper'
-import CommunityTree from 'Stories/CommunityTree/CommunityTree'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { communityState, personState, roleState, triState } from 'State/atoms'
 import CommunityControls from 'Stories/CommunityControls/CommunityControls'
@@ -19,6 +18,7 @@ import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded';
 import HouseRoundedIcon from '@mui/icons-material/HouseRounded';
 
 import NavButton from 'Stories/NavButton/NavButton'
+import CommunityList from 'Stories/LoadersLists/CommunityList'
 
 
 const Home = () => {
@@ -64,7 +64,8 @@ const Home = () => {
             </Paper>
 
             <Paper background="sec" width="100%" height="100%" radius="m">
-                <CommunityTree />
+
+                <CommunityList />
                 <CommunityControls />
             </Paper>
         </Tri>

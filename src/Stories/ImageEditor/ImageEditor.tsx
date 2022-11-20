@@ -24,7 +24,7 @@ const C = {
 
 
 }
-const ImageEditor = ({ type, api, width, height }: any) => {
+const ImageEditor = ({ type, api, width, height,id }: any) => {
 
     //state
     const editor: any = useRef(null);
@@ -43,7 +43,7 @@ const ImageEditor = ({ type, api, width, height }: any) => {
 
         const canvas = editor.current.getImage()
         const canvasScaled = editor.current.getImageScaledToCanvas()
-        let status = await fileUpload(api, 'user', type, canvasScaled.toDataURL())
+        let status = await fileUpload(`${api}/upload`, id, type, canvasScaled.toDataURL())
 
         console.log(status)
 
@@ -70,7 +70,7 @@ const ImageEditor = ({ type, api, width, height }: any) => {
             <Button variant="text" size='small' color='secondary'>Remove {type}</Button>
         </div>
 
-        <Dialog open={open} onClose={handleClose} >
+        <Dialog open={open} onClose={handleClose}  maxWidth='lg' >
             <DialogContent>
 
                 {image &&

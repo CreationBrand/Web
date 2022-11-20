@@ -18,6 +18,7 @@ import ListLoader from "Stories/ListLoader/ListLoader";
 import { activeListData } from "State/Data";
 import { socketRequest } from "Service/Socket";
 import Post from "Stories/Post/Post";
+import PostList from "Stories/LoadersLists/PostList";
 
 
 const C = {
@@ -40,7 +41,7 @@ const Community = () => {
     let [contentState, setFlow] = useRecoilState(contentFlow);
 
     // requests community data
-    const [error, loading, data] = useSocketRequest('community', {community_id: params.community_id })
+    const [error, loading, data] = useSocketRequest('community', { community_id: params.community_id })
 
     useEffect(() => {
         if (data.status === 'ok') {
@@ -57,34 +58,13 @@ const Community = () => {
     }, [data])
 
 
-    useEffect(() => {
-        (async () => {
-            let req: any = await socketRequest('post-list', {
-                community_id: params.community_id,
-                filter: 'new',
-                page: page,
-            })
-            if (req.status === 'ok') {
-                //create posts
-                let posts = []
-                for (var i in req.posts) {
-                    posts.push(<Post data={req.posts[i]} />)
-                }
-                if (page === 0) {
-                    await setActiveList([<FilterBar />, posts])
-                } else {
-                    await setActiveList([...activeList, posts])
-                }
-            }
-        })()
-    }, [page, params.public_id])
 
 
     if (loading) return <div>Loading...</div>
     if (error) return <div>Error: {error}</div>
 
     const list = [
-        <ComPreview title={data.community.title} description={data.community.description} />,
+        <ComPreview public_id={data.community.public_id} title={data.community.title} description={data.community.description} />,
         ...activeList,
         <ListLoader page={page} setPage={setPage} />]
 
@@ -93,7 +73,10 @@ const Community = () => {
 
     return (
         <div id="COMMUNITY" css={C.container}>
-            <DynamicVirtual rows={list} />
+
+            <PostList
+                community_id={params.community_id}
+                header={<ComPreview public_id={data.community.public_id} title={data.community.title} description={data.community.description} />} />
             <ControlBar />
         </div>
     )
@@ -101,3 +84,5 @@ const Community = () => {
 
 
 export default Community
+
+

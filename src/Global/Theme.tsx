@@ -148,4 +148,6 @@ declare module '@mui/material/styles' {
     interface ButtonPropsColorOverrides {
       tri: true;
     }
+
   }
+

@@ -81,9 +81,6 @@ const C = {
 
 const Post = ({ data }: any) => {
     
-
-console.log(data)
-
     const navigate = useNavigate();
     const viewPost = () => navigate(`p/${data.public_id}`)
 

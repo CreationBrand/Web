@@ -9,14 +9,14 @@ import CreatePost from 'Stories/Forum/CreatePost';
 
 const C = {
     container: css({
-        width: 'min-content',
+        width: 'calc(100% - 40px)',
         margin: 'auto',
         height: '40px',
-        background: '#464649',
+        background: '#343442',
         borderRadius: '8px',
         display: 'flex',
-        // marginLeft: '8px',
-        // marginRight: '8px',
+        marginLeft: '20px',
+        marginRight: '20px',
         marginBottom: '8px',
         boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
     }),

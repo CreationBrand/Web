@@ -1,3 +1,4 @@
+import CommunitySettings from 'App/Pages/CommunitySettings'
 import Home from 'App/Pages/Home'
 import Settings from 'App/Pages/Settings'
 import { Routes, Route, Navigate } from 'react-router-dom'
@@ -17,17 +18,14 @@ var Private = () => {
             <Routes>
                 <Route path="/" element={<Home />}>
 
-                    <Route path="/home" element={<Default type='home'/>}></Route>
-                    <Route path="/trending" element={<Default type='hot'/>}></Route>
-
-
-                    <Route path="c/:community_id" element={<Community />}>
-                    </Route>
-
+                    <Route path="/home" element={<Default type='home' />}></Route>
+                    <Route path="/trending" element={<Default type='hot' />}></Route>
+                    <Route path="c/:community_id" element={<Community />}></Route>
                     <Route path="c/:community_id/p/:post_id" element={<PostView />}></Route>
 
-
                 </Route>
+                <Route path="c/:community_id/settings" element={<CommunitySettings />}></Route>
+
                 <Route path="/settings" element={<Settings />}></Route>
                 <Route path="/error" element={<div>404</div>}></Route>
                 <Route path="*" element={<Navigate to="/" replace={true} />} />

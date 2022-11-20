@@ -23,3 +23,10 @@ export const communityData = atom({
     key: 'communityData',
     default: [],
 })
+
+
+
+export const commentListData = atom({
+    key: 'commentListData',
+    default: [],
+})
