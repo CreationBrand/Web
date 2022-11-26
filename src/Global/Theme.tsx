@@ -22,13 +22,22 @@ const theme: any = createTheme({
     components: {
         MuiInput: {
             styleOverrides: {
+                input: {
+                    paddingLeft: '12px',
+                    paddingRight: '12px',
+                    cursor: 'text',
+                    caretColor:'#fff !important',
+                
+
+                },
                 root: {
-                    borderRadius: '4px',
+                    caretColor:'transparent !important',
+                    borderRadius: '8px',
                     // height: '30px',
                     border: '2px solid #464649',
-                    background: '#464649',
-                    paddingLeft: '4px',
-                    paddingRight: '4px',
+                    background: '#423e47',
+                    // paddingLeft: '4px',
+                    // paddingRight: '4px',
                     '&:hover': {
                         border: `2px solid hsla(0,0%,100%,.1)`
                     },

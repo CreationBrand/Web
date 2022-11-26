@@ -4,28 +4,29 @@ import { verifyCognito } from 'Service/Cognito'
 import { useSetRecoilState } from 'recoil'
 import { useNavigate } from 'react-router-dom'
 import { get } from 'Service/Request'
-import {
-    messengerState,
-    personState,
-    communityState,
-    roleState
-} from 'State/atoms'
+
 import { connectSocket } from 'Service/Socket'
 import colorLog from 'Util/colorLog'
-import { globalRoleData, sessionData } from 'State/Data'
+import {
+    communityData,
+    globalRoleData,
+    messengerData,
+    personData,
+    sessionData
+} from 'State/Data'
 // import { socketAuth } from "Services/socket";
 
 var useAuth = () => {
     let navigate = useNavigate()
+
     const [isAuth, setAuth] = useState(false)
     const [loading, setLoading] = useState(true)
 
-
+    //SET GLOBAL STATE
+    const setM = useSetRecoilState(messengerData)
+    const setC = useSetRecoilState(communityData)
     const setSession = useSetRecoilState(sessionData)
-
-    const setM = useSetRecoilState(messengerState)
-    const setP = useSetRecoilState(personState)
-    const setC = useSetRecoilState(communityState)
+    const setP = useSetRecoilState(personData)
     const setR = useSetRecoilState(globalRoleData)
 
     useEffect(() => {
@@ -40,11 +41,8 @@ var useAuth = () => {
                     await setSession(session)
                     await connectSocket()
                     var request = await get('user')
-
                     if (request !== false) {
                         colorLog('[REST] Auth Sucess', 'success')
-                        // socketAuth(request);
-                        console.log(request)
                         setM(request.messengers)
                         setP(request.person)
                         setC(request.communitys)
@@ -67,4 +65,4 @@ var useAuth = () => {
 
     return [isAuth, loading]
 }
-export { useAuth }
+export default useAuth

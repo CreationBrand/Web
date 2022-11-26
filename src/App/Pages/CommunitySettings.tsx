@@ -4,8 +4,7 @@
 import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded';
 import { bold, heading3, smMuted, xsMuted } from "Stories/Text/Text";
 import { Link } from "react-router-dom";
-import ImageEditor from "Stories/ImageEditor/ImageEditor";
-import ProfilePopup from "Stories/ProfilePopup/ProfilePopup";
+import ImageEditor from "Stories/Forum/ImageEditor/ImageEditor";
 import { useRecoilValue } from "recoil";
 import { communityData, sessionData } from "State/Data";
 import Grid from "@mui/system/Unstable_Grid";

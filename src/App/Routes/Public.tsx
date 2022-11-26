@@ -1,11 +1,14 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 
 import Auth from 'App/Pages/Auth'
-import Login from 'Stories/Login/Login'
-import Signup from 'Stories/Signup/Signup'
-import Verify from 'Stories/Verify/Verify'
+import Login from 'Stories/Views/Login/Login'
+import Signup from 'Stories/Views/Signup/Signup'
+import Verify from 'Stories/Views/Verify/Verify'
+import { colorLog } from 'Util'
 
 var Public = () => {
+    colorLog('info','Credentials not found.')
+
     return (
         <Routes>
             {/* <Route path="/" element={<div>Landing</div>}></Route> */}

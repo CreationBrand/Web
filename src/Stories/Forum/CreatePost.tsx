@@ -13,6 +13,7 @@ import { useRecoilValue } from "recoil";
 import { contentFlow } from "State/Flow";
 import { socketRequest } from "Service/Socket";
 import colorLog from "Util/colorLog";
+import Editor from "Stories/Forum/Editor/Editor";
 
 const CreateCommunity = ({ open, handleClose }: Props) => {
 
@@ -22,28 +23,28 @@ const CreateCommunity = ({ open, handleClose }: Props) => {
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async (data: any) => {
-        setLoading(true);
-        let temp = data;
+        // setLoading(true);
+        // let temp = data;
 
-        temp.public_id = contentState.public_id;
+        // temp.public_id = contentState.public_id;
 
-        colorLog('[CREATE] Creating Post', 'info')
+        // colorLog('[CREATE] Creating Post', 'info')
 
-        let res: any = await socketRequest('post', temp);
+        // let res: any = await socketRequest('post', temp);
 
-        if (!res) {
+        // if (!res) {
 
-            colorLog('[STATE] Creating Post Failed', 'error')
-            setLoading(false);
+        //     colorLog('[STATE] Creating Post Failed', 'error')
+        //     setLoading(false);
 
-        } else if (res.status === 'ok') {
+        // } else if (res.status === 'ok') {
 
-            colorLog('[CREATE] Created Post.', 'sucess')
-            handleClose();
+        //     colorLog('[CREATE] Created Post.', 'sucess')
+        //     handleClose();
 
-        } else {
-            setLoading(false);
-        }
+        // } else {
+        //     setLoading(false);
+        // }
 
     };
 
@@ -73,6 +74,9 @@ const CreateCommunity = ({ open, handleClose }: Props) => {
                                 multiline
                             />}
                     />
+
+
+                    
                 </DialogContent>
                 <Divider />
 
@@ -84,6 +88,12 @@ const CreateCommunity = ({ open, handleClose }: Props) => {
                     <div css={xsMuted}>Body can not be empty.</div>
 
                     {/* tabs */}
+
+
+                    <Editor />
+
+                    {/* 
+
 
 
                     <Controller
@@ -161,7 +171,7 @@ const CreateCommunity = ({ open, handleClose }: Props) => {
                             </TabContext>
                         }
 
-                    />
+                    /> */}
 
 
                 </DialogContent>

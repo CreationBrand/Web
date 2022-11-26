@@ -1,11 +1,12 @@
-import CommunitySettings from 'App/Pages/CommunitySettings'
-import Home from 'App/Pages/Home'
-import Settings from 'App/Pages/Settings'
-import { Routes, Route, Navigate } from 'react-router-dom'
-import Community from 'Stories/Community/Community'
-import Default from 'Stories/Default/Default'
+import { Home, CommunitySettings } from "App/Pages"
+import Settings from "App/Pages/PersonSettings"
+import { Routes, Route, Navigate } from "react-router-dom"
+import Default from "Stories/Pure/Default/Default"
+import Community from "Stories/Views/Community/Community"
+import PostView from "Stories/Views/PostView/PostView"
+
 import Error from 'Stories/Error/Error'
-import PostView from 'Stories/PostView/PostView'
+import Messenger from "Stories/Views/Messenger/Messenger"
 
 
 var Private = () => {
@@ -17,6 +18,9 @@ var Private = () => {
             <Error />
             <Routes>
                 <Route path="/" element={<Home />}>
+
+
+                    <Route path="m/:messenger_id" element={<Messenger />}></Route>
 
                     <Route path="/home" element={<Default type='home' />}></Route>
                     <Route path="/trending" element={<Default type='hot' />}></Route>

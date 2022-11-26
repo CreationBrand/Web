@@ -21,24 +21,6 @@ export const navState = atom({
 });
 
 
-// USER DATA
-export const personState = atom({
-  key: "personState",
-  default: {} as person,
-});
-export const communityState = atom({
-  key: "communityState",
-  default: {},
-});
-export const messengerState = atom({
-  key: "messengerState",
-  default: {} as personStateI,
-});
-export const roleState = atom({
-  key: "roleState",
-  default: {} as personStateI,
-});
-
 // UPDATER STATES
 export const userUpdate = atom({
   key: "userUpdate",

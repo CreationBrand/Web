@@ -152,3 +152,13 @@ export const lNormal = css(mixinNormal, {
     fontSize: '16px',
     lineHeight: '20px',
 })
+
+
+export const brand = css({
+    color: '#f7f7f8',
+    fontFamily: `'Libre Barcode 39 Text'`,
+    fontWeight: '400',
+    fontSize: '64px',
+    textAlign: 'center',
+    marginBottom: theme.spacing(2)
+})

@@ -4,6 +4,7 @@ import { communityData } from 'State/Data'
 import colorLog from 'Util/colorLog'
 import { errorFlow, socketFlow } from 'State/Flow'
 import { DefaultEventsMap } from '@socket.io/component-emitter'
+import { parseCookies } from 'Util'
 
 let socket: Socket<DefaultEventsMap, DefaultEventsMap>
 
@@ -53,17 +54,6 @@ export const connectSocket = async () => {
 
 
 }
-const parseCookies = () => {
-    var cookies = document.cookie
-    var output: any = {}
-    cookies.split(/\s*;\s*/).forEach(function (pair: any) {
-        pair = pair.split(/\s*=\s*/)
-        var name = pair[0].split('.')
-        output[name[name.length - 1]] = pair.splice(1).join('=')
-    })
-    return output
-}
-
 
 export const socketRequest = async (event: string, message: any) => {
 

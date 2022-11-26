@@ -1,8 +1,8 @@
 import 'Global/styles.css'
-import { useAuth } from 'Hooks/useAuth'
-import Loading from 'App/Pages/Loading'
-import Public from 'App/Routes/Public'
-import Private from './Routes/Private'
+
+import { Public, Private } from 'App/Routes'
+import { Loading } from 'App/Pages'
+import { useAuth } from 'Hooks'
 
 const App = () => {
     const [isAuth, loading] = useAuth()

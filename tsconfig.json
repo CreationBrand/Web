@@ -20,7 +20,6 @@
         "noEmit": true,
         "jsxImportSource": "@emotion/react",
         "jsx": "react-jsx",
-
     },
-    "include": ["src"]
+    "include": ["src", "PostInstall.js"]
 }
