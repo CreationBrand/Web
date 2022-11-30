@@ -4,7 +4,7 @@ import { css } from '@emotion/react'
 import Paper from 'Stories/Misc/Paper'
 
 import { useForm, Resolver, Controller } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { signUpCognito } from 'Service/Auth'
 import { post } from 'Service/Request'
 import { Button, Input } from '@mui/material'
@@ -12,11 +12,7 @@ import { Button, Input } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { brand, heading2, mMuted, sMuted } from 'Stories/Text/Text'
 
-
-
 const Signup = (props: Props) => {
-
-    
     const {
         register,
         handleSubmit,
@@ -24,27 +20,28 @@ const Signup = (props: Props) => {
         control,
         formState: { errors }
     } = useForm()
-
-
+    const navigate = useNavigate()
 
     const onSubmit = handleSubmit(async (data) => {
-        if (data.password !== data.password2) {
-            setError('password2', {
+        if (data.password1 !== data.password2) {
+            setError('password', {
                 type: 'custom',
                 message: 'Passwords do not match'
             })
         } else {
-            let req = signUpCognito(data.username, data.password, data.email)
+            console.log(data)
+            let req: any = signUpCognito(
+                data.username,
+                data.password1,
+                data.email
+            )
             //reroute to home here
+            if (req.userConfirmed === false) navigate(`/verify`)
         }
     })
 
-   
-
     return (
-
-
-<Paper
+        <Paper
             width="100%"
             height="min-content"
             background="sec"
@@ -86,20 +83,23 @@ const Signup = (props: Props) => {
                     />
                 </Grid>
 
-
                 <Grid xs={12}>
                     <Grid>
                         <h3 css={mMuted}>Email</h3>
                     </Grid>
 
                     <Controller
-                        name="username"
+                        name="email"
                         control={control}
                         defaultValue=""
-                        rules={{ required: true }}
+                        rules={{
+                            required: true,
+                            pattern:
+                                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+                        }}
                         render={({ field: { onChange, value } }) => (
                             <Input
-                                error={errors.username ? true : false}
+                                error={errors.email ? true : false}
                                 autoComplete="off"
                                 onChange={onChange}
                                 value={value}
@@ -109,9 +109,6 @@ const Signup = (props: Props) => {
                         )}
                     />
                 </Grid>
-
-
-
 
                 <Grid xs={12}>
                     <Grid>
@@ -119,13 +116,13 @@ const Signup = (props: Props) => {
                     </Grid>
 
                     <Controller
-                        name="username"
+                        name="password1"
                         control={control}
                         defaultValue=""
                         rules={{ required: true }}
                         render={({ field: { onChange, value } }) => (
                             <Input
-                                error={errors.username ? true : false}
+                                error={errors.password ? true : false}
                                 autoComplete="off"
                                 onChange={onChange}
                                 value={value}
@@ -136,16 +133,13 @@ const Signup = (props: Props) => {
                     />
                 </Grid>
 
-
-
-
                 <Grid xs={12}>
                     <Grid>
                         <h3 css={mMuted}>Confirm Password</h3>
                     </Grid>
 
                     <Controller
-                        name="password"
+                        name="password2"
                         control={control}
                         defaultValue=""
                         rules={{ required: true }}
@@ -164,7 +158,7 @@ const Signup = (props: Props) => {
 
                 <Grid xs={12}>
                     <Button
-                        sx={{marginTop:'12px',borderRadius:'8px'}}
+                        sx={{ marginTop: '12px', borderRadius: '8px' }}
                         onClick={onSubmit}
                         variant="contained"
                         color="primary"
@@ -176,15 +170,16 @@ const Signup = (props: Props) => {
                     <Grid>
                         <h3 css={sMuted}>
                             Have an account?
-                            <Link to="/auth" css={{ color: '#9147ff',marginLeft:'4px' }}>
+                            <Link
+                                to="/auth"
+                                css={{ color: '#9147ff', marginLeft: '4px' }}
+                            >
                                 Login
                             </Link>
                         </h3>
                     </Grid>
                 </Grid>
             </Grid>
-   
-
 
             {/* <Grid s={12} gap={5}>
                 <Grid s={12} column>

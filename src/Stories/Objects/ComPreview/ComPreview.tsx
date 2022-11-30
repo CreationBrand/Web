@@ -26,26 +26,29 @@ const C = {
     }),
     banner: css({
         width: '100%',
-        height: '100%',
+        height: '68%',
         objectFit: 'cover',
         position: 'absolute',
         borderRadius: '8px',
         zIndex: 1,
     }),
     avatar: css({
-        width: "80px",
-        height: "80px",
+        width: "88px",
+        height: "88px",
         borderRadius: '8px',
-        background: '#0e0e10',
+        background: '#151618',
         overflow: 'hidden',
+        padding: '4px',
+        
     }),
     image: css({
         height: '80px',
         width: '80px',
+        borderRadius: '8px',
+
         objectFit: 'cover',
     }),
     label: css({
-        height: '80px',
         marginLeft: '24px',
         display: 'flex',
         flexDirection: 'column',
@@ -94,9 +97,9 @@ const ComPreview = ({ title, description, public_id }: any) => {
                 <div css={C.label}>
                     <div>
                         <div css={xBold}>{title}</div>
-                        <div css={lNormal}>{description}</div>
+                        <div css={sMuted}>10k Members</div>
+
                     </div>
-                    <div css={sMuted}>10k Members</div>
                 </div>
                 <div css={C.end}>
                     <Tooltip title="Settings">

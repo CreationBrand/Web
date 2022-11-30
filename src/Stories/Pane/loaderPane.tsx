@@ -23,11 +23,7 @@ const C = {
     }),
 }
 
-const ListLoader = ({ public_id, filter }: any) => {
-
-
-
-
+const LoaderPane = ({ public_id, filter }: any) => {
 
 
     return (
@@ -46,4 +42,4 @@ const ListLoader = ({ public_id, filter }: any) => {
 }
 
 
-export default ListLoader
+export default LoaderPane

@@ -1,58 +1,69 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react"
+import { css } from '@emotion/react'
 
-import { useRef, useState } from "react"
-
-//@ts-ignore
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-//@ts-ignore
-import build from 'ckeditor5-custom-build/build/ckeditor';
-
+import { useRef, useState } from 'react'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
 
 const C = {
     container: css({
-        background: '#0e0e10',
+        background: '#0e0e10'
     }),
+    editor: css({
+        color: 'white',
+        width: '100%',
+        borderRadius: '8px',
+        // border: 'none',
+        '.ql-toolbar': {
+            // background: '#1c1c22',
+            // borderRadius: '8px',
+            borderTopRightRadius: '8px',
+            borderTopLeftRadius: '8px',
+
+            border: 'none'
+        },
+        '.ql-container': {
+            fontFamily: 'Ubuntu !important',
+            border: 'none',
+            borderBottomLeftRadius: '8px',
+            borderBottomRightRadius: '8px'
+            // paddingBottom: '8px',
+        },
+        '.ql-stroke': {
+            stroke: '#bcbdbe'
+        },
+        '.ql-picker': {
+            color: '#bcbdbe'
+        },
+        '.ql-snow': {
+            border: 'none'
+        },
+        '.ql-editor': {
+            padding: '2px',
+            margin: '0px 12px',
+            borderRadius: '8px',
+            minHeight: '80px',
+            background: '#272732'
+        }
+    })
 }
 
-const Editor = () => {
-
-    const [model, setModel] = useState('')
-
-    const handleModelChange = (model: any) => setModel(model)
-
-
-    const log = () => {
-
-    };
-
-    return (<div>
-
-        <CKEditor
-            
-            css={C.container}
-            editor={build}
-            data="<p>Hello from CKEditor 5!</p>"
-            onReady={(editor: any) => {
-                // You can store the "editor" and use when it is needed.
-                console.log('Editor is ready to use!', editor);
-            }}
-            onChange={(event: any, editor: { getData: () => any; }) => {
-                const data = editor.getData();
-                console.log({ event, editor, data });
-            }}
-            onBlur={(event: any, editor: any) => {
-                console.log('Blur.', editor);
-            }}
-            onFocus={(event: any, editor: any) => {
-                console.log('Focus.', editor);
-            }}
+const Editor = ({ value, onChange, lock }: any) => {
+    return (
+        <ReactQuill
+            css={[
+                C.editor,
+                lock && {
+                    height: lock,
+                    '.ql-container': { overflowY: 'scroll' }
+                }
+            ]}
+            theme="snow"
+            placeholder={'Write something...'}
+            value={value}
+            onChange={onChange}
         />
-
-        <button onClick={log}>Log editor content</button>
-    </div>)
-
+    )
 }
-
 
 export default Editor

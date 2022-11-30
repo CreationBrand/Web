@@ -12,7 +12,7 @@ const C = {
         height: '48px',
         background: '#343442',
         borderRadius: '8px',
-        margin: '0px 20px 20px 20px',
+        margin: '0px 20px 0px 20px',
         padding: '0px 20px 0px 20px',
         gap: '8px',
         // justifyContent: 'space-between',
@@ -21,7 +21,7 @@ const C = {
     })
 }
 
-const FilterBar = ({ value, onChange }: any) => {
+const FilterPane = ({ value, onChange }: any) => {
     const handleHot = () => onChange('HOT')
     const handleNew = () => onChange('NEW')
     const handleTop = () => onChange('TOP')
@@ -79,4 +79,4 @@ const FilterBar = ({ value, onChange }: any) => {
     )
 }
 
-export default FilterBar
+export default FilterPane

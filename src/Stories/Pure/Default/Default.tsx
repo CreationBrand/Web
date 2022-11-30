@@ -1,57 +1,56 @@
 /** @jsxImportSource @emotion/react */
 
-import { css } from "@emotion/react";
-import useSocketRequest from "Hooks/useSocketRequest";
-import { useParams } from "react-router-dom";
-import { useGetRecoilValueInfo_UNSTABLE, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { socketFlow } from "State/Flow";
-import ControlBar from "Stories/Objects/ControlBar/ControlBar";
-import DynamicVirtual from "Stories/Pure/DynamicVirtual/DynamicVirtual";
-import FilterBar from "Stories/Loaders/FilterBar";
-import { heading2, normal } from "Stories/Text/Text";
+import { css } from '@emotion/react'
+import useSocketRequest from 'Hooks/useSocketRequest'
+import { useParams } from 'react-router-dom'
+import {
+    useGetRecoilValueInfo_UNSTABLE,
+    useRecoilState,
+    useRecoilValue,
+    useSetRecoilState
+} from 'recoil'
+import { socketFlow } from 'State/Flow'
+import ControlBar from 'Stories/Objects/ControlBar/ControlBar'
+import DynamicVirtual from 'Stories/Pure/DynamicVirtual/DynamicVirtual'
+import { heading2, normal } from 'Stories/Text/Text'
 
 import { contentFlow } from 'State/Flow'
-import { useEffect, useState } from "react";
-import colorLog from "Util/colorLog";
-import { activeListData } from "State/Data";
-import { socketRequest } from "Service/Socket";
-import Post from "Stories/Objects/Post/Post";
-import ListLoader from "Stories/Loaders/ListLoader";
-
+import { useEffect, useState } from 'react'
+import colorLog from 'Util/colorLog'
+import { activeListData } from 'State/Data'
+import { socketRequest } from 'Service/Socket'
+import Post from 'Stories/Objects/Post/Post'
 
 const C = {
     container: css({
         height: 'calc(100% - 50px)',
         position: 'relative',
-        overflow: 'hidden',
-    }),
+        overflow: 'hidden'
+    })
 }
 
-
 const Default = ({ type }: Props) => {
-
     // navagation
-    let params = useParams();
+    let params = useParams()
 
-    //state 
-    let [page, setPage] = useState(0);
-    let [activeList, setActiveList]: any = useRecoilState(activeListData);
-    let [contentState, setFlow] = useRecoilState(contentFlow);
+    //state
+    let [page, setPage] = useState(0)
+    let [activeList, setActiveList]: any = useRecoilState(activeListData)
+    let [contentState, setFlow] = useRecoilState(contentFlow)
 
     useEffect(() => {
         colorLog('[STATE] Setting Content Flow', 'info')
         setFlow({
             type: 'default',
             title: type,
-            page: 0,
+            page: 0
         })
     }, [type])
 
-
     useEffect(() => {
-        (async () => {
+        ;(async () => {
             let req: any = await socketRequest(`${type}-list`, {
-                page: page,
+                page: page
             })
             if (req.status === 'ok') {
                 //create posts
@@ -68,12 +67,7 @@ const Default = ({ type }: Props) => {
         })()
     }, [page, params.public_id])
 
-    const list = [
-        ...activeList,
-        <ListLoader page={page} setPage={setPage} />]
-
-
-
+    const list = [...activeList]
 
     return (
         <div id="COMMUNITY" css={C.container}>
@@ -83,9 +77,7 @@ const Default = ({ type }: Props) => {
     )
 }
 
-
 export default Default
-
 
 interface Props {
     type: string

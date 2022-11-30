@@ -100,6 +100,7 @@ export const logoutCognito = async () => {
   window.location.href = process.env.REACT_APP_URL;
   return true;
 };
+
 export const refreshSession = () => {
   return new Promise((resolve, reject) => {
     try {

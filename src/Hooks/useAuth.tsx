@@ -41,6 +41,7 @@ var useAuth = () => {
                     await setSession(session)
                     await connectSocket()
                     var request = await get('user')
+                    console.log(request)
                     if (request !== false) {
                         colorLog('[REST] Auth Sucess', 'success')
                         setM(request.messengers)

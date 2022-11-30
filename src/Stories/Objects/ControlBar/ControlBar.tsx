@@ -6,6 +6,7 @@ import { Tooltip, IconButton } from '@mui/material';
 import { useState } from 'react';
 import CreatePost from 'Stories/Forum/CreatePost';
 
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 const C = {
     container: css({
@@ -36,6 +37,7 @@ const ControlBar = () => {
 
         {/* CREATE POST */}
         <Tooltip title="Create Post" arrow>
+
             <IconButton
                 onClick={handleOpen1}
                 size="small"
@@ -44,9 +46,11 @@ const ControlBar = () => {
                     height: '32px',
                     width: '32px',
                 }}>
-                <CreateRoundedIcon />
+                <AddBoxIcon />
             </IconButton>
         </Tooltip>
+
+
         <CreatePost open={open1} handleClose={handleClose1} />
 
 

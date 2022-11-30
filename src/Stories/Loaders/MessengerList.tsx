@@ -12,22 +12,21 @@ import theme from 'Global/Theme'
 
 import ManageSearchRoundedIcon from '@mui/icons-material/ManageSearchRounded'
 import MessegerLi from 'Stories/Objects/MessengerLI/MessengerLi'
+import MessengerFilter from 'Stories/Bits/MessengerFilter/MessengerFilter'
+import { V } from '@use-gesture/core/dist/declarations/src/utils/maths'
 const C = {
     container: css({
         height: 'calc(100% - 138px)',
         position: 'relative',
         width: '100%',
-        display:'flex',
-        flexDirection:'column',
-        justifyContent:'space-between',
-
+        display: 'flex',
+        flexDirection: 'column',
     }),
     footer: css({
         background: '#23232c',
         borderRadius: '8px',
         padding: '8px',
         marginTop: 'auto',
-        
     }),
     label: css({
         paddingTop: '12px',
@@ -45,60 +44,17 @@ const MessengerList = () => {
 
     const tree = listToTree(communitys)
 
-
-
-
-
-
+    console.log(tree)
     return (
         <div css={C.container}>
-            <div css={[mMuted,C.label]}>Messengers</div>
-
-        <VirtualTree tree={tree} Node={Node} term={value} ></VirtualTree>
-
-            <div css={C.footer}>
-                <ButtonGroup
-                    disableElevation
-                    variant="text"
-                    aria-label="Disabled elevation buttons"
-                    fullWidth
-                    color="secondary"
-                    size="small"
-                >
-                    <Button>One</Button>
-                    <Button>Two</Button>
-                    <Button>One</Button>
-                    <Button>Two</Button>
-                </ButtonGroup>
-
-                <Input
-                    onChange={handleSearch}
-                    value={value}
-                    fullWidth
-                    disableUnderline
-                    placeholder="Search..."
-                    startAdornment={
-                        <ManageSearchRoundedIcon color="secondary" />
-                    }
-                    sx={{
-                        paddingLeft:'4px',
-                        height: '32px',
-                        fontSize: '14px',
-                        borderRadius: '8px',
-                        backgroundColor: theme.background.pri,
-                        fontFamily: 'Ubuntu',
-                        border: '2px solid',
-                        borderColor: theme.background.pri
-                    }}
-                ></Input>
-            </div>
+            <div css={[mMuted, C.label]}>Messengers</div>
+            <MessengerFilter value={value} onChange={(e: any) => setValue(e)} />
+            <VirtualTree tree={tree} Node={Node} term={value}></VirtualTree>
         </div>
     )
 }
 
 const Node = ({ node, style, dragHandle, ...props }: any) => {
-
-
     const handleOpenClose = () => {
         node.toggle()
     }
@@ -106,48 +62,40 @@ const Node = ({ node, style, dragHandle, ...props }: any) => {
     const C = {
         container: css({
             // border: "1px solid red",
-            display: 'flex'
+            display: 'flex',
         }),
         depth: css({
-            width: `${node.level * 20}px`
+            width: `${node.level * 20}px`,
         }),
         thread: css({
             borderRight: '2px solid #343536',
             display: 'block',
             width: '20px',
-            height: '100%'
+            height: '100%',
         }),
         icon: css({
             height: '40px',
             width: '40px',
             borderRadius: '8px',
             background: '#0e0e10',
-            overflow: 'hidden'
+            overflow: 'hidden',
         }),
         content: css({
             display: 'flex',
-            padding: '8px 0px 0px 8px'
+            padding: '8px 0px 0px 8px',
         }),
         group: css({
             height: '40px',
             padding: '20px 0px 0px 4px',
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
         }),
-        community: css({})
+        community: css({}),
     }
 
     return (
         <div css={C.container} ref={dragHandle}>
-
             <MessegerLi props={node.data} />
-        
-
-            {/* <NavButton
-                label={node.data.person.nickname}
-                avatar_id={node.data.person.public_id}
-                path={`m/${node.data.public_id}`}
-            /> */}
         </div>
     )
 }
@@ -161,9 +109,10 @@ const listToTree = (list: any) => {
         tree.push({
             id: i,
             title: list[i].person.nickname,
+            term: list[i].status,
             person: list[i].person,
             status: list[i].status,
-            public_id: list[i].public_id
+            public_id: list[i].public_id,
         })
     }
 

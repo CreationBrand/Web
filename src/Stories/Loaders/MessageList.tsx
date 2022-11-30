@@ -8,7 +8,7 @@ import { commentListData } from 'State/Data'
 import DynamicVirtual from 'Stories/Pure/DynamicVirtual/DynamicVirtual'
 import Comment from 'Stories/Objects/Comment/Comment'
 import { css } from '@emotion/react'
-import FilterBar from './FilterBar'
+import FilterBar from '../Pane/FilterPane'
 import Message from 'Stories/Objects/Message/Message'
 
 const MessageList = ({ messenger_id }: any) => {

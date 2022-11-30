@@ -20,9 +20,9 @@ const VirtualTree = ({ tree, Node, term, operator }: any) => {
             data={tree}
             // renderRow={Row}
             searchTerm={term}
-            searchMatch={
+            searchMatch={operator? operator :
                 //@ts-ignore
-                (node, term): any => node.data.title.toLowerCase().includes(term.toLowerCase())
+                (node, term): any => node.data.term.toLowerCase().includes(term.toLowerCase())
             }
             onMove={handleMove}
             width={'100%'}

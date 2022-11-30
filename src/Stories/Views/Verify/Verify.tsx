@@ -3,9 +3,12 @@
 import { css } from '@emotion/react'
 import Paper from 'Stories/Misc/Paper'
 
-import { useForm, Resolver } from 'react-hook-form'
+import { useForm, Resolver, Controller } from 'react-hook-form'
 import { signUpCognito } from 'Service/Auth'
 import { verifyEmail } from 'Service/Cognito'
+import Grid from '@mui/material/Unstable_Grid2'
+import { brand, mMuted } from 'Stories/Text/Text'
+import { Button, Input } from '@mui/material'
 
 const s = css({
     maxWidth: '400px',
@@ -17,11 +20,14 @@ const Verify = (props: Props) => {
         register,
         handleSubmit,
         setError,
+        control,
         formState: { errors }
     } = useForm()
     const onSubmit = handleSubmit(async (data) => {
         console.log(data.code)
-        verifyEmail(data.code)
+        let res = verifyEmail(data.code)
+        console.log(res)
+
     })
 
     // const handleClick = () => props.setLS(true)
@@ -35,12 +41,52 @@ const Verify = (props: Props) => {
             radius="m"
             padding={6}
         >
-            {/* <Grid s={12} gap={5}>
-                <Grid s={12} column>
-                    <h2 css={Title1}>Verify Email</h2>
+            <Grid
+                container
+                rowSpacing={4}
+                maxWidth="400px"
+                width="100%"
+                sx={{ caretColor: 'transparent ' }}
+            >
+                <Grid xs={12}>
+                    <h2 css={brand}>Verify</h2>
                 </Grid>
 
-                <Grid s={12} column>
+                <Grid xs={12}>
+                    <Grid>
+                        <h3 css={mMuted}>Code</h3>
+                    </Grid>
+
+                    <Controller
+                        name="code"
+                        control={control}
+                        defaultValue=""
+                        rules={{ required: true }}
+                        render={({ field: { onChange, value } }) => (
+                            <Input
+                                error={errors.code ? true : false}
+                                autoComplete="off"
+                                onChange={onChange}
+                                value={value}
+                                disableUnderline
+                                fullWidth
+                            />
+                        )}
+                    />
+                </Grid>
+
+                <Button
+                    onClick={onSubmit}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    size="small"
+                >
+                    submit
+                </Button>
+            </Grid>
+
+            {/* <Grid s={12} column>
                     <h3 css={Label}>Email</h3>
                     <Input
                         control={register('code', {

@@ -20,6 +20,7 @@ import { useState } from 'react'
 import { socketRequest } from 'Service/Socket'
 import { useParams } from 'react-router-dom'
 import { vote } from 'Helper/Action'
+import CommentReply from 'Stories/MOC/CommentReply'
 
 const C = {
     container: css({
@@ -128,7 +129,7 @@ const Comment = ({ data }: any) => {
         console.log(index)
 
         setCommentList(
-            insert(commentList, index + 1, <Reply parent={data.id}></Reply>)
+            insert(commentList, index + 1, <CommentReply parent={data.id}/>)
         )
     }
 
@@ -139,10 +140,10 @@ const Comment = ({ data }: any) => {
 
     let isParent = false
     try {
-        console.log(commentList[index + 1].props.data.depth, data.depth)
+        // console.log(commentList[index + 1].props.data.depth, data.depth)
 
         isParent = commentList[index + 1].props.data.depth > data.depth
-        console.log(isParent)
+        // console.log(isParent)
     } catch {}
 
     return (
@@ -228,64 +229,3 @@ const insert = (arr: string | any[], index: any, newItem: any) => [
     newItem,
     ...arr.slice(index)
 ]
-
-const Reply = (parent: any) => {
-    const C = {
-        container: css({
-            // background: theme.background.pri,
-            width: '100%',
-            margin: '10px 20px',
-            borderRadius: '8px',
-            // padding: '8px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
-            alignItems: 'flex-end',
-            gap: '8px'
-        })
-    }
-
-    let params = useParams()
-
-    const [value, onChange] = useState('')
-
-    const handleChange = (e: any) => onChange(e.target.value)
-
-    const handleSubmit = async () => {
-        let res: any = await socketRequest('new-comment', {
-            content: value,
-            parent_id: parent.parent,
-            post_id: params.post_id
-        })
-
-        console.log(res)
-    }
-
-    return (
-        <div css={C.container}>
-            <Input
-                sx={{
-                    background: theme.background.pri,
-                    borderRadius: '8px',
-                    fontFamily: theme.typography.quad
-                }}
-                inputProps={{ maxLength: 300 }}
-                rows={4}
-                autoComplete="off"
-                onChange={handleChange}
-                value={value}
-                disableUnderline
-                fullWidth
-                multiline
-            />
-            <Button
-                onClick={handleSubmit}
-                variant="contained"
-                size="small"
-                sx={{ width: '60px' }}
-            >
-                Submit
-            </Button>{' '}
-        </div>
-    )
-}

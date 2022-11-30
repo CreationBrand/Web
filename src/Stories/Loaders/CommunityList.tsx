@@ -19,8 +19,8 @@ const C = {
     container: css({
         height: 'calc(100% - 50px)',
         width: '100%',
-        padding: '8px'
-    })
+        padding: '8px',
+    }),
 }
 
 const CommunityList = () => {
@@ -49,7 +49,7 @@ const CommunityList = () => {
                     backgroundColor: theme.background.pri,
                     fontFamily: 'Ubuntu',
                     border: '2px solid',
-                    borderColor: theme.background.pri
+                    borderColor: theme.background.pri,
                 }}
             ></Input>
 
@@ -66,50 +66,44 @@ const Node = ({ node, style, dragHandle, ...props }: any) => {
     const C = {
         container: css({
             // border: "1px solid red",
-            display: 'flex'
+            display: 'flex',
         }),
         depth: css({
-            width: `${node.level * 20}px`
+            width: `${node.level * 20}px`,
         }),
         thread: css({
             borderRight: '2px solid #343536',
             display: 'block',
             width: '20px',
-            height: '100%'
+            height: '100%',
         }),
         icon: css({
             height: '40px',
             width: '40px',
             borderRadius: '8px',
             background: '#0e0e10',
-            overflow: 'hidden'
+            overflow: 'hidden',
         }),
         content: css({
             display: 'flex',
-            padding: '8px 0px 0px 8px'
+            padding: '8px 0px 0px 8px',
         }),
         group: css({
             height: '40px',
             padding: '20px 0px 0px 4px',
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
         }),
-        community: css({})
+        community: css({}),
     }
 
     if (node.data.type === 'group')
         return (
             <div onClick={handleOpenClose} css={C.group}>
                 {!node.isOpen ? (
-                    <KeyboardArrowUpRoundedIcon
-                        sx={{ height: '20px' }}
-                        color="secondary"
-                    />
+                    <KeyboardArrowUpRoundedIcon sx={{ height: '20px' }} color="secondary" />
                 ) : (
-                    <KeyboardArrowDownRoundedIcon
-                        sx={{ height: '20px' }}
-                        color="secondary"
-                    />
+                    <KeyboardArrowDownRoundedIcon sx={{ height: '20px' }} color="secondary" />
                 )}
 
                 <div css={mMuted}>{node.data.title}</div>
@@ -118,11 +112,7 @@ const Node = ({ node, style, dragHandle, ...props }: any) => {
     return (
         <div css={C.container} ref={dragHandle}>
             {/* <CommunityElement props={node.data}></CommunityElement> */}
-            <NavButton
-                label={node.data.title}
-                avatar_id={node.data.public_id}
-                path={`c/${node.data.public_id}`}
-            />
+            <NavButton label={node.data.title} avatar_id={node.data.public_id} path={`c/${node.data.public_id}`} />
         </div>
     )
 }
@@ -138,16 +128,17 @@ const listToTree = (list: any) => {
             children.push({
                 id: `${i}${j}`,
                 type: 'community',
-                ...list[i].items[j]
+                ...list[i].items[j],
             })
         }
 
         tree.push({
             id: i,
             type: 'group',
+            term: list[i].title,
             title: list[i].title,
             base: list[i].base,
-            children: children
+            children: children,
         })
     }
 

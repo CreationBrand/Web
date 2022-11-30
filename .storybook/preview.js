@@ -1,5 +1,5 @@
-import { ThemeProvider, withTheme } from '@emotion/react'
-import theme from '../src/Global/theme'
+import theme from '../src/Global/Theme'
+import { ThemeProvider } from '@mui/material/styles';
 
 export const parameters = {
     actions: { argTypesRegex: '^on[A-Z].*' },

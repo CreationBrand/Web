@@ -1,3 +1,6 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react'
+
 import { useEffect, useState } from "react";
 import { socketRequest } from "Service/Socket";
 import Post from "Stories/Objects/Post/Post";
@@ -33,7 +36,7 @@ const PostList = ({ header, community_id }: any) => {
 
 
     return (
-        <div id='Post-List'>
+        <div id='Post-List' css={css({height: '100%'})}>
             <DynamicVirtual rows={[header, ...list]} />
         </div>
     )
