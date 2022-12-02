@@ -1,38 +1,11 @@
 {
-    "hide-files.files": [
-        "yarn.lock",
-        "webpack.config.js",
-        "dockerfile",
-        ".env",
-        "tsconfig.json",
-        ".gitignore",
-        "README.md",
-        ".vscode",
-        "node_modules",
-        "ckeditor5",
-        "PostInstall.js",
-        "package.json",
-        ".prettierrc.json"
-    ],
+    "hide-files.files": [],
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
         "**/.hg": true,
         "**/CVS": true,
         "**/.DS_Store": true,
-        "**/Thumbs.db": true,
-        "yarn.lock": true,
-        "webpack.config.js": true,
-        "dockerfile": true,
-        ".env": true,
-        "tsconfig.json": true,
-        ".gitignore": true,
-        "README.md": true,
-        ".vscode": true,
-        "node_modules": true,
-        "ckeditor5": true,
-        "PostInstall.js": true,
-        "package.json": true,
-        ".prettierrc.json": true
+        "**/Thumbs.db": true
     }
 }
