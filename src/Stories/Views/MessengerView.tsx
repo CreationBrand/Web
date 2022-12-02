@@ -15,6 +15,7 @@ import { usePullComments, usePullMessages } from 'Hooks/usePullList'
 import Post from 'Stories/Objects/Post/Post'
 import { Button } from '@mui/material'
 import { socketRequest } from 'Service/Socket'
+import CreateMessage from 'Stories/Forum/CreateMessage'
 
 const C = {
     container: css({
@@ -23,8 +24,8 @@ const C = {
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between'
-    })
+        justifyContent: 'space-between',
+    }),
 }
 
 const MessengerView = () => {
@@ -33,7 +34,6 @@ const MessengerView = () => {
 
     //state
     let [contentState, setFlow] = useRecoilState(contentFlow)
-
 
     const [error, loading, data] = [false, false, []]
     // const [error, loading, data] = useSocketRequest('post', {
@@ -56,24 +56,15 @@ const MessengerView = () => {
     // }, [data])
 
     // UPDATE LIST STATE
-    // const list = usePullMessages(params.messenger_id)
+    const list = usePullMessages(params.messenger_id)
 
     if (loading) return <Loading />
     if (error) return <div>Error: {error}</div>
-    // if (data.status !== 'ok') return <div>Something went wrong</div>
 
     return (
         <div id="VIEW" css={C.container}>
-
-            <Button onClick={()=>{
-                console.log('requesting')
- let req = socketRequest('test', {})
-
-
-
-
-            }}>asdfasdf</Button>
-            {/* <DynamicVirtual rows={[...list]} /> */}
+            <DynamicVirtual rows={list} />
+            <CreateMessage messenger_id={params.messenger_id} />
         </div>
     )
 }

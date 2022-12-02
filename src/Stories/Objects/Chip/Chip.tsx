@@ -6,39 +6,27 @@ import { xsLabel } from 'Stories/Text/Text'
 const C = {
     container: css({
         width: 'fit-content',
-        height: '14px',
-        background: 'rgb(59, 59, 59)',
+        height: '20px',
+        background: '#343442',
         borderRadius: '4px',
-        paddingRight: '4px',
-        paddingLeft: '4px',
+        padding: '6px',
         display: 'flex',
-        marginTop:'2px',
         justifyContent: 'start',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: '4px',
     }),
-    bullet: css({
-        borderRadius: '50%',
-        width: '6px',
-        height: '6px',
-        padding: '0',
-        margin: '0 4px',
-        background: '$text-muted'
-    }),
+
     title: css({
-        fontSize: '10px', lineHeight: '16px',
-        color: '#fff'
-    })
+        fontSize: '12px',
+        color: '#fff',
+        fontFamily: 'Inter',
+    }),
 }
 
-const Chip = ({ title, color, showBullet, clickable, onClick }: props) => {
+const Chip = ({ title, color }: any) => {
     return (
         <div css={C.container}>
-            {showBullet && (
-                <div css={C.bullet} style={{ background: `#${color}` }}></div>
-            )}
-            <div css={xsLabel}>
-                {title}
-            </div>
+            <div css={C.title}>{title}</div>
         </div>
     )
 }
@@ -46,9 +34,6 @@ const Chip = ({ title, color, showBullet, clickable, onClick }: props) => {
 interface props {
     title: string
     color: string
-    showBullet: boolean
-    clickable: boolean
-    onClick?: any
 }
 
 export default Chip

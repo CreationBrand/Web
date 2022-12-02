@@ -107,6 +107,9 @@ const Node = ({ node, style, dragHandle, ...props }: any) => {
                 )}
 
                 <div css={mMuted}>{node.data.title}</div>
+
+<div>asdf</div>
+
             </div>
         )
     return (

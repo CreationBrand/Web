@@ -17,7 +17,6 @@ export const usePullPosts = (community_id: any, filter: string) => {
 
     // reset list on props change
     useEffect(() => {
-        console.log('STATE RESET')
         setList([])
         setPage({ data: 0 })
         setEnd(false)
@@ -34,7 +33,7 @@ export const usePullPosts = (community_id: any, filter: string) => {
             let req: any = await socketRequest('posts', {
                 community_id: community_id,
                 filter: 'new',
-                page: page.data
+                page: page.data,
             })
 
             if (req === false || req.status === 'error') setError(true)
@@ -81,13 +80,12 @@ export const usePullComments = (post_id: any, filter: string) => {
         if (!post_id || !filter) return
 
         const fetchMore = async () => {
-            console.log(page, end, error)
             colorLog('[FETCH] Fetching Comments', 'green')
 
             let req: any = await socketRequest('comments', {
                 post_id: post_id,
                 filter: filter,
-                page: page.data
+                page: page.data,
             })
 
             if (req === false || req.status === 'error') setError(true)
@@ -136,9 +134,9 @@ export const usePullMessages = (messenger_id: any) => {
         const fetchMore = async () => {
             colorLog('[FETCH] Fetching Messages', 'green')
 
-            let req: any = await socketRequest('comments', {
+            let req: any = await socketRequest('messages', {
                 messenger_id: messenger_id,
-                page: page.data
+                page: page.data,
             })
 
             if (req === false || req.status === 'error') setError(true)
@@ -148,7 +146,7 @@ export const usePullMessages = (messenger_id: any) => {
                 let messages = []
 
                 for (var i in req.messages) {
-                    messages.push(<Message data={req.messages[i]} />)
+                    messages.push(<Message props={req.messages[i]} />)
                 }
 
                 if (page.data === 0) setList(messages)

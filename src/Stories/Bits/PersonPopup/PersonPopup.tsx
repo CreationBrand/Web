@@ -1,15 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Button } from '@mui/material'
+import theme from 'Global/Theme'
 import { useNavigate } from 'react-router-dom'
 import { socketRequest } from 'Service/Socket'
-import { lBold, mutedBold } from 'Stories/Text/Text'
+import Chip from 'Stories/Objects/Chip/Chip'
+import { lBold, mMuted, mutedBold } from 'Stories/Text/Text'
+import Avatar from '../Avatar/Avatar'
 
 const C = {
     container: css({
         width: '300px',
         minHeight: '360px',
-        background: '#0e0e10',
+        background: theme.background.sec,
         borderRadius: '8px',
         position: 'relative',
         boxShadow:
@@ -22,37 +25,30 @@ const C = {
         width: '100%',
         background: '#9147ff',
     }),
-    icon: css({
-        height: '60px',
-        width: '60px',
-        borderRadius: '8px',
-        background: '#0e0e10',
-        overflow: 'hidden',
-    }),
     bannerImg: css({
         height: '80px',
         borderTopRightRadius: '8px',
         borderTopLeftRadius: '8px',
         width: '100%',
-        // objectFit: 'fill',
-    }),
-    image: css({
-        height: '60px',
-        width: '60px',
-        objectFit: 'cover',
     }),
     content: css({
         margin: '12px',
         borderRadius: '8px',
-        background: '#2f3136',
+        background: theme.background.tri,
         display: 'flex',
         gap: '8px',
         padding: '8px',
         alignItems: 'center',
     }),
+    me: css({
+        // lineBreak:'strict',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
+    }),
 }
 
-const PersonPopup = ({ username, public_id, nickname }: any) => {
+const PersonPopup = ({ username, public_id, nickname,children }: any) => {
     const navigate = useNavigate()
 
     const handleClick = async () => {
@@ -73,20 +69,22 @@ const PersonPopup = ({ username, public_id, nickname }: any) => {
             </div>
 
             <div css={C.content}>
-                <div css={C.icon}>
-                    <img css={C.image} src={`${process.env.REACT_APP_CLOUDFRONT}/avatar/${public_id}.png`}></img>
-                </div>
+                <Avatar public_id={public_id} size="large" />
 
-                <div>
+                <div css={C.me}>
                     <div css={lBold}>{nickname}</div>
-                    <div css={mutedBold}>@{username}</div>
+                    <div css={mMuted}>@{username}</div>
+                    <Chip title={'user'} color={'#66bb6a'}></Chip>
                 </div>
             </div>
 
             <div css={C.content}>
-                <Button variant="outlined" fullWidth onClick={handleClick}>
+
+            {children}
+
+                {/* <Button variant="outlined" fullWidth onClick={handleClick}>
                     Start Chat
-                </Button>
+                </Button> */}
             </div>
         </div>
     )

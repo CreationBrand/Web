@@ -44,7 +44,6 @@ const MessengerList = () => {
 
     const tree = listToTree(communitys)
 
-    console.log(tree)
     return (
         <div css={C.container}>
             <div css={[mMuted, C.label]}>Messengers</div>

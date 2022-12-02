@@ -17,6 +17,8 @@ import Loading from 'Stories/Objects/Loading/Loading'
 import FilterPane from 'Stories/Pane/FilterPane'
 import DynamicVirtual from 'Stories/Pure/DynamicVirtual/DynamicVirtual'
 import { usePullPosts } from 'Hooks/usePullList'
+import CommunityPane from 'Stories/Pane/CommunityPane'
+import Icon from 'Stories/Bits/Icon/Icon'
 
 const C = {
     container: css({
@@ -25,8 +27,8 @@ const C = {
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between'
-    })
+        justifyContent: 'space-between',
+    }),
 }
 
 const CommunityView = () => {
@@ -38,7 +40,7 @@ const CommunityView = () => {
     const [filter, setFilter] = useState('hot')
 
     const [error, loading, data] = useSocketRequest('community', {
-        community_id: params.community_id
+        community_id: params.community_id,
     })
 
     // UPDATE CONTROL STATE
@@ -50,7 +52,7 @@ const CommunityView = () => {
                 title: data.community.title,
                 public_id: data.community.public_id,
                 roleSet: data.roleSet,
-                roles: data.roles
+                roles: data.roles,
             })
         }
     }, [data])
@@ -58,24 +60,12 @@ const CommunityView = () => {
     // UPDATE LIST STATE
     const list = usePullPosts(params.community_id, filter)
 
-    if (loading) return <Loading />
+    if (loading) return <Icon/>
     if (error) return <div>Error: {error}</div>
 
-
-
-    console.log(list)
     return (
         <div id="VIEW" css={C.container}>
-            <DynamicVirtual
-                rows={[
-                    <ComPreview
-                        public_id={data.community.public_id}
-                        title={data.community.title}
-                        description={data.community.description}/>,
-                    <FilterPane value={filter} onChange={setFilter} />,
-                    ...list
-                ]}
-            />
+            <DynamicVirtual rows={[<ComPreview public_id={data.community.public_id}/>, <FilterPane value={filter} onChange={setFilter} />, ...list]} />
             <PostControlBar />
         </div>
     )

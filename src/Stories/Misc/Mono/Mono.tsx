@@ -14,6 +14,9 @@ const Mono = ({ so, background, children, src }: Props) => {
         height: '100vh',
         width: '100vw',
         position: 'relative',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     })
 
 

@@ -1,21 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { Badge, Menu, MenuItem } from '@mui/material'
 
+import { List, ListItemButton, Menu } from '@mui/material'
 import theme from 'Global/Theme'
 import { useState } from 'react'
-import { logoutCognito } from 'Service/Auth'
+import LogoutIcon from '@mui/icons-material/Logout'
+import PersonPopup from 'Stories/Bits/PersonPopup/PersonPopup'
 import Chip from 'Stories/Objects/Chip/Chip'
-import {
-    bold,
-    heading3,
-    mutedBold,
-    normal,
-    smBold,
-    smMuted,
-    xsMuted
-} from 'Stories/Text/Text'
+import { bold, listText, smBold, smMuted, xsMuted } from 'Stories/Text/Text'
 import Avatar from '../../Bits/Avatar/Avatar'
+import SettingsIcon from '@mui/icons-material/Settings'
+import DragIndicatorRoundedIcon from '@mui/icons-material/DragIndicatorRounded'
+import { useNavigate } from 'react-router-dom'
 
 const C = {
     container: css({
@@ -29,7 +25,7 @@ const C = {
         justifyContent: 'space-between',
         paddingLeft: '8px',
         paddingRight: '8px',
-        alignItems: 'center'
+        alignItems: 'center',
     }),
 
     content: css({
@@ -40,10 +36,10 @@ const C = {
         overflow: 'hidden',
         maxHeight: '80px',
         whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis'
+        textOverflow: 'ellipsis',
     }),
     roles: css({
-        display: 'flex'
+        display: 'flex',
     }),
     status: css({
         background: '#66bb6a',
@@ -51,18 +47,18 @@ const C = {
         width: '4px',
         marginRight: '4px',
         marginLeft: '4px',
-        height: '28px'
-    })
+        height: '28px',
+    }),
+    list: css({
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+    }),
 }
 
-const Person = ({
-    username,
-    nickname,
-    roles,
-    route,
-    public_id,
-    status
-}: Props) => {
+const Person = ({ username, nickname, roles, route, public_id, status }: Props) => {
+    const nagivate = useNavigate()
+
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
 
@@ -84,7 +80,7 @@ const Person = ({
                 title={roles[i].title}
                 showBullet={false}
                 clickable={false}
-            />
+            />,
         )
     }
 
@@ -97,9 +93,7 @@ const Person = ({
                     <div css={roles ? smBold : bold}>{nickname}</div>
                     <div css={roles ? xsMuted : smMuted}>@{username}</div>
 
-                    {rolesArr.length !== 0 && (
-                        <div css={C.roles}>{rolesArr}</div>
-                    )}
+                    {rolesArr.length !== 0 && <div css={C.roles}>{rolesArr}</div>}
                 </div>
 
                 {status && <div css={C.status} />}
@@ -109,19 +103,76 @@ const Person = ({
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
-                onClick={handleClose}
                 transformOrigin={{
                     vertical: 'top',
-                    horizontal: 'center'
+                    horizontal: 'center',
                 }}
                 anchorOrigin={{
                     vertical: 'bottom',
-                    horizontal: 'center'
+                    horizontal: 'center',
+                }}
+                sx={{
+                    borderRadius: '8px !important',
+                    padding: '0px !important',
+                    '.MuiMenu-list': {
+                        borderRadius: '8px !important',
+                        padding: '0px !important',
+                    },
+                    '	.MuiMenu-paper': {
+                        borderRadius: '8px !important',
+                        padding: '0px !important',
+                    },
                 }}
             >
-                <MenuItem onClick={() => {}}>Status</MenuItem>
-                <MenuItem onClick={() => {}}>Settings</MenuItem>
-                <MenuItem onClick={() => { logoutCognito()}}>Logout</MenuItem>
+                <PersonPopup username={username} nickname={nickname} public_id={public_id}>
+                    <List css={C.list}>
+                        <ListItemButton
+                            sx={{
+                                borderRadius: '4px !important',
+                                gap: '12px',
+                                '&:hover': {
+                                    background: '#7166bb !important',
+                                    color: '#fff !important',
+                                },
+                                color: '#b9bbbe',
+                            }}
+                        >
+                            <DragIndicatorRoundedIcon fontSize="small" color="inherit" />
+                            <div css={listText}> Status </div>
+                        </ListItemButton>
+
+                        <ListItemButton
+                            onClick={() => nagivate('/settings')}
+                            sx={{
+                                borderRadius: '4px !important',
+                                gap: '12px',
+                                '&:hover': {
+                                    background: '#7166bb !important',
+                                    color: '#fff !important',
+                                },
+                                color: '#b9bbbe',
+                            }}
+                        >
+                            <SettingsIcon fontSize="small" color="inherit" />
+                            <div css={listText}> Settings </div>
+                        </ListItemButton>
+
+                        <ListItemButton
+                            sx={{
+                                borderRadius: '4px !important',
+                                gap: '12px',
+                                '&:hover': {
+                                    background: '#ed4245 !important',
+                                    color: '#fff !important',
+                                },
+                                color: '#ed4245',
+                            }}
+                        >
+                            <LogoutIcon fontSize="small" color="inherit" />
+                            <div css={listText}> Logout </div>
+                        </ListItemButton>
+                    </List>
+                </PersonPopup>
             </Menu>
         </>
     )

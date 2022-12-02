@@ -10,16 +10,11 @@ import { mNormal } from 'Stories/Text/Text'
 import Avatar from '../../Bits/Avatar/Avatar'
 
 const C = {
-    container: css({})
+    container: css({}),
 }
 
 const MessegerLi = ({ props }: any) => {
-
-
-    console.log(props)
-    const [notif, setNotif] = useRecoilState(
-        notificationStateFamily(props.public_id)
-    )
+    const [notif, setNotif] = useRecoilState(notificationStateFamily(props.public_id))
 
     const navigate = useNavigate()
     const handleClick = () => navigate(`m/${props.public_id}`)
@@ -38,13 +33,13 @@ const MessegerLi = ({ props }: any) => {
                 paddingLeft: '8px',
                 height: '40px',
                 gap: '12px',
-                marginTop: '4px'
+                marginTop: '4px',
                 // background: location.pathname === `/${path}` ? `#343442` : 'transparent',
                 // color: location.pathname === `/${path}` ? `#fff` : null,
             }}
         >
             <Avatar public_id={props.person.public_id} size="small"></Avatar>
-            {notif && <Badge badgeContent={notif} color="secondary"></Badge>}
+            {notif && <Badge badgeContent={notif.number} color="secondary"></Badge>}
             <div css={mNormal}>{props.person.nickname}</div>
         </Button>
     )

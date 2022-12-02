@@ -162,3 +162,12 @@ export const brand = css({
     textAlign: 'center',
     marginBottom: theme.spacing(2)
 })
+
+
+export const listText = css({
+    color:'inherit',
+    fontFamily: 'Ubuntu',
+    fontWeight: '400',
+    fontSize: '14px',
+    
+})

@@ -6,12 +6,13 @@
         ".env",
         "tsconfig.json",
         ".gitignore",
-        "PostInstall.js",
         "README.md",
         ".vscode",
         "node_modules",
-        "public",
-        "ckeditor5"
+        "ckeditor5",
+        "PostInstall.js",
+        "package.json",
+        ".prettierrc.json"
     ],
     "files.exclude": {
         "**/.git": true,
@@ -26,11 +27,12 @@
         ".env": true,
         "tsconfig.json": true,
         ".gitignore": true,
-        "PostInstall.js": true,
         "README.md": true,
         ".vscode": true,
         "node_modules": true,
-        "public": true,
-        "ckeditor5": true
+        "ckeditor5": true,
+        "PostInstall.js": true,
+        "package.json": true,
+        ".prettierrc.json": true
     }
 }

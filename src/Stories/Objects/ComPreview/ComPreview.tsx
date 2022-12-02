@@ -30,6 +30,8 @@ const C = {
         objectFit: 'cover',
         position: 'absolute',
         borderRadius: '8px',
+        borderBottomRightRadius: '0px',
+        borderBottomLeftRadius: '0px',
         zIndex: 1,
     }),
     avatar: css({

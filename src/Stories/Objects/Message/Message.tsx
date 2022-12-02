@@ -11,8 +11,8 @@ const C = {
         display: 'flex',
         gap: '8px',
         border: '1px solid red',
-        padding: '2px 48px 2px 70px',
-        marginTop: '20px',
+        padding: '2px 16px 2px 16px',
+  
         '&:hover': {
             background: 'rgba(0,0,0,0.1)'
         }
@@ -33,7 +33,7 @@ const C = {
 }
 
 const Message = ({ props }: any) => {
-    console.log(props)
+    // console.log('MESSSAGE',props)
 
     if (!props) return null
     return (

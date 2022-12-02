@@ -13,7 +13,8 @@ const Avatar = ({ public_id, size, onClick }: Props) => {
     let sizeMap = {
         small: '32px',
         medium: '40px',
-        large: '80px',
+        large: '60px',
+        extra: '80px',
     }
 
     const C = {
@@ -53,5 +54,5 @@ interface Props {
     public_id: any
 
     onClick?: any
-    size: 'small' | 'medium' | 'large'
+    size: 'small' | 'medium' | 'large' | 'extra'
 }
