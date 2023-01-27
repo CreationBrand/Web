@@ -15,7 +15,7 @@ import { socketRequest } from "Service/Socket";
 import colorLog from "Util/colorLog";
 import Editor from "Stories/Forum/Editor/Editor";
 
-const CreateCommunity = ({ open, handleClose }: Props) => {
+const CreateCommunity = ({ handleClose }: any) => {
 
     const contentState: any = useRecoilValue(contentFlow);
 
@@ -49,163 +49,142 @@ const CreateCommunity = ({ open, handleClose }: Props) => {
     };
 
     return (
-        <Dialog open={open} onClose={handleClose} maxWidth='md' fullWidth>
+
+        <div css={{ width: '100%', padding: '0 22px 22px 22px' }
+        }>
             <form>
-
-                <DialogTitle>Create a Post in: {contentState.title}</DialogTitle>
-                <Divider />
-
-                <DialogContent>
-                    <div css={smBold}>Title</div>
-                    <div css={[xsMuted, { marginBottom: '12px' }]}>Community names including capitalization cannot be changed.</div>
-                    <Controller
-                        name="title"
-                        control={control}
-                        defaultValue=""
-                        rules={{ required: true }}
-                        render={({ field: { onChange, value } }) =>
-                            <Input
-                                inputProps={{ maxLength: 300 }}
-                                autoComplete="off"
-                                onChange={onChange}
-                                value={value}
-                                disableUnderline
-                                fullWidth
-                                multiline
-                            />}
-                    />
-
-
-                    
-                </DialogContent>
-                <Divider />
-
-                <DialogContent>
-
-
-                    {/* text */}
-                    <div css={smBold}>Content</div>
-                    <div css={xsMuted}>Body can not be empty.</div>
-
-                    {/* tabs */}
-
-
-                    <Editor />
-
-                    {/* 
+                {/* <div css={smBold}>Create a Post</div> */}
+                {/* 
+                <Divider css={{margin:'12px 0'}} /> */}
 
 
 
-                    <Controller
-                        name="type"
-                        control={control}
-                        defaultValue="TEXT"
-                        rules={{ required: true }}
-                        render={({ field: { onChange, value } }) =>
-                            <TabContext value={value}>
-                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                    <TabList onChange={(e, v) => { onChange(v) }} aria-label="lab API tabs example">
-                                        <Tab label="Text" value="TEXT" />
-                                        <Tab label="Image" value="IMAGE" />
-                                        <Tab label="Video" value="VIDEO" />
-                                    </TabList>
-                                </Box>
-                                <TabPanel value="TEXT">
-                                    <Controller
-                                        name="content"
-                                        control={control}
-                                        defaultValue=""
-                                        rules={{ required: true }}
-                                        render={({ field: { onChange, value } }) =>
-                                            <Input
-                                                autoComplete="off"
-                                                onChange={onChange}
-                                                value={value}
-                                                disableUnderline
-                                                fullWidth
-                                                multiline
-                                                minRows={4}
-                                                maxRows={12}
-                                            />}
-                                    />
-                                </TabPanel>
-                                <TabPanel value="IMAGE">
 
-                                    <Controller
-                                        name="content"
-                                        control={control}
-                                        defaultValue=""
-                                        rules={{ required: true }}
-                                        render={({ field: { onChange, value } }) =>
-                                            <Input
-                                                autoComplete="off"
-                                                onChange={onChange}
-                                                value={value}
-                                                disableUnderline
-                                                fullWidth
-
-                                            />}
-                                    />
-
-                                </TabPanel>
-                                <TabPanel value="VIDEO">
-
-
-                                    <Controller
-                                        name="content"
-                                        control={control}
-                                        defaultValue=""
-                                        rules={{ required: true }}
-                                        render={({ field: { onChange, value } }) =>
-                                            <Input
-                                                autoComplete="off"
-                                                onChange={onChange}
-                                                value={value}
-                                                disableUnderline
-                                                fullWidth
-
-                                            />}
-                                    />
-
-                                </TabPanel>
-                            </TabContext>
-                        }
-
-                    /> */}
-
-
-                </DialogContent>
+                <Controller
+                    name="type"
+                    control={control}
+                    defaultValue="TEXT"
+                    rules={{ required: true }}
+                    render={({ field: { onChange, value } }) =>
+                        <TabContext value={value}>
+                            <Box sx={{ marginBottom:'12px' }}>
+                                <TabList onChange={(e, v) => { onChange(v) }} aria-label="lab API tabs example">
+                                    <Tab label="Text" value="TEXT" />
+                                    <Tab label="Image" value="IMAGE" />
+                                    <Tab label="Video" value="VIDEO" />
+                                </TabList>
+                            </Box>
 
 
 
-                <Divider />
-
-                <DialogActions>
-                    <Button onClick={handleClose} color='secondary'>Cancel</Button>
-
-                    <LoadingButton
-                        onClick={handleSubmit(onSubmit)}
-                        loading={loading}
-                        loadingIndicator="Running"
-                        variant="contained"
-                    >
-                        Create
-                    </LoadingButton>
 
 
-                    {/* <Button type="submit" onClick={handleSubmit(onSubmit)}>Create</Button> */}
-                </DialogActions>
-            </form>
-        </Dialog >
+                            <Controller
+                                name="title"
+                                control={control}
+                                defaultValue=""
+                                rules={{ required: true }}
+                                render={({ field: { onChange, value } }) =>
+                                    <Input
+                                        sx={{ background: '#272732' }}
+                                        inputProps={{ maxLength: 300 }}
+                                        autoComplete="off"
+                                        placeholder="Title"
+                                        onChange={onChange}
+                                        value={value}
+                                        disableUnderline
+                                        fullWidth
+                                        multiline
+                                    />}
+                            />
+
+
+
+                            <Divider css={{ margin: '16px 0 16px' }} />
+
+
+                            <TabPanel value="TEXT" >
+                                <Controller
+                                    name="content"
+                                    control={control}
+                                    defaultValue=""
+                                    rules={{ required: true }}
+                                    render={({ field: { onChange, value } }) =>
+
+
+
+                                        <Editor />
+
+
+                                        // <Input
+                                        //     autoComplete="off"
+                                        //     onChange={onChange}
+                                        //     value={value}
+                                        //     disableUnderline
+                                        //     fullWidth
+                                        //     multiline
+                                        //     minRows={4}
+                                        //     maxRows={12}
+                                        // />
+
+
+
+
+                                    }
+                                />
+                            </TabPanel>
+                            <TabPanel value="IMAGE">
+
+                                <Controller
+                                    name="content"
+                                    control={control}
+                                    defaultValue=""
+                                    rules={{ required: true }}
+                                    render={({ field: { onChange, value } }) =>
+                                        <Input
+                                            autoComplete="off"
+                                            onChange={onChange}
+                                            value={value}
+                                            disableUnderline
+                                            fullWidth
+
+                                        />}
+                                />
+
+                            </TabPanel>
+                            <TabPanel value="VIDEO">
+
+
+                                <Controller
+                                    name="content"
+                                    control={control}
+                                    defaultValue=""
+                                    rules={{ required: true }}
+                                    render={({ field: { onChange, value } }) =>
+                                        <Input
+                                            autoComplete="off"
+                                            onChange={onChange}
+                                            value={value}
+                                            disableUnderline
+                                            fullWidth
+
+                                        />}
+                                />
+
+                            </TabPanel>
+                        </TabContext>
+                    }
+
+                />
+
+
+
+
+            </form >
+        </div >
     )
 
 }
-
-interface Props {
-    open: boolean,
-    handleClose: () => void,
-}
-
 
 
 export default CreateCommunity

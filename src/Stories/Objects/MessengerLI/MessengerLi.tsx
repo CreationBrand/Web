@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Badge, Button } from '@mui/material'
-import { log } from 'console'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { notificationStateFamily } from 'State/Data'
+import QuickMenu from 'Stories/Bits/QuickMenu/QuickMenu'
 import { mNormal } from 'Stories/Text/Text'
 
 import Avatar from '../../Bits/Avatar/Avatar'
@@ -15,12 +16,15 @@ const C = {
 
 const MessegerLi = ({ props }: any) => {
     const [notif, setNotif] = useRecoilState(notificationStateFamily(props.public_id))
+    const [showQM, setShowQM] = useState(false)
 
     const navigate = useNavigate()
     const handleClick = () => navigate(`m/${props.public_id}`)
 
     return (
         <Button
+            onMouseEnter={() => setShowQM(true)}
+            onMouseLeave={() => setShowQM(false)}
             onClick={handleClick}
             variant="text"
             size="large"
@@ -41,6 +45,9 @@ const MessegerLi = ({ props }: any) => {
             <Avatar public_id={props.person.public_id} size="small"></Avatar>
             {notif && <Badge badgeContent={notif.number} color="secondary"></Badge>}
             <div css={mNormal}>{props.person.nickname}</div>
+
+            <QuickMenu active={showQM}  />
+
         </Button>
     )
 }

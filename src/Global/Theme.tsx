@@ -76,6 +76,10 @@ const theme: any = createTheme({
                     boxShadow: '0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%)',
                     background: '#0e0e10',
                     color: '#b9bbbe',
+                    padding:'8px 12px 8px 12px',
+                    fontSize: '13px',
+                    fontFamily: 'Ubuntu',
+                    borderRadius: '8px',
                 },
                 arrow: {
                     color: '#0e0e10',

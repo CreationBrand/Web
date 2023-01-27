@@ -3,6 +3,7 @@
 import { css } from '@emotion/react'
 import { useVirtual } from "react-virtual"
 import React from "react"
+import { AnimatePresence } from 'framer-motion';
 
 var DynamicVirtual = ({ rows }: any) => {
   if (rows === undefined) return <div>loading...</div>
@@ -56,7 +57,9 @@ function RowVirtualizerDynamic({ rows }: any) {
               alignItems: "center",
             }}
           >
+           <AnimatePresence>
             {rows[virtualRow.index]}
+            </AnimatePresence>
           </div>
         ))}
       </div>

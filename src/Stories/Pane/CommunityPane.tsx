@@ -2,6 +2,8 @@
 import { css } from '@emotion/react'
 import { Divider } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2'
+import theme from 'Global/Theme'
+import { memo } from 'react'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
 import { mNormal, xBold } from 'Stories/Text/Text'
 
@@ -11,17 +13,16 @@ const C = {
         margin: '10px 20px',
         borderRadius: '8px',
         display: 'flex',
-        background: '#343442',
+        background: '#45455a',
         flexDirection: 'column',
         gap: '8px',
     }),
     banner: css({
         width: '100%',
-        height: '120px',
+        height: '60px',
         background: '#151618',
-        borderRadius: '8px',
         position: 'relative',
-        // border: '8px solid #151618',
+        borderRadius: '8px',
     }),
     bannerImage: css({
         objectFit: 'cover',
@@ -29,64 +30,44 @@ const C = {
         width: '100%',
         height: '100%',
         borderRadius: '8px',
-
-    }),
-    quad: css({
-        maxHeight: '40px',
-        width: '100%',
+        borderBottomLeftRadius: '0px',
+        borderBottomRightRadius: '0px',
     }),
     content: css({
-        background: '#181820',
+        position: 'absolute',
         display: 'flex',
-        margin: '12px',
-        padding: '12px',
+        top: '40px',
+        left: '40px',
         borderRadius: '8px',
         gap: '8px',
+        background: '#0f0e10',
+        boxShadow: theme.elevation.m,
+    }),
+    title: css({
+        height: '60px',
+        paddingLeft: '120px',
     }),
 }
 
 const CommunityPane = ({ data }: any) => {
-    console.log(data)
+    // console.log(data)
     return (
         <div css={C.container}>
             <div css={C.banner}>
                 <img css={C.bannerImage} src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.public_id}.png`}></img>
             </div>
+
             <div css={C.content}>
                 <Avatar public_id={data.public_id} size="extra"></Avatar>
-
-                <Grid2 container spacing={0}  width='100%'>
-                    <Grid2 xs={6} margin={0}>
-                        <div css={C.quad}>
-                            <div css={xBold}> {data.title}</div>
-                            <div css={mNormal}> This is the description</div>
-                        </div>
-                    </Grid2>
-
-                    <Grid2 xs={6} margin={0}>
-                        <div css={C.quad}>
-                            <div css={xBold}> {data.title}</div>
-                            <div css={mNormal}> This is the description</div>
-                        </div>
-                    </Grid2>
-
-                    <Grid2 xs={6} margin={0}>
-                        <div css={C.quad}>
-                            <div css={xBold}> {data.title}</div>
-                            <div css={mNormal}> This is the description</div>
-                        </div>
-                    </Grid2>
-
-                    <Grid2 xs={6} margin={0}>
-                        <div css={C.quad}>
-                            <div css={xBold}> {data.title}</div>
-                            <div css={mNormal}> This is the description</div>
-                        </div>
-                    </Grid2>
-                </Grid2>
+            </div>
+            <div css={C.title}>
+                <div>
+                    <div css={xBold}>{data.title}</div>
+                    <div css={mNormal}>{data.description}</div>
+                </div>
             </div>
         </div>
     )
 }
 
-export default CommunityPane
+export default memo(CommunityPane)

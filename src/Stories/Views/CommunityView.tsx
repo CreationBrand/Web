@@ -60,12 +60,14 @@ const CommunityView = () => {
     // UPDATE LIST STATE
     const list = usePullPosts(params.community_id, filter)
 
-    if (loading) return <Icon/>
+    if (loading) return <div></div>
     if (error) return <div>Error: {error}</div>
 
     return (
         <div id="VIEW" css={C.container}>
-            <DynamicVirtual rows={[<ComPreview public_id={data.community.public_id}/>, <FilterPane value={filter} onChange={setFilter} />, ...list]} />
+            <DynamicVirtual rows={[
+            <CommunityPane data={data.community}></CommunityPane>
+            , <FilterPane value={filter} onChange={setFilter} />, ...list]} />
             <PostControlBar />
         </div>
     )

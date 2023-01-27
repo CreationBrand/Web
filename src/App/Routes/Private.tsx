@@ -1,13 +1,33 @@
 import { Home, CommunitySettings } from 'App/Pages'
 import Settings from 'App/Pages/PersonSettings'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Error from 'Stories/Error/Error'
 import CommunityView from 'Stories/Views/CommunityView'
 import PostView from 'Stories/Views/PostView'
 import MessengerView from 'Stories/Views/MessengerView'
 import DefaultView from 'Stories/Views/DefaultView'
+import GlobalList from 'Stories/Chunk/Lists/GlobalList'
+import { useEffect } from 'react'
+import { pageFlow } from 'State/Flow'
+import { useRecoilState } from 'recoil'
+import CommunityList from 'Stories/Chunk/Lists/CommunityList'
 
 var Private = () => {
+
+    let [page, setPage] = useRecoilState(pageFlow)
+    let location = useLocation();
+
+
+    useEffect(() => {
+        let path = location.pathname.split('/')[1]
+
+        if (path === 'home') setPage('home')
+        else if (path === 'trending') setPage('trending')
+        else if (path === 'c') setPage('community')
+
+    }, [location]);
+
+
     return (
         <>
             <Error />
@@ -21,15 +41,14 @@ var Private = () => {
 
                     <Route
                         path="/home"
-                        element={<DefaultView type="home" />}
+                        element={<GlobalList />}
                     ></Route>
                     <Route
                         path="/trending"
-                        element={<DefaultView type="hot" />}
-                    ></Route>
+                        element={<GlobalList />}></Route>
                     <Route
                         path="c/:community_id"
-                        element={<CommunityView />}
+                        element={<CommunityList />}
                     ></Route>
                     <Route
                         path="c/:community_id/p/:post_id"

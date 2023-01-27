@@ -10,18 +10,18 @@ import { ThemeProvider } from '@mui/material/styles';
 import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import FroalaEditorComponent from 'react-froala-wysiwyg';
+import { createRoot } from 'react-dom/client';
 
+const domNode: any = document.getElementById('root');
+const root = createRoot(domNode);
 
-ReactDOM.render(
-        <RecoilRoot>
+root.render(
+    <RecoilRoot>
         <RecoilNexus />
-            <BrowserRouter>
-                <ThemeProvider theme={theme}>
-                    <App />
-                </ThemeProvider>
-            </BrowserRouter>
-        </RecoilRoot>
- ,
-
-    document.getElementById('root')
-)
+        <BrowserRouter>
+            <ThemeProvider theme={theme}>
+                <App />
+            </ThemeProvider>
+        </BrowserRouter>
+    </RecoilRoot>
+);

@@ -2,6 +2,7 @@
 import { css } from '@emotion/react'
 
 import { CircularProgress, Skeleton } from "@mui/material"
+import { motion } from 'framer-motion'
 
 const C = {
     container: css({
@@ -27,17 +28,24 @@ const LoaderPane = ({ public_id, filter }: any) => {
 
 
     return (
-        <div css={C.container}>
+        <motion.div
+            key={public_id}
+            transition={{ duration: 0.4 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+
+            css={C.container}>
 
             <Skeleton variant="rounded" width={40} height={40} animation="wave" />
             <div css={C.right}>
                 <Skeleton variant="rounded" width={'100%'} height={20} animation="wave" />
                 <Skeleton variant="rounded" width={'100%'} height={20} animation="wave" />
-                <Skeleton variant="rounded" width={'100%'} height={20}  animation="wave"/>
-                <Skeleton variant="rounded" width={'100%'} height={20}  animation="wave"/>
+                <Skeleton variant="rounded" width={'100%'} height={20} animation="wave" />
+                <Skeleton variant="rounded" width={'100%'} height={20} animation="wave" />
 
             </div>
-        </div>
+        </motion.div>
     )
 }
 

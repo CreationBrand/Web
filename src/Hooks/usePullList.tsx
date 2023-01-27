@@ -43,7 +43,7 @@ export const usePullPosts = (community_id: any, filter: string) => {
                 let posts = []
 
                 for (var i in req.posts) {
-                    posts.push(<Post data={req.posts[i]} />)
+                    posts.push(<Post preview data={req.posts[i]} />)
                 }
 
                 if (page.data === 0) setList(posts)
@@ -54,7 +54,7 @@ export const usePullPosts = (community_id: any, filter: string) => {
         if (end === false) fetchMore().catch((err) => console.log(err))
     }, [page])
 
-    if (error) return [<div>Error</div>]
+    if (error) return [<div>Unable to fetch posts </div>]
     if (end === false) return [list, <LoaderPane />]
 
     return [list]

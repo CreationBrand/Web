@@ -6,7 +6,7 @@ import { useDrag, useGesture } from '@use-gesture/react'
 import { useRef, useEffect, useState } from 'react'
 import { animated, useSpring } from 'react-spring'
 import theme from 'Global/Theme'
-
+import ControlBar from 'Stories/Chunk/ControlBar/ControlBar'
 const Tri = (props: Props) => {
     const ref: any = useRef(null)
     const size = 'l'
@@ -83,6 +83,7 @@ const Tri = (props: Props) => {
             <animated.div css={c.left}>{props.children[0]}</animated.div>
             <animated.div css={c.center} style={size === 's' ? { x } : {}}>
                 {props.children[1]}
+
             </animated.div>
             <animated.div css={c.right}>{props.children[2]}</animated.div>
         </div>

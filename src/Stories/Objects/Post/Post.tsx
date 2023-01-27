@@ -11,6 +11,13 @@ import Avatar from 'Stories/Bits/Avatar/Avatar'
 import Vote from 'Stories/Bits/Vote/Vote'
 import PersonPopup from 'Stories/Bits/PersonPopup/PersonPopup'
 import { useState } from 'react'
+import PersonName from 'Stories/Bits/PersonName/PersonName'
+import { useRecoilValue } from 'recoil'
+import { pageFlow } from 'State/Flow'
+import CommunityTitle from 'Stories/Bits/Titles/CommunityTitle'
+import Author from 'Stories/Bits/Titles/Author'
+import { motion } from 'framer-motion'
+import Nickname from 'Stories/Bits/Titles/Nickname'
 
 const C = {
     container: css({
@@ -59,47 +66,73 @@ const C = {
     }),
 }
 
-const Post = ({ data, preview }: any) => {
+const Post = ({ data }: any) => {
+
     // hooks
+    const page = useRecoilValue(pageFlow)
     const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = useState(null)
 
-    console.log(data)
-
     const viewPost = (e: any) => {
-        if (preview) navigate(`/c/${data.community.public_id}/p/${data.public_id}`)
+        console.log('ran')
+        // if (preview) navigate(`/c/${data.community.public_id}/p/${data.public_id}`)
     }
 
     if (data.public_id === 'undefined') return <div>loading</div>
 
+    // events
     const open = Boolean(anchorEl)
     const handleClick = (event: any) => setAnchorEl(event.currentTarget)
     const handleClose = () => setAnchorEl(null)
 
     return (
         <>
-            <div id="POST" css={C.container} onClick={viewPost}>
+            <motion.div
+                key={data.public_id}
+                transition={{ duration: 0.4 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+
+                id="POST" css={C.container} onClick={viewPost}>
                 <div css={C.left}>
-                    <Avatar size="medium" public_id={data.author.public_id} onClick={handleClick} />
+                    {page !== 'community' ? (
+                        <Avatar size="medium" public_id={data.community.public_id} onClick={handleClick} />
+                    ) : (
+                        <Avatar size="medium" public_id={data.author.public_id} onClick={handleClick} />
+                    )}
+
                     <Vote karma={data.karma} />
                 </div>
 
                 <div css={C.right}>
-                    <div css={[C.row]}>
-                        <div css={lBold}>{data.author.nickname}</div>
-                        <div css={sNormal}>@badwithawp</div>
-                        <IconButton css={C.menu} color="secondary" size="small">
-                            <MoreHorizIcon />
-                        </IconButton>
-                    </div>
-                    <div css={C.row}>
+
+
+
+
+
+                    {page !== 'community' ? (
+                        <>
+                            <CommunityTitle title={data.community.title} public_id={data.community.public_id} />
+                            <Author username={data.author.username} public_id={data.author.public_id} />
+                        </>
+                    ) : (
+                        <>
+                            <Nickname title={data.author.nickname} public_id={data.author.public_id} />
+                            <Author username={data.author.username} public_id={data.author.public_id} />
+                        </>
+                    )}
+
+
+
+                    {/* <div css={C.row}>
                         <TimeStamp time={data.created_at} />
-                    </div>
+                    </div> */}
 
                     <div css={[C.title, xBold]}>{data.title}</div>
                     <div css={[mNormal]}>{data.content}</div>
                 </div>
-            </div>
+            </motion.div>
 
             <Menu
                 anchorEl={anchorEl}

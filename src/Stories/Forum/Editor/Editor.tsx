@@ -39,8 +39,8 @@ const C = {
             border: 'none'
         },
         '.ql-editor': {
-            padding: '2px',
-            margin: '0px 12px',
+            // padding: '2px',
+            // margin: '0px 12px',
             borderRadius: '8px',
             minHeight: '80px',
             background: '#272732'

@@ -9,18 +9,13 @@ import { useRecoilState } from 'recoil'
 import { contentFlow } from 'State/Flow'
 import { useEffect, useState } from 'react'
 import colorLog from 'Util/colorLog'
-
-import ComPreview from 'Stories/Objects/ComPreview/ComPreview'
-import PostControlBar from 'Stories/MOC/PostControlBar'
-
-import Loading from 'Stories/Objects/Loading/Loading'
-import FilterPane from 'Stories/Pane/FilterPane'
 import DynamicVirtual from 'Stories/Pure/DynamicVirtual/DynamicVirtual'
 import { usePullPosts } from 'Hooks/usePullList'
+import ControlBar from 'Stories/Chunk/ControlBar/ControlBar'
 
 const C = {
     container: css({
-        height: 'calc(100% - 50px)',
+        height: 'calc(100% - 100px)',
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',

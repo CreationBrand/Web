@@ -4,10 +4,16 @@ import Person2Icon from '@mui/icons-material/Person2';
 import { IconButton } from '@mui/material';
 import LineWeightRoundedIcon from '@mui/icons-material/LineWeightRounded';
 import SearchBar from 'Stories/Objects/SearchBar/SearchBar';
-const Nav = (props: Props) => {
+import { triState } from 'State/atoms';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-    const handleR = () => props.setTri([props.l, !props.r])
-    const handleL = () => props.setTri([!props.l, props.r])
+const Nav = () => {
+    const [l, r] = useRecoilValue(triState)
+    const setTri = useSetRecoilState(triState)
+
+
+    const handleR = () => setTri([l, !r])
+    const handleL = () => setTri([!l, r])
 
 
     const s = css({

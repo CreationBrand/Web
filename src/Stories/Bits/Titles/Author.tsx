@@ -12,6 +12,7 @@ const C = {
         gap: '4px',
         alignItems: 'center',
         width: 'min-content',
+        whiteSpace: 'nowrap',
     }),
     underline: css({
         ':hover': {
@@ -21,13 +22,15 @@ const C = {
     }),
 }
 
-const PersonName = ({ author, showUsername, showNickname }: any) => {
-    const [anchorEl, setAnchorEl] = useState(null)
+const Author = ({ username, public_id }: any) => {
 
+    //state
+    const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
+
+    //handlers
     const handleClick = (event: any) => {
         event.stopPropagation()
-
         setAnchorEl(event.currentTarget)
     }
     const handleClose = (e: any) => {
@@ -38,8 +41,7 @@ const PersonName = ({ author, showUsername, showNickname }: any) => {
     return (
         <>
             <div css={C.container} onClick={handleClick}>
-                {showNickname && <div css={[lBold, C.underline]}>{author.nickname}</div>}
-                {showUsername && <div css={sNormal}>@{author.username}</div>}
+                <div css={sNormal}>{username}</div>
             </div>
             <Menu
                 anchorEl={anchorEl}
@@ -62,10 +64,10 @@ const PersonName = ({ author, showUsername, showNickname }: any) => {
                     },
                 }}
             >
-                <PersonPopup username={author.username} public_id={author.public_id} nickname={author.nickname} />
+                {/* <PersonPopup username={author.username} public_id={author.public_id} nickname={author.nickname} /> */}
             </Menu>
         </>
     )
 }
 
-export default PersonName
+export default Author

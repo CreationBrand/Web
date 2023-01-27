@@ -2,10 +2,10 @@
 
 import { css } from '@emotion/react'
 import Tri from 'Stories/Views/Tri'
-import Nav from 'Stories/Objects/Nav/Nav'
+import Nav from 'Stories/Chunk/Nav/Nav'
 import Paper from 'Stories/Misc/Paper'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import {  triState } from 'State/atoms'
+import { triState } from 'State/atoms'
 import CommunityControls from 'Stories/Objects/CommunityControls/CommunityControls'
 import { Outlet } from 'react-router-dom'
 import { communityData, globalRoleData, personData } from 'State/Data'
@@ -19,6 +19,8 @@ import NavButton from 'Stories/Objects/NavButton/NavButton'
 import CommunityList from 'Stories/Loaders/CommunityList'
 import Person from 'Stories/Objects/Person/Person'
 import MessengerList from 'Stories/Loaders/MessengerList'
+import ContentView from 'Stories/Views/Content/Content'
+import { memo } from 'react'
 
 
 const Home = () => {
@@ -37,6 +39,7 @@ const Home = () => {
         })
     }
 
+    
     return (
         <Tri left={l} right={r}>
 
@@ -48,20 +51,13 @@ const Home = () => {
                     public_id={person.public_id}
                     status={'active'}
                 />
-
                 <NavButton label="Home" icon={<HouseRoundedIcon />} path="home" />
                 <NavButton label="Trending" icon={<WhatshotRoundedIcon />} path="trending" />
-
-                <MessengerList/>
-
-
-
-
+                <MessengerList />
             </Paper>
 
             <Paper background="tri" width="100%" height="100%" radius="m">
-                <Nav l={l} r={r} setTri={setTri} />
-                <Outlet />
+                <ContentView></ContentView>
             </Paper>
 
             <Paper background="sec" width="100%" height="100%" radius="m">
@@ -73,5 +69,5 @@ const Home = () => {
     )
 }
 
-export default Home
+export default memo(Home)
 
