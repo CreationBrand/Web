@@ -6,6 +6,7 @@ import LineWeightRoundedIcon from '@mui/icons-material/LineWeightRounded';
 import SearchBar from 'Stories/Objects/SearchBar/SearchBar';
 import { triState } from 'State/atoms';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import Search from '../Search/Search';
 
 const Nav = () => {
     const [l, r] = useRecoilValue(triState)
@@ -37,7 +38,7 @@ const Nav = () => {
             <Person2Icon fontSize="inherit" />
         </IconButton>
 
-        <SearchBar />
+        <Search/>
 
 
         <IconButton aria-label="delete" size="medium" onClick={handleR}

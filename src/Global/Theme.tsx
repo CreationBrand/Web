@@ -34,7 +34,7 @@ const theme: any = createTheme({
                     caretColor:'transparent !important',
                     borderRadius: '8px',
                     // height: '30px',
-                    border: '2px solid #464649',
+                    border: '2px solid transparent',
                     background: '#423e47',
                     // paddingLeft: '4px',
                     // paddingRight: '4px',
