@@ -11,6 +11,7 @@ import { useEffect } from 'react'
 import { pageFlow } from 'State/Flow'
 import { useRecoilState } from 'recoil'
 import CommunityList from 'Stories/Chunk/Lists/CommunityList'
+import Submit from 'Stories/Views/Submit/Submit'
 
 var Private = () => {
 
@@ -34,10 +35,15 @@ var Private = () => {
 
             <Routes>
                 <Route path="/" element={<Home />}>
+
+                    <Route
+                        path="/submit"
+                        element={<Submit />} />
+
                     <Route
                         path="m/:messenger_id"
                         element={<MessengerView />}
-                    ></Route>
+                    />
 
                     <Route
                         path="/home"

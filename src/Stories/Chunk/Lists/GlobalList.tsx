@@ -7,6 +7,7 @@ import { useRecoilValue } from 'recoil'
 import { pageFlow } from 'State/Flow'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import DynamicVirtual from 'Stories/Pure/DynamicVirtual/DynamicVirtual'
+import ControlBar from '../ControlBar/ControlBar'
 
 const C = {
     container: css({
@@ -36,6 +37,7 @@ const GlobalList = () => {
             exit={{ opacity: 0 }}
         >
             <DynamicVirtual rows={list} />
+            <ControlBar></ControlBar>
         </motion.div>
     )
 }

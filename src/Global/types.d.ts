@@ -2,6 +2,7 @@
 // declare global {
 
 interface Post {
+    varient?: 'global' | 'community' | 'post',
     public_id: public_id,
     title: title,
     type: 'TEXT' | 'IMAGE' | 'VIDEO' | 'LINK';
@@ -41,7 +42,7 @@ type hot = number;
 type comments = number;
 type created_at = string;
 type updated_at = string;
- 
+
 
 
 

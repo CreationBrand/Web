@@ -1,37 +1,33 @@
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
-
 
 /* width */
 ::-webkit-scrollbar {
-  width: 16px;
-  margin-right: 4px;
-  padding-right: 4px;
-  position: absolute;
-  overflow-y: overlay;
-
+    width: 16px;
+    margin-right: 4px;
+    padding-right: 4px;
+    position: absolute;
+    overflow-y: overlay;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  width: 4px;
-  /* background-color: #2b2c30; */
-  border: 4px solid transparent;
-  background-clip: padding-box;
-  border-radius: 8px;
+    width: 4px;
+    /* background-color: #2b2c30; */
+    border: 4px solid transparent;
+    background-clip: padding-box;
+    border-radius: 8px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #151618;
-  width: 4px;
-  margin-right: 4px;
-  border: 4px solid transparent;
-  background-clip: padding-box;
-  border-radius: 8px;
+    background: #151618;
+    width: 4px;
+    margin-right: 4px;
+    border: 4px solid transparent;
+    background-clip: padding-box;
+    border-radius: 8px;
 }
-
-

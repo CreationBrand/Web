@@ -37,8 +37,8 @@ const C = {
 }
 
 const Vote = ({ karma }: any) => {
-    const handleUp = () => {}
-    const handleDown = () => {}
+    const handleUp = () => { }
+    const handleDown = () => { }
 
     return (
         <div css={C.vote}>
@@ -61,7 +61,7 @@ const Vote = ({ karma }: any) => {
             >
                 <ArrowDropDownRoundedIcon fontSize="medium" />
             </Button>
-        </div>
+        </div >
     )
 }
 

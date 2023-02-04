@@ -39,3 +39,10 @@ type pageFlow = 'home' | 'trending' | 'community'
 
 type authFlow = 'login' | 'signup' | 'verify' | 'auth'
 
+export const portalControlFlow = atom({
+    key: 'portalControlFlow',
+    default: {} as any,
+})
+
+
+

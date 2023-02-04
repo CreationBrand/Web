@@ -19,6 +19,7 @@ import DynamicVirtual from 'Stories/Pure/DynamicVirtual/DynamicVirtual'
 import { usePullPosts } from 'Hooks/usePullList'
 import CommunityPane from 'Stories/Pane/CommunityPane'
 import Icon from 'Stories/Bits/Icon/Icon'
+import ControlBar from 'Stories/Chunk/ControlBar/ControlBar'
 
 const C = {
     container: css({
@@ -66,9 +67,10 @@ const CommunityView = () => {
     return (
         <div id="VIEW" css={C.container}>
             <DynamicVirtual rows={[
-            <CommunityPane data={data.community}></CommunityPane>
-            , <FilterPane value={filter} onChange={setFilter} />, ...list]} />
+                <CommunityPane data={data.community}></CommunityPane>
+                , <FilterPane value={filter} onChange={setFilter} />, ...list]} />
             <PostControlBar />
+            {/* <ControlBar /> */}
         </div>
     )
 }

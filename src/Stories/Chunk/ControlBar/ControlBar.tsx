@@ -13,6 +13,7 @@ import KeyRoundedIcon from '@mui/icons-material/KeyRounded';
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import CreatePost from 'Stories/Forum/CreatePost';
+import { useNavigate } from 'react-router-dom';
 
 
 const C = {
@@ -69,11 +70,9 @@ const C = {
 
 const ControlBar = () => {
 
-
-
     const page = useRecoilValue(pageFlow)
     const [active, setActive] = useState(false)
-
+    const navigate = useNavigate()
 
     return (
 
@@ -120,7 +119,7 @@ const ControlBar = () => {
 
 
                             <IconButton
-                                onMouseDown={() => setActive(!active)}
+                                onMouseDown={() => navigate(`/submit`)}
                                 disableRipple={true}
                                 size="small"
                                 color="secondary"
@@ -167,7 +166,7 @@ const ControlBar = () => {
                         </div>
                     </motion.div >
 
-                    {active &&
+                    {/* {active &&
                         <motion.div
                             key='panel'
                             css={C.panel}
@@ -182,7 +181,7 @@ const ControlBar = () => {
 
                         </motion.div>
 
-                    }
+                    } */}
 
                 </motion.div>
             </AnimatePresence>
