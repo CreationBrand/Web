@@ -11,7 +11,8 @@ import ControlBar from '../ControlBar/ControlBar'
 
 const C = {
     container: css({
-        height: 'calc(100% - 100px)',
+        height: '100%',
+        padding: '20px',
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
@@ -23,7 +24,7 @@ const C = {
 const GlobalList = () => {
 
     const page = useRecoilValue(pageFlow)
-    const [error, list] = usePullPosts(page, 'none')
+    const [error, list] = usePullPosts(page, 'none', 'global')
 
     if (error) return <ChunkError/>
 

@@ -4,7 +4,7 @@ import { css } from '@emotion/react'
 import AvatarEditor from 'react-avatar-editor'
 import { Button, DialogActions, Slider } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
-import { mutedBold, smMuted } from 'Stories/Text/Text';
+import { mutedBold, smMuted } from 'Stories/Bits/Text/Text';
 import DialogContent from '@mui/material/DialogContent';
 import { useRef, useState } from 'react';
 import { fileUpload } from 'Service/Request';

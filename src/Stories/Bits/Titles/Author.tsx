@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 import { Menu } from '@mui/material'
 import { underline } from 'ansicolor'
 import { useState } from 'react'
-import { lBold, mMuted, sMuted, sNormal } from 'Stories/Text/Text'
+import { lBold, mMuted, sMuted, sNormal } from 'Stories/Bits/Text/Text'
 import PersonPopup from '../PersonPopup/PersonPopup'
 
 const C = {

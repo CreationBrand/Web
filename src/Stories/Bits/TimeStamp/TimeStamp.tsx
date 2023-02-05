@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 
 import { formatDistanceStrict, parseISO } from 'date-fns'
-import { sMuted } from 'Stories/Text/Text'
+import { sMuted } from 'Stories/Bits/Text/Text'
 
 const TimeStamp = ({ time }: any) => {
     return (

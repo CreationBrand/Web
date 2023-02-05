@@ -3,7 +3,7 @@
 import Mono from 'Stories/Misc/Mono'
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
-import { brand } from 'Stories/Text/Text'
+import { brand } from 'Stories/Bits/Text/Text'
 
 const C = {
     wrapper: css({

@@ -2,7 +2,7 @@
 
 
 import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded';
-import { bold, heading3, smMuted, xsMuted } from "Stories/Text/Text";
+import { bold, heading3, smMuted, xsMuted } from "Stories/Bits/Text/Text";
 import { Link } from "react-router-dom";
 import ImageEditor from "Stories/Forum/ImageEditor/ImageEditor";
 import { useRecoilValue } from "recoil";

@@ -5,7 +5,7 @@ import theme from 'Global/Theme'
 import { useNavigate } from 'react-router-dom'
 import { socketRequest } from 'Service/Socket'
 import Chip from 'Stories/Objects/Chip/Chip'
-import { lBold, mMuted, mutedBold } from 'Stories/Text/Text'
+import { lBold, mMuted, mutedBold } from 'Stories/Bits/Text/Text'
 import Avatar from '../Avatar/Avatar'
 
 const C = {

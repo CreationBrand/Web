@@ -51,6 +51,7 @@ const C = {
 const Editor = ({ value, onChange, lock }: any) => {
     return (
         <ReactQuill
+            preserveWhitespace={true}
             css={[
                 C.editor,
                 lock && {

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { heading3, mutedBold } from "Stories/Text/Text";
+import { heading3, mutedBold } from "Stories/Bits/Text/Text";
 
 
 

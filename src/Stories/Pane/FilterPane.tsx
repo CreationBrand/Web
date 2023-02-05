@@ -4,7 +4,7 @@ import AutoGraphRoundedIcon from '@mui/icons-material/AutoGraphRounded'
 import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded'
 import NewReleasesRoundedIcon from '@mui/icons-material/NewReleasesRounded'
 import { Button } from '@mui/material'
-import { sMuted } from 'Stories/Text/Text'
+import { sMuted } from 'Stories/Bits/Text/Text'
 
 const C = {
     container: css({

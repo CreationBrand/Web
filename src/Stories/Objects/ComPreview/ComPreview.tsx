@@ -3,7 +3,7 @@ import { css } from "@emotion/react"
 import { Button, IconButton, Tooltip } from "@mui/material"
 import { useRecoilState } from "recoil"
 import { activeListData } from "State/Data"
-import { heading2, lBold, lNormal, mNormal, normal, sMuted, xBold } from "Stories/Text/Text"
+import { heading2, lBold, lNormal, mNormal, normal, sMuted, xBold } from "Stories/Bits/Text/Text"
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import { useNavigate } from "react-router-dom"
 const C = {

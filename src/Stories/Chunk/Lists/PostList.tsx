@@ -1,15 +1,22 @@
+
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
+import usePullComments from 'Hooks/usePullComments'
 import usePullCommunity from 'Hooks/usePullCommunity'
+import usePullPost from 'Hooks/usePullPost'
 import usePullPosts from 'Hooks/usePullPosts'
-import { memo, useState } from 'react'
+import { memo, useMemo, useState } from 'react'
+import { Tree } from 'react-arborist'
 import { useParams } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import { pageFlow } from 'State/Flow'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import FilterPane from 'Stories/Pane/FilterPane'
 import DynamicVirtual from 'Stories/Pure/DynamicVirtual/DynamicVirtual'
+import PostBar from '../ControlBar/PostBar'
+import Comment from 'Stories/Chunk/Comment/Comment'
+
 
 const C = {
     container: css({
@@ -23,32 +30,31 @@ const C = {
     })
 }
 
-const CommunityList = () => {
+const PostList = () => {
 
     const params = useParams()
     const [filter, setFilter] = useState('HOT')
-
-    const [error1, pane] = usePullCommunity(params.community_id)
-    const [error, list] = usePullPosts(params.community_id, filter, 'community')
+    const [error1, pane] = usePullPost(params.post_id)
+    const [error, list]: any = usePullComments(params.post_id, filter, 'post')
 
     if (error || error1) return <ChunkError />
 
     return (
         <motion.div
-            key={params.community_id}
+            key={'mount thing'}
             css={C.container}
             transition={{ duration: 0.4 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
         >
-            <DynamicVirtual rows={[
-                pane,
-                <FilterPane value={filter} onChange={setFilter} />, ...list]}
+
+            <DynamicVirtual rows={[pane, ...list]}
             />
+            <PostBar />
         </motion.div>
     )
 }
 
 
-export default CommunityList
+export default memo(PostList)

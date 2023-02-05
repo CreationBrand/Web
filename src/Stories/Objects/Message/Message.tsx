@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 import { formatDistance, parseISO } from 'date-fns'
 
-import { lBold, lNormal, sMuted, sNormal } from 'Stories/Text/Text'
+import { lBold, lNormal, sMuted, sNormal } from 'Stories/Bits/Text/Text'
 import Avatar from '../../Bits/Avatar/Avatar'
 
 const C = {

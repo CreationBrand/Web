@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil'
 import { communityData } from 'State/Data'
 import { css } from '@emotion/react'
 import VirtualTree from 'Stories/Pure/VirtualTree/VirtualTree'
-import { mMuted, smMuted } from 'Stories/Text/Text'
+import { mMuted, smMuted } from 'Stories/Bits/Text/Text'
 
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded'
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded'

@@ -12,7 +12,7 @@ import {
 import { socketFlow } from 'State/Flow'
 import ControlBar from 'Stories/Objects/ControlBar/ControlBar'
 import DynamicVirtual from 'Stories/Pure/DynamicVirtual/DynamicVirtual'
-import { heading2, normal } from 'Stories/Text/Text'
+import { heading2, normal } from 'Stories/Bits/Text/Text'
 
 import { contentFlow } from 'State/Flow'
 import { useEffect, useState } from 'react'

@@ -1,3 +1,6 @@
+
+
+
 import { useEffect, useState } from "react"
 import { useRecoilState, useRecoilValue } from "recoil";
 import { socketRequest } from "Service/Socket";
@@ -5,9 +8,9 @@ import { postListData } from "State/Data";
 import Post from "Stories/Chunk/Post/Post";
 import LoaderPane from "Stories/Pane/loaderPane";
 import { colorLog } from "Util";
+import Comment from "Stories/Chunk/Comment/Comment";
 
-
-const usePullPosts = (community_id: any, filter: string, varient: string) => {
+const usePullComments = (comment_id: any, filter: string, varient: string) => {
 
     // state
     const [list, setList]: any = useRecoilState(postListData)
@@ -23,41 +26,48 @@ const usePullPosts = (community_id: any, filter: string, varient: string) => {
         setPage({ data: 0 })
         setEnd(false)
         setError(false)
-    }, [community_id, filter])
+    }, [comment_id, filter])
 
 
     // fetch posts
     useEffect(() => {
-        if (!community_id || !filter) return
+        if (!comment_id || !filter) return
 
         const fetchMore = async () => {
-            colorLog('[hook] Fetching Posts', 'green')
+            colorLog('[hook] Fetching comments', 'green')
 
-            let req: any = await socketRequest('posts', {
-                community_id: community_id,
+            let req: any = await socketRequest('comments', {
+                post_id: comment_id,
                 filter: filter,
                 page: page.data,
             })
 
+
             if (req === false || req.status === 'error') setError(true)
 
             if (req.status === 'ok') {
-                if (req.posts.length < 25) setEnd(true)
-                let posts = []
 
-                for (var i in req.posts) {
-                    posts.push(<Post varient={varient} {...req.posts[i]} />)
+                if (req.comments.length < 25) setEnd(true)
+                let comments: any = []
+
+
+                for (var i in req.comments) {
+                    comments.push(<Comment varient={'post'} {...req.comments[i]} />)
                 }
 
-                if (page.data === 0) setList(posts)
-                else await setList([...list, posts])
+
+                if (page.data === 0) setList(comments)
+                else await setList([...list, comments])
             }
         }
         if (end === false) fetchMore().catch((err) => console.log(err))
     }, [page])
 
+
     if (end === false) return [error, list.concat(<LoaderPane />)]
-    return [error, list] as const;
+    return [error, list]
 }
 
-export default usePullPosts
+export default usePullComments
+
+

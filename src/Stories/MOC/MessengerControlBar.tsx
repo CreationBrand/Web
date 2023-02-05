@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined'
-import { mNormal } from 'Stories/Text/Text'
+import { mNormal } from 'Stories/Bits/Text/Text'
 import { IconButton, Input } from '@mui/material'
 import InsertLinkIcon from '@mui/icons-material/InsertLink'
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded'

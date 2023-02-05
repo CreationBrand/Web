@@ -5,7 +5,7 @@ import { Avatar, IconButton, Tooltip, Badge } from "@mui/material"
 import theme from "Global/Theme"
 import { activeable, hoverable } from "Mixins/Mixins"
 import { person } from "State/Types"
-import { smBold, xsMuted } from "Stories/Text/Text"
+import { smBold, xsMuted } from "Stories/Bits/Text/Text"
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { Link } from "react-router-dom"
 

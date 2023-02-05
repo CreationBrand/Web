@@ -10,7 +10,7 @@ import { post } from 'Service/Request'
 import { Button, Input } from '@mui/material'
 
 import Grid from '@mui/material/Unstable_Grid2'
-import { brand, heading2, mMuted, sMuted } from 'Stories/Text/Text'
+import { brand, heading2, mMuted, sMuted } from 'Stories/Bits/Text/Text'
 
 const Signup = (props: Props) => {
     const {

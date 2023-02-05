@@ -1,6 +1,6 @@
 import { Button } from "@mui/material"
 import { useLocation, useNavigate } from "react-router-dom";
-import { mMuted, mNormal } from "Stories/Text/Text"
+import { mMuted, mNormal } from "Stories/Bits/Text/Text"
 
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react"

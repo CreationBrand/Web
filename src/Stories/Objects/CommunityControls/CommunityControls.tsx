@@ -8,7 +8,7 @@ import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import { useState } from "react";
-import { smBold, xsMuted } from "Stories/Text/Text";
+import { smBold, xsMuted } from "Stories/Bits/Text/Text";
 import CreateCommunity from "Stories/Forum/CreateCommunity";
 
 

@@ -2,6 +2,7 @@
 import { css } from '@emotion/react'
 import { memo } from 'react'
 import parse from 'html-react-parser';
+import 'react-quill/dist/quill.snow.css'
 
 const C = {
     container: css({
@@ -9,14 +10,17 @@ const C = {
         borderRadius: '8px',
         // padding: '8px',
         display: 'flex',
+        'white-space': 'normal !important',
     }),
 }
 
+
+
 const ContentLoader = ({ type, content }: any) => {
 
+    console.log(type, content)
 
-
-    if (type === 'TEXT') return <div css={C.container} className='ql-editor'>
+    if (type === 'TEXT') return <div css={C.container} className='quill css-mom1az-Editor'>
         {parse(content)}
     </div>
 

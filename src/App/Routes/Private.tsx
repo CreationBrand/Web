@@ -2,11 +2,8 @@ import { Home, CommunitySettings } from 'App/Pages'
 import Settings from 'App/Pages/PersonSettings'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Error from 'Stories/Error/Error'
-import CommunityView from 'Stories/Views/CommunityView'
-import PostView from 'Stories/Views/PostView'
-import MessengerView from 'Stories/Views/MessengerView'
-import DefaultView from 'Stories/Views/DefaultView'
 import GlobalList from 'Stories/Chunk/Lists/GlobalList'
+import PostList from 'Stories/Chunk/Lists/PostList'
 import { useEffect } from 'react'
 import { pageFlow } from 'State/Flow'
 import { useRecoilState } from 'recoil'
@@ -40,10 +37,10 @@ var Private = () => {
                         path="/submit"
                         element={<Submit />} />
 
-                    <Route
+                    {/* <Route
                         path="m/:messenger_id"
                         element={<MessengerView />}
-                    />
+                    /> */}
 
                     <Route
                         path="/home"
@@ -58,7 +55,7 @@ var Private = () => {
                     ></Route>
                     <Route
                         path="c/:community_id/p/:post_id"
-                        element={<PostView />}
+                        element={<PostList />}
                     ></Route>
                 </Route>
                 <Route

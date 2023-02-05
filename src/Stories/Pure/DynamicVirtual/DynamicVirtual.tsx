@@ -55,6 +55,7 @@ function RowVirtualizerDynamic({ rows }: any) {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              flexDirection: "column",
             }}
           >
            <AnimatePresence>

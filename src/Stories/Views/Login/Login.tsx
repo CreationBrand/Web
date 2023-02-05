@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import { Button, Input } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { brand, mMuted, sMuted } from 'Stories/Text/Text'
+import { brand, mMuted, sMuted } from 'Stories/Bits/Text/Text'
 
 const Login = (props: Props) => {
     const {

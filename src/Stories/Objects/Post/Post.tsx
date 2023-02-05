@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { lBold, mNormal, sNormal, xBold } from 'Stories/Text/Text'
+import { lBold, mNormal, sNormal, xBold } from 'Stories/Bits/Text/Text'
 import { IconButton, Menu } from '@mui/material'
 import theme from 'Global/Theme'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'

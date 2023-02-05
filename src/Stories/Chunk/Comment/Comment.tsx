@@ -21,24 +21,32 @@ import { socketRequest } from 'Service/Socket'
 import { useParams } from 'react-router-dom'
 import { vote } from 'Helper/Action'
 import CommentReply from 'Stories/MOC/CommentReply'
+import Avatar from 'Stories/Bits/Avatar/Avatar'
+import Vote from 'Stories/Bits/Vote/Vote'
 
 const C = {
     container: css({
         width: '100%',
-        margin: '0px 28px',
         display: 'flex',
+        // border: '1px solid green',
+        // paddingBottom: '8px',
+        justifyContent: 'flex-start',
+    }),
+    inner: css({
+        background: '#343442',
+        borderRadius: '8px',
+        padding: '8px',
+        height: 'auto',
+         marginBottom: '8px',
 
-        height: 'min-content',
-        minHeight: '70px'
+        display: 'flex',
     }),
 
     left: css({
         width: '56px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '2px',
-        alignItems: 'flex-start',
-        height: '100%'
+        gap: '8px',
     }),
     right: css({
         width: '100%'
@@ -90,79 +98,149 @@ const C = {
     thread: css({
         minWidth: '2px',
         width: '2px',
+        maxWidth: '2px',
         margin: '0px 0px 0px 20px',
         background: '#bcbdbe',
         height: '101%',
-        flexGrow: 1,
-        flex: 1,
-        minHeight: '30px'
+        // flexGrow: 1,
+        // flex: 1,
+        // minHeight: '30px'
     }),
     threads: css({
-        flexGrow: 1,
-        flex: 1,
+        // flexGrow: 1,
+        // flex: 1,
         display: 'flex',
-        paddingRight: '8px'
+        paddingRight: '20px'
     })
 }
 
-const Comment = ({ data }: any) => {
-    // console.log(data)
-    const [commentList, setCommentList]: any = useRecoilState(commentListData)
+const Comment = ({
+    varient,
+    public_id,
+    author,
+    content,
+    vote,
+    depth,
+    karma,
+    path,
+    created_at,
+    updated_at,
+}: any) => {
 
-    let index = commentList.findIndex(
-        (item: any) => item.props.data.id === data.id
-    )
+    // console.log(data)
+    // const [commentList, setCommentList]: any = useRecoilState(commentListData)
+
+    // let index = commentList.findIndex(
+    //     (item: any) => item.props.data.id === data.id
+    // )
 
     const handleUp = (e: any) => {
         e.preventDefault()
         e.stopPropagation()
-        vote(1, 'comment', data.public_id)
+        vote(1, 'comment', public_id)
     }
     const handleDown = (e: any) => {
         e.stopPropagation()
         e.preventDefault()
-        vote(-1, 'comment', data.public_id)
+        vote(-1, 'comment', public_id)
     }
 
     const handleReply = () => {
-        console.log(commentList)
-        console.log(index)
+        // console.log(commentList)
+        // console.log(index)
 
-        setCommentList(
-            insert(commentList, index + 1, <CommentReply parent={data.id}/>)
-        )
+        // setCommentList(
+        //     insert(commentList, index + 1, <CommentReply parent={data.id} />)
+        // )
     }
 
     const threads = []
-    for (var i = 0; i < data.depth - 2; i++) {
+    for (var i = 0; i < depth - 2; i++) {
         threads.push(<div css={C.thread} />)
     }
 
-    let isParent = false
-    try {
-        // console.log(commentList[index + 1].props.data.depth, data.depth)
+    // let isParent = false
+    // try {
+    //     // console.log(commentList[index + 1].props.data.depth, data.depth)
 
-        isParent = commentList[index + 1].props.data.depth > data.depth
-        // console.log(isParent)
-    } catch {}
+    //     isParent = commentList[index + 1].props.data.depth > data.depth
+    //     // console.log(isParent)
+    // } catch { }
+
 
     return (
-        <div id="comment" css={C.container}>
+        <div id="comment" css={C.container} key={public_id}>
             {threads.length > 0 && (
                 <div id="threads" css={C.threads}>
                     {threads}
                 </div>
             )}
 
-            <div css={C.left}>
-                <div css={C.icon}>
-                    <img
-                        css={C.image}
-                        src={`${process.env.REACT_APP_CLOUDFRONT}/avatar/${data.author.public_id}.png`}
-                    ></img>
+
+            <div css={C.inner}>
+
+                <div css={C.left}>
+                    <Avatar public_id={author.public_id} size={'small'} />
+                    {/* <Vote karma={karma} /> */}
                 </div>
-                {isParent && <div css={C.thread} />}
+
+                <div css={C.right}>
+
+                    <div css={sBold}>{author.nickname}</div>
+
+                    <div css={mNormal}>{content}</div>
+
+
+{/* 
+                    <div css={C.footer}>
+                        <Button
+                            onClick={handleReply}
+                            variant="text"
+                            size="small"
+                            color="secondary"
+                            sx={{ gap: '8px' }}
+                        >
+                            <ReplyAllRoundedIcon fontSize="inherit" />
+                            <div css={sMuted}>Reply</div>
+                        </Button>
+
+                        <div css={C.vote}>
+                            <Button
+                                onClick={handleUp}
+                                css={C.action}
+                                variant="text"
+                                color="secondary"
+                                size="small"
+                            >
+                                <ArrowDropUpRoundedIcon
+                                    fontSize="small"
+                                    htmlColor={vote === 1 ? 'green' : ''}
+                                />
+                            </Button>
+                            <div css={mMuted}> {karma} </div>
+                            <Button
+                                onClick={handleDown}
+                                css={C.action}
+                                variant="text"
+                                color="secondary"
+                                size="small"
+                            >
+                                <ArrowDropDownRoundedIcon
+                                    htmlColor={vote === -1 ? 'red' : ''}
+                                    fontSize="small"
+                                />
+                            </Button>
+                        </div>
+                    </div> */}
+                </div>
             </div>
+
+
+
+
+
+            {/* <div css={C.left}>
+
 
             <div css={C.right}>
                 <div css={C.header}>
@@ -217,7 +295,7 @@ const Comment = ({ data }: any) => {
                         </Button>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { notificationStateFamily } from 'State/Data'
 import QuickMenu from 'Stories/Bits/QuickMenu/QuickMenu'
-import { mNormal } from 'Stories/Text/Text'
+import { mNormal } from 'Stories/Bits/Text/Text'
 
 import Avatar from '../../Bits/Avatar/Avatar'
 

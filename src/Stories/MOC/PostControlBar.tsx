@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined'
 import LockPersonRoundedIcon from '@mui/icons-material/LockPersonRounded'
-import { mMuted, mNormal, sMuted, sNormal } from 'Stories/Text/Text'
+import { mMuted, mNormal, sMuted, sNormal } from 'Stories/Bits/Text/Text'
 import { Tooltip, IconButton, Menu, MenuItem, Button } from '@mui/material'
 import { useState } from 'react'
 import InsertLinkIcon from '@mui/icons-material/InsertLink'

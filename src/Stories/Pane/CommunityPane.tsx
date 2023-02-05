@@ -5,7 +5,7 @@ import Grid2 from '@mui/material/Unstable_Grid2'
 import theme from 'Global/Theme'
 import { memo } from 'react'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
-import { mNormal, xBold } from 'Stories/Text/Text'
+import { mNormal, xBold } from 'Stories/Bits/Text/Text'
 
 const C = {
     container: css({

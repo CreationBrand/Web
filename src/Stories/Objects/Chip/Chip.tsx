@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { xsLabel } from 'Stories/Text/Text'
+import { xsLabel } from 'Stories/Bits/Text/Text'
 
 const C = {
     container: css({

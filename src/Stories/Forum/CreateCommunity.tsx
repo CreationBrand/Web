@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import { Dialog, DialogTitle, Divider, DialogContent, Input, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, DialogActions, Button, InputAdornment, OutlinedInput } from "@mui/material"
-import { smBold, xsMuted } from "Stories/Text/Text"
+import { smBold, xsMuted } from "Stories/Bits/Text/Text"
 import { css } from '@emotion/react';
 import { useState } from "react";
 import { post } from "Service/Request";

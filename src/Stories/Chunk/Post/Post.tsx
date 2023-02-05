@@ -10,7 +10,9 @@ import Author from "Stories/Bits/Titles/Author"
 import CommunityTitle from "Stories/Bits/Titles/CommunityTitle"
 import Nickname from "Stories/Bits/Titles/Nickname"
 import Vote from "Stories/Bits/Vote/Vote"
-import { xBold, mNormal } from "Stories/Text/Text"
+import { xBold, mNormal } from "Stories/Bits/Text/Text"
+import { useNavigate } from 'react-router-dom'
+import PostStats from 'Stories/Bits/StatCheck/PostStats'
 
 const C = {
     container: css({
@@ -19,6 +21,7 @@ const C = {
         borderRadius: '8px',
         padding: '8px',
         display: 'flex',
+        marginTop: '8px',
     }),
     header: css({
         display: 'flex',
@@ -74,7 +77,14 @@ const Post = ({
     community,
 }: Post) => {
 
-    const handleClick = () => { }
+    const navigate = useNavigate()
+
+    // console.log(varient)
+    const bodyClick = () => {
+        if (varient === 'community') navigate(`p/${public_id}`)
+    }
+
+
     const avatarClick = () => { }
 
 
@@ -82,14 +92,13 @@ const Post = ({
 
     return (
         <>
-
             <motion.div
                 key={public_id}
                 transition={{ duration: 0.4 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                css={C.container} onClick={handleClick}>
+                css={C.container} onClick={bodyClick}>
 
                 <div css={C.left}>
                     <Avatar size="medium" public_id={author.public_id} onClick={avatarClick} />
@@ -119,6 +128,13 @@ const Post = ({
 
                 </div>
             </motion.div>
+
+            {varient === 'post' && (
+                <PostStats
+                    comments={comments}
+                    created_at={created_at}
+                    karma={karma} />
+            )}
 
         </>
 

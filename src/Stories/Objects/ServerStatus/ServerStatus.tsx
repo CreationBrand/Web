@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react"
-import { xsMuted } from "Stories/Text/Text"
+import { xsMuted } from "Stories/Bits/Text/Text"
 
 
 

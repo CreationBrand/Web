@@ -5,7 +5,7 @@ import { useCallback, useRef, useState } from 'react'
 import { socketRequest } from 'Service/Socket'
 
 import { Menu } from '@mui/material';
-import { mBold, mMuted, sBold, sMuted, sNormal } from 'Stories/Text/Text';
+import { mBold, mMuted, sBold, sMuted, sNormal } from 'Stories/Bits/Text/Text';
 import Avatar from 'Stories/Bits/Avatar/Avatar';
 
 const s = css({

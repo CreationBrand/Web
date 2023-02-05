@@ -9,7 +9,7 @@ import { useRecoilValue } from "recoil";
 import { contentFlow } from "State/Flow";
 
 import Editor from "Stories/Forum/Editor/Editor";
-import { sMuted, xBold } from 'Stories/Text/Text';
+import { sMuted, xBold } from 'Stories/Bits/Text/Text';
 import NavButton from 'Stories/Objects/NavButton/NavButton';
 import CommunityElem from 'Stories/Bits/ListElem/CommunityElem';
 import { communityData, personData } from 'State/Data';

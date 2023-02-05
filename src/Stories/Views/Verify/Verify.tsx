@@ -7,7 +7,7 @@ import { useForm, Resolver, Controller } from 'react-hook-form'
 import { signUpCognito } from 'Service/Auth'
 import { verifyEmail } from 'Service/Cognito'
 import Grid from '@mui/material/Unstable_Grid2'
-import { brand, mMuted } from 'Stories/Text/Text'
+import { brand, mMuted } from 'Stories/Bits/Text/Text'
 import { Button, Input } from '@mui/material'
 
 const s = css({

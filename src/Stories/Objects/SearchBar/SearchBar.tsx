@@ -10,7 +10,7 @@ import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
 import { useLocation } from 'react-router-dom';
 import { contentFlow } from "State/Flow";
 import { useRecoilValue } from "recoil";
-import { mNormal } from "Stories/Text/Text";
+import { mNormal } from "Stories/Bits/Text/Text";
 
 const C = {
     container: css({

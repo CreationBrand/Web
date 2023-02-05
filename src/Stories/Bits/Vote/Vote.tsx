@@ -5,7 +5,7 @@ import { Button } from '@mui/material'
 import theme from 'Global/Theme'
 import ArrowDropUpRoundedIcon from '@mui/icons-material/ArrowDropUpRounded'
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded'
-import { mMuted } from 'Stories/Text/Text'
+import { mMuted } from 'Stories/Bits/Text/Text'
 
 const C = {
     up: css({

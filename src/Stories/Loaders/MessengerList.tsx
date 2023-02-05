@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil'
 import { communityData, messengerData } from 'State/Data'
 import { css } from '@emotion/react'
 import VirtualTree from 'Stories/Pure/VirtualTree/VirtualTree'
-import { mMuted, smMuted } from 'Stories/Text/Text'
+import { mMuted, smMuted } from 'Stories/Bits/Text/Text'
 
 import { Button, ButtonGroup, Input } from '@mui/material'
 import { useState } from 'react'
