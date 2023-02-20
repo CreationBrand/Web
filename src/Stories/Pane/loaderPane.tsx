@@ -8,10 +8,10 @@ const C = {
     container: css({
         padding: '8px',
         width: '100%',
-        height: '100px',
+        height: '140px',
         background: '#343442',
         borderRadius: '4px',
-        margin: '10px 20px',
+        margin: '10px 0px',
         display: 'flex',
         gap: '8px',
     }),

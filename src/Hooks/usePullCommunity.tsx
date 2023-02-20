@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { socketRequest } from "Service/Socket";
+import CommunityPane from "Stories/Chunk/CommunityPane/CommunityPane";
 import Post from "Stories/Objects/Post/Post";
-import CommunityPane from "Stories/Pane/CommunityPane";
 import LoaderPane from "Stories/Pane/loaderPane";
 import { colorLog } from "Util";
 

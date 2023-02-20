@@ -49,8 +49,8 @@ const PostList = () => {
             exit={{ opacity: 0 }}
         >
 
-            <DynamicVirtual rows={[pane, ...list]}
-            />
+            <DynamicVirtual rows={[pane, ...list]}    />
+
             <PostBar />
         </motion.div>
     )

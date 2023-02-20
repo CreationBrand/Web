@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { useRef, useState } from 'react'
+
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 
@@ -48,10 +48,20 @@ const C = {
     })
 }
 
+
+
+
+
+
+
 const Editor = ({ value, onChange, lock }: any) => {
+
+
+
+
     return (
         <ReactQuill
-            preserveWhitespace={true}
+            preserveWhitespace
             css={[
                 C.editor,
                 lock && {

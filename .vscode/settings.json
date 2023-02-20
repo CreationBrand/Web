@@ -7,7 +7,6 @@
         "tsconfig.json",
         "webpack.config.js",
         "README.md",
-        "package.json",
         ".vscode",
         ".storybook",
         "node_modules"
@@ -26,7 +25,6 @@
         "tsconfig.json": true,
         "webpack.config.js": true,
         "README.md": true,
-        "package.json": true,
         ".vscode": true,
         ".storybook": true,
         "node_modules": true

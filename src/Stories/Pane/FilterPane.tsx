@@ -12,7 +12,7 @@ const C = {
         height: '48px',
         background: '#343442',
         borderRadius: '8px',
-        margin: '0px 20px 0px 20px',
+        margin: '10px 0px',
         padding: '0px 20px 0px 20px',
         gap: '8px',
         // justifyContent: 'space-between',

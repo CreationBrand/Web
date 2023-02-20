@@ -1,8 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { memo } from 'react'
-import parse from 'html-react-parser';
-import 'react-quill/dist/quill.snow.css'
+
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
+import 'react-quill/dist/quill.snow.css'; // ES6
+import ReactQuill from 'react-quill'
 
 const C = {
     container: css({
@@ -18,10 +21,10 @@ const C = {
 
 const ContentLoader = ({ type, content }: any) => {
 
-    console.log(type, content)
-
-    if (type === 'TEXT') return <div css={C.container} className='quill css-mom1az-Editor'>
-        {parse(content)}
+    if (type === 'text') return <div css={C.container} className='quill css-mom1az-Editor'>
+        <div className='ql-container ql-snow'>
+            <ReactMarkdown children={content} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
+        </div>
     </div>
 
 

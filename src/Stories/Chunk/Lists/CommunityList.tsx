@@ -5,11 +5,14 @@ import usePullCommunity from 'Hooks/usePullCommunity'
 import usePullPosts from 'Hooks/usePullPosts'
 import { memo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useRecoilValue } from 'recoil'
-import { pageFlow } from 'State/Flow'
+
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import FilterPane from 'Stories/Pane/FilterPane'
 import DynamicVirtual from 'Stories/Pure/DynamicVirtual/DynamicVirtual'
+import ControlBar from '../ControlBar/ControlBar'
+
+import VirtualList from 'Stories/Chunk/VirtualList/VirtualList'
+
 
 const C = {
     container: css({
@@ -42,10 +45,13 @@ const CommunityList = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
         >
-            <DynamicVirtual rows={[
-                pane,
-                <FilterPane value={filter} onChange={setFilter} />, ...list]}
+            <VirtualList
+                list={[
+                    pane,
+                    <FilterPane value={filter} onChange={setFilter} />, ...list]}
             />
+
+            <ControlBar />
         </motion.div>
     )
 }

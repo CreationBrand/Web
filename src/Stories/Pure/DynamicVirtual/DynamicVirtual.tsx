@@ -2,10 +2,14 @@
 
 import { css } from '@emotion/react'
 import { useVirtual } from "react-virtual"
-import React from "react"
+import React, { memo, useEffect } from "react"
 import { AnimatePresence } from 'framer-motion';
 
 var DynamicVirtual = ({ rows }: any) => {
+
+  console.log(rows)
+
+
   if (rows === undefined) return <div>loading...</div>
   return <RowVirtualizerDynamic rows={rows}></RowVirtualizerDynamic>
 };
@@ -14,12 +18,19 @@ function RowVirtualizerDynamic({ rows }: any) {
 
   const C = {
     container: css({
-      overflowY:'hidden',
-      overflowX:'hidden',
-
+      overflowY: 'hidden',
+      overflowX: 'hidden',
       height: "calc(100% - 50px)",
     }),
   }
+
+  useEffect(() => {
+    // rowVirtualizer.measure()
+    // console.log('rowVirtualizer', rowVirtualizer);
+    
+  }, [rows])
+
+
 
   const parentRef = React.useRef(null);
   const rowVirtualizer = useVirtual({
@@ -58,8 +69,8 @@ function RowVirtualizerDynamic({ rows }: any) {
               flexDirection: "column",
             }}
           >
-           <AnimatePresence>
-            {rows[virtualRow.index]}
+            <AnimatePresence>
+              {rows[virtualRow.index]}
             </AnimatePresence>
           </div>
         ))}
@@ -68,5 +79,4 @@ function RowVirtualizerDynamic({ rows }: any) {
 
   );
 }
-
 export default DynamicVirtual;

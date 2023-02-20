@@ -8,6 +8,7 @@ import { smBold, xsMuted } from "Stories/Bits/Text/Text"
 import { css } from '@emotion/react';
 import { useState } from "react";
 import { post } from "Service/Request";
+import { socketRequest } from "Service/Socket";
 
 const CreateCommunity = ({ open, handleClose }: Props) => {
 
@@ -18,7 +19,7 @@ const CreateCommunity = ({ open, handleClose }: Props) => {
         setLoading(true);
         console.log(data)
 
-        let res = await post('community', data)
+        let res = await socketRequest('community-create', data)
         console.log(res)
         if (!res) setLoading(false);
 
@@ -69,7 +70,7 @@ const CreateCommunity = ({ open, handleClose }: Props) => {
                         render={({ field: { onChange, value } }) =>
                             <RadioGroup value={value} onChange={onChange}>
                                 <FormControlLabel value={true} control={<Radio />} label="Public" />
-                                <FormControlLabel value={false}  control={<Radio />} label="Private" />
+                                <FormControlLabel value={false} control={<Radio />} label="Private" />
                             </RadioGroup>
                         }
                     />

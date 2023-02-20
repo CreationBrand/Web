@@ -15,6 +15,7 @@ import CommunityElem from 'Stories/Bits/ListElem/CommunityElem';
 import { communityData, personData } from 'State/Data';
 import Post from 'Stories/Chunk/Post/Post';
 import useCommunityArray from 'Hooks/useCommunityArray';
+import { socketRequest } from 'Service/Socket';
 
 const C = {
     container: css({
@@ -41,7 +42,10 @@ const C = {
     wrapper: css({
         padding: '8px',
     }),
-
+    row: css({
+        display: 'flex',
+        justifyContent: 'space-between',
+    }),
 }
 
 const Submit = () => {
@@ -57,7 +61,15 @@ const Submit = () => {
     const data = watch(); // you can supply default value as second argument
 
     // handlers
-    const onSubmit = async (data: any) => { };
+    const onSubmit = async () => {
+
+        data.community_id = communityArr[data.community].public_id;
+        delete data.community;
+
+        let req = await socketRequest('post-new', data)
+        console.log(req);
+
+    };
 
     const menuProps = {
         PaperProps: {
@@ -89,7 +101,13 @@ const Submit = () => {
     return <div css={C.container}>
         <div css={C.inner}>
 
-            <div css={xBold}>Create a Post</div>
+            <div css={C.row}>
+                <div css={xBold}>Create a Post</div>
+                <div>
+                    <Button color='secondary'>Cancel</Button>
+                    <Button onMouseDown={onSubmit} variant='outlined'>Submit</Button>
+                </div>
+            </div>
 
             <Divider />
 
@@ -142,7 +160,7 @@ const Submit = () => {
                     <Controller
                         name="type"
                         control={control}
-                        defaultValue="TEXT"
+                        defaultValue="text"
                         rules={{ required: true }}
                         render={({ field: { onChange, value } }) =>
                             <TabContext
@@ -159,9 +177,9 @@ const Submit = () => {
                                         onChange={(e, v) => { onChange(v) }}>
                                         <Tab
                                             sx={{ fontFamily: 'ubuntu !important' }}
-                                            label="Text" value="TEXT" />
-                                        <Tab label="Image" value="IMAGE" />
-                                        <Tab label="Video" value="VIDEO" />
+                                            label="Text" value="text" />
+                                        <Tab label="link" value="link" />
+                                        <Tab label="upload" value="upload" />
                                     </TabList>
                                 </Box>
 
@@ -195,7 +213,7 @@ const Submit = () => {
 
                                     <TabPanel
                                         sx={{ padding: '0' }}
-                                        value="TEXT" >
+                                        value="text" >
                                         <Controller
                                             name="content"
                                             control={control}
