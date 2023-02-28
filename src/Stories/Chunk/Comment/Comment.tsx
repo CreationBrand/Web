@@ -23,6 +23,7 @@ import { vote } from 'Helper/Action'
 import CommentReply from 'Stories/MOC/CommentReply'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
 import Vote from 'Stories/Bits/Vote/Vote'
+import ContentLoader from 'Stories/Bits/ContentLoader/ContentLoader'
 
 const C = {
     container: css({
@@ -37,7 +38,7 @@ const C = {
         borderRadius: '8px',
         padding: '8px',
         height: 'auto',
-         marginBottom: '8px',
+        marginBottom: '8px',
 
         display: 'flex',
     }),
@@ -180,18 +181,19 @@ const Comment = ({
             <div css={C.inner}>
 
                 <div css={C.left}>
-                    <Avatar public_id={author.public_id} size={'small'} />
-                    {/* <Vote karma={karma} /> */}
+                    <Avatar public_id={author.public_id} size={'medium'} />
+                    <Vote karma={karma} />
                 </div>
 
                 <div css={C.right}>
 
                     <div css={sBold}>{author.nickname}</div>
 
-                    <div css={mNormal}>{content}</div>
+                    {/* <div css={mNormal}>{content}</div> */}
 
+                    <ContentLoader type='text' content={content} />
 
-{/* 
+                    {/* 
                     <div css={C.footer}>
                         <Button
                             onClick={handleReply}

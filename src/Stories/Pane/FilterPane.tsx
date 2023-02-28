@@ -9,10 +9,10 @@ import { sMuted } from 'Stories/Bits/Text/Text'
 const C = {
     container: css({
         width: '100%',
-        height: '48px',
+        height: '42px',
         background: '#343442',
         borderRadius: '8px',
-        margin: '10px 0px',
+        margin: '10px 0px 10px 0px',
         padding: '0px 20px 0px 20px',
         gap: '8px',
         // justifyContent: 'space-between',
@@ -27,6 +27,7 @@ const FilterPane = ({ value, onChange }: any) => {
     const handleTop = () => onChange('TOP')
 
     return (
+
         <div css={C.container}>
             <Button
                 onClick={handleHot}
@@ -35,13 +36,14 @@ const FilterPane = ({ value, onChange }: any) => {
                 color="secondary"
                 sx={{
                     gap: '6px',
-                    borderRadius: '12px',
+                    borderRadius: '8px',
                     padding: '4px 12px 4px 12px',
-                    background: value === 'HOT' ? '#272732' : ''
+                    background: value === 'HOT' ? '#272732' : '',
+                    color: value === 'HOT' ? '#fff' : ''
                 }}
             >
                 <WhatshotRoundedIcon />
-                <div css={sMuted}>HOT</div>
+                <div css={[sMuted, { color: 'inherit' }]}>TRENDING</div>
             </Button>
 
             <Button
@@ -51,13 +53,14 @@ const FilterPane = ({ value, onChange }: any) => {
                 color="secondary"
                 sx={{
                     gap: '6px',
-                    borderRadius: '12px',
+                    borderRadius: '8px',
                     padding: '4px 12px 4px 12px',
-                    background: value === 'TOP' ? '#272732' : ''
+                    background: value === 'TOP' ? '#272732' : '',
+                    color: value === 'TOP' ? '#fff' : ''
                 }}
             >
                 <AutoGraphRoundedIcon />
-                <div css={sMuted}>TOP</div>
+                <div css={[sMuted, { color: 'inherit' }]}>TOP</div>
             </Button>
 
             <Button
@@ -67,13 +70,15 @@ const FilterPane = ({ value, onChange }: any) => {
                 color="secondary"
                 sx={{
                     gap: '6px',
-                    borderRadius: '12px',
+                    borderRadius: '8px',
                     padding: '4px 12px 4px 12px',
-                    background: value === 'NEW' ? '#272732' : ''
+                    background: value === 'NEW' ? '#272732' : '',
+                    color: value === 'NEW' ? '#fff' : ''
+
                 }}
             >
                 <NewReleasesRoundedIcon />
-                <div css={sMuted}>NEW</div>
+                <div css={[sMuted, { color: 'inherit' }]}>NEW</div>
             </Button>
         </div>
     )

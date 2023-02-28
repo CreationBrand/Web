@@ -6,8 +6,9 @@ import { differenceInDays, differenceInHours, differenceInMinutes, differenceInS
 import { mNormal, sNormal } from '../Text/Text'
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
-
 import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
+import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
+import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
 
 
 const C = {
@@ -18,7 +19,7 @@ const C = {
         height: '32px',
         marginTop: '8px',
         gap: '8px',
-
+        marginBottom: '8px',
     }),
     item: css({
         width: 'min-content',
@@ -29,39 +30,41 @@ const C = {
         alignItems: 'center',
         height: '100%',
         whiteSpace: 'nowrap',
+        // justifyContent: 'center',
     }),
 
 }
 
-const PostStats = ({ comments, created_at, karma }: any) => {
+const CommunityStats = ({ subscribers, created_at, isPublic }: any) => {
 
     // console.log(comments, created_at, karma)
 
     return <div css={C.container}>
         <div css={C.item}>
-            <WhatshotRoundedIcon sx={{ height: '16px ' }} color='secondary' />
             <div css={sNormal}>
-                {(karma / ((differenceInHours(parseISO(created_at), new Date())) ^ 1.8)).toFixed(2)}
+                <span css={{ fontWeight: 700, }}>{subscribers} </span>
+                Members
             </div>
         </div>
 
         <div css={C.item}>
             <CalendarMonthRoundedIcon sx={{ height: '16px ' }} color='secondary' />
             <div css={sNormal}>
+                Created: {" "}
+
                 {intlFormat(parseISO(created_at), {
-                    minute: 'numeric',
-                    hour: 'numeric',
+                    day: 'numeric',
                     year: 'numeric',
                     month: 'numeric',
-                    day: 'numeric',
                 })}
             </div>
         </div>
         <div css={C.item}>
-            <NotesRoundedIcon sx={{ height: '16px ' }} color='secondary' />
             <div css={sNormal}>
-                {comments}
+                Public: {" "}
             </div>
+            {isPublic ? <VisibilityRoundedIcon sx={{ height: '16px', marginTop: '2px' }} color='secondary' /> : <VisibilityOffRoundedIcon sx={{ height: '16px ' }} color='secondary' />}
+
         </div>
     </div>
 }
@@ -71,4 +74,5 @@ const PostStats = ({ comments, created_at, karma }: any) => {
 
 
 
-export default PostStats
+export default CommunityStats
+

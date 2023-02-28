@@ -10,7 +10,7 @@ import Author from "Stories/Bits/Titles/Author"
 import CommunityTitle from "Stories/Bits/Titles/CommunityTitle"
 import Nickname from "Stories/Bits/Titles/Nickname"
 import Vote from "Stories/Bits/Vote/Vote"
-import { xBold, mNormal } from "Stories/Bits/Text/Text"
+import { xBold, mNormal, mBold } from "Stories/Bits/Text/Text"
 import { useNavigate } from 'react-router-dom'
 import PostStats from 'Stories/Bits/StatCheck/PostStats'
 
@@ -22,6 +22,12 @@ const C = {
         padding: '8px',
         display: 'flex',
         marginTop: '8px',
+        border: `2px solid #343442`,
+        cursor: 'pointer',
+
+        ':hover': {
+            border: `2px solid #583e76`,
+        },
     }),
     header: css({
         display: 'flex',
@@ -81,6 +87,9 @@ const Post = ({
 
     // console.log(varient)
     const bodyClick = () => {
+        console.log(varient)
+
+        if (varient === 'global') navigate(`/c/${community.public_id}/p/${public_id}`)
         if (varient === 'community') navigate(`p/${public_id}`)
     }
 
@@ -93,6 +102,7 @@ const Post = ({
     return (
         <>
             <motion.div
+                onMouseDown={bodyClick}
                 key={public_id}
                 transition={{ duration: 0.4 }}
                 initial={{ opacity: 0 }}
@@ -119,12 +129,13 @@ const Post = ({
                         </>
                     )}
 
+                    <div>
 
-                    <div css={[C.title, xBold]}>{title}</div>
+                        <div css={[C.title, mBold]}>{title}</div>
 
-                    <ContentLoader type={type} content={content} />
+                        <ContentLoader type={type} content={content} />
 
-
+                    </div>
 
                 </div>
             </motion.div>

@@ -7,6 +7,9 @@ import { forwardRef, memo } from 'react'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
 import Banner from 'Stories/Bits/Banner/Banner'
 import { mNormal, xBold } from 'Stories/Bits/Text/Text'
+import EventRoundedIcon from '@mui/icons-material/EventRounded';
+import CommunityStats from 'Stories/Bits/StatCheck/CommunityStats'
+
 
 const C = {
     container: css({
@@ -33,24 +36,27 @@ const C = {
 
 const CommunityPane = ({ data }: any) => {
 
+    console.log(data)
+
     return (
-        <div
-            css={C.container}>
-
-            <Banner size='large' public_id={data.public_id} />
-
-            <div css={C.content}>
-
-                <Avatar public_id={data.public_id} size="extra" />
-
-                <div css={C.title}>
-                    <div css={xBold}>{data.title}</div>
-                    {data.description === 'undefined' ? null : <div css={mNormal}>{data.description}</div>}
+        <>
+            <div
+                css={C.container}>
+                <Banner size='large' public_id={data.public_id} />
+                <div css={C.content}>
+                    <Avatar public_id={data.public_id} size="extra" />
+                    <div css={C.title}>
+                        <div css={xBold}>{data.title}</div>
+                        {data.description === 'undefined' ? null : <div css={mNormal}>{data.description}</div>}
+                    </div>
                 </div>
-
             </div>
 
-        </div>
+            <CommunityStats
+                created_at={data.created_at}
+                subscribers={data.subscribers}
+                isPublic={data.public} />
+        </>
     )
 }
 

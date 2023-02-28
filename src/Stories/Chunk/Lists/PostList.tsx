@@ -16,6 +16,8 @@ import FilterPane from 'Stories/Pane/FilterPane'
 import DynamicVirtual from 'Stories/Pure/DynamicVirtual/DynamicVirtual'
 import PostBar from '../ControlBar/PostBar'
 import Comment from 'Stories/Chunk/Comment/Comment'
+import AddComment from '../AddComment/AddComment'
+import VirtualList from '../VirtualList/VirtualList'
 
 
 const C = {
@@ -48,8 +50,12 @@ const PostList = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
         >
-
-            <DynamicVirtual rows={[pane, ...list]}    />
+            <VirtualList list={[pane,
+                <AddComment
+                    post_id={params.post_id}
+                    parent_id={params.post_id} />,
+                <FilterPane value={filter} onChange={setFilter} />,
+                ...list]} />
 
             <PostBar />
         </motion.div>

@@ -126,16 +126,16 @@ export const lMuted = css(mixinMuted, {
 
 // bold
 export const sBold = css(mixinBold, {
-    fontSize: '12px',
-})
-export const mBold = css(mixinBold, {
     fontSize: '14px',
 })
+export const mBold = css(mixinBold, {
+    fontSize: '18px',
+})
 export const lBold = css(mixinBold, {
-    fontSize: '16px',
+    fontSize: '20px',
 })
 export const xBold = css(mixinBold, {
-    fontSize: '20px',
+    fontSize: '28px',
 })
 
 
