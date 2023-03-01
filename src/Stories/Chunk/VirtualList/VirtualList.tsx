@@ -1,19 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-
-import React, { cloneElement, useEffect, useRef } from 'react'
-import ReactDOM from 'react-dom'
-
+import { useRef } from 'react'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import { AnimatePresence } from 'framer-motion'
 
 
 const C = {
     container: css({
         overflowY: 'hidden',
         overflowX: 'hidden',
-        height: "calc(100% - 50px)",
+        height: "100%",
     }),
 }
 
@@ -25,6 +21,7 @@ const VirtualList = ({ list }: any) => {
 
     const virtualizer = useVirtualizer({
         count: list.length,
+        overscan: 10,
         getScrollElement: () => parentRef.current,
         estimateSize: () => 0,
     })
@@ -33,19 +30,24 @@ const VirtualList = ({ list }: any) => {
 
     return (
         <div
+            id='container'
             ref={parentRef}
             css={C.container}
         >
             <div
                 style={{
-                    height: virtualizer.getTotalSize(),
                     width: '100%',
                     position: 'relative',
                     boxSizing: 'border-box',
+                    overflowY: 'scroll',
+                    scrollbarGutter: 'stable both-edges',
+                    height: '100%',
                 }}
             >
                 <div
                     style={{
+                        height: virtualizer.getTotalSize(),
+                        padding: '20px 10px',
                         position: 'absolute',
                         boxSizing: 'border-box',
 
