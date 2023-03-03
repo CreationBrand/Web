@@ -22,6 +22,7 @@ const Nav = () => {
         borderTopLeftRadius: '0.4rem',
         borderTopRightRadius: '0.4rem',
         height: '50px',
+        minHeight: '50px',
         boxShadow: '0 1px 2px rgba(0,0,0,0.9),0 0px 2px',
         display: 'flex',
         paddingLeft: '12px',
@@ -38,7 +39,7 @@ const Nav = () => {
             <Person2Icon fontSize="inherit" />
         </IconButton>
 
-        <Search/>
+        <Search />
 
 
         <IconButton aria-label="delete" size="medium" onClick={handleR}

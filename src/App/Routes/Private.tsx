@@ -9,6 +9,7 @@ import { pageFlow } from 'State/Flow'
 import { useRecoilState } from 'recoil'
 import CommunityList from 'Stories/Chunk/Lists/CommunityList'
 import Submit from 'Stories/Views/Submit/Submit'
+import MessengerList from 'Stories/Chunk/Lists/MessengerList'
 
 var Private = () => {
 
@@ -37,10 +38,10 @@ var Private = () => {
                         path="/submit"
                         element={<Submit />} />
 
-                    {/* <Route
+                    <Route
                         path="m/:messenger_id"
-                        element={<MessengerView />}
-                    /> */}
+                        element={<MessengerList />}
+                    />
 
                     <Route
                         path="/home"

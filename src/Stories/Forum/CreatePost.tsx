@@ -68,7 +68,7 @@ const CreateCommunity = ({ handleClose }: any) => {
                         <TabContext value={value}>
                             <Box sx={{ marginBottom:'12px' }}>
                                 <TabList onChange={(e, v) => { onChange(v) }} aria-label="lab API tabs example">
-                                    <Tab label="Text" value="TEXT" />
+                                    <Tab label="Texasfasdft" value="TEXT" />
                                     <Tab label="Image" value="IMAGE" />
                                     <Tab label="Video" value="VIDEO" />
                                 </TabList>

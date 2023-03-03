@@ -8,11 +8,11 @@ import { pageFlow } from 'State/Flow'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import DynamicVirtual from 'Stories/Pure/DynamicVirtual/DynamicVirtual'
 import ControlBar from '../ControlBar/ControlBar'
+import VirtualList from '../VirtualList/VirtualList'
 
 const C = {
     container: css({
         height: '100%',
-        padding: '20px',
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
@@ -26,7 +26,7 @@ const GlobalList = () => {
     const page = useRecoilValue(pageFlow)
     const [error, list] = usePullPosts(page, 'none', 'global')
 
-    if (error) return <ChunkError/>
+    if (error) return <ChunkError />
 
     return (
         <motion.div
@@ -35,9 +35,8 @@ const GlobalList = () => {
             transition={{ duration: 0.4 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-        >
-            <DynamicVirtual rows={list} />
+            exit={{ opacity: 0 }}>
+            <VirtualList list={[list]} />
             <ControlBar></ControlBar>
         </motion.div>
     )

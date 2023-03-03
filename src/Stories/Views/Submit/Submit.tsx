@@ -2,20 +2,25 @@
 import { css } from '@emotion/react';
 
 import { useForm, Controller } from "react-hook-form";
-import { Divider, DialogContent, Input, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, DialogActions, Button, InputAdornment, OutlinedInput, Box, Tab, Tabs, Select, MenuItem } from "@mui/material"
+import { Divider, Input, Button, Box, Tab, Select, MenuItem } from "@mui/material"
 import { useState } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useRecoilValue } from "recoil";
 import { contentFlow } from "State/Flow";
 
-import Editor from "Stories/Forum/Editor/Editor";
-import { sMuted, xBold } from 'Stories/Bits/Text/Text';
-import NavButton from 'Stories/Objects/NavButton/NavButton';
-import CommunityElem from 'Stories/Bits/ListElem/CommunityElem';
+import Editor from 'Stories/Bits/Editor/Editor';
+// import Editor from "Stories/Forum/Editor/Editor";
+import { mMuted, mNormal, sMuted, xBold } from 'Stories/Bits/Text/Text';
+
 import { communityData, personData } from 'State/Data';
 import Post from 'Stories/Chunk/Post/Post';
 import useCommunityArray from 'Hooks/useCommunityArray';
 import { socketRequest } from 'Service/Socket';
+import Avatar from 'Stories/Bits/Avatar/Avatar';
+
+import CommunityElem from 'Stories/Bits/ListElem/CommunityElem';
+import { SelectUnstyled } from '@mui/base';
+import CommunitySelect from 'Stories/Bits/Select/CommunitySelect';
 
 const C = {
     container: css({
@@ -63,39 +68,23 @@ const Submit = () => {
     // handlers
     const onSubmit = async () => {
 
-        data.community_id = communityArr[data.community].public_id;
-        delete data.community;
+
+        console.log(data)
 
         let req = await socketRequest('post-new', data)
         console.log(req);
 
     };
 
-    const menuProps = {
-        PaperProps: {
-            style: {
-                background: '#151618',
-                marginTop: '4px',
-                gap: '8px',
-                padding: '8px',
-                width: 300,
-            },
-        }
-    }
 
-    let selectOptions = communityArr.map((c: any, i: any) => {
-        return (
-            <MenuItem value={i}
-                sx={{
-                    borderRadius: '8px',
-                    height: '40px',
-                    padding: '0px',
-                    marginTop: '4px'
-                }}>
-                <CommunityElem {...c} />
-            </MenuItem>
-        )
-    })
+    // let selectOptions = communityArr.map((c: any, i: any) => {
+    //     console.log(c)
+    //     return (
+
+    //         <CommunityElem {...c} />
+
+    //     )
+    // })
 
 
     return <div css={C.container}>
@@ -111,61 +100,36 @@ const Submit = () => {
 
             <Divider />
 
+
+
+
+            <div css={mMuted}>Your Communitys</div>
+
             <Controller
-                name="community"
+                name="community_id"
                 control={control}
-                defaultValue={0}
+                defaultValue={contentState.public_id}
                 rules={{ required: true }}
                 render={({ field: { onChange, value } }) => (
-                    <Select
-                        value={value}
-                        onChange={onChange}
-                        variant="standard"
-                        sx={{
-                            outline: 'none !important',
-                            border: '2px solid #151618',
-                            background: '#151618',
-                            borderRadius: '8px',
-                            maxWidth: '300px',
-                            height: '40px',
-                            '&:hover': {
-                                border: `2px solid hsla(0,0%,100%,.1)`
-                            },
-                            "&.Mui-focused": {
-                                border: '2px solid #9147ff',
-                            },
-                            '&.Mui-error': {
-                                border: '2px solid red',
-                            }
-                            ,
-                            '.MuiMenu-list': {
-                                background: '#151618',
-                                borderRadius: '8px',
-                                maxWidth: '300px',
-                            }
-                        }}
-                        MenuProps={menuProps}
-                        placeholder="Select a Community"
-                        disableUnderline
-                        inputProps={{ 'aria-label': 'Without label' }}
-                    >
-                        <div css={sMuted}>Your Communitys</div>
-                        {selectOptions}
-                    </Select>
+                    <CommunitySelect onChange={onChange} value={value} />
                 )} />
 
 
-            <div css={C.section}>
-                <form>
-                    <Controller
-                        name="type"
-                        control={control}
-                        defaultValue="text"
-                        rules={{ required: true }}
-                        render={({ field: { onChange, value } }) =>
-                            <TabContext
 
-                                value={value}>
+            <form>
+
+
+
+                <Controller
+                    name="type"
+                    control={control}
+                    defaultValue="text"
+                    rules={{ required: true }}
+                    render={({ field: { onChange, value } }) =>
+                        <TabContext value={value}>
+
+                            <div css={C.section}>
+
                                 <Box sx={{ marginBottom: '12px' }}>
                                     <TabList
 
@@ -182,6 +146,8 @@ const Submit = () => {
                                         <Tab label="upload" value="upload" />
                                     </TabList>
                                 </Box>
+
+
 
                                 <div css={C.wrapper}>
 
@@ -208,119 +174,121 @@ const Submit = () => {
                                                 multiline
                                             />}
                                     />
-
-                                    <Divider css={{ margin: '16px 0 16px' }} />
-
-                                    <TabPanel
-                                        sx={{ padding: '0' }}
-                                        value="text" >
-                                        <Controller
-                                            name="content"
-                                            control={control}
-                                            defaultValue=""
-                                            rules={{ required: true }}
-                                            render={({ field: { onChange, value } }) =>
-
-
-
-                                                <Editor value={value} onChange={onChange} />
-
-
-                                                // <Input
-                                                //     autoComplete="off"
-                                                //     onChange={onChange}
-                                                //     value={value}
-                                                //     disableUnderline
-                                                //     fullWidth
-                                                //     multiline
-                                                //     minRows={4}
-                                                //     maxRows={12}
-                                                // />
-
-
-
-
-                                            }
-                                        />
-                                    </TabPanel>
-                                    <TabPanel
-                                        sx={{ padding: '0' }}
-                                        value="IMAGE">
-
-                                        <Controller
-                                            name="content"
-                                            control={control}
-                                            defaultValue=""
-                                            rules={{ required: true }}
-                                            render={({ field: { onChange, value } }) =>
-                                                <Input
-                                                    sx={{ background: '#151618' }}
-                                                    autoComplete="off"
-                                                    onChange={onChange}
-                                                    value={value}
-                                                    disableUnderline
-                                                    fullWidth
-
-                                                />}
-                                        />
-
-                                    </TabPanel>
-                                    <TabPanel
-                                        sx={{ padding: '0' }}
-                                        value="VIDEO">
-
-
-                                        <Controller
-                                            name="content"
-                                            control={control}
-                                            defaultValue=""
-                                            rules={{ required: true }}
-                                            render={({ field: { onChange, value } }) =>
-                                                <Input
-                                                    autoComplete="off"
-                                                    onChange={onChange}
-                                                    value={value}
-                                                    disableUnderline
-                                                    fullWidth
-
-                                                />}
-                                        />
-
-                                    </TabPanel>
-
-
                                 </div>
-                            </TabContext>
-                        }
-
-                    />
+                            </div>
 
 
+                            <Divider css={{ margin: '16px 0 16px' }} />
 
 
-                </form >
-            </div>
+                            <div css={C.section}>
+                                <TabPanel
+                                    sx={{ padding: '0' }}
+                                    value="text" >
+                                    <Controller
+                                        name="content"
+                                        control={control}
+                                        defaultValue=""
+                                        rules={{ required: true }}
+                                        render={({ field: { onChange, value } }) =>
 
-            <div css={xBold}>Post Preview</div>
 
-            <Divider />
 
-            <Post
-                public_id={''}
-                title={data.title}
-                type={data.type}
-                content={data.content}
-                karma={0}
-                comments={0}
-                created_at={''}
-                updated_at={''}
-                hot={0}
-                author={person}
-                community={communityArr[data.community]}
-            />
+                                            <Editor placeholder={'Type your Post here!'} value={value} onChange={onChange} />
 
+
+                                            // <Input
+                                            //     autoComplete="off"
+                                            //     onChange={onChange}
+                                            //     value={value}
+                                            //     disableUnderline
+                                            //     fullWidth
+                                            //     multiline
+                                            //     minRows={4}
+                                            //     maxRows={12}
+                                            // />
+
+
+
+
+                                        }
+                                    />
+                                </TabPanel>
+                                <TabPanel
+                                    sx={{ padding: '0' }}
+                                    value="IMAGE">
+
+                                    <Controller
+                                        name="content"
+                                        control={control}
+                                        defaultValue=""
+                                        rules={{ required: true }}
+                                        render={({ field: { onChange, value } }) =>
+                                            <Input
+                                                sx={{ background: '#151618' }}
+                                                autoComplete="off"
+                                                onChange={onChange}
+                                                value={value}
+                                                disableUnderline
+                                                fullWidth
+
+                                            />}
+                                    />
+
+                                </TabPanel>
+                                <TabPanel
+                                    sx={{ padding: '0' }}
+                                    value="VIDEO">
+
+
+                                    <Controller
+                                        name="content"
+                                        control={control}
+                                        defaultValue=""
+                                        rules={{ required: true }}
+                                        render={({ field: { onChange, value } }) =>
+                                            <Input
+                                                autoComplete="off"
+                                                onChange={onChange}
+                                                value={value}
+                                                disableUnderline
+                                                fullWidth
+
+                                            />}
+                                    />
+
+                                </TabPanel>
+                            </div>
+
+                        </TabContext>
+                    } />
+            </form >
         </div>
+
+
+
+
+
+        <div css={[xBold, { marginTop: '24px' }]}>Post Preview</div>
+
+        <Divider css={{ margin: '16px 0 16px' }} />
+
+        <Post
+            public_id={''}
+            title={data.title}
+            type={data.type}
+            content={data.content}
+            karma={0}
+            comments={0}
+            created_at={''}
+            updated_at={''}
+            hot={0}
+            author={person}
+            community={communityArr[data.community]}
+        />
+
     </div>
+
 }
 
 

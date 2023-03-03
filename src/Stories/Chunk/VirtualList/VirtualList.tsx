@@ -10,6 +10,7 @@ const C = {
         overflowY: 'hidden',
         overflowX: 'hidden',
         height: "100%",
+
     }),
 }
 
@@ -42,10 +43,12 @@ const VirtualList = ({ list }: any) => {
                     overflowY: 'scroll',
                     scrollbarGutter: 'stable both-edges',
                     height: '100%',
+
                 }}
             >
                 <div
                     style={{
+
                         height: virtualizer.getTotalSize(),
                         padding: '20px 10px',
                         position: 'absolute',
@@ -57,6 +60,7 @@ const VirtualList = ({ list }: any) => {
                         transform: `translateY(${items[0].start}px)`,
                     }}
                 >
+
                     {items.map((virtualRow) => (
                         <div
                             key={virtualRow.key}

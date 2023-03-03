@@ -19,9 +19,9 @@ import { useNavigate } from 'react-router-dom';
 const C = {
     container: css({
         width: '100%',
-        height: '50px',
-        maxHeight: '50px',
-        minHeight: '50px',
+        // height: '50px',
+        // maxHeight: '50px',
+        // minHeight: '50px',
         position: 'relative',
     }),
     wrapper: css({
@@ -38,10 +38,10 @@ const C = {
         height: '44px',
         minHeight: '44px',
         maxHeight: '44px',
-        background: '#343442',
+        background: '#272732',
         borderRadius: '8px',
         display: 'flex',
-        marginBottom: '8px',
+        // marginBottom: '8px',
         boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
     }),
     inner: css({
