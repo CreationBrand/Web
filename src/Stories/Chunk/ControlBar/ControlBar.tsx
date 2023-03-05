@@ -118,7 +118,7 @@ const ControlBar = () => {
                             </IconButton>
 
 
-                            <IconButton
+                            {/* <IconButton
                                 onMouseDown={() => navigate(`/submit`)}
                                 disableRipple={true}
                                 size="small"
@@ -132,7 +132,7 @@ const ControlBar = () => {
                                 <AddCircleRoundedIcon
                                     fontSize='large'
                                 />
-                            </IconButton>
+                            </IconButton> */}
 
 
                             <IconButton

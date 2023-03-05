@@ -5,6 +5,7 @@ import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded'
 import NewReleasesRoundedIcon from '@mui/icons-material/NewReleasesRounded'
 import { Button } from '@mui/material'
 import { sMuted } from 'Stories/Bits/Text/Text'
+import AutoAwesomeMosaicRoundedIcon from '@mui/icons-material/AutoAwesomeMosaicRounded';
 
 const C = {
     container: css({
@@ -79,6 +80,22 @@ const FilterPane = ({ value, onChange }: any) => {
             >
                 <NewReleasesRoundedIcon />
                 <div css={[sMuted, { color: 'inherit' }]}>NEW</div>
+            </Button>
+
+
+
+            <Button
+                variant="text"
+                size="small"
+                color="secondary"
+                sx={{
+                    minWidth: '32px',
+                    marginLeft: 'auto',
+                    gap: '6px',
+                    borderRadius: '8px',
+                }}
+            >
+                <AutoAwesomeMosaicRoundedIcon />
             </Button>
         </div>
     )

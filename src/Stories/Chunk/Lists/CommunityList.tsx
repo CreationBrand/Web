@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
 import usePullCommunity from 'Hooks/usePullCommunity'
 import usePullPosts from 'Hooks/usePullPosts'
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
@@ -12,6 +12,8 @@ import DynamicVirtual from 'Stories/Pure/DynamicVirtual/DynamicVirtual'
 import ControlBar from '../ControlBar/ControlBar'
 
 import VirtualList from 'Stories/Chunk/VirtualList/VirtualList'
+import { useRecoilState } from 'recoil'
+import { contentFlow } from 'State/Flow'
 
 
 const C = {
@@ -31,10 +33,19 @@ const CommunityList = () => {
     const params = useParams()
     const [filter, setFilter] = useState('HOT')
 
-    const [error1, pane] = usePullCommunity(params.community_id)
+    const [contentState, setContent] = useRecoilState(contentFlow)
+
+    const [error1, pane, data] = usePullCommunity(params.community_id)
     const [error, list] = usePullPosts(params.community_id, filter, 'community')
 
+
+    useEffect(() => {
+        setContent(data)
+    }, [data])
+
     if (error || error1) return <ChunkError />
+
+
 
     return (
         <motion.div
@@ -50,8 +61,6 @@ const CommunityList = () => {
                     pane,
                     <FilterPane value={filter} onChange={setFilter} />, ...list]}
             />
-
-            <ControlBar />
         </motion.div>
     )
 }

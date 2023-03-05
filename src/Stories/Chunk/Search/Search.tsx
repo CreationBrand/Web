@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+
 import { Autocomplete, Input, Popover, Popper } from '@mui/material'
 import { useCallback, useRef, useState } from 'react'
 import { socketRequest } from 'Service/Socket'
@@ -11,6 +12,7 @@ import Avatar from 'Stories/Bits/Avatar/Avatar';
 const s = css({
     width: '100%',
     height: '100%',
+    maxWidth: '600px',
     position: 'relative',
 })
 

@@ -37,7 +37,6 @@ const GlobalList = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}>
             <VirtualList list={[list]} />
-            <ControlBar></ControlBar>
         </motion.div>
     )
 }

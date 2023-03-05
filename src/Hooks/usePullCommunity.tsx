@@ -39,7 +39,7 @@ const usePullCommunity = (community_id: any) => {
 
 
     if (loading === true) return [error, <LoaderPane />];
-    return [error, <CommunityPane data={data.community} />];
+    return [error, <CommunityPane data={data.community} />, data];
 }
 
 export default usePullCommunity
