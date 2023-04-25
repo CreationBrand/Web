@@ -1,8 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { lBold } from 'Stories/Bits/Text/Text'
+
+import { textBold } from 'Global/Mixins'
 
 const C = {
     container: css({
@@ -20,18 +22,16 @@ const C = {
 }
 
 const Nickname = ({ title, public_id }: any) => {
-    const [anchorEl, setAnchorEl] = useState(null)
 
+    const [anchorEl, setAnchorEl] = useState(null)
     const navigate = useNavigate()
     const handleClick = () => { }
 
 
     return (
-        <>
-            <div css={C.container} onClick={handleClick}>
-                <div css={[lBold, C.underline]}>{title}</div>
-            </div>
-        </>
+        <div css={C.container} onClick={handleClick}>
+            <div css={[textBold('m'), C.underline]}>{title}</div>
+        </div>
     )
 }
 

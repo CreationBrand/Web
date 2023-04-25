@@ -12,6 +12,10 @@ import { mNormal, xBold } from 'Stories/Bits/Text/Text'
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import CommunityStats from 'Stories/Bits/StatCheck/CommunityStats'
 import SettingsEthernetRoundedIcon from '@mui/icons-material/SettingsEthernetRounded';
+import RoleList from 'Stories/Bits/RoleList/RoleList'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { contentFlow } from 'State/Flow'
+import RolePane from '../RolePane/RolePane'
 
 
 const C = {
@@ -39,7 +43,12 @@ const C = {
 
 const CommunityPane = ({ data }: any) => {
 
+    const contentState = useRecoilValue(contentFlow)
+
+
     // console.log(data)
+    console.log(contentState)
+    console.log(data)
 
     return (
         <>
@@ -50,9 +59,14 @@ const CommunityPane = ({ data }: any) => {
                     <Avatar public_id={data.public_id} size="extra" />
                     <div css={C.title}>
                         <div css={xBold}>{data.title}</div>
-                        {data.description === 'undefined' ? null : <div css={mNormal}>{data.description}</div>}
+                        <div css={mNormal}>{data.description === undefined ? data.description : 'A new community'}</div>
+
+
                     </div>
 
+
+
+                    <RolePane roles={contentState?.roles} />
 
                     <Button
                         disableRipple
@@ -67,7 +81,7 @@ const CommunityPane = ({ data }: any) => {
                         <SettingsEthernetRoundedIcon />
                     </Button>
 
-                    
+
                 </div>
             </div>
 

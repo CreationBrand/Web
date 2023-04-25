@@ -8,11 +8,14 @@ import { socketRequest } from 'Service/Socket'
 import { Menu } from '@mui/material';
 import { mBold, mMuted, sBold, sMuted, sNormal } from 'Stories/Bits/Text/Text';
 import Avatar from 'Stories/Bits/Avatar/Avatar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { textLight } from 'Global/Mixins';
 
 const s = css({
     width: '100%',
     height: '100%',
-    maxWidth: '600px',
+    maxWidth: '750px',
     position: 'relative',
 })
 
@@ -105,21 +108,34 @@ const Search = () => {
     return <div css={s} id="SEARCH">
 
 
+        {/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
+
         <Input
+            startAdornment={<FontAwesomeIcon css={{ marginLeft: '8px', color: '#bcbdbe' }} icon={faMagnifyingGlass} />}
             onFocus={() => setOpen(true)}
             onBlur={() => setOpen(false)}
             ref={anchorEl}
             value={query}
             onChange={typeahead}
-            placeholder="Search"
+            placeholder="Search Artram"
             fullWidth
-            sx={{ background: '#0f0e10', height: '34px', marginTop: '8px', color: '#d7dadc', zIndex: 110 }}
+            sx={{
+                borderRadius: '14px',
+                fontFamily: 'Noto Sans',
+                fontSize: '14px',
+                background: '#0f0e10',
+                height: '40px',
+                marginTop: '8px',
+                color: '#d7dadc',
+                zIndex: 110
+            }}
             disableUnderline
         ></Input>
 
         <Popper
             disablePortal
             sx={{
+
                 position: 'relative',
                 borderRadius: '8px',
                 borderTopLeftRadius: '0px',

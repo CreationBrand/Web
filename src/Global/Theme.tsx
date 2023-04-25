@@ -31,6 +31,7 @@ const theme: any = createTheme({
 
                 },
                 root: {
+                    fontFamily:'Noto Sans',
                     caretColor:'transparent !important',
                     borderRadius: '8px',
                     // height: '30px',
@@ -133,7 +134,7 @@ const theme: any = createTheme({
     spacing: (factor: number) => `${0.25 * factor}rem`,
 
     typography: {
-        pri: 'Inter',
+        pri: 'Noto Sans',
         sec: 'Noto Sans',
         tri: 'Roboto',
         quad: 'Ubuntu',

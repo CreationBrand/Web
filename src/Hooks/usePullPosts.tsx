@@ -9,6 +9,10 @@ import { colorLog } from "Util";
 
 const usePullPosts = (community_id: any, filter: string, varient: string) => {
 
+
+    console.log(community_id, filter, varient)
+
+
     // state
     const [list, setList]: any = useRecoilState(postListData)
     const [page, setPage] = useState({ data: 0 })

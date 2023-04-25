@@ -34,8 +34,7 @@ var useAuth = () => {
             try {
                 let session = await verifyCognito()
                 if (!session) {
-                    colorLog('Invalid Session', 'warn')
-
+                    console.log('%c [SESSION] ', 'background: #000; color: #bada55', 'Invalid Session Token');
                     setLoading(false)
                 } else {
                     await setSession(session)

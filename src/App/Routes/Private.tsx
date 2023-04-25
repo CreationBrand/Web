@@ -16,14 +16,11 @@ var Private = () => {
     let [page, setPage] = useRecoilState(pageFlow)
     let location = useLocation();
 
-
     useEffect(() => {
         let path = location.pathname.split('/')[1]
-
         if (path === 'home') setPage('home')
         else if (path === 'trending') setPage('trending')
         else if (path === 'c') setPage('community')
-
     }, [location]);
 
 

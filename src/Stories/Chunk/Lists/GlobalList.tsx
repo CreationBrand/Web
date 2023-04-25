@@ -6,8 +6,6 @@ import { memo } from 'react'
 import { useRecoilValue } from 'recoil'
 import { pageFlow } from 'State/Flow'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
-import DynamicVirtual from 'Stories/Pure/DynamicVirtual/DynamicVirtual'
-import ControlBar from '../ControlBar/ControlBar'
 import VirtualList from '../VirtualList/VirtualList'
 
 const C = {
