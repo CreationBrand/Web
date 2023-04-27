@@ -18,6 +18,8 @@ const Nav = ({ children }: any) => {
         paddingRight: '12px',
         justifyContent: 'space-between',
         alignItems: 'center',
+        zIndex: 100,
+        position: 'relative',
     })
 
     return <div css={s} id="NAV">

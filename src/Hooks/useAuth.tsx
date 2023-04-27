@@ -14,6 +14,9 @@ import {
     personData,
     sessionData
 } from 'State/Data'
+
+var treeify = require('treeify');
+
 // import { socketAuth } from "Services/socket";
 
 var useAuth = () => {
@@ -40,13 +43,31 @@ var useAuth = () => {
                     await setSession(session)
                     await connectSocket()
                     var request = await get('user')
-                    console.log(request)
+
                     if (request !== false) {
-                        colorLog('[REST] Auth Sucess', 'success')
-                        setM(request.messengers)
+
+                        // DATA SUPPLY
                         setP(request.person)
+                        console.groupCollapsed('%c [DATA - person] ', 'background: #000; color: #5555da');
+                        console.log(treeify.asTree(request.person, true));
+                        console.groupEnd();
+
+                        setM(request.messengers)
+                        console.groupCollapsed('%c [DATA - messengers] ', 'background: #000; color: #5555da');
+                        console.log(treeify.asTree(request.messengers, true));
+                        console.groupEnd();
+
                         setC(request.communitys)
+                        console.groupCollapsed('%c [DATA - communitys] ', 'background: #000; color: #5555da');
+                        console.log(treeify.asTree(request.communitys, true));
+                        console.groupEnd();
+
                         setR(request.globalRoles)
+                        console.groupCollapsed('%c [DATA - globalRoles] ', 'background: #000; color: #5555da');
+                        console.log(treeify.asTree(request.globalRoles, true));
+                        console.groupEnd();
+
+
                         setAuth(true)
                         setLoading(false)
                     } else {

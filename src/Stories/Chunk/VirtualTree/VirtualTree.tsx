@@ -5,18 +5,18 @@ import { motion } from "framer-motion";
 
 
 import { Tree } from "react-arborist";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 
 const VirtualTree = ({ tree, term, operator }: any) => {
 
-    const handleMove = (e: any) => {
-        console.log(e)
-    }
-
+    const handleMove = (e: any) => { console.log(e) }
 
     return (
         <Tree
+            className="vitual-tree"
+            css={{ overflowX: 'hidden' }}
             data={tree}
             searchTerm={term}
             searchMatch={operator ? operator :
@@ -34,6 +34,14 @@ const VirtualTree = ({ tree, term, operator }: any) => {
 
 const Node = ({ node, style, dragHandle }: any) => {
 
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    const handleClick = () => {
+        if (node.data.link) navigate(node.data.link)
+    }
+
+    // STYLES
     const C = {
         leaf: css([textNormal('s'), {
             height: '40px',
@@ -45,7 +53,8 @@ const Node = ({ node, style, dragHandle }: any) => {
         branch: css([textLight('t'), {
             height: '40px',
             display: 'flex',
-            alignItems: 'center',
+
+            alignItems: 'end',
             width: '100%',
             letterSpacing: '0.5px',
             color: '#d7dadc',
@@ -85,9 +94,17 @@ const Node = ({ node, style, dragHandle }: any) => {
             duration: 0.2,
             type: "tween",
             scale: [1, 1.2, 1],
+        },
+        active: {
+            height: '80%',
+            opacity: 1,
+            ease: "easeIn",
+            duration: 0.2,
+            type: "tween",
+            scale: [1, 1.2, 1],
         }
-    };
 
+    };
     const innerMotion = {
         rest: { background: '#181820' },
         hover: {
@@ -96,20 +113,23 @@ const Node = ({ node, style, dragHandle }: any) => {
         }
     };
 
+    if (node.data.isComponent) return node.data.component
 
-
-    if (node.data.isBranch) return (
-        <motion.div initial="rest" whileHover="hover" animate="rest"
-            css={C.branch} style={style} ref={dragHandle}>
+    else if (node.data.isBranch) return (
+        <motion.div
+            onClick={handleClick} initial="rest" whileHover="hover" animate="rest" css={C.branch} style={style} ref={dragHandle}>
             {node.data.name}
         </motion.div>)
 
 
     else if (node.isLeaf) return (
-        <motion.div initial="rest" whileHover="hover" animate="rest" css={C.leaf}>
+        <motion.div onClick={handleClick}
+            initial="rest"
+            whileHover="hover"
+            animate={location.pathname === node.data.link ? "active" : "rest"}
+            css={C.leaf}>
 
             <motion.div variants={bulgeMotion} css={C.bulge} />
-
             <motion.div
                 css={C.inner}
                 variants={innerMotion}
@@ -118,7 +138,6 @@ const Node = ({ node, style, dragHandle }: any) => {
                 {node.data.name}</motion.div>
 
         </motion.div >)
-
 
 
 

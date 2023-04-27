@@ -1,96 +1,90 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import { Button } from '@mui/material'
+import { textBold, textNormal } from 'Global/Mixins'
 
-
-import { Button, Divider, IconButton } from '@mui/material'
-import Grid2 from '@mui/material/Unstable_Grid2'
-import theme from 'Global/Theme'
-import { forwardRef, memo } from 'react'
-import Avatar from 'Stories/Bits/Avatar/Avatar'
-import Banner from 'Stories/Bits/Banner/Banner'
-import { mNormal, xBold } from 'Stories/Bits/Text/Text'
-import EventRoundedIcon from '@mui/icons-material/EventRounded';
-import CommunityStats from 'Stories/Bits/StatCheck/CommunityStats'
-import SettingsEthernetRoundedIcon from '@mui/icons-material/SettingsEthernetRounded';
-import RoleList from 'Stories/Bits/RoleList/RoleList'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { contentFlow } from 'State/Flow'
-import RolePane from '../RolePane/RolePane'
+import Avatar from 'Stories/Bits/Avatar/Avatar'
+import CommunityStats from 'Stories/Bits/StatCheck/CommunityStats'
 
 
 const C = {
     container: css({
         width: '100%',
-        margin: '10px 0px',
-        borderRadius: '8px',
+        background: '#343442',
+        borderRadius: '16px',
+    }),
+    banner: css({
+        width: '100%',
+        background: '#181820',
+        height: '80px',
+        borderTopRightRadius: '8px',
+        borderTopLeftRadius: '8px',
+    }),
+    inner: css({
         display: 'flex',
         flexDirection: 'column',
+        padding: '16px',
+
     }),
-
-
-    content: css({
-        padding: '12px',
+    row: css({
         display: 'flex',
-        width: '100%',
-        borderRadius: '8px',
-        gap: '8px',
-        background: '#343442',
-    }),
-    title: css({
+        gap: '16px',
+        alignItems: 'end',
+        lineHeight: '30px',
     }),
 
 }
 
 const CommunityPane = ({ data }: any) => {
 
+
     const contentState = useRecoilValue(contentFlow)
 
 
     // console.log(data)
     console.log(contentState)
-    console.log(data)
 
+    console.log(data)
     return (
         <>
+
             <div css={C.container}>
+                <div css={C.banner} />
+                <div css={C.inner} >
 
-                <Banner size='large' public_id={data.public_id} />
-                <div css={C.content}>
-                    <Avatar public_id={data.public_id} size="extra" />
-                    <div css={C.title}>
-                        <div css={xBold}>{data.title}</div>
-                        <div css={mNormal}>{data.description === undefined ? data.description : 'A new community'}</div>
+                    <div css={C.row}>
+                        <Avatar size='large' public_id={data.public_id} />
+                        <div>
+                            <div css={textBold('g')}>{data.title}</div>
+                            <div css={[textNormal('s')]}>{data.description === undefined ? data.description : 'A non-descript community.'}</div>
+                        </div>
 
+                        <Button
+                            disableElevation
+                            sx={{
+                                marginLeft: 'auto !important',
+                                fontFamily: 'Noto Sans',
+                                background: '#272732',
+                                borderRadius: '12px',
+                                fontSize: '12px',
+                                fontWeight: '700',
+                            }}
+                            variant="contained">{contentState?.roles?.length > 1 ? 'LEAVE' : 'JOIN'}</Button>
 
                     </div>
 
-
-
-                    <RolePane roles={contentState?.roles} />
-
-                    <Button
-                        disableRipple
-                        color='secondary'
-                        sx={{
-                            height: '32px',
-                            minWidth: '32px',
-                            maxWidth: '32px',
-                            width: '32px',
-                        }}
-                        variant="text">
-                        <SettingsEthernetRoundedIcon />
-                    </Button>
-
-
                 </div>
             </div>
-
             <CommunityStats
                 created_at={data.created_at}
                 subscribers={data.subscribers}
-                isPublic={data.public} />
-        </>
+                isPublic={data.public} /></>
     )
 }
 
 export default CommunityPane
+
+
+

@@ -99,3 +99,7 @@
     }
   }
   
+
+  .vitual-tree{
+    overflow-x: hidden !important;
+  }

@@ -30,11 +30,10 @@ var Public = () => {
         <Routes>
 
 
-            <Route path="/trending" element={<Preview />}>
+            <Route path="/" element={<Preview />}>
                 <Route
                     path="/trending"
                     element={<GlobalList />}></Route>
-
             </Route>
 
             <Route path="auth" element={<Auth />}>
@@ -44,10 +43,7 @@ var Public = () => {
                 <Route path="*" element={<Navigate to="auth" replace={true} />} />
             </Route>
 
-            {/* <Route path="/signup" element={<div>404</div>}></Route>
-                <Route path="/home" element={<Home />}></Route> */}
-
-            {/* <Route path="*" element={ <Navigate to="/" replace={true} />}/> */}
+            <Route path="*" element={<Navigate to="/auth" replace={true} />} />
         </Routes>
     )
 }

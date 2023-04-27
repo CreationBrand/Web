@@ -50,6 +50,7 @@
     "socketcluster-client": "^17.1.0",
     "tinycolor": "^0.0.1",
     "tinycolor2": "^1.4.2",
+    "treeify": "^1.1.0",
     "typescript": "^4.8.2",
     "web-vitals": "^2.1.4"
   },

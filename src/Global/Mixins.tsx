@@ -27,6 +27,7 @@ export const fontSize = {
     m: '16px',
     l: '18px',
     x: '20px',
+    g: '30px',
 }
 
 export const textBold = (size: fontSize) => css({
@@ -46,7 +47,7 @@ export const textNormal = (size: fontSize) => css({
 export const textLight = (size: fontSize) => css({
     fontFamily: fontPrimary,
     fontWeight: '500',
-    color: '#949ba4',
+    color: '#d7dadc',
     fontSize: fontSize[size],
 })
 

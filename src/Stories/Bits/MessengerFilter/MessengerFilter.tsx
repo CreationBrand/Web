@@ -5,9 +5,9 @@ import { Button, ButtonGroup } from '@mui/material'
 const C = {
     container: css({
         background: '#272732',
-        padding: '8px',
+        padding: '8px 0px 8px 0px',
         borderRadius: '8px',
-        marginTop: '8px',
+        width:'100%',
         height: '40px',
     }),
 }
