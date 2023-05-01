@@ -13,6 +13,8 @@ import Vote from "Stories/Bits/Vote/Vote"
 import { xBold, mNormal, mBold } from "Stories/Bits/Text/Text"
 import { useNavigate } from 'react-router-dom'
 import PostStats from 'Stories/Bits/StatCheck/PostStats'
+import View from 'Stories/Bits/View/View'
+import { memo } from 'react'
 
 const C = {
     container: css({
@@ -35,7 +37,6 @@ const C = {
         gap: '4px',
         alignItems: 'center',
     }),
-
     title: css({
         padding: '8px 0px',
         fontWeight: '400',
@@ -59,7 +60,6 @@ const C = {
     menu: css({
         marginLeft: 'auto',
     }),
-
     underline: css({
         ':hover': {
             textDecoration: 'underline',
@@ -76,18 +76,20 @@ const Post = ({
     content,
     karma,
     comments,
+    vote,
     created_at,
     updated_at,
     hot,
-    author,
+    author, views,
     community,
-}: Post) => {
+    ...props
+}: any) => {
 
     const navigate = useNavigate()
 
     // console.log(varient)
     const bodyClick = () => {
-        console.log(varient)
+        // console.log(varient)
 
         if (varient === 'global') navigate(`/c/${community.public_id}/p/${public_id}`)
         if (varient === 'community') navigate(`p/${public_id}`)
@@ -97,7 +99,6 @@ const Post = ({
     const avatarClick = () => { }
 
 
-    // console.log('Post.tsx', community)
 
     return (
         <>
@@ -112,7 +113,8 @@ const Post = ({
 
                 <div css={C.left}>
                     <Avatar size="medium" public_id={author.public_id} onClick={avatarClick} />
-                    <Vote karma={karma} />
+                    <Vote karma={karma} vote={vote} public_id={public_id} />
+                    <View public_id={public_id} views={views} />
                 </div>
 
                 <div css={C.right}>
@@ -153,4 +155,4 @@ const Post = ({
 }
 
 
-export default Post
+export default memo(Post)

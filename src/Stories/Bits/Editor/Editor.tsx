@@ -20,7 +20,6 @@ const C = {
         padding: '0px',
 
         '.ql-blank': {
-            minHeight: '40px',
             '&::before': {
                 color: '#bcbdbe'
             }

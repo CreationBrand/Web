@@ -139,8 +139,6 @@ const Nav = () => {
                 />
             </IconButton>
 
-
-
             <IconButton
                 onMouseDown={() => navigate(`/submit`)}
                 disableRipple={true}

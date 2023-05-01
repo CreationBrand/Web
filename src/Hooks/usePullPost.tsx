@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 import { socketRequest } from "Service/Socket";
 import Post from "Stories/Chunk/Post/Post";
 import LoaderPane from "Stories/Pane/loaderPane";
-import { colorLog } from "Util";
 
+var treeify = require('treeify');
 
 const usePullPost = (post_id: any) => {
 
@@ -18,7 +18,6 @@ const usePullPost = (post_id: any) => {
         if (!post_id) return
 
         const fetchMore = async () => {
-            colorLog('[hook] Fetching Post', 'green')
             let req: any = await socketRequest('post', {
                 post_id: post_id,
             })
@@ -35,6 +34,13 @@ const usePullPost = (post_id: any) => {
     }, [post_id])
 
     if (loading === true) return [error, <LoaderPane />];
+
+
+    console.groupCollapsed('%c [DATA - post] ', 'background: #000; color: #5555da');
+    console.log(treeify.asTree(data.post, true));
+    console.groupEnd();
+
+
     return [error, <Post varient="post" {...data.post} />];
 }
 

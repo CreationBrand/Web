@@ -12,6 +12,7 @@ interface Post {
     created_at: created_at,
     updated_at: updated_at,
     hot: hot,
+    vote?: vote,
     author: personBlob,
     community: communityBlob,
 }
@@ -35,7 +36,7 @@ type nickname = string;
 type username = string;
 type public_id = string;
 type title = string;
-type vote = number;
+type vote = number | null;
 type content = string;
 type karma = number;
 type hot = number;

@@ -7,7 +7,7 @@ import { DefaultEventsMap } from '@socket.io/component-emitter'
 import { parseCookies } from 'Util'
 import { handleNotification } from 'Helper/Notif'
 
-let socket: Socket<DefaultEventsMap, DefaultEventsMap>
+export let socket: Socket<DefaultEventsMap, DefaultEventsMap>
 
 export const connectSocket = async () => {
 

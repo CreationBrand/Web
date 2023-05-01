@@ -7,16 +7,17 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 
 const C = {
     container: css({
-        overflowY: 'hidden',
+        height: "calc(100% - 56px)",
+        overflowY: 'scroll',
         overflowX: 'hidden',
-        height: "100%",
-
+        scrollbarGutter: 'stable both-edges',
+        position: 'relative',
+        boxSizing: 'border-box',
     }),
 }
 
 
 const VirtualList = ({ list }: any) => {
-
 
     const parentRef: any = useRef()
 
@@ -31,47 +32,31 @@ const VirtualList = ({ list }: any) => {
 
     return (
         <div
-            id='container'
             ref={parentRef}
             css={C.container}
         >
             <div
                 style={{
-                    width: '100%',
-                    position: 'relative',
+                    height: virtualizer.getTotalSize(),
+                    padding: '10px',
+                    position: 'absolute',
                     boxSizing: 'border-box',
-                    overflowY: 'scroll',
-                    scrollbarGutter: 'stable both-edges',
-                    height: '100%',
-
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    transform: `translateY(${items[0].start}px)`,
                 }}
             >
-                <div
-                    style={{
 
-                        height: virtualizer.getTotalSize(),
-                        padding: '20px 10px',
-                        position: 'absolute',
-                        boxSizing: 'border-box',
-
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        transform: `translateY(${items[0].start}px)`,
-                    }}
-                >
-
-                    {items.map((virtualRow) => (
-                        <div
-                            key={virtualRow.key}
-                            data-index={virtualRow.index}
-                            ref={virtualizer.measureElement}
-                        >
-                            <div>{list[virtualRow.index]}</div>
-                        </div>
-                    ))}
-                </div>
-
+                {items.map((virtualRow) => (
+                    <div
+                        key={virtualRow.key}
+                        data-index={virtualRow.index}
+                        ref={virtualizer.measureElement}
+                    >
+                        <div>{list[virtualRow.index]}</div>
+                    </div>
+                ))}
             </div>
         </div>
     )

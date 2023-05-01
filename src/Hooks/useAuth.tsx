@@ -9,11 +9,14 @@ import { connectSocket } from 'Service/Socket'
 import colorLog from 'Util/colorLog'
 import {
     communityData,
+    communityTreeData,
     globalRoleData,
     messengerData,
+    messengerTreeData,
     personData,
     sessionData
 } from 'State/Data'
+import { communityLTT, messengerLTT } from 'Helper/Clean'
 
 var treeify = require('treeify');
 
@@ -26,11 +29,15 @@ var useAuth = () => {
     const [loading, setLoading] = useState(true)
 
     //SET GLOBAL STATE
-    const setM = useSetRecoilState(messengerData)
     const setC = useSetRecoilState(communityData)
     const setSession = useSetRecoilState(sessionData)
     const setP = useSetRecoilState(personData)
     const setR = useSetRecoilState(globalRoleData)
+    const setM = useSetRecoilState(messengerData)
+
+    // UPDATED
+    const setCTD = useSetRecoilState(communityTreeData)
+    const setMTD = useSetRecoilState(messengerTreeData)
 
     useEffect(() => {
         var trySession = async () => {
@@ -52,12 +59,13 @@ var useAuth = () => {
                         console.log(treeify.asTree(request.person, true));
                         console.groupEnd();
 
-                        setM(request.messengers)
+                        setMTD(messengerLTT(request.messengers))
                         console.groupCollapsed('%c [DATA - messengers] ', 'background: #000; color: #5555da');
                         console.log(treeify.asTree(request.messengers, true));
                         console.groupEnd();
 
                         setC(request.communitys)
+                        setCTD(communityLTT(request.communitys))
                         console.groupCollapsed('%c [DATA - communitys] ', 'background: #000; color: #5555da');
                         console.log(treeify.asTree(request.communitys, true));
                         console.groupEnd();

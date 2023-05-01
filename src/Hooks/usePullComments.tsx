@@ -4,16 +4,19 @@
 import { useEffect, useState } from "react"
 import { useRecoilState, useRecoilValue } from "recoil";
 import { socketRequest } from "Service/Socket";
-import { postListData } from "State/Data";
+import { commentTreeData, postListData } from "State/Data";
 import Post from "Stories/Chunk/Post/Post";
 import LoaderPane from "Stories/Pane/loaderPane";
 import { colorLog } from "Util";
 import Comment from "Stories/Chunk/Comment/Comment";
+var treeify = require('treeify');
 
 const usePullComments = (comment_id: any, filter: string, varient: string) => {
 
     // state
     const [list, setList]: any = useRecoilState(postListData)
+    const [commentTree, setCommentTree]: any = useRecoilState(commentTreeData)
+
     const [page, setPage] = useState({ data: 0 })
     const [end, setEnd] = useState(false)
     const [error, setError] = useState(false)
@@ -43,9 +46,54 @@ const usePullComments = (comment_id: any, filter: string, varient: string) => {
             })
 
 
+
+            let result: any = {};
+
+
+            let level = { result };
+
+            // ts-ignore
+            req.comments.forEach((c: any, ci: any) => {
+
+                // ts-ignore
+                c.path.split('.').reduce((r: any, name: any, i: any, a: any) => {
+
+                    if (!r[name]) {
+                        r[name] = { result: {} };
+
+                        let data: any = {
+                            path: c.path,
+                            active: true,
+                            hasChildren: false,
+                            last: false, first: false, public_id: c.public_id, id: name, children: r[name].result, depth: c.depth, visibility: true
+                        }
+
+                        try {
+                            if (req.comments[ci].depth !== req.comments[ci - 1].depth) data.depthChange = true
+                            if (req.comments[ci].depth < req.comments[ci + 1].depth) data.hasChildren = true
+                            if (2 === req.comments[ci + 1].depth) data.last = true
+                        } catch { }
+
+                        r.result[name] = (data)
+                    }
+
+                    return r[name];
+                }, level)
+            })
+
+            //@ts-ignore
+            setCommentTree(result[Object.keys(result)].children)
+
+
+            console.groupCollapsed('%c [DATA - comment list] ', 'background: #000; color: #5555da');
+            console.log(treeify.asTree(req.comments, true));
+            console.groupEnd();
+
+
             if (req === false || req.status === 'error') setError(true)
 
             if (req.status === 'ok') {
+
 
                 if (req.comments.length < 25) setEnd(true)
                 let comments: any = []
@@ -65,9 +113,18 @@ const usePullComments = (comment_id: any, filter: string, varient: string) => {
 
 
     if (end === false) return [error, list.concat(<LoaderPane />)]
+
+
+
+
+
+
     return [error, list]
 }
 
 export default usePullComments
+
+
+
 
 

@@ -37,6 +37,11 @@ export const commentListData = atom({
     key: 'commentListData',
     default: []
 })
+export const commentTreeData = atom({
+    key: 'commentTreeData',
+    default: []
+})
+
 
 export const postListData = atom({
     key: 'postListData',
@@ -53,4 +58,18 @@ export const messageListData = atom({
 export const notificationStateFamily = atomFamily({
     key: 'notificationState',
     default: false as any,
+})
+
+
+
+// (UPDATED) TREES
+
+export const communityTreeData = atom({
+    key: 'communityTreeData',
+    default: []
+})
+
+export const messengerTreeData = atom({
+    key: 'messengerTreeData',
+    default: []
 })

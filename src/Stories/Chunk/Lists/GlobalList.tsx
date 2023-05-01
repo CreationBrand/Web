@@ -21,14 +21,15 @@ const C = {
 
 const GlobalList = () => {
 
+
+
     const page = useRecoilValue(pageFlow)
     const [error, list] = usePullPosts(page, 'none', 'global')
-
     if (error) return <ChunkError />
 
     return (
         <motion.div
-            key={page}
+            key={`global`}
             css={C.container}
             transition={{ duration: 0.4 }}
             initial={{ opacity: 0 }}

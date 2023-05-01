@@ -1,62 +1,59 @@
+// @ts-nocheck
+
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { Button, Input } from '@mui/material'
-import theme from 'Global/Theme'
-import ArrowDropUpRoundedIcon from '@mui/icons-material/ArrowDropUpRounded'
-import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded'
+import { Button, } from '@mui/material'
+
 import {
-    mBold,
-    mMuted,
-    mNormal,
+
     sBold,
     sMuted,
     xsMuted
 } from 'Stories/Bits/Text/Text'
 import { formatDistance, formatDistanceStrict, formatDistanceToNowStrict, parseISO } from 'date-fns'
 import ReplyAllRoundedIcon from '@mui/icons-material/ReplyAllRounded'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import { commentListData } from 'State/Data'
-import { useState } from 'react'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { commentListData, commentTreeData } from 'State/Data'
+import { useEffect, useState } from 'react'
 import { socketRequest } from 'Service/Socket'
 import { useParams } from 'react-router-dom'
-import { vote } from 'Helper/Action'
 import CommentReply from 'Stories/MOC/CommentReply'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
 import Vote from 'Stories/Bits/Vote/Vote'
 import ContentLoader from 'Stories/Bits/ContentLoader/ContentLoader'
-import TimeStamp from 'Stories/Bits/TimeStamp/TimeStamp'
 import AddComment from '../AddComment/AddComment'
+
+//icons
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
+
+var treeify = require('treeify');
+
 
 const C = {
     container: css({
         width: '100%',
         display: 'flex',
-        // border: '1px solid green',
-        // paddingBottom: '8px',
         justifyContent: 'flex-start',
     }),
     inner: css({
-        // background: '#343442',
         borderRadius: '8px',
         padding: '8px 0px 0px 0px',
         height: 'auto',
-        // marginBottom: '8px',
-
         display: 'flex',
     }),
-
     left: css({
-        // width: '46px',
+        position: 'relative',
         marginRight: '8px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '8px',
     }),
     right: css({
         width: '100%'
     }),
     footer: css({
         display: 'flex',
+
         // justifyContent: 'flex-end',
         marginTop: '4px',
         width: '100%'
@@ -80,36 +77,33 @@ const C = {
     }),
 
     action: css({
-        width: '25px',
+        width: '32px',
         borderRadius: '8px',
-        marginRight: '4px',
-        marginLeft: '4px',
         minWidth: '20px',
-        height: '25px'
+        height: '32px',
+
+
     }),
     vote: css({
         display: 'flex',
-        // background: theme.background.tri,
         flexDirection: 'row',
-        borderRadius: '8px',
-        // width: '40px',
         alignItems: 'center'
     }),
     thread: css({
-        minWidth: '2px',
-        width: '2px',
-        maxWidth: '2px',
+        position: 'relative',
+        minWidth: '1px',
+        width: '1px',
+        maxWidth: '1px',
         margin: '0px 14px 0px 15px',
         background: '#bcbdbe',
-        height: '101%',
-        '&:last-child': {
+        height: 'calc(100% + 20px)',
+        top: '-20px',
 
-        },
     }),
     threads: css({
 
         display: 'flex',
-       
+
     }),
     bar: css({
         background: '#272732',
@@ -117,20 +111,78 @@ const C = {
         height: '32px',
         display: 'flex',
     }),
+
+    threadSlot: css({
+        width: '32px',
+        position: 'relative',
+    }),
+
     defaultThread: css({
-        minWidth: '2px',
-        width: '2px',
-        maxWidth: '2px',
-        margin: '0px 0px 0px 15px',
+        width: '1px',
+        marginLeft: '15px',
         background: '#bcbdbe',
-        // height: '100%',
-        height: 'calc(100% - 32px)',
+        height: 'calc(100% - 63px)',
+    }),
+    curveThread: css({
+        width: '16px',
+        height: '16px',
+        borderBottomLeftRadius: '50%',
+        borderLeft: '1px solid #bcbdbe',
+        borderBottom: '1px solid #bcbdbe',
+        marginLeft: '15px',
+    }),
+
+    avatarThread: css({
+        width: '16px',
+        height: '24px',
+        borderBottomLeftRadius: '50%',
+        borderLeft: '1px solid #bcbdbe',
+        borderBottom: '1px solid #bcbdbe',
+        marginLeft: '15px',
+    }),
+
+    mergeThread: css({
+        position: 'absolute',
+        width: '1px',
+        marginLeft: '15px',
+        background: '#bcbdbe',
+        height: '8px',
+        top: '-8px',
+    }),
+
+    continueThread: css({
+        position: 'absolute',
+        width: '1px',
+        marginLeft: '15px',
+        background: '#bcbdbe',
+        height: '38px',
+        top: '-38px',
+    }),
+
+
+    actionBar: css({
+        position: 'relative',
+        right: '8px',
+        marginTop: '8px',
+        background: '#343442',
         borderRadius: '8px',
+        width: 'min-content',
+        height: '32px',
+        display: 'flex',
+        alignItems: 'center',
+    }),
+    divider: css({
+        width: '1.5px',
+        borderRadius: '8px',
+        height: '100%',
+        background: '#272732',
+
     }),
 }
 
 const Comment = ({
     varient,
+    hidden,
     public_id,
     author,
     content,
@@ -144,26 +196,43 @@ const Comment = ({
 
     const params = useParams()
     const [showReply, setShowReply] = useState(false)
+    const [commentTree,setCommentTreeData] = useRecoilState(commentTreeData)
 
-    const handleUp = (e: any) => {
-        e.preventDefault()
-        e.stopPropagation()
-        vote(1, 'comment', public_id)
-    }
-    const handleDown = (e: any) => {
-        e.stopPropagation()
-        e.preventDefault()
-        vote(-1, 'comment', public_id)
-    }
+    const [relation, setRelation] = useState<any>(null)
+
+
+
+    //relations for threads / nesting
+    useEffect(() => {
+        setRelation(goDeep(commentTree, path))
+    }, [commentTree])
 
     const handleReply = () => setShowReply(!showReply)
 
-    const threads = []
-    for (var i = 0; i < depth - 2; i++) {
-        threads.push(<div css={C.thread} />)
+
+
+    const handleChildren = () => {
+
+        let deepClone = JSON.parse(JSON.stringify(commentTree));
+
+        traverseTree(deepClone, (node) => {
+            if (!node.path) return
+            if (node.path === path) return node.active = !node.active;
+            if (node.path.indexOf(path) === 0) node.visibility = !node.visibility;
+        });
+
+        setCommentTreeData(deepClone)
+
     }
 
-console.log(depth)
+    const threads = []
+    for (var i = 0; i < depth - 2; i++) {
+        if (i === 0 && relation?.last) threads.push(<div css={C.threadSlot}><div css={C.avatarThread} /></div>)
+        else threads.push(<div css={C.threadSlot}><div css={C.thread} /></div>)
+    }
+
+    if(!relation?.visibility) return null
+
     return (
         <div id="comment" css={C.container} key={public_id}>
 
@@ -174,8 +243,15 @@ console.log(depth)
             <div css={C.inner}>
 
                 <div css={C.left}>
+
+
+                    {(relation?.depthChange && depth > 2) && <div css={C.mergeThread} /> || depth > 2 && <div css={C.continueThread} />}
+
+
                     <Avatar public_id={author.public_id} size={'small'} />
+
                     <div css={C.defaultThread} />
+                    <div css={C.curveThread} />
                 </div>
 
                 <div css={C.right}>
@@ -188,62 +264,62 @@ console.log(depth)
                                 addSuffix: true
                             })}</div>
                     </div>
+
+
                     <ContentLoader type='text' content={content} />
 
 
-                    <div css={C.footer}>
+                    <div css={C.actionBar}>
 
-                        <div css={C.bar}>
 
-                            <div css={C.vote}>
+                        {relation?.hasChildren &&
+                            <>
                                 <Button
-                                    onClick={handleUp}
+                                    sx={{
+
+                                    }}
+                                    onClick={handleChildren}
                                     css={C.action}
                                     variant="text"
                                     color="secondary"
-                                    size="small"
+                                    size="large"
                                 >
-                                    <ArrowDropUpRoundedIcon
-                                        fontSize="small"
-                                        htmlColor={vote === 1 ? 'green' : ''}
-                                    />
+
+                                    {relation?.active ? <IndeterminateCheckBoxOutlinedIcon
+                                        sx={{ fontSize: '22px' }}
+                                    /> : <AddBoxOutlinedIcon fontSize="inherit" />}
+
                                 </Button>
-                                <div css={mMuted}> {karma} </div>
-                                <Button
-                                    onClick={handleDown}
-                                    css={C.action}
-                                    variant="text"
-                                    color="secondary"
-                                    size="small"
-                                >
-                                    <ArrowDropDownRoundedIcon
-                                        htmlColor={vote === -1 ? 'red' : ''}
-                                        fontSize="small"
-                                    />
-                                </Button>
-                            </div>
+                                <div css={C.divider} />
+                            </>
+                        }
 
 
-                            <Button
-                                onClick={handleReply}
-                                variant="text"
-                                size="small"
-                                color="secondary"
-                                sx={{ gap: '8px' }}
-                            >
-                                <ReplyAllRoundedIcon fontSize="inherit" />
-                                <div css={sMuted}>Reply</div>
-                            </Button>
+
+                        <Vote size='small' vote={vote} karma={karma} public_id={public_id} />
 
 
-                        </div>
+                        <div css={C.divider} />
 
 
+                        <Button
+                            onClick={handleReply}
+                            variant="text"
+                            size="small"
+                            color="secondary"
+                            sx={{ gap: '8px' }}
+                        >
+                            <ReplyAllRoundedIcon fontSize="inherit" />
+                            <div css={sMuted}>Reply</div>
+                        </Button>
 
 
                     </div>
 
                     {showReply && <AddComment parent_id={public_id} post_id={params.post_id} />}
+
+
+
                 </div>
             </div>
 
@@ -252,3 +328,79 @@ console.log(depth)
 }
 
 export default Comment
+
+
+
+function goDeep(obj: any, path: any) {
+    var parts = path.split('.'),
+        rv,
+        index;
+
+    for (rv = obj, index = 1; rv && index < parts.length; ++index) {
+
+        if (index === 1) { rv = rv[parts[index]] }
+        else {
+            rv = rv.children[parts[index]];
+
+        }
+
+    }
+    return rv;
+}
+
+
+
+
+
+
+
+
+function traverseTree(tree, callback) {
+    callback(tree);
+
+    for (const key in tree) {
+        if (typeof tree[key] === 'object') {
+            traverseTree(tree[key], callback);
+        }
+    }
+}
+
+// const tree = {
+//     "1": {
+//         id: 1,
+//         "active": false,
+//         "children": {
+//             "2": {
+//                 "active": false,
+//                 "children": {
+//                     "3": {
+//                         "active": false
+//                     }
+//                 }
+//             },
+//             "4": {
+//                 "active": false,
+//                 "children": {
+//                     "5": {
+//                         "active": false,
+//                         "children": {
+//                             "6": {
+//                                 "active": false
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+
+//     }
+// };
+
+// traverseTree(tree, (node) => {
+//     node.active= true;
+
+//     console.log(node)
+// });
+
+
+// console.log(treeify.asTree(tree, true));

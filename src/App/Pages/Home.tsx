@@ -97,6 +97,19 @@ import Right from 'Stories/Layout/Right'
 import CommunityList from 'Stories/Loaders/CommunityList'
 import CommunityControls from 'Stories/Objects/CommunityControls/CommunityControls'
 import useMessengerTree from 'Hooks/useMessengerTree'
+import { AnimatePresence } from 'framer-motion'
+import { IconButton } from '@mui/material'
+
+
+
+// ICONS
+import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
+import KeyRoundedIcon from '@mui/icons-material/KeyRounded';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import LineWeightRoundedIcon from '@mui/icons-material/LineWeightRounded';
+import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
+import CommunityTree from 'Stories/Chunk/CommunityTree/CommunityTree'
+
 
 const Home = () => {
 
@@ -112,38 +125,87 @@ const Home = () => {
 
 
 
+    function handleR(event: any): void {
+
+    }
+
     return (
         <Tri left={l} right={r}>
 
             <Left>
-
                 <Person
                     username={person.username}
                     nickname={person.nickname}
                     public_id={person.public_id}
                     status={'active'}
                 />
-
-                <VirtualTree
-                    tree={tree}
-
-                ></VirtualTree>
-
-
-
+                <VirtualTree tree={tree} />
             </Left>
+
             <Main>
                 <Nav>
                     <div></div>
                     <Search />
-                    <div css={{ display: 'flex' }}></div>
+                    <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
 
+                        <IconButton
+                            onMouseDown={() => navigate(`/submit`)}
+                            disableRipple={true}
+                            size="small"
+                            color="secondary"
+                            sx={{
+                                ':hover': { color: '#fff' },
+                                height: '32px',
+                                width: '32px',
+                            }}>
+                            <AddRoundedIcon
+                                sx={{ fontSize: '34px' }}
+                            />
+                        </IconButton>
+
+                        <IconButton
+                            disableRipple={true}
+                            size="small"
+                            color="secondary"
+                            sx={{
+                                ':hover': { color: '#fff' },
+                                height: '32px',
+                                width: '32px',
+
+                            }}>
+                            <NotificationsRoundedIcon
+                                sx={{
+                                    fontSize: '26px'
+
+                                }}
+                            />
+                        </IconButton>
+
+                        <IconButton
+                            disableRipple={true}
+                            size="small"
+                            color="secondary"
+                            sx={{
+                                ':hover': { color: '#fff' },
+                                height: '32px',
+                                width: '32px',
+
+                            }}>
+                            <LibraryBooksRoundedIcon
+                                fontSize='medium'
+                            />
+                        </IconButton>
+
+
+                    </div>
                 </Nav>
-                <Outlet />
+                <AnimatePresence>
+                    <Outlet />
+                </AnimatePresence>
             </Main>
             <Right>
-                <CommunityList />
-                <CommunityControls />
+
+                <CommunityTree />
 
             </Right>
         </Tri >
