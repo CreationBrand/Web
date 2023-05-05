@@ -17,19 +17,16 @@ const C = {
 
 
 
-const RoleList = ({ title, roles }: any) => {
-
-    console.log(roles)
+const RoleList = ({  roles }: any) => {
 
     let list = roles?.map((role: any) => {
-        console.log(role)
         //@ts-ignore
         return <Chip
             sx={{
                 height: '22px',
                 padding: '4px',
-                color: role.color ? role.color : '#e0e1e5',
-                fontFamily: 'Inter',
+                color: role.color ? role.color : '#d7dadc',
+                fontFamily: 'Noto Sans',
                 fontSize: '12px',
                 background: '#272732',
                 borderRadius: '8px',
@@ -41,10 +38,21 @@ const RoleList = ({ title, roles }: any) => {
     })
 
     return <div css={C.container}>
-
-        <div css={sMuted}>{title && title}</div>
-        <div css={C.list}> {list}</div>
+        <div css={C.list}>{list}</div>
     </div>
 }
 
 export default RoleList
+
+
+
+
+/*
+communitry list
+join leave
+search bar
+
+
+asdf
+
+*/

@@ -1,8 +1,5 @@
-import { faFire, faHouse } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { messengerData } from "State/Data";
+
 import Avatar from "Stories/Bits/Avatar/Avatar";
-import { useRecoilValue } from "recoil";
 
 interface tree {
     id: string,
@@ -16,47 +13,58 @@ interface tree {
 
 export const communityLTT = (list: any) => {
 
-    let tree: any = [
-
-
-        
-    ];
+    let tree: any = [];
 
     list.forEach((group: any, iter1: number) => {
-
         let children: any = []
+        if (group.children) {
+            group.children.forEach((item: any, iter2: number) => {
 
-        group.children.forEach((item: any, iter2: number) => {
-
-            children.push({
-                id: item.public_id,
-                path: `${iter1}.${iter2}`,
-                link: `/c/${item.public_id}`,
-                type: 'leaf',
-                active: true,
-                visible: true,
-                object: {
-                    icon: true,
-                    ...item
-                },
+                children.push({
+                    id: item.public_id,
+                    path: `${iter1}.${iter2}`,
+                    link: `/c/${item.public_id}`,
+                    type: 'leaf',
+                    active: true,
+                    visible: true,
+                    object: {
+                        icon: true,
+                        ...item
+                    },
+                })
             })
-        })
+        }
 
         tree.push({
             id: group.public_id,
-            path: iter1,
+            path: `${iter1}`,
             type: 'group',
             active: true,
+            link: children.length === 0 ? false : '/g/' + group.public_id,
             visible: true,
+            children: children.length === 0 ? false : children,
             object: group,
-            children: children,
         })
     })
 
     return tree
 
 }
+export const communityLTL = (list: any) => {
 
+    let result: any = [];
+
+    list.forEach((group: any, iter1: number) => {
+        if (group.children) {
+            group.children.forEach((item: any, iter2: number) => {
+                result.push(item)
+            })
+        }
+    })
+
+    return result
+
+}
 
 export const messengerLTT = (list: any) => {
 
@@ -68,7 +76,7 @@ export const messengerLTT = (list: any) => {
         tree.push({
             id: messenger.public_id,
             type: 'leaf',
-            path: iter,
+            path: `m${iter}`,
             link: `/m/${messenger.public_id}`,
             active: true,
             visible: true,

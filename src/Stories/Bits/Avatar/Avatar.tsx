@@ -13,8 +13,15 @@ const Avatar = ({ public_id, size, onClick }: Props) => {
     let sizeMap = {
         small: '32px',
         medium: '40px',
-        large: '60px',
+        large: '50px',
         extra: '80px',
+    }
+
+    let radiusMap = {
+        small: '8px',
+        medium: '8px',
+        large: '16px',
+        extra: '12px',
     }
 
     const C = {
@@ -22,7 +29,7 @@ const Avatar = ({ public_id, size, onClick }: Props) => {
             minWidth: sizeMap[size],
             height: sizeMap[size],
             width: sizeMap[size],
-            borderRadius: '8px',
+            borderRadius: radiusMap[size],
             background: '#0e0e10',
             overflow: 'hidden',
         }),

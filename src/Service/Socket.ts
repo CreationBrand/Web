@@ -1,7 +1,6 @@
 import { getRecoil, setRecoil } from 'recoil-nexus'
 import { io, Socket } from 'socket.io-client'
 import { communityData } from 'State/Data'
-import colorLog from 'Util/colorLog'
 import { errorFlow, socketFlow } from 'State/Flow'
 import { DefaultEventsMap } from '@socket.io/component-emitter'
 import { parseCookies } from 'Util'

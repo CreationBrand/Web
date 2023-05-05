@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react"
-import { textBold, textLight, textNormal } from "Global/Mixins";
+import { textBold, textLabel, textLight, textNormal } from "Global/Mixins";
 import { motion } from "framer-motion";
 
 
@@ -8,26 +8,44 @@ import { Tree } from "react-arborist";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // ICONS
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
-import { closeGroup } from "Helper/Action";
 import Avatar from "Stories/Bits/Avatar/Avatar";
+import Group from "./Group";
+import { useState } from "react";
+import EditGroup from "Stories/Popups/EditGroup";
 
-const VirtualTree = ({ tree, term, operator, setTree, handleMove }: any) => {
+const VirtualTree = ({ tree, term, operator, setTree, handleMove, height }: any) => {
+
+
+    const [edit, setEdit] = useState(null)
+
+
 
 
     const navigate = useNavigate()
     const location = useLocation()
 
+    const onMove = ({ dragIds, parentId, index }: any) => {
+        console.log(dragIds, parentId, index)
+    };
+
+
+    const editOpen = (e: any) => setEdit(e.data.object)
+    const editClose = () => setEdit(null)
+
+
+
     const Node = ({ node, style, dragHandle }: any) => {
 
 
         const handleClick = () => {
+            console.log(node.data)
             if (node.data.link) navigate(node.data.link)
         }
 
-        const handleGroup = () => closeGroup(node.data.path, tree, setTree)
-
+        const handleGroup = () => {
+            node.toggle()
+            // closeGroup(node.data.path, tree, setTree)
+        }
 
 
         // STYLES
@@ -44,14 +62,13 @@ const VirtualTree = ({ tree, term, operator, setTree, handleMove }: any) => {
                 width: '100%',
                 color: '#d7dadc',
             }]),
-            branch: css([textLight('t'), {
+            branch: css([textBold('t'), {
                 height: '40px',
                 display: 'flex',
-
                 alignItems: 'end',
                 width: '100%',
                 letterSpacing: '0.5px',
-                color: '#d7dadc',
+                color: '#919597',
                 padding: '8px',
                 marginLeft: '8px',
             }]),
@@ -76,16 +93,17 @@ const VirtualTree = ({ tree, term, operator, setTree, handleMove }: any) => {
                 alignItems: 'center',
                 width: '100%',
                 height: '40px',
-                paddingLeft: '8px',
+                padding: '8px',
             }),
-            group: css([textLight('s'), {
+            group: css({
                 height: '40px',
                 display: 'flex',
                 gap: '8px',
                 alignItems: 'center',
                 width: '100%',
                 color: '#d7dadc',
-            }]),
+                fontSize: '10px !important',
+            }),
         }
         const bulgeMotion = {
             rest: { opacity: 0, ease: "easeOut", duration: 0.4, },
@@ -116,29 +134,10 @@ const VirtualTree = ({ tree, term, operator, setTree, handleMove }: any) => {
         };
 
 
-
-
-
-
         if (node.data.type === 'component') return node.data.component
 
-        else if (!node.data?.visible) return null
+        else if (node.data.type === 'group') return <Group node={node} editOpen={editOpen} />
 
-
-        else if (node.data.type === 'group') return (
-
-            <motion.div onClick={handleGroup}
-                initial="rest"
-                whileHover="hover"
-                css={C.group}>
-
-                <motion.div css={C.inner} variants={innerMotion} >
-                    {node.data.active ? <IndeterminateCheckBoxOutlinedIcon sx={{ fontSize: '18px' }} /> : <AddBoxOutlinedIcon sx={{ fontSize: '18px' }} />}
-                    {node.data.object.title}
-                </motion.div>
-
-            </motion.div >
-        )
 
 
         else if (node.data.type === 'branch') return (
@@ -149,10 +148,12 @@ const VirtualTree = ({ tree, term, operator, setTree, handleMove }: any) => {
 
 
         else if (node.data.type === 'leaf') return (
-            <motion.div onClick={handleClick}
+            <motion.div
+                ref={dragHandle}
+                onClick={handleClick}
                 initial="rest"
                 whileHover="hover"
-                // animate={location.pathname === node.data.object.link ? "active" : "rest"}
+                animate={location.pathname === node.data.link ? "active" : "rest"}
                 css={C.leaf}>
 
                 <motion.div variants={bulgeMotion} css={C.bulge} />
@@ -177,37 +178,30 @@ const VirtualTree = ({ tree, term, operator, setTree, handleMove }: any) => {
 
 
 
-
-
-
-
     return (
-        <Tree
-            className="vitual-tree"
-            css={{ overflowX: 'hidden' }}
-            data={tree}
-            searchTerm={term}
-            searchMatch={operator ? operator :
-                //@ts-ignore
-                (node, term): any => node.data.term.toLowerCase().includes(term.toLowerCase())
-            }
-            onMove={handleMove}
-            width={'100%'}
-            rowHeight={44}
-        >
-            {Node}
-        </Tree>
+        <>
+            <EditGroup group={edit} handleClose={editClose} />
+            <Tree
+                onMove={onMove}
+                className="vitual-tree"
+                css={{ flexGrow: 1, height: '100%' }}
+                data={tree}
+                searchTerm={term}
+                searchMatch={operator ? operator :
+                    //@ts-ignore
+                    (node, term): any => node.data.term.toLowerCase().includes(term.toLowerCase())
+                }
+                idAccessor={(node: any) => node.path}
+                width={'100%'}
+                height={height}
+                rowHeight={44}
+            >
+                {Node}
+            </Tree>
+        </>
     );
 
 }
 export default VirtualTree
 
 
-
-interface tree {
-    id: string,
-    path: string,
-    active: boolean,
-    visible: boolean,
-    children: tree[],
-}

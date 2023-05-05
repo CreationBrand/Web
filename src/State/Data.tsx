@@ -64,10 +64,19 @@ export const notificationStateFamily = atomFamily({
 
 // (UPDATED) TREES
 
+// for groups
 export const communityTreeData = atom({
     key: 'communityTreeData',
     default: []
 })
+export const communityListData = atom({
+    key: 'communityListData',
+    default: []
+})
+
+
+
+
 
 export const messengerTreeData = atom({
     key: 'messengerTreeData',

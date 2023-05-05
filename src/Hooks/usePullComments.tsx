@@ -7,7 +7,6 @@ import { socketRequest } from "Service/Socket";
 import { commentTreeData, postListData } from "State/Data";
 import Post from "Stories/Chunk/Post/Post";
 import LoaderPane from "Stories/Pane/loaderPane";
-import { colorLog } from "Util";
 import Comment from "Stories/Chunk/Comment/Comment";
 var treeify = require('treeify');
 
@@ -24,7 +23,6 @@ const usePullComments = (comment_id: any, filter: string, varient: string) => {
 
     // reset list on props change
     useEffect(() => {
-        colorLog('[hook] Resetting List State', 'green')
         setList([])
         setPage({ data: 0 })
         setEnd(false)
@@ -37,7 +35,6 @@ const usePullComments = (comment_id: any, filter: string, varient: string) => {
         if (!comment_id || !filter) return
 
         const fetchMore = async () => {
-            colorLog('[hook] Fetching comments', 'green')
 
             let req: any = await socketRequest('comments', {
                 post_id: comment_id,
@@ -51,6 +48,8 @@ const usePullComments = (comment_id: any, filter: string, varient: string) => {
 
 
             let level = { result };
+
+            console.log(req)
 
             // ts-ignore
             req.comments.forEach((c: any, ci: any) => {

@@ -3,7 +3,6 @@ import { socketRequest } from "Service/Socket";
 import CommunityPane from "Stories/Chunk/CommunityPane/CommunityPane";
 import Post from "Stories/Objects/Post/Post";
 import LoaderPane from "Stories/Pane/loaderPane";
-import { colorLog } from "Util";
 
 
 const usePullCommunity = (community_id: any) => {
@@ -19,7 +18,6 @@ const usePullCommunity = (community_id: any) => {
         if (!community_id) return
 
         const fetchMore = async () => {
-            colorLog('[hook] Fetching Community', 'green')
 
             let req: any = await socketRequest('community', {
                 community_id: community_id,

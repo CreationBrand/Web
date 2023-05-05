@@ -25,7 +25,7 @@ const ChunkError = () => {
 
 
     return (
-        <div css={C.container}>
+        <div css={C.container} key={'error'}>
 
             <div css={C.float}>
                 <svg className="gegga">

@@ -43,13 +43,29 @@ export const textNormal = (size: fontSize) => css({
     color: '#f2f2f2',
     fontSize: fontSize[size],
 })
-
 export const textLight = (size: fontSize) => css({
     fontFamily: fontPrimary,
-    fontWeight: '500',
+    fontWeight: '300',
     color: '#d7dadc',
     fontSize: fontSize[size],
 })
+export const textLabel = (size: fontSize) => css({
+    fontFamily: fontPrimary,
+    fontWeight: '700',
+    color: '#dbdee1',
+    fontSize: fontSize[size],
+    textTransform: 'uppercase',
+    letterSpacing: '.02em',
+    marginBottom: '8px',
 
+
+})
 
 export const Mixins = {}
+
+
+
+
+// BREAKPOINTS
+
+export const full = '>'

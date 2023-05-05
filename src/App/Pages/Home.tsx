@@ -95,7 +95,6 @@ import Search from 'Stories/Chunk/Search/Search'
 import VirtualTree from 'Stories/Chunk/VirtualTree/VirtualTree'
 import Right from 'Stories/Layout/Right'
 import CommunityList from 'Stories/Loaders/CommunityList'
-import CommunityControls from 'Stories/Objects/CommunityControls/CommunityControls'
 import useMessengerTree from 'Hooks/useMessengerTree'
 import { AnimatePresence } from 'framer-motion'
 import { IconButton } from '@mui/material'
@@ -109,6 +108,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import LineWeightRoundedIcon from '@mui/icons-material/LineWeightRounded';
 import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
 import CommunityTree from 'Stories/Chunk/CommunityTree/CommunityTree'
+import NavLabel from 'Stories/Bits/NavLabel/NavLabel'
 
 
 const Home = () => {
@@ -144,7 +144,7 @@ const Home = () => {
 
             <Main>
                 <Nav>
-                    <div></div>
+                    <NavLabel />
                     <Search />
                     <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
 

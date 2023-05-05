@@ -10,6 +10,7 @@ import { useRecoilState } from 'recoil'
 import CommunityList from 'Stories/Chunk/Lists/CommunityList'
 import Submit from 'Stories/Views/Submit/Submit'
 import MessengerList from 'Stories/Chunk/Lists/MessengerList'
+import GroupList from 'Stories/Chunk/Lists/GroupList'
 
 var Private = () => {
 
@@ -47,6 +48,13 @@ var Private = () => {
                     <Route
                         path="/trending"
                         element={<GlobalList />}></Route>
+
+                    <Route
+                        path="g/:group_id"
+                        element={<GroupList />}
+                    ></Route>
+
+
                     <Route
                         path="c/:community_id"
                         element={<CommunityList />}

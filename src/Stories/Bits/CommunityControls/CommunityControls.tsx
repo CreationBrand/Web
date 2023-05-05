@@ -10,19 +10,21 @@ import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import { useState } from "react";
 import { smBold, xsMuted } from "Stories/Bits/Text/Text";
 import CreateCommunity from "Stories/Forum/CreateCommunity";
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
+
+import AddGroup from "Stories/Popups/AddGroup";
 
 const C = {
     container: css({
         width: '100%',
-        height: '50px',
-        padding: '4px',
+        height: '40px',
+        padding: '8px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        background: '#16181b',
-        borderBottomRightRadius: '4px',
-        borderBottomLeftRadius: '4px',
+        background: '#272732',
+        borderRadius: '8px',
     }),
 }
 
@@ -33,7 +35,14 @@ const CommunityControls = () => {
     const handleClickOpen1 = () => setOpen1(true);
     const handleClose1 = () => setOpen1(false);
 
+    const [group, setGroup] = useState(false);
+    const groupClose = () => setGroup(false);
+
     return <div css={C.container}>
+
+
+        <CreateCommunity open={open1} handleClose={handleClose1} />
+        <AddGroup open={group} handleClose={groupClose} />
 
 
 
@@ -46,12 +55,11 @@ const CommunityControls = () => {
                     height: '32px',
                     width: '32px',
                 }}>
-                <AddIcon />
+                <AddIcon sx={{ fontSize: '20px' }} />
             </IconButton>
         </Tooltip>
 
 
-        <CreateCommunity open={open1} handleClose={handleClose1}/>
 
         <Tooltip title="Unfold" arrow>
             <IconButton
@@ -61,7 +69,7 @@ const CommunityControls = () => {
                     height: '32px',
                     width: '32px',
                 }}>
-                <UnfoldLessIcon />
+                <UnfoldLessIcon sx={{ fontSize: '20px' }} />
             </IconButton>
         </Tooltip>
 
@@ -75,19 +83,20 @@ const CommunityControls = () => {
                     height: '32px',
                     width: '32px',
                 }}>
-                <UnfoldMoreIcon />
+                <UnfoldMoreIcon sx={{ fontSize: '20px' }} />
             </IconButton>
         </Tooltip>
 
-        <Tooltip title="Filter" arrow>
+        <Tooltip title="Add Group" arrow>
             <IconButton
+                onClick={() => setGroup(true)}
                 size="small"
                 color="secondary" sx={{
                     borderRadius: '4px',
                     height: '32px',
                     width: '32px',
                 }}>
-                <FilterNoneIcon />
+                <LibraryAddIcon sx={{ fontSize: '20px' }} />
             </IconButton>
         </Tooltip>
 

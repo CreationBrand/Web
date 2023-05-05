@@ -99,12 +99,11 @@ const Post = ({
     const avatarClick = () => { }
 
 
-
     return (
         <>
             <motion.div
                 onMouseDown={bodyClick}
-                key={public_id}
+                key={`post${public_id}`}
                 transition={{ duration: 0.4 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

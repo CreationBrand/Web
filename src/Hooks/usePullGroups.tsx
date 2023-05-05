@@ -6,8 +6,7 @@ import Post from "Stories/Chunk/Post/Post";
 import LoaderPane from "Stories/Pane/loaderPane";
 
 
-const usePullPosts = (community_id: any, filter: string, varient: string) => {
-
+const usePullGroups = (group_id: any, filter: string, varient: string) => {
 
     // state
     const [list, setList]: any = useRecoilState(postListData)
@@ -22,20 +21,22 @@ const usePullPosts = (community_id: any, filter: string, varient: string) => {
         setPage({ data: 0 })
         setEnd(false)
         setError(false)
-    }, [community_id, filter])
+    }, [group_id, filter])
 
 
     // fetch posts
     useEffect(() => {
-        if (!community_id || !filter) return
+        if (!group_id || !filter) return
 
         const fetchMore = async () => {
 
-            let req: any = await socketRequest('posts', {
-                community_id: community_id,
+            let req: any = await socketRequest('post-group', {
+                group_id: group_id,
                 filter: filter,
                 page: page.data,
             })
+
+            console.log(req)
 
             if (req === false || req.status === 'error') setError(true)
 
@@ -54,8 +55,8 @@ const usePullPosts = (community_id: any, filter: string, varient: string) => {
         if (end === false) fetchMore().catch((err) => console.log(err))
     }, [page])
 
-    if (end === false) return [error,[] ]
+    if (end === false) return [error, list.concat(<LoaderPane />)]
     return [error, list] as const;
 }
 
-export default usePullPosts
+export default usePullGroups

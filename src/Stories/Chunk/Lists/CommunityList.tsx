@@ -39,6 +39,9 @@ const CommunityList = () => {
     const [error, list] = usePullPosts(params.community_id, filter, 'community')
 
 
+
+    console.log(contentState)
+
     useEffect(() => {
         setContent(data)
     }, [data])

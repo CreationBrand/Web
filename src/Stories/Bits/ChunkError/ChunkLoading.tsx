@@ -25,7 +25,7 @@ const ChunkLoading = () => {
 
 
     return (
-        <div css={C.container}>
+        <div css={C.container} key={'loader'}>
 
             <div css={C.float}>
                 <svg className="gegga">

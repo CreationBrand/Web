@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom'
 import { get } from 'Service/Request'
 
 import { connectSocket } from 'Service/Socket'
-import colorLog from 'Util/colorLog'
 import {
     communityData,
+    communityListData,
     communityTreeData,
     globalRoleData,
     messengerData,
@@ -16,7 +16,7 @@ import {
     personData,
     sessionData
 } from 'State/Data'
-import { communityLTT, messengerLTT } from 'Helper/Clean'
+import { communityLTL, communityLTT, messengerLTT } from 'Helper/Clean'
 
 var treeify = require('treeify');
 
@@ -37,6 +37,8 @@ var useAuth = () => {
 
     // UPDATED
     const setCTD = useSetRecoilState(communityTreeData)
+    const setCLD = useSetRecoilState(communityListData)
+
     const setMTD = useSetRecoilState(messengerTreeData)
 
     useEffect(() => {
@@ -66,6 +68,7 @@ var useAuth = () => {
 
                         setC(request.communitys)
                         setCTD(communityLTT(request.communitys))
+                        setCLD(communityLTL(request.communitys))
                         console.groupCollapsed('%c [DATA - communitys] ', 'background: #000; color: #5555da');
                         console.log(treeify.asTree(request.communitys, true));
                         console.groupEnd();
@@ -83,7 +86,6 @@ var useAuth = () => {
                     }
                 }
             } catch (e) {
-                colorLog('[REST] Connection Failed', 'error')
                 setLoading(false)
             }
         }

@@ -34,11 +34,9 @@ const theme: any = createTheme({
                     fontFamily:'Noto Sans',
                     caretColor:'transparent !important',
                     borderRadius: '8px',
-                    // height: '30px',
                     border: '2px solid transparent',
-                    background: '#423e47',
-                    // paddingLeft: '4px',
-                    // paddingRight: '4px',
+                    background: '#181820',
+
                     '&:hover': {
                         border: `2px solid hsla(0,0%,100%,.1)`
                     },
@@ -56,14 +54,15 @@ const theme: any = createTheme({
         MuiDialog: {
             styleOverrides: {
                 paper: {
-                    background: '#202225',
+                    background: 'transparent',
+
                 },
             },
         },
         MuiButton: {
             styleOverrides: {
                 root: {
-                    fontFamily:'Roboto',
+                    fontFamily:'Noto Sans',
                     textTransform: 'none',
                 },
                 label: {
@@ -116,7 +115,7 @@ const theme: any = createTheme({
         mode: 'dark',
 
         primary: {
-            main: '#9147ff',
+            main: '#6858f2',
         },
         secondary: {
             main: '#b9bbbe',

@@ -4,7 +4,6 @@ import { socketRequest } from 'Service/Socket'
 import { commentListData, messageListData, postListData } from 'State/Data'
 import Post from 'Stories/Objects/Post/Post'
 import LoaderPane from 'Stories/Pane/loaderPane'
-import { colorLog } from 'Util'
 import Comment from 'Stories/Objects/Comment/Comment'
 import Message from 'Stories/Objects/Message/Message'
 
@@ -28,7 +27,6 @@ export const usePullPosts = (community_id: any, filter: string) => {
         if (!community_id || !filter) return
 
         const fetchMore = async () => {
-            colorLog('[FETCH] Fetching Posts', 'green')
 
             let req: any = await socketRequest('posts', {
                 community_id: community_id,
@@ -80,7 +78,6 @@ export const usePullComments = (post_id: any, filter: string) => {
         if (!post_id || !filter) return
 
         const fetchMore = async () => {
-            colorLog('[FETCH] Fetching Comments', 'green')
 
             let req: any = await socketRequest('comments', {
                 post_id: post_id,
@@ -132,7 +129,6 @@ export const usePullMessages = (messenger_id: any) => {
         if (!messenger_id) return
 
         const fetchMore = async () => {
-            colorLog('[FETCH] Fetching Messages', 'green')
 
             let req: any = await socketRequest('messages', {
                 messenger_id: messenger_id,

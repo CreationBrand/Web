@@ -95,6 +95,7 @@
 }
 
 .vitual-tree {
+    height:100% !important;
     overflow-x: hidden !important;
 }
 
@@ -112,4 +113,14 @@
 .ticker-digit {
     height: 10%;
     color: inherit;
+}
+
+
+
+.MuiDataGrid-virtualScroller{
+    /* overflow-x: scroll !important;
+
+    height: 400px !important; */
+    overflow-x: hidden !important;
+    
 }

@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import useCommunityTree from "Hooks/useCommunityTree";
 import { useRecoilState } from "recoil"
 import { communityData, communityTreeData } from "State/Data"
@@ -6,7 +8,8 @@ import { useState } from "react";
 import { Input } from "@mui/material";
 import ManageSearchRoundedIcon from '@mui/icons-material/ManageSearchRounded'
 import theme from "Global/Theme";
-
+import CommunityControls from "Stories/Bits/CommunityControls/CommunityControls";
+import useWindow from "Hooks/useWindow";
 
 
 
@@ -17,15 +20,14 @@ const CommunityTree = () => {
 
     const [tree, setTree] = useRecoilState(communityTreeData)
 
+    const window = useWindow()
 
     const handleMove = (source: any, target: any) => { }
-
-
 
     if (!tree) return <div>Loading</div>
 
 
-    return <div>
+    return <div css={{ display: 'flex', flexDirection: 'column' }}>
 
         <Input
             onChange={handleSearch}
@@ -45,11 +47,10 @@ const CommunityTree = () => {
                 borderColor: theme.background.pri,
             }}
         />
+        <VirtualTree tree={tree} setTree={setTree} height={window.height-114} />
 
 
-        <VirtualTree tree={tree} setTree={setTree} />
-
-
+        <CommunityControls />
     </div>
 }
 

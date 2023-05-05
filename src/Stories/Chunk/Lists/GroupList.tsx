@@ -7,6 +7,8 @@ import { useRecoilValue } from 'recoil'
 import { pageFlow } from 'State/Flow'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import VirtualList from '../VirtualList/VirtualList'
+import { useParams } from 'react-router-dom'
+import usePullGroups from 'Hooks/usePullGroups'
 
 const C = {
     container: css({
@@ -19,16 +21,18 @@ const C = {
     })
 }
 
-const GlobalList = () => {
+const GroupList = () => {
+
+    const params = useParams()
 
     const page = useRecoilValue(pageFlow)
-    const [error, list] = usePullPosts(page, 'none', 'global')
-    if (error) return <ChunkError />
 
+    const [error, list] = usePullGroups(params.group_id, 'none', 'global')
+    if (error) return <ChunkError />
 
     return (
         <motion.div
-            key={`global`}
+            key={params.group_id}
             css={C.container}
             transition={{ duration: 0.4 }}
             initial={{ opacity: 0 }}
@@ -40,4 +44,4 @@ const GlobalList = () => {
 }
 
 
-export default memo(GlobalList)
+export default memo(GroupList)

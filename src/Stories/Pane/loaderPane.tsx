@@ -29,7 +29,8 @@ const LoaderPane = ({ public_id, filter }: any) => {
 
     return (
         <motion.div
-            key={public_id}
+
+            key={'loaderpane'}
             transition={{ duration: 0.4 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

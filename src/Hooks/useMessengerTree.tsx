@@ -15,9 +15,9 @@ const useMessengerTree = () => {
 
     const [tree, setTree] = useState([
         {
-            id: '0',
+            id: 'feeds',
             type: 'branch',
-            path: '0',
+            path: 'feeds',
             title: 'FEEDS',
             active: true,
             visible: true,
@@ -25,7 +25,7 @@ const useMessengerTree = () => {
                 {
                     id: "trending",
                     type: 'leaf',
-                    path: '0.0',
+                    path: 'trending',
                     link: '/trending',
                     active: true,
                     visible: true,
@@ -39,7 +39,7 @@ const useMessengerTree = () => {
                     id: "home",
                     type: 'leaf',
                     link: '/home',
-                    path: '0.1',
+                    path: 'home',
                     active: true,
                     visible: true,
                     object: {
@@ -53,16 +53,16 @@ const useMessengerTree = () => {
             ],
         },
         {
-            id:'1',
+            id:'dm',
             type: 'branch',
-            path: '0.1',
+            path: 'dm',
             title: 'DIRECTS MESSAGES',
             active: true,
             visible: true,
             children: [{
                 id: 'filter',
                 type: 'component',
-                path: '0.1',
+                path: 'filter',
                 title: 'DIRECTS MESSAGES"',
                 active: true,
                 visible: true,
