@@ -15,6 +15,8 @@ import { useNavigate } from 'react-router-dom'
 import PostStats from 'Stories/Bits/StatCheck/PostStats'
 import View from 'Stories/Bits/View/View'
 import { memo } from 'react'
+import { useRecoilValue } from 'recoil'
+import { contentFlow } from 'State/Flow'
 
 const C = {
     container: css({
@@ -85,6 +87,12 @@ const Post = ({
     ...props
 }: any) => {
 
+
+    const contentState = useRecoilValue(contentFlow)
+
+    // console.log(contentState)
+
+
     const navigate = useNavigate()
 
     // console.log(varient)
@@ -118,10 +126,10 @@ const Post = ({
 
                 <div css={C.right}>
 
-                    {varient === 'global' ? (
+                    {contentState.type === 'global' ? (
                         <>
                             <CommunityTitle title={community.title} public_id={community.public_id} />
-                            <Author username={author.username} public_id={author.public_id} />
+                            <Author username={author.nickname} public_id={author.public_id} />
                         </>
                     ) : (
                         <>

@@ -4,7 +4,7 @@ import useCommunityTree from "Hooks/useCommunityTree";
 import { useRecoilState } from "recoil"
 import { communityData, communityTreeData } from "State/Data"
 import VirtualTree from "../VirtualTree/VirtualTree";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Input } from "@mui/material";
 import ManageSearchRoundedIcon from '@mui/icons-material/ManageSearchRounded'
 import theme from "Global/Theme";
@@ -47,7 +47,7 @@ const CommunityTree = () => {
                 borderColor: theme.background.pri,
             }}
         />
-        <VirtualTree tree={tree} setTree={setTree} height={window.height-114} />
+        <VirtualTree tree={tree} setTree={setTree} height={window.height - 114} />
 
 
         <CommunityControls />
@@ -57,7 +57,7 @@ const CommunityTree = () => {
 
 
 
-export default CommunityTree
+export default memo(CommunityTree)
 
 
 

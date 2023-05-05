@@ -4,33 +4,33 @@ import { css } from "@emotion/react"
 import { useState } from "react";
 
 import { motion } from "framer-motion"
-import { textNormal } from "Global/Mixins"
+import { textBold, textNormal } from "Global/Mixins"
 import EditGroup from "Stories/Popups/EditGroup"
 
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
+import { useNavigate } from "react-router-dom";
 
 
 const C = {
-    inner: css({
+    inner: css([textBold('s'), {
         flexGrow: 1,
-        borderRadius: '8px',
         display: 'flex',
-        gap: '8px',
         alignItems: 'center',
+        justifyContent: 'space-between',
         width: '100%',
-        height: '40px',
-        padding: '8px',
-    }),
+        whiteSpace: 'nowrap',
+    }]),
     group: css({
+        padding: '8px',
+        borderRadius: '8px',
         height: '40px',
         display: 'flex',
-        gap: '8px',
         alignItems: 'center',
+        gap: '8px',
         width: '100%',
         color: '#d7dadc',
-        fontSize: '10px !important',
     }),
 }
 
@@ -45,28 +45,45 @@ const innerMotion = {
 
 const Group = ({ node, editOpen }: any) => {
 
+    const navigate = useNavigate()
 
-    const handleEdit = () => { editOpen(node) }
+    const handleEdit = (e: any) => {
+        e.stopPropagation()
+        e.preventDefault()
+        editOpen(node)
+    }
     const handleGroup = () => node.toggle()
+    const handleNav = () => navigate(node.data.link)
 
 
     return (
-        <motion.div css={C.group}>
+        <motion.div css={C.group} initial="rest" whileHover="hover" variants={innerMotion} >
 
-            <div css={{ height: '18px' }}>
-                {node.isOpen ? <IndeterminateCheckBoxOutlinedIcon sx={{ fontSize: '18px' }} /> : <AddBoxOutlinedIcon sx={{ fontSize: '18px' }} />}
+            <div css={{
+                height: '18px',
+                cursor: 'pointer',
+                fill: '#b9bbbe',
+                '&:hover': {
+                    fill: '#fff !important',
+                }
+            }}>
+                {node.isOpen ? <IndeterminateCheckBoxOutlinedIcon onClick={handleGroup} sx={{ fontSize: '18px', fill: 'inherit' }} />
+                    : <AddBoxOutlinedIcon onClick={handleGroup} sx={{ fontSize: '18px', fill: 'inherit' }} />}
             </div>
 
-            <motion.div initial="rest" whileHover="hover" css={[C.inner, { justifyContent: 'space-between' }]} variants={innerMotion} >
-
-                <div css={[{ color: "#" + node.data?.object?.color?.toString(16) + '!important', marginBottom: '0px !important' }, textNormal('s')]}>
+            <motion.div css={C.inner} onClick={handleNav}>
+                <div css={[{ color: "#" + node.data?.object?.color?.toString(16) + '!important', marginBottom: '0px !important' }]}>
                     {node.data.object.title}
                 </div>
-
-
-                <SettingsOutlinedIcon onClick={handleEdit} sx={{ fontSize: '14px' }} />
+                <SettingsOutlinedIcon onClick={handleEdit} sx={{
+                    fontSize: '18px', fill: '#b9bbbe', '&:hover': {
+                        fill: '#fff !important',
+                    }
+                }} />
 
             </motion.div>
+
+
 
         </motion.div >
 

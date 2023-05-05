@@ -39,33 +39,44 @@ const CommunityList = () => {
     const [error, list] = usePullPosts(params.community_id, filter, 'community')
 
 
-
-    console.log(contentState)
-
     useEffect(() => {
-        setContent(data)
-    }, [data])
+        // setContent(data)
 
-    if (error || error1) return <ChunkError />
+        if(!data) return
+
+        setContent({
+            public_id: data.community?.public_id,
+            roleSet: data.roleSet,
+            role: data.roles,
+            title: data.community.title,
+            type: 'community',
+            active: true,
+        })
 
 
 
-    return (
-        <motion.div
-            key={params.community_id}
-            css={C.container}
-            transition={{ duration: 0.4 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-        >
-            <VirtualList
-                list={[
-                    pane,
-                    <FilterPane value={filter} onChange={setFilter} />, ...list]}
-            />
-        </motion.div>
-    )
+}, [data])
+
+if (error || error1) return <ChunkError />
+
+
+
+return (
+    <motion.div
+        key={params.community_id}
+        css={C.container}
+        transition={{ duration: 0.4 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+    >
+        <VirtualList
+            list={[
+                pane,
+                <FilterPane value={filter} onChange={setFilter} />, ...list]}
+        />
+    </motion.div>
+)
 }
 
 
