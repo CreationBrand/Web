@@ -5,23 +5,26 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { Dialog, Divider, Input, Button } from "@mui/material"
 import { css } from '@emotion/react';
 import { useState } from "react";
-import { textLabel, textLight, textNormal } from "Global/Mixins";
+import { textBold, textLabel, textLight, textNormal } from "Global/Mixins";
 
 import { HexColorPicker } from "react-colorful";
 import { socketRequest } from "Service/Socket";
-
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 
 const C = {
     container: css({
+        background: '#15161894',
     }),
     popup: css({
         background: '#272732',
-        borderRadius: '12px',
+        borderRadius: '8px',
         width: '460px',
+        position: 'relative',
     }),
     title: css({
         padding: '16px',
+        textAlign: 'center',
     }),
     content: css({
         padding: ' 16px',
@@ -32,9 +35,17 @@ const C = {
         alignItems: 'center',
         justifyContent: 'end',
         gap: '8px',
-
-    })
-
+    }),
+    close: css({
+        position: 'absolute',
+        right: '8px',
+        top: '8px',
+        color: '#b6bbbf',
+        cursor: 'pointer',
+        '&:hover': {
+            color: '#fff'
+        }
+    }),
 }
 
 
@@ -45,14 +56,11 @@ const AddGroup = ({ open, handleClose }: Props) => {
 
 
     const onSubmit = async (data: any) => {
-
         setLoading(true)
         data.color = parseInt(data.color.slice(1), 16)
-        let req:any = await socketRequest('group-new', data)
-
-        if(req.status === 'ok') handleClose()
+        let req: any = await socketRequest('group-new', data)
+        if (req.status === 'ok') handleClose()
         setLoading(false)
-
     }
 
 
@@ -64,10 +72,11 @@ const AddGroup = ({ open, handleClose }: Props) => {
 
             <form css={C.popup}>
 
-                <div css={C.title}>
-                    <div css={textNormal('x')}>Create Group</div>
-                    <div css={textLight('t')}>Group communitys to create seperate feeds   </div>
+                <div css={C.close} onClick={handleClose}><CloseRoundedIcon sx={{ fontSize: '29px' }} /></div>
 
+                <div css={C.title}>
+                    <div css={textBold('x')}>Create Group</div>
+                    <div css={textLight('t')}>Group communitys to create seperate feeds   </div>
                 </div>
 
 
@@ -108,6 +117,7 @@ const AddGroup = ({ open, handleClose }: Props) => {
                         render={({ field: { onChange, value } }: any) =>
 
                             <HexColorPicker
+
                                 onChange={onChange}
                                 //@ts-ignore
                                 value={value}
@@ -128,6 +138,7 @@ const AddGroup = ({ open, handleClose }: Props) => {
                 <div css={C.footer}>
                     <Button onClick={handleClose} color='secondary'>Cancel</Button>
                     <LoadingButton
+                        sx={{ borderRadius: '8px' }}
                         onClick={handleSubmit(onSubmit)}
                         loading={loading}
                         loadingIndicator="Running"

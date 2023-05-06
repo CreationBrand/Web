@@ -33,7 +33,6 @@ const C = {
         background: '#181820',
         borderBottomLeftRadius: '12px',
         borderBottomRightRadius: '12px',
-
     })
 
 }

@@ -87,7 +87,7 @@ socket = io('ws://localhost:8000', {
 // SOCKET CONNECTION ERROR
 socket.io.on("error", (error: any) => {
     console.log('%c [Socket]', 'background: #290000; color: #da55cd', 'Socket Connection Failed');
-    // setRecoil(errorFlow, {error: error.type, type: 'socket'})
+    setRecoil(errorFlow, { type: 'socket', message: 'Failed to connect to server' })
 
 });
 

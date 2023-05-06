@@ -7,10 +7,13 @@ import { useForm, Resolver, Controller } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { signUpCognito } from 'Service/Auth'
 import { post } from 'Service/Request'
-import { Button, Input } from '@mui/material'
+import { Input } from '@mui/material'
 
 import Grid from '@mui/material/Unstable_Grid2'
-import { brand, heading2, mMuted, sMuted } from 'Stories/Bits/Text/Text'
+import { brand, sMuted } from 'Stories/Bits/Text/Text'
+import { textLabel, textLight } from 'Global/Mixins'
+import { LoadingButton } from '@mui/lab'
+import { useState } from 'react'
 
 const Signup = (props: Props) => {
     const {
@@ -20,9 +23,14 @@ const Signup = (props: Props) => {
         control,
         formState: { errors }
     } = useForm()
+
+
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     const onSubmit = handleSubmit(async (data) => {
+
+        setLoading(true)
         if (data.password1 !== data.password2) {
             setError('password', {
                 type: 'custom',
@@ -37,18 +45,17 @@ const Signup = (props: Props) => {
             )
             //reroute to home here
             if (req.userConfirmed === false) navigate(`/verify`)
+            setLoading(false)
         }
     })
 
     return (
-        <Paper
-            width="100%"
-            height="min-content"
-            background="sec"
-            radius="m"
-            padding={6}
-            elevation={'x'}
-        >
+        <div css={{
+            boxShadow: '0px 8px 10px -5px rgb(0 0 0 / 40%), 0px 16px 24px 2px rgb(1 0 0 / 14%), 0px 6px 30px 5px rgb(0 0 0 / 40%);',
+            background: '#272732',
+            padding: '22px',
+            borderRadius: '8px',
+        }} >
             <Grid
                 container
                 rowSpacing={4}
@@ -61,9 +68,8 @@ const Signup = (props: Props) => {
                 </Grid>
 
                 <Grid xs={12}>
-                    <Grid>
-                        <h3 css={mMuted}>Username</h3>
-                    </Grid>
+
+                    <h3 css={textLabel('s')}>Username</h3>
 
                     <Controller
                         name="username"
@@ -84,9 +90,8 @@ const Signup = (props: Props) => {
                 </Grid>
 
                 <Grid xs={12}>
-                    <Grid>
-                        <h3 css={mMuted}>Email</h3>
-                    </Grid>
+                    <h3 css={textLabel('s')}>Email</h3>
+
 
                     <Controller
                         name="email"
@@ -111,9 +116,8 @@ const Signup = (props: Props) => {
                 </Grid>
 
                 <Grid xs={12}>
-                    <Grid>
-                        <h3 css={mMuted}>Password</h3>
-                    </Grid>
+
+                    <h3 css={textLabel('s')}>Password</h3>
 
                     <Controller
                         name="password1"
@@ -134,9 +138,8 @@ const Signup = (props: Props) => {
                 </Grid>
 
                 <Grid xs={12}>
-                    <Grid>
-                        <h3 css={mMuted}>Confirm Password</h3>
-                    </Grid>
+                    <h3 css={textLabel('s')}>Confirm Password</h3>
+
 
                     <Controller
                         name="password2"
@@ -156,96 +159,44 @@ const Signup = (props: Props) => {
                     />
                 </Grid>
 
-                <Grid xs={12}>
-                    <Button
-                        sx={{ marginTop: '12px', borderRadius: '8px' }}
-                        onClick={onSubmit}
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        size="small"
-                    >
-                        Sign Up
-                    </Button>
-                    <Grid>
-                        <h3 css={sMuted}>
-                            Have an account?
-                            <Link
-                                to="/auth"
-                                css={{ color: '#9147ff', marginLeft: '4px' }}
-                            >
-                                Login
-                            </Link>
-                        </h3>
-                    </Grid>
-                </Grid>
-            </Grid>
 
-            {/* <Grid s={12} gap={5}>
-                <Grid s={12} column>
-                    <h2 css={Title1}>Create an Account</h2>
-                </Grid>
+                <LoadingButton
+                    loadingIndicator="Loading…"
+                    loading={loading}
+                    sx={{
+                        marginTop: '12px', borderRadius: '8px', height: '40px',
+                        fontFamily: 'Noto Sans',
+                        fontWeight: '700',
+                        fontSize: '14px',
+                    }}
+                    onClick={onSubmit}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    size="small"
+                >
+                    Sign Up
+                </LoadingButton>
 
-                <Grid s={12} column>
-                    <h3 css={Label}>Username</h3>
-                    <Input
-                        error={errors.username ? true : false}
-                        control={register('username', { required: true })}
-                        hint="This is the name people will know you by on Artram."
-                    />
-                </Grid>
 
-                <Grid s={12} column>
-                    <h3 css={Label}>Email</h3>
-                    <Input
-                        control={register('email', {
-                            required: true,
-                            pattern:
-                                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-                        })}
-                        error={errors.email ? true : false}
-                        errorMessage="Please enter a valid email address."
-                    />
-                </Grid>
-
-                <Grid s={12} column>
-                    <h3 css={Label}>Password</h3>
-                    <Input
-                        error={errors.password ? true : false}
-                        control={register('password', { required: true })}
-                    />
-                </Grid>
-
-                <Grid s={12} column>
-                    <h3 css={Label}>Confirm Password</h3>
-                    <Input
-                        error={errors.password2 ? true : false}
-                        errorMessage={'Passwords do not match.'}
-                        control={register('password2', { required: true })}
-                    />
-                </Grid>
-
-                <Grid s={12}>
-                <Button
-                        onClick={onSubmit}
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        size='small'
-                    >login</Button>
-
-                    <h3 css={Muted}>
-                        Have an account?{' '}
-                        <Link to="/auth" css={Accent}>
-                            Sign up
+                <Grid>
+                    <h3 css={textLight('s')}>
+                        Have an account?
+                        <Link
+                            to="/auth"
+                            css={{ color: '#9147ff', marginLeft: '4px' }}
+                        >
+                            Login
                         </Link>
                     </h3>
                 </Grid>
-            </Grid> */}
-        </Paper>
+            </Grid>
+
+
+        </div>
     )
 }
 
 export default Signup
 
-export interface Props {}
+export interface Props { }

@@ -1,22 +1,18 @@
 /** @jsxImportSource @emotion/react */
-
 import { css } from '@emotion/react'
+
 import Tri from 'Stories/Views/Tri'
 import Nav from 'Stories/Layout/Nav'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { triState } from 'State/atoms'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { communityData, globalRoleData, personData } from 'State/Data'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import { memo } from 'react'
 import Main from 'Stories/Layout/Main'
 import Left from 'Stories/Layout/Left'
 import LogoWithName from 'Stories/Bits/Branding/LogoWithName'
-import NavButton from 'Stories/Objects/NavButton/NavButton'
-import { faFire, faHouse, faQuestion, faScroll } from '@fortawesome/free-solid-svg-icons'
-import { textBold, textLight, textNormal } from 'Global/Mixins'
+import { faFire, faScroll } from '@fortawesome/free-solid-svg-icons'
+import { textNormal } from 'Global/Mixins'
 import Search from 'Stories/Chunk/Search/Search'
 import { Button } from '@mui/material'
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
@@ -28,13 +24,6 @@ const Preview = () => {
 
     const [l, r] = useRecoilValue(triState)
     const setTri = useSetRecoilState(triState)
-
-
-    const person = useRecoilValue(personData)
-    const roles = useRecoilValue(globalRoleData)
-    const community = useRecoilValue(communityData)
-
-
     const goAuth = () => navigate(`/auth`)
 
 
@@ -43,42 +32,48 @@ const Preview = () => {
 
             <Left>
                 <LogoWithName />
+
                 <VirtualTree
                     tree={[
                         {
-                            id: "0",
-                            isBranch: true,
-                            name: "FEEDS",
+                            id: 'feeds',
+                            type: 'branch',
+                            path: 'feeds',
+                            title: 'FEEDS',
+                            active: true,
+                            visible: true,
                             children: [
                                 {
-                                    id: "trending", name: "Trending",
-                                    icon: <FontAwesomeIcon size='1x' icon={faFire} />
-                                },
-                                {
-                                    id: "home", name: "Home",
-                                    icon: <FontAwesomeIcon size='1x' icon={faHouse} />
-                                },
-                            ],
-                        }, {
-                            id: "1",
-                            isBranch: true,
-                            name: "RESOURCES",
-                            children: [
-                                {
-                                    id: "updates", name: "Updates",
-                                    icon: <FontAwesomeIcon size='1x' icon={faScroll} />
-                                },
-                                {
-                                    id: "about", name: "About Artram",
-                                    icon: <FontAwesomeIcon size='1x' icon={faHouse} />
+                                    id: "trending",
+                                    type: 'leaf',
+                                    path: 'trending',
+                                    link: '/trending',
+                                    active: true,
+                                    visible: true,
+                                    object: {
+                                        id: "trending",
+                                        title: "Trending",
+
+                                        icon: <FontAwesomeIcon size='1x' icon={faFire} />
+                                    },
                                 }, {
-                                    id: "help", name: "Help",
-                                    icon: <FontAwesomeIcon icon={faQuestion} />
-                                },
+                                    id: "annoucements",
+                                    type: 'leaf',
+                                    link: '/annoucements',
+                                    path: 'annoucements',
+                                    active: true,
+                                    visible: true,
+                                    object: {
+                                        id: "annoucements",
+                                        title: "Annoucements",
+                                        icon: <FontAwesomeIcon size='1x' icon={faScroll} />
+                                    }
+                                }
 
                             ],
                         }
                     ]}
+
 
                 ></VirtualTree>
 

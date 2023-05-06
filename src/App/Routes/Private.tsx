@@ -4,26 +4,12 @@ import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Error from 'Stories/Error/Error'
 import GlobalList from 'Stories/Chunk/Lists/GlobalList'
 import PostList from 'Stories/Chunk/Lists/PostList'
-import { useEffect } from 'react'
-import { pageFlow } from 'State/Flow'
-import { useRecoilState } from 'recoil'
 import CommunityList from 'Stories/Chunk/Lists/CommunityList'
 import Submit from 'Stories/Views/Submit/Submit'
 import MessengerList from 'Stories/Chunk/Lists/MessengerList'
 import GroupList from 'Stories/Chunk/Lists/GroupList'
 
 var Private = () => {
-
-    let [page, setPage] = useRecoilState(pageFlow)
-    let location = useLocation();
-
-    useEffect(() => {
-        let path = location.pathname.split('/')[1]
-        if (path === 'home') setPage('home')
-        else if (path === 'trending') setPage('trending')
-        else if (path === 'c') setPage('community')
-    }, [location]);
-
 
     return (
         <>

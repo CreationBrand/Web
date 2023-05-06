@@ -20,8 +20,8 @@ export const contentFlow = atom({
 export const errorFlow = atom({
     key: 'errorFlow',
     default: {
-        type: null,
-        message: null,
+        type: null as any,
+        message: null as any,
     },
 })
 

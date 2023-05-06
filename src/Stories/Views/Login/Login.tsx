@@ -1,14 +1,15 @@
 /** @jsxImportSource @emotion/react */
-
 import { css } from '@emotion/react'
-import Paper from 'Stories/Misc/Paper'
+
 import { Controller, useForm } from 'react-hook-form'
 import { loginCognito } from 'Service/Cognito'
 import { Link, useNavigate } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
-import { Button, Input } from '@mui/material'
+import { Input } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { brand, mMuted, sMuted } from 'Stories/Bits/Text/Text'
+import { brand, } from 'Stories/Bits/Text/Text'
+import { textLabel, textLight } from 'Global/Mixins'
+import LoadingButton from '@mui/lab/LoadingButton';
+import { useState } from 'react'
 
 const Login = (props: Props) => {
     const {
@@ -19,9 +20,13 @@ const Login = (props: Props) => {
         formState: { errors }
     } = useForm()
 
-    const navigate = useNavigate()
 
+    const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
     const onSubmit = handleSubmit(async (data) => {
+
+        setLoading(true)
+
         let req = await loginCognito(data.username, data.password, navigate)
 
         if (!req) {
@@ -32,19 +37,19 @@ const Login = (props: Props) => {
                 message: 'Invalid username or password'
             })
         }
+
+        setLoading(false)
+
     })
 
-    const handleClick = () => {}
 
     return (
-        <Paper
-            width="100%"
-            height="min-content"
-            background="sec"
-            radius="m"
-            padding={6}
-            elevation={'x'}
-        >
+        <div css={{
+            boxShadow: '0px 8px 10px -5px rgb(0 0 0 / 40%), 0px 16px 24px 2px rgb(1 0 0 / 14%), 0px 6px 30px 5px rgb(0 0 0 / 40%);',
+            background: '#272732',
+            padding: '22px',
+            borderRadius: '8px',
+        }} >
             <Grid
                 container
                 rowSpacing={4}
@@ -57,9 +62,8 @@ const Login = (props: Props) => {
                 </Grid>
 
                 <Grid xs={12}>
-                    <Grid>
-                        <h3 css={mMuted}>Username</h3>
-                    </Grid>
+
+                    <h3 css={textLabel('s')}>Username</h3>
 
                     <Controller
                         name="username"
@@ -80,9 +84,8 @@ const Login = (props: Props) => {
                 </Grid>
 
                 <Grid xs={12}>
-                    <Grid>
-                        <h3 css={mMuted}>Password</h3>
-                    </Grid>
+
+                    <h3 css={textLabel('s')}>Password</h3>
 
                     <Controller
                         name="password"
@@ -102,31 +105,38 @@ const Login = (props: Props) => {
                     />
                 </Grid>
 
-                <Grid xs={12}>
-                    <Button
-                        sx={{marginTop:'12px',borderRadius:'8px'}}
-                        onClick={onSubmit}
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        size="small"
-                    >
-                        login
-                    </Button>
-                    <Grid>
-                        <h3 css={sMuted}>
-                            Need an account?
-                            <Link to="/auth/signup" css={{ color: '#9147ff',marginLeft:'4px' }}>
-                                Sign up
-                            </Link>
-                        </h3>
-                    </Grid>
+
+                <LoadingButton
+                    loadingIndicator="Loading…"
+                    loading={loading}
+                    sx={{
+                        marginTop: '12px', borderRadius: '8px', height: '40px',
+                        fontFamily: 'Noto Sans',
+                        fontWeight: '700',
+                        fontSize: '14px',
+                    }}
+                    onClick={onSubmit}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    size="small"
+                >
+                    Login
+                </LoadingButton>
+                <Grid>
+                    <h3 css={textLight('s')}>
+                        Need an account?
+                        <Link to="/auth/signup" css={{ color: '#9147ff', marginLeft: '4px' }}>
+                            Sign up
+                        </Link>
+                    </h3>
                 </Grid>
             </Grid>
-        </Paper>
+
+        </div>
     )
 }
 
 export default Login
 
-export interface Props {}
+export interface Props { }

@@ -39,7 +39,6 @@ export const textBold = (size: fontSize) => css({
 export const textNormal = (size: fontSize) => css({
     fontFamily: fontPrimary,
     fontWeight: '400',
-
     color: '#f2f2f2',
     fontSize: fontSize[size],
 })
