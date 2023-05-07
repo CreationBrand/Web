@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 
 import { useForm, Controller } from "react-hook-form";
-import { Divider, Input, Button, Box, Tab, Select, MenuItem } from "@mui/material"
+import { Divider, Input, Button, Box, Tab, } from "@mui/material"
 import { useState } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useRecoilValue } from "recoil";
@@ -10,30 +10,55 @@ import { contentFlow } from "State/Flow";
 
 import Editor from 'Stories/Bits/Editor/Editor';
 // import Editor from "Stories/Forum/Editor/Editor";
-import { mMuted, mNormal, sMuted, xBold } from 'Stories/Bits/Text/Text';
 
-import { communityData, personData } from 'State/Data';
+import { personData } from 'State/Data';
 import Post from 'Stories/Chunk/Post/Post';
-import useCommunityArray from 'Hooks/useCommunityArray';
 import { socketRequest } from 'Service/Socket';
 import Avatar from 'Stories/Bits/Avatar/Avatar';
 
-import CommunityElem from 'Stories/Bits/ListElem/CommunityElem';
-import { SelectUnstyled } from '@mui/base';
+
 import CommunitySelect from 'Stories/Bits/Select/CommunitySelect';
+import { textBold, textLabel } from 'Global/Mixins';
+
+// ICONS
+import FeedRoundedIcon from '@mui/icons-material/FeedRounded';
+import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
+import BackupRoundedIcon from '@mui/icons-material/BackupRounded';
+
+
+
+import { joiResolver } from '@hookform/resolvers/joi';
+import Joi from 'joi';
+import DropZone from 'Stories/Bits/DropZone/DropZone';
+
+// VALIDATION
+
+const schema = Joi.object({
+    title: Joi.string().min(5).max(300).required(),
+    community_id: Joi.string().min(10).required(),
+    type: Joi.string().required().valid('text', 'link', 'upload'),
+    content: Joi.alternatives()
+        .conditional('type', [
+            { is: 'text', then: Joi.string() },
+            { is: 'link', then: Joi.string().uri().required() },
+            { is: 'upload', then: Joi.any() }])
+})
+
+
+
+
 
 const C = {
     container: css({
         width: '100%',
-        height: 'calc(100% - 100px)',
+        height: 'calc(100% - 56px)',
         padding: '22px',
-        overflowY: 'auto',
         scrollbarGutter: 'stable both-edges',
+        overflow: 'auto',
     }),
     inner: css({
         display: 'flex',
         flexDirection: 'column',
-        gap: '16px',
         width: '100%',
         maxWidth: '800px',
         margin: '0 auto',
@@ -50,70 +75,79 @@ const C = {
     row: css({
         display: 'flex',
         justifyContent: 'space-between',
+        alignItems: 'baseline',
+    }),
+    upload: css({
+        width: '100%',
+        height: '120px',
+        background: '#343442',
+        borderRadius: '8px',
+    }),
+
+    link: css({
+        width: '100%',
+        background: '#343442',
+        borderRadius: '8px',
+        padding: '8px',
     }),
 }
 
 const Submit = () => {
 
     // state
-    const communityArr = useCommunityArray();
     const person = useRecoilValue(personData);
     const contentState: any = useRecoilValue(contentFlow);
 
     // form
-    const { register, handleSubmit, watch, formState: { errors }, control } = useForm();
+    const { register, handleSubmit, watch, formState: { errors }, control } = useForm({ mode: 'onChange', resolver: joiResolver(schema) });
     const [loading, setLoading] = useState(false);
-    const data = watch(); // you can supply default value as second argument
+    const data = watch()
 
+
+    // console.log(data, errors)
     // handlers
     const onSubmit = async () => {
 
-
         console.log(data)
-
+        // console.log(data)
         let req = await socketRequest('post-new', data)
-        console.log(req);
+        // console.log(req);
 
     };
 
-
-    // let selectOptions = communityArr.map((c: any, i: any) => {
-    //     console.log(c)
-    //     return (
-
-    //         <CommunityElem {...c} />
-
-    //     )
-    // })
 
 
     return <div css={C.container}>
         <div css={C.inner}>
 
             <div css={C.row}>
-                <div css={xBold}>Create a Post</div>
+                <div css={textBold('x')}>Create a Post</div>
                 <div>
                     <Button color='secondary'>Cancel</Button>
-                    <Button onMouseDown={onSubmit} variant='outlined'>Submit</Button>
+                    <Button
+                        disabled={!(Object.keys(errors).length === 0 && errors.constructor === Object)}
+                        disableElevation
+                        sx={{
+                            marginLeft: '8px',
+                            borderRadius: '8px',
+                        }}
+                        onMouseDown={onSubmit} variant='contained'>Submit</Button>
                 </div>
             </div>
 
-            <Divider />
+            <Divider sx={{ margin: '12px' }} />
 
-
-
-
-            <div css={mMuted}>Your Communitys</div>
+            <div css={textLabel('t')}>Select a Community </div>
 
             <Controller
                 name="community_id"
                 control={control}
-                defaultValue={contentState.public_id}
-                rules={{ required: true }}
+                defaultValue={'0'}
                 render={({ field: { onChange, value } }) => (
                     <CommunitySelect onChange={onChange} value={value} />
                 )} />
 
+            <Divider sx={{ margin: '12px' }} />
 
 
             <form>
@@ -124,29 +158,32 @@ const Submit = () => {
                     name="type"
                     control={control}
                     defaultValue="text"
-                    rules={{ required: true }}
                     render={({ field: { onChange, value } }) =>
                         <TabContext value={value}>
-
                             <div css={C.section}>
+                                <TabList
+                                    sx={{
+                                        fontFamily: 'noto sans',
+                                        color: 'white',
+                                        height: '40px !important',
+                                    }}
+                                    textColor="secondary"
+                                    indicatorColor="secondary"
+                                    onChange={(e, v) => { onChange(v) }}>
+                                    <Tab label="Post" value="text"
+                                        icon={<FeedRoundedIcon />}
+                                        iconPosition="start"
+                                    />
+                                    <Tab label="Link" value="link"
+                                        icon={<OpenInNewRoundedIcon />}
+                                        iconPosition="start"
+                                    />
+                                    <Tab label="Image/Video" value="upload"
+                                        icon={<BackupRoundedIcon />}
+                                        iconPosition="start"
 
-                                <Box sx={{ marginBottom: '12px' }}>
-                                    <TabList
-
-                                        sx={{
-                                            color: 'white',
-                                        }}
-                                        textColor="secondary"
-                                        indicatorColor="secondary"
-                                        onChange={(e, v) => { onChange(v) }}>
-                                        <Tab
-                                            sx={{ fontFamily: 'ubuntu !important' }}
-                                            label="Text" value="text" />
-                                        <Tab label="link" value="link" />
-                                        <Tab label="upload" value="upload" />
-                                    </TabList>
-                                </Box>
-
+                                    />
+                                </TabList>
 
 
                                 <div css={C.wrapper}>
@@ -154,13 +191,14 @@ const Submit = () => {
                                     <Controller
                                         name="title"
                                         control={control}
-                                        defaultValue=""
-                                        rules={{ required: true }}
+                                        defaultValue={''}
+
+
                                         render={({ field: { onChange, value } }) =>
                                             <Input
+                                                error={errors?.title ? true : false}
                                                 sx={{
                                                     height: '40px',
-                                                    fontFamily: 'ubuntu',
                                                     fontSize: '14px',
                                                     background: '#272732'
                                                 }}
@@ -191,34 +229,34 @@ const Submit = () => {
                                         defaultValue=""
                                         rules={{ required: true }}
                                         render={({ field: { onChange, value } }) =>
-
-
-
                                             <Editor placeholder={'Type your Post here!'} value={value} onChange={onChange} />
-
-
-                                            // <Input
-                                            //     autoComplete="off"
-                                            //     onChange={onChange}
-                                            //     value={value}
-                                            //     disableUnderline
-                                            //     fullWidth
-                                            //     multiline
-                                            //     minRows={4}
-                                            //     maxRows={12}
-                                            // />
-
-
-
-
                                         }
                                     />
                                 </TabPanel>
+
+
                                 <TabPanel
                                     sx={{ padding: '0' }}
-                                    value="IMAGE">
+                                    value="upload">
 
                                     <Controller
+                                        name="content"
+                                        control={control}
+                                        render={({ field: { onChange, value } }) =>
+                                            <DropZone
+                                                value={value}
+                                                onChange={onChange}
+                                            />
+
+                                        }
+                                    />
+
+
+
+
+
+
+                                    {/* <Controller
                                         name="content"
                                         control={control}
                                         defaultValue=""
@@ -233,64 +271,75 @@ const Submit = () => {
                                                 fullWidth
 
                                             />}
-                                    />
+                                    /> */}
 
                                 </TabPanel>
+
+                                {/* LINK */}
                                 <TabPanel
                                     sx={{ padding: '0' }}
-                                    value="VIDEO">
+                                    value="link">
 
+                                    <div css={C.link}>
+                                        <Controller
+                                            name="content"
+                                            control={control}
+                                            defaultValue=""
+                                            rules={{ required: true, minLength: 5 }}
+                                            render={({ field: { onChange, value } }) =>
+                                                <Input
+                                                    error={!!errors.content}
 
-                                    <Controller
-                                        name="content"
-                                        control={control}
-                                        defaultValue=""
-                                        rules={{ required: true }}
-                                        render={({ field: { onChange, value } }) =>
-                                            <Input
-                                                autoComplete="off"
-                                                onChange={onChange}
-                                                value={value}
-                                                disableUnderline
-                                                fullWidth
+                                                    placeholder="Enter a Link"
+                                                    sx={{
+                                                        height: '40px',
+                                                        fontSize: '14px',
+                                                        background: '#272732'
+                                                    }}
+                                                    autoComplete="off"
+                                                    onChange={onChange}
+                                                    value={value}
+                                                    disableUnderline
+                                                    fullWidth
 
-                                            />}
-                                    />
-
+                                                />}
+                                        />
+                                    </div>
                                 </TabPanel>
                             </div>
 
                         </TabContext>
                     } />
             </form >
+
+            <Divider sx={{ margin: '12px' }} />
+
+            <div css={textLabel('s')}>POST PREVIEW</div>
+
+            <Post
+                public_id={false}
+                title={data.title}
+                type={data.type}
+                content={data.content}
+                karma={0}
+                views={0}
+                comments={0}
+                created_at={false}
+                updated_at={false}
+                hot={false}
+                author={person}
+            />
         </div>
-
-
-
-
-
-        <div css={[xBold, { marginTop: '24px' }]}>Post Preview</div>
-
-        <Divider css={{ margin: '16px 0 16px' }} />
-
-        <Post
-            public_id={''}
-            title={data.title}
-            type={data.type}
-            content={data.content}
-            karma={0}
-            comments={0}
-            created_at={''}
-            updated_at={''}
-            hot={0}
-            author={person}
-            community={communityArr[data.community]}
-        />
-
     </div>
 
 }
 
 
+export default Submit
 
-export default Submit   
+
+/*
+{
+    type: 'image' | 'carosoul' 
+    source :
+}*/

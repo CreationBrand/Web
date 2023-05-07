@@ -35,6 +35,8 @@ const View = ({ views, public_id }: any) => {
     const [counter, setCounter] = useDeltaSubscription(`view:${public_id}`, views)
 
     useEffect(() => {
+
+        if(!public_id ) return
         socketRequest('view', { public_id: public_id })
     }, [public_id])
 

@@ -5,8 +5,6 @@ import { communityListData } from 'State/Data';
 import { useRecoilValue } from 'recoil';
 
 
-
-
 const columns: GridColDef[] = [
   {
     field: 'title',
@@ -24,6 +22,12 @@ export default function CommunitySelect({ group, value, onChange }: any) {
   const communityList = useRecoilValue(communityListData);
 
   if (!group || !communityList) return (<div>asdf</div>)
+
+
+  // console.log('communityList', communityList)
+
+
+
 
   return (
     <Box sx={{ height: '160px' }}>

@@ -9,6 +9,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@hookform/resolvers": "^3.1.0",
     "@mui/base": "^5.0.0-alpha.103",
     "@mui/icons-material": "^5.10.9",
     "@mui/lab": "^5.0.0-alpha.106",
@@ -32,6 +33,7 @@
     "framer-motion": "^7.5.3",
     "fs-extra": "^10.1.0",
     "html-react-parser": "^3.0.8",
+    "joi": "^17.9.2",
     "lorem-ipsum": "^2.0.8",
     "quilljs-markdown": "^1.2.0",
     "react": "^18.2.0",
@@ -40,9 +42,11 @@
     "react-color": "^2.19.3",
     "react-colorful": "^5.6.1",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-froala-wysiwyg": "^4.0.15",
     "react-hook-form": "^7.35.0",
     "react-markdown": "^8.0.5",
+    "react-player": "^2.12.0",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
@@ -57,7 +61,8 @@
     "tinycolor2": "^1.4.2",
     "treeify": "^1.1.0",
     "typescript": "^4.8.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zod": "^3.21.4"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -12,6 +12,9 @@ const useDeltaSubscription = (public_id: any, inital: number) => {
 
 
     useEffect(() => {
+        if (!public_id) return
+
+
         function deltaEvent(value: any) {
             setData(data + parseInt(value.delta))
         }

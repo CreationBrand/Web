@@ -11,13 +11,14 @@ const C = {
 
     }),
     editor: css({
-
+        padding: '8px',
+        fontFamily: 'noto sans',
         color: 'white',
         width: '100%',
         borderRadius: '8px',
         display: 'flex',
         flexDirection: 'column-reverse',
-        padding: '0px',
+        // padding: '0px',
 
         '.ql-blank': {
             '&::before': {
@@ -29,7 +30,7 @@ const C = {
             borderRadius: '8px',
             width: 'fit-content',
             padding: '4px',
-            margin: '4px',
+            // margin: '4px',
             border: 'none',
             background: '#272732',
         },

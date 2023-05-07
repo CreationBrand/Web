@@ -30,7 +30,7 @@ const Error = () => {
                 fill: 'white !important',
                 color: 'white !important',
             }}
-            autoHideDuration={12000}
+            autoHideDuration={14000}
             onClose={handleClose}
         >
             <Alert onClose={handleClose} severity="error"
@@ -38,7 +38,7 @@ const Error = () => {
                     fill: 'white !important',
                     color: 'white !important',
                     width: '100%', borderRadius: '8px',
-                    background: '#cc4646',
+                 
                 }}>
 
                 <div css={textBold('s')}> {error.message} </div>

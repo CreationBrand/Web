@@ -13,8 +13,9 @@ import OptionGroupUnstyled, {
 import PopperUnstyled from '@mui/base/PopperUnstyled';
 import { styled } from '@mui/system';
 import { useRecoilValue } from 'recoil';
-import { communityData } from 'State/Data';
+import { communityData, communityListData } from 'State/Data';
 import Avatar from '../Avatar/Avatar';
+import { textNormal } from 'Global/Mixins';
 
 const blue = {
   100: '#DAECFF',
@@ -40,15 +41,15 @@ const grey = {
 
 const StyledButton = styled('button')(
   ({ theme }) => `
-  height: 48px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  font-family: ubuntu, sans-serif;
+  font-family: noto sans, sans-serif;
   font-size: 1rem;
   box-sizing: border-box;
-  max-width: 400px;
+  max-width: 360px;
 
   padding: 8px;
   border-radius: 8px;
@@ -89,10 +90,12 @@ const StyledButton = styled('button')(
 const StyledListbox = styled('ul')(
   ({ theme }) => `
 
-  
-  font-family: IBM Plex Sans, sans-serif;
-  font-size: 0.875rem;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: noto sans, sans-serif;
+
+
   padding: 8px;
   margin: 12px 0;
   min-width: 320px;
@@ -113,7 +116,7 @@ const StyledOption = styled(OptionUnstyled)(
   border-radius: 8px;
   cursor: default;
 
-  height: 48px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -151,7 +154,6 @@ const StyledOption = styled(OptionUnstyled)(
 
 const StyledGroupRoot = styled('li')`
   list-style: none;
-  
 `;
 
 const StyledGroupHeader = styled('span')`
@@ -159,7 +161,7 @@ const StyledGroupHeader = styled('span')`
   padding: 15px 0 5px 10px;
   font-size: 12px;
   font-weight: 700;
-  font-family: Inter;
+  font-family: noto sans;
   text-transform: uppercase;
   letter-spacing: 0.05rem;
   color: #b9bbbe;
@@ -170,6 +172,7 @@ const StyledGroupOptions = styled('ul')`
   margin-left: 0;
   padding: 0;
 
+
   > li {
     padding-left: 20px;
   }
@@ -177,6 +180,8 @@ const StyledGroupOptions = styled('ul')`
 
 const StyledPopper = styled(PopperUnstyled)`
   z-index: 1;
+
+
 `;
 
 function CustomSelect(props: SelectUnstyledProps<string>) {
@@ -206,31 +211,32 @@ const CustomOptionGroup = React.forwardRef(function CustomOptionGroup(
 
 export default function CommunitySelect({ value, onChange }: any) {
 
-  const communitys = useRecoilValue(communityData)
+  const communitys = useRecoilValue(communityListData)
+
+  if (!communitys) {
+    return <div></div>
+  }
 
   let options: any = []
 
-  let iter = communitys.map((c: any) => {
-    let temp: any = []
-    c.items.map((i: any) => {
-      console.log(i)
-      temp.push(<StyledOption value={i.public_id}>
-        <div css={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          height: '40px',
-          fontFamily: 'Ubuntu, sans-serif',
-          fontSize: '16px',
-        }}>
-          <Avatar public_id={i.public_id} size={'small'} />
-          {i.title}
-        </div>
-      </StyledOption >
-      )
-    })
-    options.push(<CustomOptionGroup label={c.title}>{temp}</CustomOptionGroup>)
+  var map = new Map();
+
+  communitys.map((i: any) => {
+    map.set(i.public_id, <StyledOption value={i.public_id} key={i.public_id}>
+      <div css={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        height: '40px',
+        padding: '4px',
+      }}>
+        <Avatar public_id={i.public_id} size={'small'} />
+        <div css={textNormal('s')}> {i.title}</div>
+      </div>
+    </StyledOption >)
   })
+
+  options = Array.from(map.values())
 
 
   const onProxy = (e: any, value: any) => {

@@ -5,9 +5,10 @@ import { memo } from 'react'
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 
-
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
+import ReactPlayer from 'react-player'
+import Carousel from '../Carousel/Carousel';
 
 
 const C = {
@@ -19,7 +20,6 @@ const C = {
         'white-space': 'normal !important',
     }),
     editor: css({
-
         color: 'white',
         width: '100%',
         borderRadius: '8px',
@@ -87,13 +87,30 @@ const C = {
             minHeight: '40px !important',
             borderRadius: '8px',
         }
+    }),
+    player: css({
+        width: '100%',
+        // width: 'min-content',
+        overflow: 'hidden',
+        position: 'relative',
+        '& > div': {
+            // width: '100% !important',
+        },
+        '& > div > video': {
+            backgroundColor: '#fff',
+            background: '#272732',
+            objectFit: 'contain',
+            width: '100% !important',
+            height: 'auto',
+            borderRadius: '8px',
+
+        }
     })
 }
 
 
-
-
 const ContentLoader = ({ type, content }: any) => {
+
 
     if (type === 'text') return (
         <div className='quill css-16jn0ui-Editor'>
@@ -108,10 +125,38 @@ const ContentLoader = ({ type, content }: any) => {
         </div>
     )
 
+    else if (type === 'upload' && content.type === 'video') return (
+        <div css={C.player}>
+            <ReactPlayer controls url={content.source} />
+        </div>
+    )
 
-    return <div>
-        not done yet
-    </div>
+    else if (type === 'upload' && content.type === 'image' && content?.source?.length > 1) return (
+        <Carousel images={content.source} />
+
+    )
+
+    else if (type === 'upload' && content.type === 'image' && content?.source?.length === 1) return (
+        <div css={{
+            border: '1px solid #272732',
+            display: "block",
+            width: '100%',
+            height: '1000px',
+            maxHeight: '400px',
+            minHeight: '200px',
+            borderRadius: "12px",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundImage: `url(${content?.source[0]})`
+        }} />
+
+    )
+
+
+
+
+    return <div> error </div>
 
 
 }

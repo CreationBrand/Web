@@ -17,6 +17,7 @@ import View from 'Stories/Bits/View/View'
 import { memo } from 'react'
 import { useRecoilValue } from 'recoil'
 import { contentFlow } from 'State/Flow'
+import { textBold } from 'Global/Mixins'
 
 const C = {
     container: css({
@@ -70,39 +71,21 @@ const C = {
 }
 
 
-const Post = ({
-    varient,
-    public_id,
-    title,
-    type,
-    content,
-    karma,
-    comments,
-    vote,
-    created_at,
-    updated_at,
-    hot,
-    author, views,
-    community,
-    ...props
-}: any) => {
+const Post = ({ varient, public_id, title, type, content, karma, comments, vote, created_at, updated_at, hot, author, views, community, ...props }: any) => {
 
 
     const contentState = useRecoilValue(contentFlow)
-
-    // console.log(contentState)
-
-
     const navigate = useNavigate()
 
-    // console.log(varient)
     const bodyClick = () => {
-        // console.log(varient)
-
         if (varient === 'global') navigate(`/c/${community.public_id}/p/${public_id}`)
         if (varient === 'community') navigate(`p/${public_id}`)
     }
 
+
+    // console.log(varient, public_id, title, type, karma, comments, vote, created_at, updated_at, hot, author, views, community)
+
+    // console.log('post', contentState)
 
     const avatarClick = () => { }
 
@@ -118,32 +101,33 @@ const Post = ({
                 exit={{ opacity: 0 }}
                 css={C.container} onClick={bodyClick}>
 
+
+
                 <div css={C.left}>
                     <Avatar size="medium" public_id={author.public_id} onClick={avatarClick} />
                     <Vote karma={karma} vote={vote} public_id={public_id} />
                     <View public_id={public_id} views={views} />
                 </div>
 
+
+
                 <div css={C.right}>
 
-                    {contentState.type === 'global' ? (
+
+                    {contentState.type === 'community' ? (
                         <>
-                            <CommunityTitle title={community.title} public_id={community.public_id} />
-                            <Author username={author.nickname} public_id={author.public_id} />
+                            <Author username={author?.nickname} public_id={author?.public_id} />
                         </>
                     ) : (
                         <>
-                            <Nickname title={author.nickname} public_id={author.public_id} />
-                            <Author username={author.username} public_id={author.public_id} />
+                            <CommunityTitle title={community?.title} public_id={community?.public_id} />
+                            <Nickname title={author?.nickname} public_id={author?.public_id} />
                         </>
                     )}
 
                     <div>
-
-                        <div css={[C.title, mBold]}>{title}</div>
-
+                        <div css={[C.title, textBold('l')]}>{title && title}</div>
                         <ContentLoader type={type} content={content} />
-
                     </div>
 
                 </div>

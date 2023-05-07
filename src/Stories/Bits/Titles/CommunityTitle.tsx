@@ -2,8 +2,8 @@
 import { css } from '@emotion/react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { lBold } from 'Stories/Bits/Text/Text'
 
+import { textBold } from 'Global/Mixins'
 const C = {
     container: css({
         display: 'flex',
@@ -29,7 +29,7 @@ const CommunityTitle = ({ title, public_id }: any) => {
     return (
         <>
             <div css={C.container} onClick={handleClick}>
-                <div css={[lBold, C.underline]}>{title}</div>
+                <div css={[textBold('m'), C.underline]}>{title}</div>
             </div>
         </>
     )

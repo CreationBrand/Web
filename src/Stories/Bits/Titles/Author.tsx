@@ -5,6 +5,7 @@ import { underline } from 'ansicolor'
 import { useState } from 'react'
 import { lBold, mMuted, sMuted, sNormal } from 'Stories/Bits/Text/Text'
 import PersonPopup from '../PersonPopup/PersonPopup'
+import { textBold, textLight } from 'Global/Mixins'
 
 const C = {
     container: css({
@@ -41,7 +42,7 @@ const Author = ({ username, public_id }: any) => {
     return (
         <>
             <div css={C.container} onClick={handleClick}>
-                <div css={sNormal}>{username}</div>
+                <div css={textBold('s')}>{username}</div>
             </div>
             <Menu
                 anchorEl={anchorEl}

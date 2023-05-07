@@ -4,7 +4,7 @@ import { css } from '@emotion/react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { textBold } from 'Global/Mixins'
+import { textLight } from 'Global/Mixins'
 
 const C = {
     container: css({
@@ -30,7 +30,7 @@ const Nickname = ({ title, public_id }: any) => {
 
     return (
         <div css={C.container} onClick={handleClick}>
-            <div css={[textBold('m'), C.underline]}>{title}</div>
+            <div css={[textLight('t'), C.underline]}>{title}</div>
         </div>
     )
 }
