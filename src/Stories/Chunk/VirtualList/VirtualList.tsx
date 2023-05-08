@@ -10,7 +10,7 @@ const C = {
         height: "calc(100% - 56px)",
         overflowY: 'scroll',
         overflowX: 'hidden',
-        // scrollbarGutter: 'stable both-edges',
+        scrollbarGutter: 'stable',
         position: 'relative',
         boxSizing: 'border-box',
     }),

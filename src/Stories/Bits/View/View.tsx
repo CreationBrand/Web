@@ -20,12 +20,13 @@ const C = {
 
     vote: css({
         display: 'flex',
-        background: theme.background.tri,
-        flexDirection: 'column',
+        background: '#181820',
         borderRadius: '8px',
-        width: '40px',
+        gap: '4px',
+        width: 'min-content',
+        height: '30px',
         alignItems: 'center',
-        padding: '4px',
+        padding: '0px 8px',
         color: '#b9bbb3',
     })
 }
@@ -36,19 +37,20 @@ const View = ({ views, public_id }: any) => {
 
     useEffect(() => {
 
-        if(!public_id ) return
+        if (!public_id) return
         socketRequest('view', { public_id: public_id })
     }, [public_id])
 
     return (
         <div css={C.vote}>
 
-            <FontAwesomeIcon icon={faEye} size='xs' />
-
             <div css={[mMuted, {
             }]}>
                 <Ticker value={counter} />
             </div>
+            <FontAwesomeIcon 
+            icon={faEye} version='fa-reg' size='xs' />
+
 
 
         </div >

@@ -37,12 +37,17 @@ const CommunityTree = () => {
             placeholder="Search..."
             startAdornment={<ManageSearchRoundedIcon color="secondary" />}
             sx={{
+                input:{
+                    paddingLeft: '4px',
+
+                },
+                paddingLeft: '4px',
                 marginBottom: '8px',
                 height: '32px',
                 fontSize: '14px',
                 borderRadius: '8px',
                 backgroundColor: theme.background.pri,
-                fontFamily: 'Ubuntu',
+                // fontFamily: 'Ubuntu',
                 border: '2px solid',
                 borderColor: theme.background.pri,
             }}

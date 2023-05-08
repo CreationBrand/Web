@@ -94,11 +94,12 @@ const C = {
         overflow: 'hidden',
         position: 'relative',
         '& > div': {
-            // width: '100% !important',
+            width: '100% !important',
+            background: '#272732',
         },
         '& > div > video': {
             backgroundColor: '#fff',
-            background: '#272732',
+            background: '#181820 !important',
             objectFit: 'contain',
             width: '100% !important',
             height: 'auto',

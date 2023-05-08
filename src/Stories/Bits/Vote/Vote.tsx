@@ -15,31 +15,32 @@ import { socketRequest } from 'Service/Socket'
 
 const C = {
     up: css({
-        width: '40px',
+        width: 'min-content',
         borderRadius: '8px',
-        borderBottomRightRadius: '0px',
-        borderBottomLeftRadius: '0px',
-        minWidth: '20px',
-        height: '25px'
+        padding: '0px',
+
+        minWidth: '10px',
+        height: '100% '
     }),
 
     down: css({
-        width: '40px',
+        width: 'min-content',
         borderRadius: '8px',
-        borderTopRightRadius: '0px',
-        borderTopLeftRadius: '0px',
-        minWidth: '20px',
-        height: '25px'
+        padding: '0px',
+
+        minWidth: '10px',
+        height: '100% '
     }),
 
     vote: css({
         display: 'flex',
-        background: theme.background.tri,
-        flexDirection: 'column',
+        background: '#181820',
+        width: 'min-content',
         borderRadius: '8px',
-        width: '40px',
         alignItems: 'center',
         overflow: 'hidden',
+        gap: '4px',
+        height: '30px',
     }),
     small: css({
         flexDirection: 'row',

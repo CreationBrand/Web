@@ -12,6 +12,8 @@ import { useRecoilValue } from "recoil"
 const useMessengerTree = () => {
 
     const messengers = useRecoilValue(messengerTreeData)
+    const [filter, setFilter] = useState('active')
+
 
     const [tree, setTree] = useState([
         {
@@ -32,7 +34,7 @@ const useMessengerTree = () => {
                     object: {
                         id: "trending",
                         title: "Trending",
-                   
+
                         icon: <FontAwesomeIcon size='1x' icon={faFire} />
                     },
                 }, {
@@ -45,7 +47,7 @@ const useMessengerTree = () => {
                     object: {
                         id: "home",
                         title: "Home",
-                        
+
                         icon: <FontAwesomeIcon size='1x' icon={faHouse} />
                     }
                 }
@@ -53,7 +55,7 @@ const useMessengerTree = () => {
             ],
         },
         {
-            id:'dm',
+            id: 'dm',
             type: 'branch',
             path: 'dm',
             title: 'DIRECTS MESSAGES',
@@ -66,7 +68,7 @@ const useMessengerTree = () => {
                 title: 'DIRECTS MESSAGES"',
                 active: true,
                 visible: true,
-                component: <MessengerFilter />
+                component: <MessengerFilter value={filter} onChange={setFilter} />
             }, ...messengers],
         }
 

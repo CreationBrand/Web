@@ -8,7 +8,6 @@ import Avatar from 'Stories/Bits/Avatar/Avatar'
 const C = {
     container: css({
         width: '100%',
-        // height: '200px',
         paddingBottom: '12px',
         background: '#343442',
         borderRadius: '8px',

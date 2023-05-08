@@ -11,6 +11,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import { useNavigate } from "react-router-dom";
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
 
 const C = {
@@ -55,7 +56,6 @@ const Group = ({ node, editOpen }: any) => {
     const handleGroup = () => node.toggle()
     const handleNav = () => navigate(node.data.link)
 
-
     return (
         <motion.div css={C.group} initial="rest" whileHover="hover" variants={innerMotion} >
 
@@ -67,8 +67,15 @@ const Group = ({ node, editOpen }: any) => {
                     fill: '#fff !important',
                 }
             }}>
-                {node.isOpen ? <IndeterminateCheckBoxOutlinedIcon onClick={handleGroup} sx={{ fontSize: '18px', fill: 'inherit' }} />
-                    : <AddBoxOutlinedIcon onClick={handleGroup} sx={{ fontSize: '18px', fill: 'inherit' }} />}
+
+                {node.children === null ? <CheckBoxOutlineBlankIcon onClick={handleGroup} sx={{ fontSize: '18px', fill: 'inherit' }} /> :
+                    node.isOpen ? <IndeterminateCheckBoxOutlinedIcon onClick={handleGroup} sx={{ fontSize: '18px', fill: 'inherit' }} />
+                        : <AddBoxOutlinedIcon onClick={handleGroup} sx={{ fontSize: '18px', fill: 'inherit' }} />
+                }
+
+
+
+
             </div>
 
             <motion.div css={C.inner} onClick={handleNav}>

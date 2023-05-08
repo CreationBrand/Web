@@ -14,6 +14,7 @@ import CommunityStats from 'Stories/Bits/StatCheck/CommunityStats'
 
 const C = {
     container: css({
+        marginTop: '16px',
         width: '100%',
         height: '140px',
         background: '#343442',
@@ -56,6 +57,7 @@ const C = {
         height: '8px',
         borderRadius: '50%',
         background: '#43b581',
+        marginLeft: '8px',
     }),
     offline: css({
         display: 'inline-block',
@@ -113,7 +115,7 @@ const CommunityPane = ({ data }: any) => {
                     <div>
                         <div css={textBold('x')}>{data.title}</div>
                         <div css={C.stats}>
-                            <div css={C.under}><span css={C.offline} /> 143514 Members  <span css={C.online} /> 540 Online</div>
+                            <div css={C.under}><span css={C.offline} /> 13 Members  <span css={C.online} /> 2 Viewing</div>
                         </div>
 
                     </div>

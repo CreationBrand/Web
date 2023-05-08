@@ -11,9 +11,9 @@ const C = {
     container: css({
         width: '100%',
         height: '42px',
-        background: '#343442',
-        borderRadius: '8px',
-        margin: '10px 0px 10px 0px',
+        background: '#272732',
+        borderRadius: '12px',
+        margin: '16px 0px 0px 0px',
         padding: '8px',
         gap: '8px',
         // justifyContent: 'space-between',

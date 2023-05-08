@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { socketRequest } from "Service/Socket";
+import MainPost from "Stories/Chunk/Post/MainPost";
 import Post from "Stories/Chunk/Post/Post";
 import LoaderPane from "Stories/Pane/loaderPane";
 
@@ -41,7 +42,7 @@ const usePullPost = (post_id: any) => {
     console.groupEnd();
 
 
-    return [error, <Post varient="post" {...data.post} />];
+    return [error, <MainPost varient="post" {...data.post} />];
 }
 
 export default usePullPost

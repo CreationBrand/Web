@@ -17,43 +17,30 @@ body {
 
 /* width */
 ::-webkit-scrollbar {
-    width: 16px;
-    margin-right: 4px;
-    padding-right: 4px;
-    position: absolute;
-    overflow-y: overlay;
+    width: 8px;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-    width: 4px;
-    background-color: #1f1f27;
-    border: 4px solid transparent;
-    background-clip: padding-box;
-    border-radius: 8px;
-
-}
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
- /* background: #151618; 
-    width: 4px;
-    margin-right: 4px;
-    border: 4px solid transparent;
-    background-clip: padding-box;
-    border-radius: 8px; */
 
-    background: #151618;
-    background-clip: padding-box;
-    border-width: 4px;
-    border-style: solid;
+
+    background: #52555d;
+    background-clip: padding-box !important;  
+    
+    border-width: 140px;
+    /* border-style: solid; */
     border-color: transparent;
     border-image: initial;
     border-radius: 8px;
+    
 
 }
 
+::-webkit-scrollbar-track{
 
+    margin: 16px 0px 0px 0px !important;
+}
 
 
 

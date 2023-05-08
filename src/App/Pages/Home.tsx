@@ -182,6 +182,7 @@ const Home = () => {
                         </IconButton>
 
                         <IconButton
+                            onClick={() => setTri([true, !r])}
                             disableRipple={true}
                             size="small"
                             color="secondary"

@@ -12,6 +12,7 @@ import Avatar from '../../Bits/Avatar/Avatar'
 import SettingsIcon from '@mui/icons-material/Settings'
 import DragIndicatorRoundedIcon from '@mui/icons-material/DragIndicatorRounded'
 import { useNavigate } from 'react-router-dom'
+import { textBold, textLight, textNormal } from 'Global/Mixins'
 
 const C = {
     container: css({
@@ -90,8 +91,9 @@ const Person = ({ username, nickname, roles, route, public_id, status }: Props) 
                 <Avatar public_id={public_id} size="medium" />
 
                 <div css={C.content}>
-                    <div css={roles ? smBold : bold}>{nickname}</div>
-                    <div css={roles ? xsMuted : smMuted}>@{username}</div>
+                    <div css={textBold('m')}>{nickname}</div>
+                    <div css={textLight('t')}>@{username}</div>
+
 
                     {rolesArr.length !== 0 && <div css={C.roles}>{rolesArr}</div>}
                 </div>

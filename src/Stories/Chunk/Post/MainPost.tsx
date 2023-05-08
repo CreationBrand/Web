@@ -13,6 +13,7 @@ import Vote from "Stories/Bits/Vote/Vote"
 import { useNavigate } from 'react-router-dom'
 import PostStats from 'Stories/Bits/StatCheck/PostStats'
 import View from 'Stories/Bits/View/View'
+import Comment from 'Stories/Bits/Comment/Comment'
 import { memo } from 'react'
 import { useRecoilValue } from 'recoil'
 import { contentFlow } from 'State/Flow'
@@ -25,7 +26,7 @@ const C = {
         // marginBottom: '8px',
         cursor: 'pointer',
         minHeight: '100px',
-        padding: '16px 16px 0px 20px',
+        padding: '16px 2px 0px 0px',
         // border:'1px solid #d6d6d7',
         // ':hover': {
         //     background: `#2c2c38`,
@@ -42,15 +43,16 @@ const C = {
         width: '100%',
         maxWidth: '800px',
         display: 'flex',
+        flexDirection: 'column',
         gap: '8px',
-        // background: '#343442',
+        background: '#272732',
         padding: '8px',
         borderRadius: '8px',
 
     }),
-    left: css({
+    footer: css({
         display: 'flex',
-        flexDirection: 'column',
+
         gap: '8px',
 
     }),
@@ -62,8 +64,10 @@ const C = {
         maxWidth: '750px',
     }),
     header: css({
+        gap: '8px',
         height: '40px',
         color: '#f2f4f5 !important',
+        display: 'flex',
     })
 }
 
@@ -85,27 +89,42 @@ const Post = ({ varient, public_id, title, type, content, karma, comments, vote,
 
 
     return (
-        <div css={C.container} onClick={bodyClick}>
+        <div css={C.container}>
 
 
-            <div css={C.inner}>
+            <div css={C.inner} onClick={bodyClick}>
 
-                <div css={C.left}>
+
+
+
+                <div css={C.header}>
                     <Avatar size="medium" public_id={author.public_id} onClick={userClick} />
-                    <Vote karma={karma} vote={vote} public_id={public_id} />
-                    <View public_id={public_id} views={views} />
+                    <div>
+
+                        {contentState.type === 'community' ? (
+                            <>
+                                <Author username={author?.nickname} public_id={author?.public_id} />
+                            </>
+                        ) : (
+                            <>
+                                <CommunityTitle title={community?.title} public_id={community?.public_id} />
+                                <Nickname title={author?.nickname} public_id={author?.public_id} />
+                            </>
+                        )}                    </div>
                 </div>
 
-                <div css={C.right}>
+                <div css={textBold('x')}>{title && title}</div>
+
+                <ContentLoader type={type} content={content} />
 
 
 
-                    <div css={C.header}>
-                        <div css={textBold('l')}>{title && title}</div>
-                    </div>
 
-                    <ContentLoader type={type} content={content} />
 
+                <div css={C.footer}>
+                    <Vote karma={karma} vote={vote} public_id={public_id} />
+                    <View public_id={public_id} views={views} />
+                    <Comment public_id={public_id} comments={comments} />
                 </div>
 
             </div>

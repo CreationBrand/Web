@@ -7,7 +7,7 @@ const Main = ({ children }: any) => {
         width: '100%',
         borderRadius: '8px',
         height: '100%',
-        background: '#272732',
+        background: '#0f0e10',
         overflow: 'hidden',
     })
 
