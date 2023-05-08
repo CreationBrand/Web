@@ -10,7 +10,7 @@ const C = {
         height: "calc(100% - 56px)",
         overflowY: 'scroll',
         overflowX: 'hidden',
-        scrollbarGutter: 'stable both-edges',
+        // scrollbarGutter: 'stable both-edges',
         position: 'relative',
         boxSizing: 'border-box',
     }),
@@ -38,7 +38,6 @@ const VirtualList = ({ list }: any) => {
             <div
                 style={{
                     height: virtualizer.getTotalSize(),
-                    padding: '10px',
                     position: 'absolute',
                     boxSizing: 'border-box',
                     top: 0,

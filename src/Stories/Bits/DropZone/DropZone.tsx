@@ -50,12 +50,14 @@ const DropZone = ({ value, onChange }: any
 
     let [files, setFiles]: any = useState([])
 
-    const onDrop = useCallback((acceptedFiles: any) => {
+    const onDrop = useCallback(async (acceptedFiles: any) => {
 
         if (acceptedFiles.length === 1 && acceptedFiles[0].type === 'video/mp4') {
+            console.log(acceptedFiles[0])
             onChange({
                 type: 'video',
                 source: URL.createObjectURL(acceptedFiles[0]),
+                file: await get_file_array(acceptedFiles[0]),
             })
             files.push(...acceptedFiles)
         }
@@ -140,3 +142,15 @@ const toBase64 = (file: Blob) => new Promise((resolve, reject) => {
     reader.onload = () => resolve(reader.result);
     reader.onerror = reject;
 });
+
+
+
+
+const get_file_array = (file: any) => {
+    return new Promise((acc, err) => {
+        const reader = new FileReader();
+        reader.onload = (event: any) => { acc(event.target.result) };
+        reader.onerror = (err: any) => { err(err) };
+        reader.readAsArrayBuffer(file);
+    });
+}

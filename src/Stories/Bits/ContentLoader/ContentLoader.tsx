@@ -112,6 +112,8 @@ const C = {
 const ContentLoader = ({ type, content }: any) => {
 
 
+
+
     if (type === 'text') return (
         <div className='quill css-16jn0ui-Editor'>
             <div className='ql-container ql-snow'>
@@ -125,7 +127,14 @@ const ContentLoader = ({ type, content }: any) => {
         </div>
     )
 
-    else if (type === 'upload' && content.type === 'video') return (
+    try {
+        if (typeof content === 'string') content = JSON.parse(content)
+    } catch (error) { }
+
+
+console.log(content)
+
+    if (type === 'upload' && content.type === 'video') return (
         <div css={C.player}>
             <ReactPlayer controls url={content.source} />
         </div>
@@ -148,7 +157,7 @@ const ContentLoader = ({ type, content }: any) => {
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
-            backgroundImage: `url(${content?.source[0]})`
+            backgroundImage: `url(${content.source[0]})`
         }} />
 
     )

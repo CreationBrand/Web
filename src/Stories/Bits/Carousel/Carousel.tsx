@@ -79,10 +79,13 @@ const Carousel = ({ images }: any) => {
         setIndex(to)
     }
 
+    console.log(images)
+
+    let url = `https://artram.s3.amazonaws.com/images/${images[index]}.jpeg`
+    let url2 = `url(${images[index]}.jpeg)`
 
 
     return (
-
 
         <div css={C.container}>
 
@@ -90,7 +93,7 @@ const Carousel = ({ images }: any) => {
             <AnimatePresence initial={false} custom={direction}>
                 <motion.div
                     css={{
-                        border:'1px solid #272732',
+                        border: '1px solid #272732',
                         display: "block",
                         height: "100%",
                         width: "100%",
@@ -98,7 +101,7 @@ const Carousel = ({ images }: any) => {
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                         backgroundRepeat: "no-repeat",
-                        backgroundImage: `url(${images[index]})`
+                        backgroundImage:`url(${images[index]})`,
                     }}
                     key={imageCount}
                     custom={direction}

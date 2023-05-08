@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useRecoilState, useRecoilValue } from "recoil";
 import { socketRequest } from "Service/Socket";
 import { postListData } from "State/Data";
+import MainPost from "Stories/Chunk/Post/MainPost";
 import Post from "Stories/Chunk/Post/Post";
 import LoaderPane from "Stories/Pane/loaderPane";
 
@@ -44,7 +45,7 @@ const usePullPosts = (community_id: any, filter: string, varient: string) => {
                 let posts = []
 
                 for (var i in req.posts) {
-                    posts.push(<Post varient={varient} {...req.posts[i]} />)
+                    posts.push(<MainPost {...req.posts[i]} />)
                 }
 
                 if (page.data === 0) setList(posts)
@@ -54,7 +55,7 @@ const usePullPosts = (community_id: any, filter: string, varient: string) => {
         if (end === false) fetchMore().catch((err) => console.log(err))
     }, [page])
 
-    if (end === false) return [error,[] ]
+    if (end === false) return [error, []]
     return [error, list] as const;
 }
 
