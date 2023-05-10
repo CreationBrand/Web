@@ -22,15 +22,8 @@ import { textBold } from 'Global/Mixins'
 const C = {
     container: css({
         width: '100%',
-        // borderBottom: `2px solid #343442`,
-        // marginBottom: '8px',
-        cursor: 'pointer',
         minHeight: '100px',
         padding: '16px 2px 0px 0px',
-        // border:'1px solid #d6d6d7',
-        // ':hover': {
-        //     background: `#2c2c38`,
-        // },
     }),
     inner: css({
         // boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 12px',

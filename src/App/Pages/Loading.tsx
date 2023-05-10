@@ -2,6 +2,7 @@
 
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
+import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import { brand } from 'Stories/Bits/Text/Text'
 
 const C = {
@@ -23,6 +24,8 @@ const Loading = () => {
 
     return (
         < div css={C.page} >
+
+            <ChunkError></ChunkError>
             {/* <div css={C.wrapper}>
                 <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, repeatDelay: 3 }} css={[C.bar, brand]}>L</motion.div>
                 <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, repeatDelay: 3, delay: 0.2 }} css={[C.bar, brand]}>o</motion.div>

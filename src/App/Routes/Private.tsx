@@ -29,11 +29,11 @@ var Private = () => {
 
                     <Route
                         path="/home"
-                        element={<GlobalList />}
+                        element={<GlobalList type="home"/>}
                     ></Route>
                     <Route
                         path="/trending"
-                        element={<GlobalList />}></Route>
+                        element={<GlobalList type="trending"/>}></Route>
 
                     <Route
                         path="g/:group_id"

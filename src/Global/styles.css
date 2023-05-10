@@ -15,42 +15,6 @@ body {
     padding: 0;
 }
 
-/* width */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-
-
-    background: #52555d;
-    background-clip: padding-box !important;  
-    
-    border-width: 140px;
-    /* border-style: solid; */
-    border-color: transparent;
-    border-image: initial;
-    border-radius: 8px;
-    
-
-}
-
-::-webkit-scrollbar-track{
-
-    margin: 16px 0px 0px 0px !important;
-}
-
-
-
-
-
-
-
-
-
-
 .ql-editor {
     padding: 0px 0px !important;
     color: #f2f2f2;
@@ -65,17 +29,22 @@ body {
 
 .gegga {
     width: 0;
+    transition: all 2s ease-in;
 }
 .snurra {
     filter: url(#gegga);
+    transition: all 2s ease-in;
 }
 .stopp1 {
     stop-color: #4b77fb;
+    transition: all 2s ease-in;
 }
 .stopp2 {
     stop-color: #8e58f2;
+    transition: all 2s ease-in;
 }
 .halvan {
+    transition: all 2s ease-in;
     animation: Snurra1 10s infinite linear;
     stroke-dasharray: 180 800;
     fill: none;
@@ -153,13 +122,20 @@ body {
     height: 40px;
     border-bottom: rgba(255, 255, 255, 0.12) 1px solid !important;
 }
-/* MuiButtonBase-root MuiTab-root MuiTab-labelIcon MuiTab-textColorSecondary Mui-selected css-bcdoly-MuiButtonBase-root-MuiTab-root */
 
-
-
-
-:root {
-    --bg-1: brown;
-    --bg-2: #2b2c30;
-    --bg-3: #161f29;
+/* total width */
+::-webkit-scrollbar {
+    width: 14px;
   }
+  
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 14px 14px transparent;
+    border: solid 4px transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 14px 14px #635e69;
+    border: solid 4px transparent;
+    border-radius: 14px;
+  }
+  

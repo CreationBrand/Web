@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 
-import useCommunityTree from "Hooks/useCommunityTree";
 import { useRecoilState } from "recoil"
 import { communityData, communityTreeData } from "State/Data"
 import VirtualTree from "../VirtualTree/VirtualTree";

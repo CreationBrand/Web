@@ -38,7 +38,7 @@ const VirtualTree = ({ tree, term, operator, setTree, handleMove, height }: any)
 
 
         const handleClick = () => {
-            console.log(node.data)
+            // console.log(node.data)
             if (node.data.link) navigate(node.data.link)
         }
 

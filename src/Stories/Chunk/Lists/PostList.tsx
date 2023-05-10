@@ -12,8 +12,6 @@ import FilterPane from 'Stories/Pane/FilterPane'
 
 import AddComment from '../AddComment/AddComment'
 import VirtualList from '../VirtualList/VirtualList'
-import { postListData } from 'State/Data'
-
 
 const C = {
     container: css({
@@ -28,42 +26,33 @@ const C = {
 
 const PostList = () => {
 
-    const [PostListD, setPostListD]: any = useRecoilState(postListData)
     const params = useParams()
     const [filter, setFilter] = useState('HOT')
+
     const [error1, pane] = usePullPost(params.post_id)
-    const [error, list]: any = usePullComments(params.post_id, filter, 'post')
+    const [error, list]: any = usePullComments(params.post_id, filter)
 
-    if (error || error1) return <ChunkError />
-
-
-    // useEffect(() => {
-
-    //     setPostListD([pane,
-    //         <AddComment
-    //             post_id={params.post_id}
-    //             parent_id={params.post_id} />,
-    //         <FilterPane value={filter} onChange={setFilter} />,
-    //         ...list])
-
-    // }, [pane, list])
+    if (!list || !pane) return <ChunkError variant={'loading'} />
+    if (error || error1) return <ChunkError variant={'error'} />
 
 
     return (
         <motion.div
-            key={'mount thing'}
+            key={`Post:${params.post_id}`}
             css={C.container}
             transition={{ duration: 0.4 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
         >
-            <VirtualList list={[pane,
-                <AddComment
-                    post_id={params.post_id}
-                    parent_id={params.post_id} />,
-                <FilterPane value={filter} onChange={setFilter} />,
-                ...list]} />
+            <VirtualList list={[
+                pane,
+                <div css={{ maxWidth: '800px', margin: 'auto', marginTop: '16px' }}>
+                    <FilterPane value={filter} onChange={setFilter} />
+                    <AddComment post_id={params.post_id} parent_id={params.post_id} />
+                </div>,
+                ...list
+            ]} />
 
 
         </motion.div>

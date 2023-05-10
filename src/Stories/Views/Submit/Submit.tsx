@@ -55,6 +55,10 @@ const C = {
         padding: '22px',
         scrollbarGutter: 'stable both-edges',
         overflow: 'auto',
+        background: '#272732',
+        marginTop: '8px',
+        borderRadius: '8px',
+
     }),
     inner: css({
         display: 'flex',

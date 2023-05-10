@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { contentFlow, pageFlow } from 'State/Flow'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import VirtualList from '../VirtualList/VirtualList'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 const C = {
     container: css({
@@ -20,12 +20,12 @@ const C = {
     })
 }
 
-const GlobalList = () => {
+const GlobalList = ({ type }: any) => {
 
     const location = useLocation()
-    const page = useRecoilValue(pageFlow)
+
     const [contentState, setContentState] = useRecoilState(contentFlow)
-    const [error, list] = usePullPosts(page, 'none', 'global')
+    const [error, list] = usePullPosts(type, 'none', 'global')
 
 
     useEffect(() => {

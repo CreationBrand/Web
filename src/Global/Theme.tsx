@@ -78,7 +78,7 @@ const theme: any = createTheme({
                     color: '#b9bbbe',
                     padding:'8px 12px 8px 12px',
                     fontSize: '13px',
-                    fontFamily: 'Ubuntu',
+                    fontFamily: 'noto sans',
                     borderRadius: '8px',
                 },
                 arrow: {

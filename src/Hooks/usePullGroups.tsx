@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { useRecoilState, useRecoilValue } from "recoil";
 import { socketRequest } from "Service/Socket";
 import { postListData } from "State/Data";
+import ChunkError from "Stories/Bits/ChunkError/ChunkError";
+import MainPost from "Stories/Chunk/Post/MainPost";
 import Post from "Stories/Chunk/Post/Post";
 import LoaderPane from "Stories/Pane/loaderPane";
 
@@ -45,7 +47,7 @@ const usePullGroups = (group_id: any, filter: string, varient: string) => {
                 let posts = []
 
                 for (var i in req.posts) {
-                    posts.push(<Post varient={varient} {...req.posts[i]} />)
+                    posts.push(<MainPost varient={varient} {...req.posts[i]} />)
                 }
 
                 if (page.data === 0) setList(posts)
@@ -56,6 +58,8 @@ const usePullGroups = (group_id: any, filter: string, varient: string) => {
     }, [page])
 
     if (end === false) return [error, list.concat(<LoaderPane />)]
+    if (end === true) return [error, list.concat(<ChunkError variant='end' />)]
+
     return [error, list] as const;
 }
 

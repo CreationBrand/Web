@@ -65,7 +65,6 @@ export const communityLTL = (list: any) => {
     return result
 
 }
-
 export const messengerLTT = (list: any) => {
 
     let tree: any = [];

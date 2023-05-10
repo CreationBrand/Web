@@ -11,6 +11,7 @@ const C = {
 
     }),
     editor: css({
+        background: '#272732',
         padding: '8px',
         fontFamily: 'noto sans',
         color: 'white',
@@ -32,7 +33,7 @@ const C = {
             padding: '4px',
             // margin: '4px',
             border: 'none',
-            background: '#272732',
+            background: '#3b3b4b',
         },
         '.ql-formats':{
             paddingRight: '4px',
@@ -46,7 +47,7 @@ const C = {
         },
 
         '.ql-container': {
-            fontFamily: 'Ubuntu !important',
+            
             border: 'none',
             borderBottomLeftRadius: '8px',
             borderBottomRightRadius: '8px'
