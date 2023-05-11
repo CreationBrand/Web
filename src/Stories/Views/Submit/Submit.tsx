@@ -30,6 +30,7 @@ import BackupRoundedIcon from '@mui/icons-material/BackupRounded';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import DropZone from 'Stories/Bits/DropZone/DropZone';
+import MainPost from 'Stories/Chunk/Post/MainPost';
 
 // VALIDATION
 
@@ -320,7 +321,7 @@ const Submit = () => {
 
             <div css={textLabel('s')}>POST PREVIEW</div>
 
-            <Post
+            <MainPost
                 public_id={false}
                 title={data.title}
                 type={data.type}

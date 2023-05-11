@@ -136,7 +136,7 @@ const Comment = ({ hidden, public_id, author, content, vote, depth, karma, path,
     }
 
     const spacers = []
-    for (var i = 0; i < depth - 2; i++) { spacers.push(<div css={C.spacer} />) }
+    for (var i = 0; i < depth - 2; i++) { spacers.push(<div css={C.spacer} key={i} />) }
     if (!relation?.visibility) return null
 
     return (
@@ -181,7 +181,7 @@ const Comment = ({ hidden, public_id, author, content, vote, depth, karma, path,
                                 </>
                             }
 
-                            <Vote size='small' vote={vote} karma={karma} public_id={public_id} />
+                            <Vote size='small' vote={vote} karma={karma} public_id={public_id} type='comment' />
                             <div css={C.divider} />
                             <Button
                                 onClick={handleReply}

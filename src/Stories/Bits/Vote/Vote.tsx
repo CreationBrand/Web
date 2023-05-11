@@ -55,22 +55,21 @@ const C = {
     }),
 }
 
-const Vote = ({ karma, public_id, vote, size }: any) => {
+const Vote = ({ karma, public_id, vote, size, type }: any) => {
 
     const [counter, setCounter] = useDeltaSubscription(`vote:${public_id}`, karma)
     const [interaction, setInteraction] = useState(vote)
 
-
     const increase = () => {
-        if (interaction === -1) { setCounter(counter + 2); setInteraction(1); socketRequest('vote', { vote: 1, public_id: public_id }) }
-        else if (interaction === 0) { setCounter(counter + 1); setInteraction(1); socketRequest('vote', { vote: 1, public_id: public_id }) }
-        else if (interaction === 1) { setCounter(counter - 1); setInteraction(0); socketRequest('vote', { vote: 0, public_id: public_id }) }
+        if (interaction === -1) { setCounter(counter + 2); setInteraction(1); socketRequest('vote', { vote: 1, public_id: public_id, type: type }) }
+        else if (interaction === 0 || !interaction) { setCounter(counter + 1); setInteraction(1); socketRequest('vote', { vote: 1, public_id: public_id, type: type }) }
+        else if (interaction === 1) { setCounter(counter - 1); setInteraction(0); socketRequest('vote', { vote: 0, public_id: public_id, type: type }) }
     }
 
     const decrease = () => {
-        if (interaction === 1) { setCounter(counter - 2); setInteraction(-1); socketRequest('vote', { vote: -1, public_id: public_id }) }
-        else if (interaction === 0) { setCounter(counter - 1); setInteraction(-1); socketRequest('vote', { vote: -1, public_id: public_id }) }
-        else if (interaction === -1) { setCounter(counter + 1); setInteraction(0); socketRequest('vote', { vote: 0, public_id: public_id }) }
+        if (interaction === 1) { setCounter(counter - 2); setInteraction(-1); socketRequest('vote', { vote: -1, public_id: public_id, type: type }) }
+        else if (interaction === 0 || !interaction) { setCounter(counter - 1); setInteraction(-1); socketRequest('vote', { vote: -1, public_id: public_id, type: type }) }
+        else if (interaction === -1) { setCounter(counter + 1); setInteraction(0); socketRequest('vote', { vote: 0, public_id: public_id, type: type }) }
     }
 
 

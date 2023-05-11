@@ -75,6 +75,11 @@ body {
     }
 }
 
+
+
+
+
+
 .vitual-tree {
     height: 100% !important;
     overflow-x: hidden !important;
@@ -126,16 +131,45 @@ body {
 /* total width */
 ::-webkit-scrollbar {
     width: 14px;
-  }
-  
-  ::-webkit-scrollbar-track {
+}
+
+::-webkit-scrollbar-track {
     box-shadow: inset 0 0 14px 14px transparent;
     border: solid 4px transparent;
-  }
-  
-  ::-webkit-scrollbar-thumb {
+}
+
+::-webkit-scrollbar-thumb {
     box-shadow: inset 0 0 14px 14px #635e69;
     border: solid 4px transparent;
     border-radius: 14px;
-  }
-  
+}
+
+.MuiMenu-list {
+    background-color: #0f0e10 !important;
+    min-width: 160px;
+    border-radius: 8px;
+    padding: 0px !important;
+    padding-bottom: 8px !important;
+}
+
+.MuiPaper-root {
+    border-radius: 8px !important;
+}
+
+.MuiMenuItem-root {
+    font-family: 'Noto Sans', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 700;
+    color: #f2f2f2 !important;
+    border-radius: 8px !important;
+
+}
+
+.MuiList-root{
+    border:2px solid #3d4065;
+
+}
+
+.MuiAutocomplete-noOptions{
+    background:#0f0e10;
+}

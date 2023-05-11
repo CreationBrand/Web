@@ -26,13 +26,13 @@ const theme: any = createTheme({
                     paddingLeft: '12px',
                     paddingRight: '12px',
                     cursor: 'text',
-                    caretColor:'#fff !important',
-                
+                    caretColor: '#fff !important',
+
 
                 },
                 root: {
-                    fontFamily:'Noto Sans',
-                    caretColor:'transparent !important',
+                    fontFamily: 'Noto Sans',
+                    caretColor: 'transparent !important',
                     borderRadius: '8px',
                     border: '2px solid transparent',
                     background: '#181820',
@@ -62,7 +62,7 @@ const theme: any = createTheme({
         MuiButton: {
             styleOverrides: {
                 root: {
-                    fontFamily:'Noto Sans',
+                    fontFamily: 'Noto Sans',
                     textTransform: 'none',
                 },
                 label: {
@@ -76,7 +76,7 @@ const theme: any = createTheme({
                     boxShadow: '0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%)',
                     background: '#0e0e10',
                     color: '#b9bbbe',
-                    padding:'8px 12px 8px 12px',
+                    padding: '8px 12px 8px 12px',
                     fontSize: '13px',
                     fontFamily: 'noto sans',
                     borderRadius: '8px',
@@ -85,6 +85,37 @@ const theme: any = createTheme({
                     color: '#0e0e10',
                 },
             },
+        },
+        MuiMenu: {
+
+            background: '#0e0e10',
+
+            MuiPaper: {
+                styleOverrides: {
+                    background: '#0e0e10',
+
+                },
+            },
+            styleOverrides: {
+                root: {
+
+                },
+                paper: {
+                    background: '#0e0e10',
+
+                },
+            },
+        },
+        MenuList: {
+            root: {
+                background: '#0e0e10',
+
+                styleOverrides: {
+                    background: '#0e0e10',
+
+                },
+            }
+
         },
     },
 
@@ -120,9 +151,9 @@ const theme: any = createTheme({
         secondary: {
             main: '#b9bbbe',
         },
-        tri:{
+        tri: {
             main: '#414052',
-            contrastText:'#fff',
+            contrastText: '#fff',
         },
         background: {
             default: '#0e0e10',
@@ -147,20 +178,20 @@ export default theme;
 
 declare module '@mui/material/styles' {
     interface Palette {
-      tri: Palette['primary'];
-    }
-  
-    // allow configuration using `createTheme`
-    interface PaletteOptions {
-      tri?: PaletteOptions['primary'];
-    }
-  }
-  
-  // Update the Button's color prop options
-  declare module '@mui/material/Button' {
-    interface ButtonPropsColorOverrides {
-      tri: true;
+        tri: Palette['primary'];
     }
 
-  }
+    // allow configuration using `createTheme`
+    interface PaletteOptions {
+        tri?: PaletteOptions['primary'];
+    }
+}
+
+// Update the Button's color prop options
+declare module '@mui/material/Button' {
+    interface ButtonPropsColorOverrides {
+        tri: true;
+    }
+
+}
 

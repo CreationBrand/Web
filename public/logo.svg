@@ -1,41 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
-import { textBold, textLight, textNormal } from 'Global/Mixins'
-import { motion } from 'framer-motion'
-
-const C = {
-    container: css({
-        height: '100%',
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        paddingBottom: '80px',
-        paddingTop: '40px',
-    }),
-    float: css({
-        width: '180px',
-        height: '180px',
-        position: 'relative',
-        display: 'flex',
-    }),
-}
-
-const ChunkError = ({ variant }: any) => {
-
-    let colors:any = {
-        error: '#fb4b4b',
-        loading: '#4b77fb',
-        end: '#fbb24b',
-    }
-
-
-
-return (
-    <div css={C.container} key={'error'}>
-
-        <div css={C.float}>
             <svg className="gegga">
                 <defs>
                     <filter id="gegga">
@@ -80,20 +42,3 @@ return (
                 />
                 <circle className="strecken" cx="100" cy="100" r="64" />
             </svg>
-        </div>
-
-
-
-        
-        <div css={[textNormal('t'), { fontWeight: '400', letterSpacing: '1px', }]}>
-
-            {variant === 'error' && 'Something went wrong...'}
-            {variant === 'loading' && 'Loading...'}
-            {variant === 'end' && 'Nothing else to load...'}
-        </div>
-
-    </div>
-)
-}
-
-export default ChunkError

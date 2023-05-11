@@ -8,6 +8,7 @@ import CommunityList from 'Stories/Chunk/Lists/CommunityList'
 import Submit from 'Stories/Views/Submit/Submit'
 import MessengerList from 'Stories/Chunk/Lists/MessengerList'
 import GroupList from 'Stories/Chunk/Lists/GroupList'
+import EditCommunity from 'Stories/Views/EditCommunity/EditCommunity'
 
 var Private = () => {
 
@@ -29,11 +30,11 @@ var Private = () => {
 
                     <Route
                         path="/home"
-                        element={<GlobalList type="home"/>}
+                        element={<GlobalList type="home" />}
                     ></Route>
                     <Route
                         path="/trending"
-                        element={<GlobalList type="trending"/>}></Route>
+                        element={<GlobalList type="trending" />}></Route>
 
                     <Route
                         path="g/:group_id"
@@ -49,11 +50,15 @@ var Private = () => {
                         path="c/:community_id/p/:post_id"
                         element={<PostList />}
                     ></Route>
+
+                    <Route
+                        path="c/:community_id/edit"
+                        element={<EditCommunity />}
+                    ></Route>
+
+
                 </Route>
-                <Route
-                    path="c/:community_id/settings"
-                    element={<CommunitySettings />}
-                ></Route>
+
 
                 <Route path="/settings" element={<Settings />}></Route>
                 <Route path="/error" element={<div>404</div>}></Route>

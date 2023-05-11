@@ -75,6 +75,12 @@ export const communityListData = atom({
 })
 
 
+export const tagData = atom({
+    key: 'tagData',
+    default: []
+})
+
+
 
 
 

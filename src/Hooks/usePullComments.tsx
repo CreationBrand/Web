@@ -38,6 +38,9 @@ const usePullComments = (comment_id: any, filter: string) => {
                 page: page.data,
             })
 
+
+            if (req.comments.length === 0) return setEnd(true)
+
             let result: any = {};
             let level = { result };
 
@@ -71,7 +74,7 @@ const usePullComments = (comment_id: any, filter: string) => {
 
                         try {
                             if (2 === req.comments[ci + 1].depth) data.last = true
-                        } catch { 
+                        } catch {
                             data.last = true
                         }
 
@@ -124,7 +127,7 @@ const usePullComments = (comment_id: any, filter: string) => {
 
     }, [page])
 
-    if (end === false) return [error, list.concat(<LoaderPane />)]
+    if (end === false) return [error, list.concat(<ChunkError variant='loading' />)]
     if (end === true) return [error, list.concat(<ChunkError variant='end' />)]
     return [error, list]
 

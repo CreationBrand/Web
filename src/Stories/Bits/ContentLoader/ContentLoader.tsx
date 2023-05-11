@@ -133,10 +133,10 @@ const ContentLoader = ({ type, content }: any) => {
     } catch (error) { }
 
 
-// console.log(content)
+    // console.log(content)
 
     if (type === 'upload' && content.type === 'video') return (
-        <div css={C.player}>
+        <div css={C.player} onClick={(e) => e.stopPropagation()}>
             <ReactPlayer controls url={content.source} />
         </div>
     )

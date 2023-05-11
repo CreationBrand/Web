@@ -1,22 +1,20 @@
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react"
-
-
 import * as React from 'react';
-import { useTheme, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Popper from '@mui/material/Popper';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import SettingsIcon from '@mui/icons-material/Settings';
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
 import Autocomplete, {
     AutocompleteCloseReason,
     autocompleteClasses,
 } from '@mui/material/Autocomplete';
-import ButtonBase from '@mui/material/ButtonBase';
 import InputBase from '@mui/material/InputBase';
 import Box from '@mui/material/Box';
-import { textLabel } from "Global/Mixins";
+import { useEffect, useState } from 'react';
+import { Button, MenuItem } from '@mui/material';
+import { tagData } from 'State/Data';
+import { useRecoilValue } from 'recoil';
+import { socketRequest } from 'Service/Socket';
 
 interface PopperComponentProps {
     anchorEl?: any;
@@ -26,22 +24,24 @@ interface PopperComponentProps {
 
 const StyledAutocompletePopper = styled('div')(({ theme }) => ({
     [`& .${autocompleteClasses.paper}`]: {
-        boxShadow: 'none',
-        margin: 0,
+        fontFamily: 'noto sans !important',
         color: 'inherit',
-        fontSize: 13,
+        fontSize: 14,
+        backgroundColor: '#0f0e10 !important',
+
     },
     [`& .${autocompleteClasses.listbox}`]: {
-        backgroundColor: theme.palette.mode === 'light' ? '#fff' : '#1c2128',
+        backgroundColor: '#0f0e10',
         padding: 0,
         [`& .${autocompleteClasses.option}`]: {
             minHeight: 'auto',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             padding: 8,
-            borderBottom: `1px solid  ${theme.palette.mode === 'light' ? ' #eaecef' : '#30363d'
-                }`,
+            margin: '4px 8px',
+            borderRadius: '8px',
             '&[aria-selected="true"]': {
                 backgroundColor: 'transparent',
+
             },
             [`&.${autocompleteClasses.focused}, &.${autocompleteClasses.focused}[aria-selected="true"]`]:
             {
@@ -60,63 +60,76 @@ function PopperComponent(props: PopperComponentProps) {
 }
 
 const StyledPopper = styled(Popper)(({ theme }) => ({
-    border: `1px solid ${theme.palette.mode === 'light' ? '#e1e4e8' : '#30363d'}`,
-    boxShadow: `0 8px 24px ${theme.palette.mode === 'light' ? 'rgba(149, 157, 165, 0.2)' : 'rgb(1, 4, 9)'
-        }`,
-    borderRadius: 6,
+    boxShadow: `0 8px 24px rgb(1, 4, 9)`,
+    borderRadius: '8px',
     width: 300,
-    zIndex: theme.zIndex.modal,
+    zIndex: '2000',
     fontSize: 13,
-    color: theme.palette.mode === 'light' ? '#24292e' : '#c9d1d9',
-    backgroundColor: theme.palette.mode === 'light' ? '#fff' : '#1c2128',
+    color: '#f2f3f5',
+    backgroundColor: '#0f0e10',
+    border: '2px solid #3d4065',
+
 }));
 
 const StyledInput = styled(InputBase)(({ theme }) => ({
     padding: 10,
     width: '100%',
-    borderBottom: `1px solid ${theme.palette.mode === 'light' ? '#eaecef' : '#30363d'
-        }`,
+    borderBottom: `1px solid #3d4065`,
+    fontFamily: 'noto sans !important',
+
     '& input': {
-        borderRadius: 4,
-        backgroundColor: theme.palette.mode === 'light' ? '#fff' : '#0d1117',
+        borderRadius: '8px',
         padding: 8,
         transition: theme.transitions.create(['border-color', 'box-shadow']),
-        border: `1px solid ${theme.palette.mode === 'light' ? '#eaecef' : '#30363d'}`,
+        border: `1px solid #3d4065`,
         fontSize: 14,
         '&:focus': {
-            boxShadow: `0px 0px 0px 3px ${theme.palette.mode === 'light'
-                    ? 'rgba(3, 102, 214, 0.3)'
-                    : 'rgb(12, 45, 107)'
-                }`,
-            borderColor: theme.palette.mode === 'light' ? '#0366d6' : '#388bfd',
+            boxShadow: `0px 0px 0px 3px #3d4065c9`,
+            borderColor: '#3d4065',
         },
     },
 }));
 
-const Button = styled(ButtonBase)(({ theme }) => ({
-    fontSize: 13,
-    width: '100%',
-    textAlign: 'left',
-    paddingBottom: 8,
-    color: theme.palette.mode === 'light' ? '#586069' : '#8b949e',
-    fontWeight: 600,
-    '&:hover,&:focus': {
-        color: theme.palette.mode === 'light' ? '#0366d6' : '#58a6ff',
-    },
-    '& span': {
-        width: '100%',
-    },
-    '& svg': {
-        width: 16,
-        height: 16,
-    },
-}));
 
-export default function Picker() {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [value, setValue] = React.useState<LabelType[]>([labels[1], labels[11]]);
-    const [pendingValue, setPendingValue] = React.useState<LabelType[]>([]);
-    const theme = useTheme();
+export default function Picker({ anchorEl, setAnchorEl, current, public_id, type }: any) {
+
+
+    const tags = useRecoilValue(tagData)
+    const [value, setValue]: any = useState([]);
+    const [pendingValue, setPendingValue]: any = useState([]);
+
+
+    console.log(current)
+
+
+
+    const handleSubmit = async () => {
+
+        let strip = []
+
+        for (let i = 0; i < pendingValue.length; i++) {
+            strip.push(pendingValue[i].public_id)
+        }
+
+        console.log(pendingValue)
+        console.log(public_id)
+
+        await socketRequest('tag-update', { type: type, tags: strip, public_id: public_id })
+
+    }
+
+
+    useEffect(() => {
+
+        // current.forEach((element:any) => {
+        //     if(element.public_id){
+        //         temp.push(element)
+        //     }
+        // });
+    }, [current])
+
+
+
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setPendingValue(value);
@@ -134,45 +147,32 @@ export default function Picker() {
     const open = Boolean(anchorEl);
     const id = open ? 'github-label' : undefined;
 
+
+
     return (
         <React.Fragment>
-            <Box sx={{ width: 221, fontSize: 13 }}>
-                <Button disableRipple aria-describedby={id} onClick={handleClick}>
-                    <span css={textLabel('t')}>Labels a</span>
-                    <SettingsIcon />
-                </Button>
-                {value.map((label) => (
-                    <Box
-                        key={label.name}
-                        sx={{
-                            mt: '3px',
-                            height: 24,
-                            padding: '.15em 4px',
-                            fontWeight: 600,
-                            lineHeight: '15px',
-                            borderRadius: '2px',
-                        }}
-                        style={{
-                            backgroundColor: label.color,
-                            color: theme.palette.getContrastText(label.color),
-                        }}
-                    >
-                        {label.name}
-                    </Box>
-                ))}
-            </Box>
-            <StyledPopper id={id} open={open} anchorEl={anchorEl} placement="bottom-start">
+            <MenuItem onClick={handleClick}>Tags</MenuItem>
+
+
+
+
+            <StyledPopper id={id} open={open} anchorEl={anchorEl} placement="left-start">
                 <ClickAwayListener onClickAway={handleClose}>
                     <div>
                         <Box
                             sx={{
-                                borderBottom: `1px solid ${theme.palette.mode === 'light' ? '#eaecef' : '#30363d'
-                                    }`,
+                                borderBottom: `1px solid  '#30363d'`,
                                 padding: '8px 10px',
                                 fontWeight: 600,
+                                fontSize: 14,
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
                             }}
                         >
-                            Apply labels to this pull request
+                            <div>Apply Moderation Tags</div>
+                            <Button variant='text' onClick={handleSubmit}>Update</Button>
+
                         </Box>
                         <Autocomplete
                             open
@@ -198,6 +198,14 @@ export default function Picker() {
                             }}
                             disableCloseOnSelect
                             PopperComponent={PopperComponent}
+                            sx={{
+                                paper: {
+                                    backgroundColor: '#0f0e10',
+                                    root: {
+                                        backgroundColor: '#0f0e10',
+                                    }
+                                }
+                            }}
                             renderTags={() => null}
                             noOptionsText="No labels"
                             renderOption={(props, option, { selected }) => (
@@ -219,20 +227,22 @@ export default function Picker() {
                                             mr: 1,
                                             mt: '2px',
                                         }}
-                                        style={{ backgroundColor: option.color }}
+                                        style={{
+                                            backgroundColor: "#" + option.color?.toString(16),
+
+                                        }}
                                     />
                                     <Box
                                         sx={{
+                                            textTransform: 'capitalize',
                                             flexGrow: 1,
                                             '& span': {
                                                 color:
-                                                    theme.palette.mode === 'light' ? '#586069' : '#8b949e',
+                                                    '#8b949e',
                                             },
                                         }}
                                     >
-                                        {option.name}
-                                        <br />
-                                        <span>{option.description}</span>
+                                        {option.title}
                                     </Box>
                                     <Box
                                         component={CloseIcon}
@@ -243,21 +253,16 @@ export default function Picker() {
                                     />
                                 </li>
                             )}
-                            options={[...labels].sort((a, b) => {
-                                // Display the selected labels first.
-                                let ai = value.indexOf(a);
-                                ai = ai === -1 ? value.length + labels.indexOf(a) : ai;
-                                let bi = value.indexOf(b);
-                                bi = bi === -1 ? value.length + labels.indexOf(b) : bi;
-                                return ai - bi;
-                            })}
-                            getOptionLabel={(option) => option.name}
+                            options={tags}
+
+                            getOptionLabel={(option) => option.public_id}
                             renderInput={(params) => (
                                 <StyledInput
                                     ref={params.InputProps.ref}
                                     inputProps={params.inputProps}
                                     autoFocus
                                     placeholder="Filter labels"
+
                                 />
                             )}
                         />
@@ -275,95 +280,95 @@ interface LabelType {
 }
 
 // From https://github.com/abdonrd/github-labels
-const labels = [
-    {
-        name: 'good first issue',
-        color: '#7057ff',
-        description: 'Good for newcomers',
-    },
-    {
-        name: 'help wanted',
-        color: '#008672',
-        description: 'Extra attention is needed',
-    },
-    {
-        name: 'priority: critical',
-        color: '#b60205',
-        description: '',
-    },
-    {
-        name: 'priority: high',
-        color: '#d93f0b',
-        description: '',
-    },
-    {
-        name: 'priority: low',
-        color: '#0e8a16',
-        description: '',
-    },
-    {
-        name: 'priority: medium',
-        color: '#fbca04',
-        description: '',
-    },
-    {
-        name: "status: can't reproduce",
-        color: '#fec1c1',
-        description: '',
-    },
-    {
-        name: 'status: confirmed',
-        color: '#215cea',
-        description: '',
-    },
-    {
-        name: 'status: duplicate',
-        color: '#cfd3d7',
-        description: 'This issue or pull request already exists',
-    },
-    {
-        name: 'status: needs information',
-        color: '#fef2c0',
-        description: '',
-    },
-    {
-        name: 'status: wont do/fix',
-        color: '#eeeeee',
-        description: 'This will not be worked on',
-    },
-    {
-        name: 'type: bug',
-        color: '#d73a4a',
-        description: "Something isn't working",
-    },
-    {
-        name: 'type: discussion',
-        color: '#d4c5f9',
-        description: '',
-    },
-    {
-        name: 'type: documentation',
-        color: '#006b75',
-        description: '',
-    },
-    {
-        name: 'type: enhancement',
-        color: '#84b6eb',
-        description: '',
-    },
-    {
-        name: 'type: epic',
-        color: '#3e4b9e',
-        description: 'A theme of work that contain sub-tasks',
-    },
-    {
-        name: 'type: feature request',
-        color: '#fbca04',
-        description: 'New feature or request',
-    },
-    {
-        name: 'type: question',
-        color: '#d876e3',
-        description: 'Further information is requested',
-    },
-];
+// const labels = [
+//     {
+//         name: 'good first issue',
+//         color: '#7057ff',
+//         description: 'Good for newcomers',
+//     },
+//     {
+//         name: 'help wanted',
+//         color: '#008672',
+//         description: 'Extra attention is needed',
+//     },
+//     {
+//         name: 'priority: critical',
+//         color: '#b60205',
+//         description: '',
+//     },
+//     {
+//         name: 'priority: high',
+//         color: '#d93f0b',
+//         description: '',
+//     },
+//     {
+//         name: 'priority: low',
+//         color: '#0e8a16',
+//         description: '',
+//     },
+//     {
+//         name: 'priority: medium',
+//         color: '#fbca04',
+//         description: '',
+//     },
+//     {
+//         name: "status: can't reproduce",
+//         color: '#fec1c1',
+//         description: '',
+//     },
+//     {
+//         name: 'status: confirmed',
+//         color: '#215cea',
+//         description: '',
+//     },
+//     {
+//         name: 'status: duplicate',
+//         color: '#cfd3d7',
+//         description: 'This issue or pull request already exists',
+//     },
+//     {
+//         name: 'status: needs information',
+//         color: '#fef2c0',
+//         description: '',
+//     },
+//     {
+//         name: 'status: wont do/fix',
+//         color: '#eeeeee',
+//         description: 'This will not be worked on',
+//     },
+//     {
+//         name: 'type: bug',
+//         color: '#d73a4a',
+//         description: "Something isn't working",
+//     },
+//     {
+//         name: 'type: discussion',
+//         color: '#d4c5f9',
+//         description: '',
+//     },
+//     {
+//         name: 'type: documentation',
+//         color: '#006b75',
+//         description: '',
+//     },
+//     {
+//         name: 'type: enhancement',
+//         color: '#84b6eb',
+//         description: '',
+//     },
+//     {
+//         name: 'type: epic',
+//         color: '#3e4b9e',
+//         description: 'A theme of work that contain sub-tasks',
+//     },
+//     {
+//         name: 'type: feature request',
+//         color: '#fbca04',
+//         description: 'New feature or request',
+//     },
+//     {
+//         name: 'type: question',
+//         color: '#d876e3',
+//         description: 'Further information is requested',
+//     },
+// ];

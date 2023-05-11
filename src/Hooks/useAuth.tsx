@@ -14,7 +14,8 @@ import {
     messengerData,
     messengerTreeData,
     personData,
-    sessionData
+    sessionData,
+    tagData
 } from 'State/Data'
 import { communityLTL, communityLTT, messengerLTT } from 'Helper/Clean'
 
@@ -34,6 +35,7 @@ var useAuth = () => {
     const setP = useSetRecoilState(personData)
     const setR = useSetRecoilState(globalRoleData)
     const setM = useSetRecoilState(messengerData)
+    const setT = useSetRecoilState(tagData)
 
     // UPDATED
     const setCTD = useSetRecoilState(communityTreeData)
@@ -78,6 +80,11 @@ var useAuth = () => {
                         console.log(treeify.asTree(request.globalRoles, true));
                         console.groupEnd();
 
+
+                        setT(request.tags)
+                        console.groupCollapsed('%c [DATA - tags] ', 'background: #000; color: #5555da');
+                        console.log(treeify.asTree(request.tags, true));
+                        console.groupEnd();
 
                         setAuth(true)
                         setLoading(false)

@@ -12,7 +12,7 @@ const C = {
         width: '100%',
         height: '42px',
         background: '#272732',
-        borderRadius: '12px',
+        borderRadius: '8px',
         margin: '8px 0px 0px 0px',
         padding: '8px',
         gap: '8px',

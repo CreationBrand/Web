@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { Button } from '@mui/material'
+import { Button, IconButton } from '@mui/material'
 import { textBold, textLabel, textLight, textNormal } from 'Global/Mixins'
 import { useState } from 'react'
 
@@ -10,7 +10,8 @@ import { contentFlow } from 'State/Flow'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
 import RoleList from 'Stories/Bits/RoleList/RoleList'
 import CommunityStats from 'Stories/Bits/StatCheck/CommunityStats'
-
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useNavigate } from 'react-router-dom'
 
 const C = {
     container: css({
@@ -21,6 +22,7 @@ const C = {
         borderRadius: '16px',
         position: 'relative',
         overflow: 'hidden',
+
 
         ':hover': {
             outline: `2px solid #583e76`,
@@ -97,17 +99,33 @@ const C = {
 const CommunityPane = ({ data }: any) => {
 
 
-
+    const navigate = useNavigate()
     const [active, setActive] = useState(false)
     const contentState = useRecoilValue(contentFlow)
 
-
+    const handleEdit = (e: any) => {
+        e.stopPropagation()
+        navigate(`/c/${data.public_id}/edit`)
+    }
 
     const openCommunity = () => setActive(!active)
 
     return (
         <>
             <div css={C.container} onClick={openCommunity}>
+
+                <IconButton
+                    sx={{
+                        zIndex: 100,
+                        color: '#d7dadc', borderRadius: '12px', position: 'absolute', top: '8px', right: '8px'
+                    }}
+                    aria-haspopup="true"
+                    onClick={handleEdit}
+                >
+                    <MoreVertIcon />
+                </IconButton>
+
+
 
                 <img css={C.banner} src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.public_id}.svg`} />
                 <div css={C.float}>

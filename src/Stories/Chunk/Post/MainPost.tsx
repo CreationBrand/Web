@@ -14,10 +14,14 @@ import { useNavigate } from 'react-router-dom'
 import PostStats from 'Stories/Bits/StatCheck/PostStats'
 import View from 'Stories/Bits/View/View'
 import Comment from 'Stories/Bits/Comment/Comment'
-import { memo } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { contentFlow } from 'State/Flow'
 import { textBold } from 'Global/Mixins'
+import RightMenu from 'Stories/Bits/RightMenu/RightMenu'
+import EditTags from 'Stories/Popups/EditTags'
+import RoleList from 'Stories/Bits/RoleList/RoleList'
+import TagList from 'Stories/Bits/TagList/TagList'
 
 const C = {
     container: css({
@@ -65,17 +69,30 @@ const C = {
 }
 
 
-const Post = ({ varient, public_id, title, type, content, karma, comments, vote, created_at, updated_at, hot, author, views, community, ...props }: any) => {
+const Post = ({ tags, varient, public_id, title, type, content, karma, comments, vote, created_at, updated_at, hot, author, views, community, ...props }: any) => {
 
 
+
+
+  
+    
     const contentState = useRecoilValue(contentFlow)
     const navigate = useNavigate()
 
 
-    const bodyClick = () => {
+    // console.log(contentState)
+
+    const bodyClick = (e: any) => {
+        // if (e.currentTarget !== e.target) return
+
+        console.log(e)
         navigate(`/c/${community.public_id}/p/${public_id}`)
         // if (varient === 'community') navigate(`p/${public_id}`)
     }
+
+
+
+
 
     const contentClick = () => { }
     const userClick = () => { }
@@ -84,26 +101,34 @@ const Post = ({ varient, public_id, title, type, content, karma, comments, vote,
     return (
         <div css={C.container}>
 
-
             <div css={C.inner} onClick={bodyClick}>
-
-
 
 
                 <div css={C.header}>
                     <Avatar size="medium" public_id={author.public_id} onClick={userClick} />
+
                     <div>
 
                         {contentState.type === 'community' ? (
                             <>
+
                                 <Author username={author?.nickname} public_id={author?.public_id} />
+                                {tags ? <TagList tags={tags} /> : <Nickname title={author?.nickname} public_id={author?.public_id} />
+                                }
+
                             </>
                         ) : (
                             <>
+                                {/* <CommunityTitle title={community?.title} public_id={community?.public_id} /> */}
+                                {/* <Author username={author?.nickname} public_id={author?.public_id} /> */}
                                 <CommunityTitle title={community?.title} public_id={community?.public_id} />
                                 <Nickname title={author?.nickname} public_id={author?.public_id} />
                             </>
-                        )}                    </div>
+                        )}
+                    </div>
+
+                    <RightMenu tags={tags} type={'post'} public_id={public_id}></RightMenu>
+
                 </div>
 
                 <div css={textBold('x')}>{title && title}</div>
@@ -114,8 +139,8 @@ const Post = ({ varient, public_id, title, type, content, karma, comments, vote,
 
 
 
-                <div css={C.footer}>
-                    <Vote karma={karma} vote={vote} public_id={public_id} />
+                <div css={C.footer} onClick={(e) => e.stopPropagation()}>
+                    <Vote karma={karma} vote={vote} public_id={public_id} type='post' />
                     <View public_id={public_id} views={views} />
                     <Comment public_id={public_id} comments={comments} />
                 </div>
