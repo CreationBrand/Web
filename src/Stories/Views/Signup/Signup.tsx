@@ -11,7 +11,7 @@ import { Input } from '@mui/material'
 
 import Grid from '@mui/material/Unstable_Grid2'
 import { brand, sMuted } from 'Stories/Bits/Text/Text'
-import { textLabel, textLight } from 'Global/Mixins'
+import { textLabel, textLight, textNormal } from 'Global/Mixins'
 import { LoadingButton } from '@mui/lab'
 import { useState } from 'react'
 
@@ -56,6 +56,7 @@ const Signup = (props: Props) => {
             padding: '22px',
             borderRadius: '8px',
         }} >
+
             <Grid
                 container
                 rowSpacing={4}
@@ -67,7 +68,18 @@ const Signup = (props: Props) => {
                     <h2 css={brand}>Sign Up</h2>
                 </Grid>
 
-                <Grid xs={12}>
+                <h3 css={[textNormal('m'), { margin: 'auto' }]}>Sorry currently not accepting new users
+                    <Link
+                        to="/auth"
+                        css={{ color: '#9147ff', marginLeft: '4px' }}
+                    >
+                        Return
+                    </Link>
+                </h3>
+
+
+
+                {/* <Grid xs={12}>
 
                     <h3 css={textLabel('s')}>Username</h3>
 
@@ -189,7 +201,7 @@ const Signup = (props: Props) => {
                             Login
                         </Link>
                     </h3>
-                </Grid>
+                </Grid> */}
             </Grid>
 
 

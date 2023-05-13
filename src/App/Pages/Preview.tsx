@@ -17,10 +17,13 @@ import Search from 'Stories/Chunk/Search/Search'
 import { Button } from '@mui/material'
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import VirtualTree from 'Stories/Chunk/VirtualTree/VirtualTree'
+import { layoutSizeData } from 'State/Data'
 
 const Preview = () => {
 
     const navigate = useNavigate()
+    const layoutSize = useRecoilValue(layoutSizeData)
+
 
     const [l, r] = useRecoilValue(triState)
     const setTri = useSetRecoilState(triState)
@@ -59,13 +62,13 @@ const Preview = () => {
                                 }, {
                                     id: "annoucements",
                                     type: 'leaf',
-                                    link: '/annoucements',
+                                    link: '/announcements',
                                     path: 'annoucements',
                                     active: true,
                                     visible: true,
                                     object: {
                                         id: "annoucements",
-                                        title: "Annoucements",
+                                        title: "Read Me",
                                         icon: <FontAwesomeIcon size='1x' icon={faScroll} />
                                     }
                                 }
@@ -87,7 +90,7 @@ const Preview = () => {
                         onMouseDown={goAuth}
                         sx={{
                             display: 'inline-flex',
-                            wordWrap: 'nowrap !important',
+                            whiteSpace: ' nowrap',
                             borderRadius: '14px',
                             background: '#6858f2',
                             height: '40px',
@@ -110,7 +113,8 @@ const Preview = () => {
                     <div></div>
                     <Search />
                     <div css={{ display: 'flex' }}>
-                        <Button
+
+                        {layoutSize === 'desktop' && <Button
                             sx={{
                                 borderRadius: '14px',
                                 background: '#0f0e10',
@@ -121,15 +125,20 @@ const Preview = () => {
                                 lineHeight: '12px !important',
                                 fontWeight: '700',
                                 gap: '4px',
+
                             }}
+                            disabled
                             variant="contained" disableElevation>
                             <DeveloperBoardIcon /> Get App
-                        </Button><Button
-                            onMouseDown={goAuth}
+                        </Button>}
 
+
+
+                        <Button
+                            onMouseDown={goAuth}
                             sx={{
                                 display: 'inline-flex',
-                                wordWrap: 'nowrap !important',
+                                whiteSpace: ' nowrap',
                                 borderRadius: '14px',
                                 background: '#6858f2',
                                 height: '40px',

@@ -88,3 +88,10 @@ export const messengerTreeData = atom({
     key: 'messengerTreeData',
     default: []
 })
+
+
+
+export const layoutSizeData = atom({
+    key: 'layoutSizeData',
+    default: 'desktop' as 'desktop' | 'mobile'
+})

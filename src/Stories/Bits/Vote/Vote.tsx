@@ -1,9 +1,8 @@
 
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-
 import { Button } from '@mui/material'
-import theme from 'Global/Theme'
+
 import ArrowDropUpRoundedIcon from '@mui/icons-material/ArrowDropUpRounded'
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded'
 import { mMuted } from 'Stories/Bits/Text/Text'
@@ -11,6 +10,8 @@ import useDeltaSubscription from 'Hooks/useDeltaSubscription'
 import Ticker from '../Ticker/Ticker'
 import { useEffect, useState } from 'react'
 import { socketRequest } from 'Service/Socket'
+import { useRecoilValue } from 'recoil'
+import { authFlow } from 'State/Flow'
 
 
 const C = {
@@ -59,15 +60,23 @@ const Vote = ({ karma, public_id, vote, size, type }: any) => {
 
     const [counter, setCounter] = useDeltaSubscription(`vote:${public_id}`, karma)
     const [interaction, setInteraction] = useState(vote)
+    const authData = useRecoilValue(authFlow)
+
+
+    useEffect(() => {
+        if (authData === 'guest') setInteraction(0)
+    }, [])
 
     const increase = () => {
-        if (interaction === -1) { setCounter(counter + 2); setInteraction(1); socketRequest('vote', { vote: 1, public_id: public_id, type: type }) }
+        if (authData === 'guest') return
+        else if (interaction === -1) { setCounter(counter + 2); setInteraction(1); socketRequest('vote', { vote: 1, public_id: public_id, type: type }) }
         else if (interaction === 0 || !interaction) { setCounter(counter + 1); setInteraction(1); socketRequest('vote', { vote: 1, public_id: public_id, type: type }) }
         else if (interaction === 1) { setCounter(counter - 1); setInteraction(0); socketRequest('vote', { vote: 0, public_id: public_id, type: type }) }
     }
 
     const decrease = () => {
-        if (interaction === 1) { setCounter(counter - 2); setInteraction(-1); socketRequest('vote', { vote: -1, public_id: public_id, type: type }) }
+        if (authData === 'guest') return
+        else if (interaction === 1) { setCounter(counter - 2); setInteraction(-1); socketRequest('vote', { vote: -1, public_id: public_id, type: type }) }
         else if (interaction === 0 || !interaction) { setCounter(counter - 1); setInteraction(-1); socketRequest('vote', { vote: -1, public_id: public_id, type: type }) }
         else if (interaction === -1) { setCounter(counter + 1); setInteraction(0); socketRequest('vote', { vote: 0, public_id: public_id, type: type }) }
     }

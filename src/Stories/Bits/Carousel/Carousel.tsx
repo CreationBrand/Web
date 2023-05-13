@@ -102,7 +102,7 @@ const Carousel = ({ images }: any) => {
                         backgroundRepeat: "no-repeat",
                         backgroundImage: `url(${images[index]})`,
                     }}
-                    key={imageCount}
+                    key={`i${imageCount}`}
                     custom={direction}
                     variants={sliderVariants}
                     initial="incoming"
@@ -115,7 +115,7 @@ const Carousel = ({ images }: any) => {
             </AnimatePresence>
 
             <div css={C.float}>
-                {dots.map((_, i) => (<div css={[C.dot, i === index && { background: '#fff' }]} onClick={() => move(i)} />))}
+                {dots.map((_, i) => (<div key={i} css={[C.dot, i === index && { background: '#fff' }]} onClick={() => move(i)} />))}
             </div>
 
         </div>

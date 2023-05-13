@@ -27,7 +27,7 @@ export const errorFlow = atom({
 
 export const authFlow = atom({
     key: 'authFlow',
-    default: 'login' as authFlow
+    default: 'guest' as authFlow
 })
 
 export const pageFlow = atom({
@@ -37,7 +37,7 @@ export const pageFlow = atom({
 
 type pageFlow = 'home' | 'trending' | 'community'
 
-type authFlow = 'login' | 'signup' | 'verify' | 'auth'
+type authFlow = 'user' | 'guest' | 'admin'
 
 export const portalControlFlow = atom({
     key: 'portalControlFlow',

@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react"
-import { socket, socketRequest } from "Service/Socket";
-import CommunityPane from "Stories/Chunk/CommunityPane/CommunityPane";
-import Post from "Stories/Objects/Post/Post";
-import LoaderPane from "Stories/Pane/loaderPane";
+import { socket } from "Service/Socket";
 
 
 const useDeltaSubscription = (public_id: any, inital: number) => {
@@ -10,12 +7,12 @@ const useDeltaSubscription = (public_id: any, inital: number) => {
     // state
     const [data, setData]: any = useState(inital)
 
-
     useEffect(() => {
         if (!public_id) return
 
 
         function deltaEvent(value: any) {
+            if (!value.delta) return
             setData(data + parseInt(value.delta))
         }
 

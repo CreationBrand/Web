@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 
 import { useForm, Controller } from "react-hook-form";
 import { Divider, Input, Button, Box, Tab, TextField, } from "@mui/material"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useRecoilValue } from "recoil";
 import { contentFlow } from "State/Flow";
@@ -28,6 +28,9 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import DropZone from 'Stories/Bits/DropZone/DropZone';
 import MainPost from 'Stories/Chunk/Post/MainPost';
+import ImageEditor from 'Stories/Forum/ImageEditor/ImageEditor';
+import { useParams } from 'react-router-dom';
+import usePullCommunity from 'Hooks/usePullCommunity';
 
 // VALIDATION
 
@@ -93,6 +96,9 @@ const C = {
 
 const EditCommunity = () => {
 
+
+    let params = useParams()
+    const [error, component, req] = usePullCommunity(params.community_id)
     // state
     const person = useRecoilValue(personData);
     const contentState: any = useRecoilValue(contentFlow);
@@ -108,6 +114,11 @@ const EditCommunity = () => {
         // let req = await socketRequest('post-new', data)
 
     };
+
+    useEffect(() => { }, [])
+
+
+
 
 
 
@@ -159,6 +170,8 @@ const EditCommunity = () => {
                 )} />
 
 
+            <div css={textLabel('t')}>Change Avatar</div>
+            <ImageEditor type='avatar' api='community-avatar' id={req?.community?.public_id} />
 
 
 

@@ -16,12 +16,13 @@ import View from 'Stories/Bits/View/View'
 import Comment from 'Stories/Bits/Comment/Comment'
 import { memo, useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
-import { contentFlow } from 'State/Flow'
-import { textBold } from 'Global/Mixins'
+import { authFlow, contentFlow } from 'State/Flow'
+import { textBold, textLight } from 'Global/Mixins'
 import RightMenu from 'Stories/Bits/RightMenu/RightMenu'
 import EditTags from 'Stories/Popups/EditTags'
 import RoleList from 'Stories/Bits/RoleList/RoleList'
 import TagList from 'Stories/Bits/TagList/TagList'
+import { formatDistanceStrict, parseISO } from 'date-fns'
 
 const C = {
     container: css({
@@ -72,20 +73,15 @@ const C = {
 const Post = ({ tags, varient, public_id, title, type, content, karma, comments, vote, created_at, updated_at, hot, author, views, community, ...props }: any) => {
 
 
-
-
-  
-    
+    const authState = useRecoilValue(authFlow)
     const contentState = useRecoilValue(contentFlow)
     const navigate = useNavigate()
 
 
-    // console.log(contentState)
 
     const bodyClick = (e: any) => {
         // if (e.currentTarget !== e.target) return
 
-        console.log(e)
         navigate(`/c/${community.public_id}/p/${public_id}`)
         // if (varient === 'community') navigate(`p/${public_id}`)
     }
@@ -99,35 +95,54 @@ const Post = ({ tags, varient, public_id, title, type, content, karma, comments,
 
 
     return (
-        <div css={C.container}>
+        <div css={C.container} key={public_id}>
 
-            <div css={C.inner} onClick={bodyClick}>
+            <motion.div
+                key={`post${public_id}`}
+                transition={{ duration: 0.4 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                css={C.inner} onClick={bodyClick}>
 
 
                 <div css={C.header}>
-                    <Avatar size="medium" public_id={author.public_id} onClick={userClick} />
-
+                    {contentState.type === 'global' ?
+                        <Avatar size="medium" public_id={community.public_id} onClick={userClick} /> :
+                        <Avatar size="medium" public_id={author.public_id} onClick={userClick} />
+                    }
                     <div>
 
-                        {contentState.type === 'community' ? (
-                            <>
+                        {/* {contentState.type === 'global' && <CommunityTitle title={community?.title} public_id={community?.public_id} />} */}
 
+
+                        {contentState.type === 'community' ? (
+                            <>    <div css={{ display: 'flex', gap: '4px' }}>
                                 <Author username={author?.nickname} public_id={author?.public_id} />
+                                {/* <span css={textLight('t')}> - {created_at && formatDistanceStrict(parseISO(created_at), new Date(), { addSuffix: false })}</span> */}
+                            </div>
+
                                 {tags ? <TagList tags={tags} /> : <Nickname title={author?.nickname} public_id={author?.public_id} />
                                 }
 
                             </>
                         ) : (
-                            <>
-                                {/* <CommunityTitle title={community?.title} public_id={community?.public_id} /> */}
-                                {/* <Author username={author?.nickname} public_id={author?.public_id} /> */}
-                                <CommunityTitle title={community?.title} public_id={community?.public_id} />
+                            <div>
+                                <div css={{ display: 'flex', gap: '4px', alignItems:'baseline' }}>
+                                    <CommunityTitle title={community?.title} public_id={community?.public_id} />
+
+                                    <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
+                                        addSuffix: true
+                                    })}</div>
+                                </div>
+
                                 <Nickname title={author?.nickname} public_id={author?.public_id} />
-                            </>
+
+                            </div>
                         )}
                     </div>
 
-                    <RightMenu tags={tags} type={'post'} public_id={public_id}></RightMenu>
+                    {authState !== 'guest' && <RightMenu tags={tags} type={'post'} public_id={public_id} />}
 
                 </div>
 
@@ -135,59 +150,13 @@ const Post = ({ tags, varient, public_id, title, type, content, karma, comments,
 
                 <ContentLoader type={type} content={content} />
 
-
-
-
-
                 <div css={C.footer} onClick={(e) => e.stopPropagation()}>
                     <Vote karma={karma} vote={vote} public_id={public_id} type='post' />
                     <View public_id={public_id} views={views} />
                     <Comment public_id={public_id} comments={comments} />
                 </div>
 
-            </div>
-            {/* <motion.div
-                onMouseDown={bodyClick}
-                key={`post${public_id}`}
-                transition={{ duration: 0.4 }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                css={C.container} onClick={bodyClick}>
-
-
-
-                <div css={C.left}>
-                    <Avatar size="medium" public_id={author.public_id} onClick={avatarClick} />
-                    <Vote karma={karma} vote={vote} public_id={public_id} />
-                    <View public_id={public_id} views={views} />
-                </div>
-
-
-
-                <div css={C.right}>
-
-
-                    {contentState.type === 'community' ? (
-                        <>
-                            <Author username={author?.nickname} public_id={author?.public_id} />
-                        </>
-                    ) : (
-                        <>
-                            <CommunityTitle title={community?.title} public_id={community?.public_id} />
-                            <Nickname title={author?.nickname} public_id={author?.public_id} />
-                        </>
-                    )}
-
-                    <div>
-                        <div css={[C.title, textBold('l')]}>{title && title}</div>
-                        <ContentLoader type={type} content={content} />
-                    </div>
-
-                </div>
-            </motion.div> */}
-
-
+            </motion.div>
         </div>
     )
 }

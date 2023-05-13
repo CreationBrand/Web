@@ -53,7 +53,7 @@ const Avatar = ({ public_id, size, onClick }: Props) => {
             <img
                 css={C.image}
                 onError={handleImgError}
-                src={`${process.env.REACT_APP_CLOUDFRONT}/avatar/${public_id}.png`}
+                src={`${process.env.REACT_APP_CLOUDFRONT}/avatar/${public_id}`}
             ></img>
         </motion.div>
     )

@@ -2,6 +2,10 @@
 
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
+import useWindow from 'Hooks/useWindow'
+import { useState, useEffect } from 'react'
+import { useRecoilState } from 'recoil'
+import { layoutSizeData } from 'State/Data'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import { brand } from 'Stories/Bits/Text/Text'
 
@@ -21,11 +25,23 @@ const C = {
     bar: css({}),
 }
 const Loading = () => {
+    
+    const [layoutSize, setLayoutSize] = useRecoilState(layoutSizeData)
+    const {width, height} = useWindow()
+    const [position, setPosition] = useState(0)
+
+
+    //runs on every size change (very inefficient)
+    useEffect(() => {
+        if (width < 800 && layoutSize === 'desktop') setLayoutSize('mobile')
+        if (width >= 800 && layoutSize === 'mobile') setLayoutSize('desktop')
+    }, [width])
+
 
     return (
         < div css={C.page} >
 
-            <ChunkError></ChunkError>
+            <ChunkError variant='loading'></ChunkError>
             {/* <div css={C.wrapper}>
                 <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, repeatDelay: 3 }} css={[C.bar, brand]}>L</motion.div>
                 <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, repeatDelay: 3, delay: 0.2 }} css={[C.bar, brand]}>o</motion.div>
@@ -40,3 +56,7 @@ const Loading = () => {
 }
 
 export default Loading
+function useRecoilValue(layoutSizeData: any) {
+    throw new Error('Function not implemented.')
+}
+

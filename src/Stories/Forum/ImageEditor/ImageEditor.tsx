@@ -8,6 +8,7 @@ import { mutedBold, smMuted } from 'Stories/Bits/Text/Text';
 import DialogContent from '@mui/material/DialogContent';
 import { useRef, useState } from 'react';
 import { fileUpload } from 'Service/Request';
+import { socketRequest } from 'Service/Socket';
 
 
 const C = {
@@ -24,7 +25,7 @@ const C = {
 
 
 }
-const ImageEditor = ({ type, api, width, height,id }: any) => {
+const ImageEditor = ({ type, api, width, height, id }: any) => {
 
     //state
     const editor: any = useRef(null);
@@ -39,13 +40,19 @@ const ImageEditor = ({ type, api, width, height,id }: any) => {
     //image
     const handleScale = (e: any, value: any) => setScale(value)
     const handleImage = (e: any) => setImage(e.target.files[0])
+
+
     const handleSave = async () => {
+
 
         const canvas = editor.current.getImage()
         const canvasScaled = editor.current.getImageScaledToCanvas()
-        let status = await fileUpload(`${api}/upload`, id, type, canvasScaled.toDataURL())
+        console.log(canvas, canvasScaled.toDataURL("image/jpeg"))
 
-        console.log(status)
+
+        let req = await socketRequest(api, { community_id: id, avatar: canvasScaled.toDataURL() })
+
+
 
     }
 
@@ -70,7 +77,7 @@ const ImageEditor = ({ type, api, width, height,id }: any) => {
             <Button variant="text" size='small' color='secondary'>Remove {type}</Button>
         </div>
 
-        <Dialog open={open} onClose={handleClose}  maxWidth='lg' >
+        <Dialog open={open} onClose={handleClose} maxWidth='lg' >
             <DialogContent>
 
                 {image &&

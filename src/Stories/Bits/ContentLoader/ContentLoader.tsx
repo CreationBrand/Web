@@ -148,25 +148,58 @@ const ContentLoader = ({ type, content }: any) => {
 
     else if (type === 'upload' && content.type === 'image' && content?.source?.length === 1) return (
         <div css={{
-            border: '1px solid #272732',
-            display: "block",
             width: '100%',
             height: '1000px',
             maxHeight: '400px',
             minHeight: '200px',
+            position: 'relative',
             borderRadius: "12px",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            backgroundImage: `url(${content.source[0]})`
-        }} />
+            overflow: 'hidden',
+        }}>
+            <div css={{
+                position: 'absolute',
+                border: '1px solid #272732',
+                display: "block",
+                minWidth: '100%',
+                minHeight: '100%',
+                aspectRatio: 'auto 1 / 1',
+                zIndex: 50,
+
+                filter: 'blur(4px) brightness(50%)',
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                backgroundImage: `url(${content.source[0]})`
+            }} />
+            <div css={{
+                position: 'absolute',
+                zIndex: 100,
+                aspectRatio: 'auto 1 / 1',
+                border: '1px solid #272732',
+                display: "block",
+                width: '100%',
+                height: '1000px',
+                maxHeight: '400px',
+                minHeight: '200px',
+                borderRadius: "12px",
+                backgroundSize:'contain',
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                backgroundImage: `url(${content.source[0]})`,
+                
+            }} />
+
+
+
+
+        </div>
 
     )
 
 
 
 
-    return <div> error </div>
+return <div> error </div>
 
 
 }

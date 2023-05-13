@@ -18,6 +18,8 @@ import {
     tagData
 } from 'State/Data'
 import { communityLTL, communityLTT, messengerLTT } from 'Helper/Clean'
+import { authFlow } from 'State/Flow'
+import { set } from 'date-fns'
 
 var treeify = require('treeify');
 
@@ -40,8 +42,8 @@ var useAuth = () => {
     // UPDATED
     const setCTD = useSetRecoilState(communityTreeData)
     const setCLD = useSetRecoilState(communityListData)
-
     const setMTD = useSetRecoilState(messengerTreeData)
+    const setAF = useSetRecoilState(authFlow)
 
     useEffect(() => {
         var trySession = async () => {
@@ -56,7 +58,7 @@ var useAuth = () => {
                     var request = await get('user')
 
                     if (request !== false) {
-
+                        setAF('user')
                         // DATA SUPPLY
                         setP(request.person)
                         console.groupCollapsed('%c [DATA - person] ', 'background: #000; color: #5555da');

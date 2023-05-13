@@ -46,7 +46,7 @@ const GlobalList = ({ type }: any) => {
 
 
 
-    if (error) return <ChunkError />
+    // if (error) return <ChunkError variant='error' />
 
 
 

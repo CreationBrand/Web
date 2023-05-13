@@ -1,12 +1,14 @@
 /** @jsxImportSource @emotion/react */
 
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
+import { IconButton } from '@mui/material'
 
 const Auth = () => {
     let location = useLocation()
-
+    let navigate = useNavigate()
     return (
         <div
             css={{
@@ -18,6 +20,28 @@ const Auth = () => {
                 justifyContent: 'center'
             }}
         >
+
+
+            <IconButton
+                sx={{
+                    color: '#d7dadc',
+                    borderRadius: '12px',
+                    position: 'absolute',
+                    top: '10%',
+                    right: '15%',
+                    ':hover': { color: '#fff' },
+
+                }}
+                aria-haspopup="true"
+                onClick={() => navigate('/trending')}
+            >
+                <CloseRoundedIcon sx={{ fontSize: '40px' }} />
+            </IconButton>
+
+
+
+
+
             <LayoutGroup>
                 <AnimatePresence mode="popLayout">
                     <motion.div

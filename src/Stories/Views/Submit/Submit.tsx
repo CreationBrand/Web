@@ -329,7 +329,7 @@ const Submit = () => {
                 karma={0}
                 views={0}
                 comments={0}
-                created_at={false}
+                created_at={'2023-05-12T08:12:02.829Z'}
                 updated_at={false}
                 hot={false}
                 author={person}

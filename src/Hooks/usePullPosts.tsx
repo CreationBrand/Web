@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useRecoilState, useRecoilValue } from "recoil";
 import { socketRequest } from "Service/Socket";
 import { postListData } from "State/Data";
+import { socketFlow } from "State/Flow";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import MainPost from "Stories/Chunk/Post/MainPost";
 import Post from "Stories/Chunk/Post/Post";
@@ -19,13 +20,15 @@ const usePullPosts = (community_id: any, filter: string, varient: string) => {
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
 
+    const socket = useRecoilValue(socketFlow)
+
     // reset list on props change
     useEffect(() => {
         setList([])
         setPage({ data: 0 })
         setEnd(false)
         setError(false)
-    }, [community_id, filter])
+    }, [community_id, filter, socket])
 
 
     // fetch posts
@@ -65,7 +68,6 @@ const usePullPosts = (community_id: any, filter: string, varient: string) => {
         if (end === false) fetchMore().catch((err) => console.log(err))
     }, [page])
 
-    if (end === false) return [error, []]
     if (end === true) return [error, list.concat(<ChunkError variant='end' />)]
 
     return [error, list] as const;

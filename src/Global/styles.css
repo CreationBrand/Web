@@ -145,15 +145,20 @@ body {
 }
 
 .MuiMenu-list {
-    background-color: #0f0e10 !important;
+    /* background-color: #0f0e10 !important;
     min-width: 160px;
     border-radius: 8px;
-    padding: 0px !important;
-    padding-bottom: 8px !important;
+    /* padding-bottom: 8px !important; */
+    padding: 0px !important; 
+
 }
 
 .MuiPaper-root {
-    border-radius: 8px !important;
+    background: none !important;
+    border:none !important;
+
+    border-radius: 22px !important;
+
 }
 
 .MuiMenuItem-root {
@@ -166,8 +171,10 @@ body {
 }
 
 .MuiList-root{
-    border:2px solid #3d4065;
-
+    /* border:2px solid #3d4065; */
+    /* padding:0px !important;
+    border-radius: 24px !important; */
+    background:none !important;
 }
 
 .MuiAutocomplete-noOptions{
