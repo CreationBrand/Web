@@ -5,15 +5,16 @@ import { motion } from 'framer-motion'
 
 const C = {
     container: css({
-        height: '120px',
+        height: '100px',
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        overFlow:'hidden',
+        overflow:'hidden',
    
     }),
     float: css({
+        top:'12px',
         position: 'relative',
         display: 'flex',
     }),
@@ -42,6 +43,7 @@ const C = {
     ".skugga": {
         filter: "blur(5px)",
         opacity: 0.4,
+        
         position: "absolute",
         transform: "translate(3px, 3px)"
     },
@@ -64,7 +66,7 @@ const ChunkError = ({ variant }: any) => {
         <div css={C.container} key={'error'}>
 
             <div css={C.float}>
-                <svg className="gegga">
+                <svg className="gegga" >
                     <defs>
                         <filter id="gegga">
                             <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" />

@@ -60,19 +60,19 @@ const CommunityTitle = ({ title, public_id }: any) => {
                 {(popupState) => (
                     <div>
                         <div
-                        onMouseEnter={debouncedEventHandler}
-                        {...bindHover(popupState)} css={C.underline}>{title}</div>
+                            onMouseEnter={debouncedEventHandler}
+                            {...bindHover(popupState)} css={C.underline}>{title}</div>
 
 
                         <HoverPopover
                             {...bindPopover(popupState)}
                             anchorOrigin={{
                                 vertical: 'bottom',
-                                horizontal: 'center',
+                                horizontal: 'left',
                             }}
                             transformOrigin={{
                                 vertical: 'top',
-                                horizontal: 'center',
+                                horizontal: 'left',
                             }}
                         >
                             {Boolean(anchorEl) && <CommunityPreview public_id={public_id} />}
@@ -132,9 +132,9 @@ let CommunityPreview = ({ public_id }: any) => {
     //     })()
     // }, [public_id])
 
-    if (!data) return <div css={D.container}><MiniError variant='loading' /></div>
- 
-  
+    if (!data) return <div css={[D.container, {width: '240px'}]}><MiniError variant='loading' /></div>
+
+
     return <div css={D.container}>
 
         <div css={{
