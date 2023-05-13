@@ -26,9 +26,6 @@ export default function CommunitySelect({ group, value, onChange }: any) {
 
   // console.log('communityList', communityList)
 
-
-
-
   return (
     <Box sx={{ height: '160px' }}>
       <DataGrid

@@ -78,6 +78,7 @@ const Post = ({ tags, varient, public_id, title, type, content, karma, comments,
     const navigate = useNavigate()
 
 
+    if(!public_id) return null
 
     const bodyClick = (e: any) => {
         // if (e.currentTarget !== e.target) return
@@ -128,7 +129,7 @@ const Post = ({ tags, varient, public_id, title, type, content, karma, comments,
                             </>
                         ) : (
                             <div>
-                                <div css={{ display: 'flex', gap: '4px', alignItems:'baseline' }}>
+                                <div css={{ display: 'flex', gap: '4px', alignItems: 'baseline' }}>
                                     <CommunityTitle title={community?.title} public_id={community?.public_id} />
 
                                     <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {

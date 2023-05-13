@@ -62,7 +62,20 @@ export const communityLTL = (list: any) => {
         }
     })
 
-    return result
+    function removeDuplicates(data: any) {
+        const seen = new Set();
+        const result: any = [];
+        data.forEach(
+            (item: any) => {
+                if (!seen.has(item.public_id)) {
+                    seen.add(item.public_id);
+                    result.push(item);
+                }
+            });
+        return result;
+    }
+
+    return removeDuplicates(result)
 
 }
 export const messengerLTT = (list: any) => {

@@ -52,7 +52,7 @@ const C = {
 
 const MainPane = ({ data }: any) => {
 
-    console.log(data)
+   
 
 
     return (

@@ -11,6 +11,7 @@ import HoverPopover from "material-ui-popup-state/HoverPopover";
 
 import PopupState, { bindTrigger, bindPopover, bindHover } from 'material-ui-popup-state';
 import MiniError from '../ChunkError/MiniError'
+import { AnimatePresence, motion } from 'framer-motion'
 
 
 const C = {
@@ -123,85 +124,100 @@ let CommunityPreview = ({ public_id }: any) => {
     let [data, setData]: any = useState(null)
 
 
-    // useEffect(() => {
-    //     (async () => {
-    //         let temp: any = await socketRequest('community', { community_id: public_id })
-    //         setData(temp.community)
-    //         console.log(temp)
+    useEffect(() => {
+        (async () => {
+            let temp: any = await socketRequest('community', { community_id: public_id })
+            setData(temp.community)
 
-    //     })()
-    // }, [public_id])
-
-    if (!data) return <div css={[D.container, {width: '240px'}]}><MiniError variant='loading' /></div>
+        })()
+    }, [public_id])
 
 
-    return <div css={D.container}>
 
-        <div css={{
-            padding: '12px 12px 0px 12px',
-            display: 'flex',
-            gap: '12px',
-            lineHeight: '20px',
-            alignItems: 'center',
-        }}>
-            <Avatar size="large" public_id={public_id} />
-            <div css={[textBold("l"), { height: '20px' }]}>{data.title}</div>
-        </div>
+    return (<AnimatePresence>
 
-        {data.description !== 'undefined' && <div css={{
-            padding: '12px 12px 0px 12px',
-            display: 'flex',
-            gap: '12px',
-            lineHeight: '20px',
-            alignItems: 'center',
-        }}>
-            <div css={[textNormal("s"), { height: '20px', color: '#d7dadc' }]}>{data.description}</div>
-        </div>
+        {!data ? <motion.div
+            key={`error`}
+            transition={{ duration: 0.4 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            css={D.container}><MiniError variant="loading" /></motion.div>
+            :
+            <motion.div
+                key={`error`}
+                transition={{ duration: 0.4 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                css={D.container}>
+
+                <div css={{
+                    padding: '12px 12px 0px 12px',
+                    display: 'flex',
+                    gap: '12px',
+                    lineHeight: '20px',
+                    alignItems: 'center',
+                }}>
+                    <Avatar size="large" public_id={public_id} />
+                    <div css={[textBold("l"), { height: '20px' }]}>{data.title}</div>
+                </div>
+
+                {data.description !== 'undefined' && <div css={{
+                    padding: '12px 12px 0px 12px',
+                    display: 'flex',
+                    gap: '12px',
+                    lineHeight: '20px',
+                    alignItems: 'center',
+                }}>
+                    <div css={[textNormal("s"), { height: '20px', color: '#d7dadc' }]}>{data.description}</div>
+                </div>
+                }
+                <div css={{
+                    marginTop: '16px',
+                    borderTop: '1px solid #3d4065',
+                    padding: '12px 12px 0px 12px',
+                    display: 'flex',
+                    gap: '22px',
+                }}>
+
+                    <div>
+                        <div css={[textBold("s"), { height: '20px', }]}>
+                            <span css={{
+                                display: ' inline-block',
+                                width: '8px',
+                                height: '8px',
+                                borderRadius: '50%',
+                                background: '#c4c9ce',
+                                marginRight: '4px',
+                            }} />
+
+                            {data.subscribers}</div>
+                        <div css={[textNormal("t"), { height: '20px', color: '#a298f7' }]}>Members</div>
+                    </div>
+
+                    <div>
+
+                        <div css={[textBold("s"), { height: '20px', }]}>
+
+                            <span css={{
+                                display: ' inline-block',
+                                width: '8px',
+                                height: '8px',
+                                borderRadius: '50%',
+                                background: '#43b581',
+                                marginRight: '4px',
+                            }} />{data.subscribers}</div>
+
+                        <div css={[textNormal("t"), { height: '20px', color: '#a298f7' }]}>Online</div>
+                    </div>
+                </div>
+            </motion.div>
         }
 
-        <div css={{
-            marginTop: '16px',
-            borderTop: '1px solid #3d4065',
-            padding: '12px 12px 0px 12px',
-            display: 'flex',
-            gap: '22px',
-        }}>
-
-            <div>
-                <div css={[textBold("s"), { height: '20px', }]}>
-                    <span css={{
-                        display: ' inline-block',
-                        width: '8px',
-                        height: '8px',
-                        borderRadius: '50%',
-                        background: '#c4c9ce',
-                        marginRight: '4px',
-                    }} />
-
-                    {data.subscribers}</div>
-                <div css={[textNormal("t"), { height: '20px', color: '#a298f7' }]}>Members</div>
-            </div>
-
-            <div>
-
-                <div css={[textBold("s"), { height: '20px', }]}>
-
-                    <span css={{
-                        display: ' inline-block',
-                        width: '8px',
-                        height: '8px',
-                        borderRadius: '50%',
-                        background: '#43b581',
-                        marginRight: '4px',
-                    }} />{data.subscribers}</div>
-
-                <div css={[textNormal("t"), { height: '20px', color: '#a298f7' }]}>Online</div>
-            </div>
-        </div>
 
 
-
-    </div>
+    </AnimatePresence >)
 }
 
 

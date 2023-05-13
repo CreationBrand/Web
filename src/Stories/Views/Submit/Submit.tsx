@@ -101,7 +101,6 @@ const Submit = () => {
 
     // state
     const person = useRecoilValue(personData);
-    const contentState: any = useRecoilValue(contentFlow);
 
     // form
     const { register, handleSubmit, watch, formState: { errors }, control } = useForm({ mode: 'onChange', resolver: joiResolver(schema) });
@@ -112,12 +111,8 @@ const Submit = () => {
     // console.log(data, errors)
     // handlers
     const onSubmit = async () => {
-
         console.log(data)
-        // console.log(data)
         let req = await socketRequest('post-new', data)
-        // console.log(req);
-
     };
 
 
