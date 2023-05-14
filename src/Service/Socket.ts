@@ -77,7 +77,7 @@ var cookies = parseCookies()
 // SOCKET.IO CONNECTION
 console.log('%c [Socket] ', 'background: #000; color: #da55cd', 'Initializing Socket');
 //@ts-ignore
-socket = io('wss://artram-656898660.us-east-1.elb.amazonaws.com:8000', {
+socket = io(process.env.REACT_APP_SOCKET, {
     reconnectionDelayMax: 10000,
   
     auth: {
