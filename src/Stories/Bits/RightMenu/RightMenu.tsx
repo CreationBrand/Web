@@ -9,18 +9,17 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import Picker from '../Picker/Picker';
+import Drawer from '../Drawer/Drawer';
+import { set } from 'date-fns';
 
-const options = [
-    'Tags',
-    'Atria',
-    'Callisto',
-    'Dione',
-];
+import EditAttributesIcon from '@mui/icons-material/EditAttributes';
+import ReportGmailerrorredRoundedIcon from '@mui/icons-material/ReportGmailerrorredRounded';
+import { layoutSizeData } from 'State/Data';
+import { useRecoilValue } from 'recoil';
 
-const ITEM_HEIGHT = 48;
 
 const RightMenu = ({ children, tags, public_id, type }: any) => {
-
+    const layoutSize: any = useRecoilValue(layoutSizeData)
 
     const [anchorEl, setAnchorEl]: any = useState(null);
     const [tagAnchorEl, setTagAnchorEl]: any = useState(null);
@@ -30,21 +29,21 @@ const RightMenu = ({ children, tags, public_id, type }: any) => {
         // e.preventDefault()
         // e.stopPropagation()
         setAnchorEl(e.currentTarget);
+        setOpen(true)
     };
 
     const handleClose = () => {
         setAnchorEl(null);
         setTagAnchorEl(null);
+        setOpen(false)
     };
 
     const handle1 = (e: any) => {
-        // e.preventDefault()
-        // e.stopPropagation()
         setTagAnchorEl(e.currentTarget);
     };
 
 
-    const [openTags, setOpenTags] = useState(false);
+    const [open, setOpen] = useState(false);
 
     return (
         <div css={{ marginLeft: 'auto' }} onClick={(e) => e.stopPropagation()}>
@@ -58,28 +57,52 @@ const RightMenu = ({ children, tags, public_id, type }: any) => {
                 <MoreVertIcon />
             </IconButton>
 
-            <Menu
-            
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-            >
-                <div onClick={handle1} css={{
-                    width: '100%',
-                    padding: '8px',
-                    paddingBottom: '0px',
-                }}>
-                    <Picker setAnchorEl={setTagAnchorEl} anchorEl={tagAnchorEl} current={tags} public_id={public_id} type={type} />
-                </div>
-            </Menu >
+
+            {layoutSize === 'mobile' ?
+                <>
+                    <Picker placement={'top'} setAnchorEl={setTagAnchorEl} anchorEl={tagAnchorEl} current={tags} public_id={public_id} type={type} />
+                    <Drawer open={open} setOpen={setOpen} >
+
+                        <MenuItem onClick={handle1}>
+                            <EditAttributesIcon />
+                            Edit Tags
+                        </MenuItem>
+                        <MenuItem>
+                            <ReportGmailerrorredRoundedIcon />
+                            Report
+                        </MenuItem>
+                    </Drawer>
+                </>
+                :
+                <>
+
+                    <Picker placement={'left-start'} setAnchorEl={setTagAnchorEl} anchorEl={tagAnchorEl} current={tags} public_id={public_id} type={type} />
+
+                    <Menu
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                    >
+                        <MenuItem onClick={handle1}>
+                            <EditAttributesIcon />
+                            Edit Tags
+                        </MenuItem>
+                        <MenuItem>
+                            <ReportGmailerrorredRoundedIcon />
+                            Report
+                        </MenuItem>
+
+                    </Menu >
+                </>
+            }
         </div >
     );
 }

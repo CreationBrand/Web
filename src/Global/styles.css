@@ -75,11 +75,6 @@ body {
     }
 }
 
-
-
-
-
-
 .vitual-tree {
     height: 100% !important;
     overflow-x: hidden !important;
@@ -149,16 +144,14 @@ body {
     min-width: 160px;
     border-radius: 8px;
     /* padding-bottom: 8px !important; */
-    padding: 0px !important; 
-
+    padding: 0px !important;
 }
 
 .MuiPaper-root {
     background: none !important;
-    border:none !important;
+    border: none !important;
 
     border-radius: 22px !important;
-
 }
 
 .MuiMenuItem-root {
@@ -167,16 +160,21 @@ body {
     font-weight: 700;
     color: #f2f2f2 !important;
     border-radius: 8px !important;
-
+    gap: 8px !important;
 }
 
-.MuiList-root{
+.MuiList-root {
     /* border:2px solid #3d4065; */
     /* padding:0px !important;
     border-radius: 24px !important; */
-    background:none !important;
+    background: none !important;
 }
 
-.MuiAutocomplete-noOptions{
-    background:#0f0e10;
+.MuiAutocomplete-noOptions {
+    background: #0f0e10;
+}
+
+.MuiDrawer-root > .MuiPaper-root {
+    height: 50%;
+    overflow: 'visible';
 }

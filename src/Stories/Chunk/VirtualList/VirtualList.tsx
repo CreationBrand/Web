@@ -5,6 +5,7 @@ import { useRef } from 'react'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useRecoilValue } from 'recoil'
 import { layoutSizeData } from 'State/Data'
+import useWindow from 'Hooks/useWindow'
 
 
 
@@ -12,37 +13,73 @@ import { layoutSizeData } from 'State/Data'
 
 const VirtualList = ({ list }: any) => {
 
-
+    const { height } = useWindow()
     const layoutSize = useRecoilValue(layoutSizeData)
     const parentRef: any = useRef()
 
+
+
     const virtualizer = useVirtualizer({
-        count: list.length,
-        overscan: 4,
+        count: list?.length,
         getScrollElement: () => parentRef.current,
-        estimateSize: () => 0,
+        estimateSize: () => 200,
+        overscan: 4,
     })
 
-    const items = virtualizer.getVirtualItems()
-
-    const C = {
-        container: css({
-            height: "calc(100% - 56px)",
-            overflowY: 'scroll',
-            overflowX: 'hidden',
-            position: 'relative',
-            boxSizing: 'border-box',
-            scrollbarGutter: layoutSize === 'mobile' ? 'unset' : 'stable both-edges',
-            '::-webkit-scrollbar': {
-                width: layoutSize === 'mobile' ? '0px' : '14px',
-            },
-        }),
-    }
+    const items: any = virtualizer.getVirtualItems()
 
 
-
+    if (!list || list.length === 0) return null
+    if (!items || items.length === 0) return null
     return (
-        <div
+        <div>
+            <div
+                ref={parentRef}
+                className="List"
+                style={{
+                    height: height - 56,
+                    width: '100%',
+                    overflowY: 'auto',
+                    scrollbarGutter: 'stable both-edges',
+                    contain: 'strict',
+
+                }}
+            >
+                <div
+                    style={{
+                        height: virtualizer.getTotalSize(),
+                        width: '100%',
+                        position: 'relative',
+                    }}
+                >
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            transform: `translateY(${items[0].start}px)`,
+                        }}
+                    >
+                        {items.map((virtualRow: any) => (
+                            <div
+                                key={virtualRow.key}
+                                data-index={virtualRow.index}
+                                ref={virtualizer.measureElement}
+                            >
+                                {list[virtualRow.index]}
+
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+
+
+}
+{/* <div
             ref={parentRef}
             css={C.container}>
 
@@ -68,11 +105,8 @@ const VirtualList = ({ list }: any) => {
                     </div>
                 ))}
             </div>
-        </div>
-    )
+        </div> */}
 
-
-}
 
 
 

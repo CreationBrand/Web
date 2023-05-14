@@ -33,7 +33,7 @@ const ChunkError = ({ variant }: any) => {
 
 
 return (
-    <div css={C.container} key={'error'}>
+    <div css={C.container} key={`key:${variant}`}>
 
         <div css={C.float}>
             <svg className="gegga">

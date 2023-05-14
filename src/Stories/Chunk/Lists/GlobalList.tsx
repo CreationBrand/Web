@@ -61,7 +61,7 @@ const GlobalList = ({ type }: any) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}>
-            <VirtualList list={[list]} />
+            <VirtualList list={list} />
         </motion.div>
     )
 }

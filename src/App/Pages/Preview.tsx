@@ -14,10 +14,11 @@ import LogoWithName from 'Stories/Bits/Branding/LogoWithName'
 import { faFire, faScroll } from '@fortawesome/free-solid-svg-icons'
 import { textNormal } from 'Global/Mixins'
 import Search from 'Stories/Chunk/Search/Search'
-import { Button } from '@mui/material'
+import { Button, IconButton } from '@mui/material'
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import VirtualTree from 'Stories/Chunk/VirtualTree/VirtualTree'
 import { layoutSizeData } from 'State/Data'
+import DragIndicatorRoundedIcon from '@mui/icons-material/DragIndicatorRounded';
 
 const Preview = () => {
 
@@ -26,7 +27,7 @@ const Preview = () => {
 
 
     const [l, r] = useRecoilValue(triState)
-    const setTri = useSetRecoilState(triState)
+    const setTri: any = useSetRecoilState(triState)
     const goAuth = () => navigate(`/auth`)
 
 
@@ -110,7 +111,19 @@ const Preview = () => {
             </Left>
             <Main>
                 <Nav>
-                    <div></div>
+
+                    {layoutSize === 'mobile' ?
+                        <IconButton
+                            disableRipple
+                            sx={{
+                                color: '#d7dadc', borderRadius: '12px !important',
+                                width: '24px',
+                            }}
+                            aria-haspopup="true"
+                        >
+                            <DragIndicatorRoundedIcon />
+                        </IconButton> : <div />}
+
                     <Search />
                     <div css={{ display: 'flex' }}>
 
@@ -149,7 +162,7 @@ const Preview = () => {
                                 fontWeight: '700',
                             }}
                             variant="contained" disableElevation>
-                            Log In
+                            Join
                         </Button>
 
 

@@ -91,16 +91,12 @@ const StyledInput = styled(InputBase)(({ theme }) => ({
 }));
 
 
-export default function Picker({ anchorEl, setAnchorEl, current, public_id, type }: any) {
+export default function Picker({ anchorEl, setAnchorEl, current, public_id, type, placement }: any) {
 
 
     const tags = useRecoilValue(tagData)
     const [value, setValue]: any = useState([]);
     const [pendingValue, setPendingValue]: any = useState([]);
-
-
-    console.log(current)
-
 
 
     const handleSubmit = async () => {
@@ -111,25 +107,9 @@ export default function Picker({ anchorEl, setAnchorEl, current, public_id, type
             strip.push(pendingValue[i].public_id)
         }
 
-        console.log(pendingValue)
-        console.log(public_id)
-
         await socketRequest('tag-update', { type: type, tags: strip, public_id: public_id })
 
     }
-
-
-    useEffect(() => {
-
-        // current.forEach((element:any) => {
-        //     if(element.public_id){
-        //         temp.push(element)
-        //     }
-        // });
-    }, [current])
-
-
-
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setPendingValue(value);
@@ -147,16 +127,13 @@ export default function Picker({ anchorEl, setAnchorEl, current, public_id, type
     const open = Boolean(anchorEl);
     const id = open ? 'github-label' : undefined;
 
-
-
     return (
         <React.Fragment>
-            <MenuItem onClick={handleClick}>Tags</MenuItem>
 
 
 
 
-            <StyledPopper id={id} open={open} anchorEl={anchorEl} placement="left-start">
+            <StyledPopper id={id} open={open} anchorEl={anchorEl} placement={placement}>
                 <ClickAwayListener onClickAway={handleClose}>
                     <div>
                         <Box

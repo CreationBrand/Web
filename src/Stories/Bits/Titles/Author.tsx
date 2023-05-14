@@ -14,11 +14,13 @@ const C = {
         alignItems: 'center',
         width: 'min-content',
         whiteSpace: 'nowrap',
+
     }),
     underline: css({
         ':hover': {
             textDecoration: 'underline',
             cursor: 'pointer',
+
         },
     }),
 }

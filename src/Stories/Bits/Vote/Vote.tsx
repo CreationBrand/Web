@@ -123,3 +123,5 @@ const Vote = ({ karma, public_id, vote, size, type }: any) => {
 
 export default Vote
 
+
+

@@ -11,7 +11,8 @@ const C = {
         display: 'flex',
         gap: '4px',
         alignItems: 'center',
-        width: 'min-content',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
     }),
     underline: css({
         ':hover': {
