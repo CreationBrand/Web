@@ -76,8 +76,10 @@ var cookies = parseCookies()
 
 // SOCKET.IO CONNECTION
 console.log('%c [Socket] ', 'background: #000; color: #da55cd', 'Initializing Socket');
-socket = io('ws://localhost:8000', {
+//@ts-ignore
+socket = io('wss://artram-656898660.us-east-1.elb.amazonaws.com:8000', {
     reconnectionDelayMax: 10000,
+    transports: ["websocket"],
     auth: {
         token: cookies?.accessToken
     },
