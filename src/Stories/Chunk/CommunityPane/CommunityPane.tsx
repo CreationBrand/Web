@@ -2,16 +2,18 @@
 import { css } from '@emotion/react'
 import { Button, IconButton } from '@mui/material'
 import { textBold, textLabel, textLight, textNormal } from 'Global/Mixins'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { postListData } from 'State/Data'
+import { commentListData, communityListData, postListData } from 'State/Data'
 import { contentFlow } from 'State/Flow'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
 import RoleList from 'Stories/Bits/RoleList/RoleList'
 import CommunityStats from 'Stories/Bits/StatCheck/CommunityStats'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom'
+import { joinCommunity, leaveCommunity } from 'Helper/Action'
+import { is } from 'date-fns/locale'
 
 const C = {
     // container: css({
@@ -42,7 +44,7 @@ const C = {
         background: '#1c1c2d',
         borderRadius: '8px',
         overflow: 'hidden',
-        position: 'relative',   
+        position: 'relative',
     }),
 
 
@@ -116,26 +118,39 @@ const C = {
     }),
 }
 
-const handleImgError = (e: any) => {
-    // console.log('error')
-    e.target.style.display = 'none'
-}
+const handleImgError = (e: any) => e.target.style.display = 'none'
+
 
 const CommunityPane = ({ data }: any) => {
 
 
-
-
+    const [isMember, setIsMember] = useState(false)
     const navigate = useNavigate()
     const [active, setActive] = useState(false)
     const contentState = useRecoilValue(contentFlow)
+    const communityList = useRecoilValue(communityListData)
+
+
 
     const handleEdit = (e: any) => {
         e.stopPropagation()
         navigate(`/c/${data.public_id}/edit`)
     }
 
+    const handleJoin = (e: any) => {
+        e.stopPropagation()
+        setIsMember(!isMember)
+        if (isMember) leaveCommunity(data.public_id)
+        else joinCommunity(data.public_id)
+    }
+
     const openCommunity = () => setActive(!active)
+
+    useEffect(() => {
+        const hasMatchingId = communityList.some((obj: any) => obj.public_id === data.public_id);
+        setIsMember(hasMatchingId)
+    }, [communityList])
+
 
     return (
         <div css={C.container}>
@@ -152,8 +167,6 @@ const CommunityPane = ({ data }: any) => {
                     <MoreVertIcon />
                 </IconButton>
 
-
-
                 <img css={C.banner}
                     onError={handleImgError}
                     src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.public_id}`} />
@@ -162,7 +175,7 @@ const CommunityPane = ({ data }: any) => {
                     <div>
                         <div css={textBold('x')}>{data.title}</div>
                         <div css={C.stats}>
-                            <div css={C.under}><span css={C.offline} /> 13 Members  <span css={C.online} /> 2 Viewing</div>
+                            <div css={C.under}><span css={C.offline} /> {data.subscribers} Members  <span css={C.online} /> 2 Viewing</div>
                         </div>
 
                     </div>
@@ -170,6 +183,7 @@ const CommunityPane = ({ data }: any) => {
 
                 <div css={C.action}>
                     <Button
+                        onClick={handleJoin}
                         disableElevation
                         sx={{
                             marginLeft: 'auto !important',
@@ -179,7 +193,7 @@ const CommunityPane = ({ data }: any) => {
                             fontSize: '12px',
                             fontWeight: '700',
                         }}
-                        variant="contained">{contentState?.roles?.length > 1 ? 'LEAVE' : 'JOIN'}</Button>
+                        variant="contained">{isMember ? 'LEAVE' : 'JOIN'}</Button>
                 </div>
 
             </div>

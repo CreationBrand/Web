@@ -10,16 +10,22 @@ import AutoAwesomeMosaicRoundedIcon from '@mui/icons-material/AutoAwesomeMosaicR
 const C = {
     container: css({
         width: '100%',
+        padding: '16px 2px 0px 0px',
+
+    }),
+    inner: css({
+        margin: '0 auto',
+        width: '100%',
         height: '42px',
         background: '#272732',
         borderRadius: '8px',
-        margin: '8px 0px 0px 0px',
         padding: '8px',
         gap: '8px',
+        maxWidth: '800px',
         // justifyContent: 'space-between',
         alignItems: 'center',
         display: 'flex'
-    })
+    }),
 }
 
 const FilterPane = ({ value, onChange }: any) => {
@@ -30,73 +36,75 @@ const FilterPane = ({ value, onChange }: any) => {
     return (
 
         <div css={C.container}>
-            <Button
-                onClick={handleHot}
-                variant="text"
-                size="small"
-                color="secondary"
-                sx={{
-                    gap: '6px',
-                    borderRadius: '8px',
-                    padding: '4px 12px 4px 12px',
-                    background: value === 'HOT' ? '#272732' : '',
-                    color: value === 'HOT' ? '#fff' : ''
-                }}
-            >
-                <WhatshotRoundedIcon />
-                <div css={[sMuted, { color: 'inherit' }]}>TRENDING</div>
-            </Button>
+            <div css={C.inner}>
+                <Button
+                    onClick={handleHot}
+                    variant="text"
+                    size="small"
+                    color="secondary"
+                    sx={{
+                        gap: '6px',
+                        borderRadius: '8px',
+                        padding: '4px 12px 4px 12px',
+                        background: value === 'HOT' ? '#272732' : '',
+                        color: value === 'HOT' ? '#fff' : ''
+                    }}
+                >
+                    <WhatshotRoundedIcon />
+                    <div css={[sMuted, { color: 'inherit' }]}>TRENDING</div>
+                </Button>
 
-            <Button
-                onClick={handleTop}
-                variant="text"
-                size="small"
-                color="secondary"
-                sx={{
-                    gap: '6px',
-                    borderRadius: '8px',
-                    padding: '4px 12px 4px 12px',
-                    background: value === 'TOP' ? '#272732' : '',
-                    color: value === 'TOP' ? '#fff' : ''
-                }}
-            >
-                <AutoGraphRoundedIcon />
-                <div css={[sMuted, { color: 'inherit' }]}>TOP</div>
-            </Button>
+                <Button
+                    onClick={handleTop}
+                    variant="text"
+                    size="small"
+                    color="secondary"
+                    sx={{
+                        gap: '6px',
+                        borderRadius: '8px',
+                        padding: '4px 12px 4px 12px',
+                        background: value === 'TOP' ? '#272732' : '',
+                        color: value === 'TOP' ? '#fff' : ''
+                    }}
+                >
+                    <AutoGraphRoundedIcon />
+                    <div css={[sMuted, { color: 'inherit' }]}>TOP</div>
+                </Button>
 
-            <Button
-                onClick={handleNew}
-                variant="text"
-                size="small"
-                color="secondary"
-                sx={{
-                    gap: '6px',
-                    borderRadius: '8px',
-                    padding: '4px 12px 4px 12px',
-                    background: value === 'NEW' ? '#272732' : '',
-                    color: value === 'NEW' ? '#fff' : ''
+                <Button
+                    onClick={handleNew}
+                    variant="text"
+                    size="small"
+                    color="secondary"
+                    sx={{
+                        gap: '6px',
+                        borderRadius: '8px',
+                        padding: '4px 12px 4px 12px',
+                        background: value === 'NEW' ? '#272732' : '',
+                        color: value === 'NEW' ? '#fff' : ''
 
-                }}
-            >
-                <NewReleasesRoundedIcon />
-                <div css={[sMuted, { color: 'inherit' }]}>NEW</div>
-            </Button>
+                    }}
+                >
+                    <NewReleasesRoundedIcon />
+                    <div css={[sMuted, { color: 'inherit' }]}>NEW</div>
+                </Button>
 
 
 
-            <Button
-                variant="text"
-                size="small"
-                color="secondary"
-                sx={{
-                    minWidth: '32px',
-                    marginLeft: 'auto',
-                    gap: '6px',
-                    borderRadius: '8px',
-                }}
-            >
-                <AutoAwesomeMosaicRoundedIcon />
-            </Button>
+                <Button
+                    variant="text"
+                    size="small"
+                    color="secondary"
+                    sx={{
+                        minWidth: '32px',
+                        marginLeft: 'auto',
+                        gap: '6px',
+                        borderRadius: '8px',
+                    }}
+                >
+                    <AutoAwesomeMosaicRoundedIcon />
+                </Button>
+            </div>
         </div>
     )
 }

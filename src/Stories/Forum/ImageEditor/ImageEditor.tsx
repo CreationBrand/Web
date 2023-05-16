@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 //@ts-ignore
 import AvatarEditor from 'react-avatar-editor'
-import { Button, DialogActions, Slider } from '@mui/material';
+import { Button, DialogActions, Modal, Slider } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import { mutedBold, smMuted } from 'Stories/Bits/Text/Text';
 import DialogContent from '@mui/material/DialogContent';
@@ -16,10 +16,17 @@ import { textLight } from 'Global/Mixins';
 
 const C = {
     container: css({
+        backgroundColor: 'rgba(15,14,16,0.90)',
         display: 'flex',
-        flexDirection: 'column',
-        fontFamily: 'noto sans',
-
+        alignItems: 'center',
+        justifyContent: 'center',
+    }),
+    popup: css({
+        background: '#272732',
+        height: "auto",
+        margin: "0 auto",
+        borderRadius: "24px",
+        boxShadow: "0px 8px 80px rgba(0,0,0,0.4)",
     }),
     dropzone: css({
         width: '120px',
@@ -56,6 +63,9 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
     const handleImage = (e: any) => setImage(e.target.files[0])
 
     const onDrop = useCallback(async (acceptedFiles: any) => {
+        console.log(acceptedFiles)
+        setImage(acceptedFiles[0])
+        setOpen(true)
     }, [])
 
 
@@ -68,17 +78,15 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
         const canvasScaled = editor.current.getImageScaledToCanvas()
         console.log(canvas, canvasScaled.toDataURL("image/jpeg"))
 
-
         let req = await socketRequest(api, { community_id: id, avatar: canvasScaled.toDataURL() })
-
-
 
     }
 
 
+    console.log(width, height)
 
 
-    return <div css={C.container}>
+    return <div>
 
 
         <div
@@ -124,15 +132,15 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
 
         </div> */}
 
-        <Dialog open={open} onClose={handleClose} maxWidth='lg' >
-            <DialogContent>
+        <Modal open={open} onClose={handleClose} css={C.container} >
 
+            <div css={C.popup}>
                 {image &&
                     <AvatarEditor
                         ref={editor}
                         image={image}
-                        width={width}
-                        height={height}
+                        width={type === 'banner' ? 800 : 80}
+                        height={type === 'banner' ? 140 : 80}
                         border={30}
                         color={[0, 0, 0, 0.3]}
                         scale={scale}
@@ -149,18 +157,16 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
                     step={0.1}
                     color="secondary"
                 />
-            </DialogContent>
-
-            <DialogActions>
-                <Button onClick={handleClose} color='secondary'>Cancel</Button>
-                <Button onClick={handleSave} variant="contained">Save</Button>
-            </DialogActions>
-
-        </Dialog>
 
 
+                <DialogActions>
+                    <Button onClick={handleClose} color='secondary'>Cancel</Button>
+                    <Button onClick={handleSave} variant="contained">Save</Button>
+                </DialogActions>
+            </div>
 
 
+        </Modal>
     </div>
 }
 

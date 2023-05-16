@@ -280,7 +280,10 @@ const EditCommunity = () => {
                 </div>
                 <div>
                     <div css={textLabel('s')}>Banner</div>
-                    <ImageEditor type='banner' api='community-avatar' id={req?.community?.public_id} />
+                    <ImageEditor 
+                    width='800'
+                    height='140'
+                    type='banner' api='community-banner' id={req?.community?.public_id} />
                     <div css={{ marginBottom: "26px" }} />
                 </div>
 
@@ -342,14 +345,6 @@ const EditCommunity = () => {
 
 
 export default EditCommunity
-
-
-/*
-{
-    type: 'image' | 'carosoul' 
-    source :
-}*/
-
 
 const columns: GridColDef[] = [
     {
