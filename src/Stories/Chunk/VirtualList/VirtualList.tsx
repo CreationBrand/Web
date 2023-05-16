@@ -42,6 +42,7 @@ const VirtualList = ({ list }: any) => {
                     overflowY: 'auto',
                     scrollbarGutter: 'stable both-edges',
                     contain: 'strict',
+                    scrollBehavior: 'smooth',
 
                 }}
             >
@@ -50,10 +51,14 @@ const VirtualList = ({ list }: any) => {
                         height: virtualizer.getTotalSize(),
                         width: '100%',
                         position: 'relative',
+                        scrollBehavior: 'smooth',
+
                     }}
                 >
                     <div
                         style={{
+                            scrollBehavior: 'smooth',
+
                             position: 'absolute',
                             top: 0,
                             left: 0,

@@ -6,24 +6,38 @@ import { Button, DialogActions, Slider } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import { mutedBold, smMuted } from 'Stories/Bits/Text/Text';
 import DialogContent from '@mui/material/DialogContent';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { fileUpload } from 'Service/Request';
 import { socketRequest } from 'Service/Socket';
-
+import { useDropzone } from 'react-dropzone'
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded';
+import { textLight } from 'Global/Mixins';
 
 const C = {
     container: css({
         display: 'flex',
         flexDirection: 'column',
+        fontFamily: 'noto sans',
 
     }),
-    buttons: css({
-        marginTop: '8px',
+    dropzone: css({
+        width: '120px',
+        height: '120px',
+        background: '#181820',
+        borderRadius: '8px',
         display: 'flex',
-        gap: '8px',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#f2f2f2',
+        marginBottom: '8px',
+        padding: '8px',
+        textAlign: 'center',
+        '&:hover': {
+            border: `2px solid hsla(0,0%,100%,.1)`
+        },
     }),
-
-
 }
 const ImageEditor = ({ type, api, width, height, id }: any) => {
 
@@ -41,6 +55,11 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
     const handleScale = (e: any, value: any) => setScale(value)
     const handleImage = (e: any) => setImage(e.target.files[0])
 
+    const onDrop = useCallback(async (acceptedFiles: any) => {
+    }, [])
+
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
     const handleSave = async () => {
 
@@ -61,21 +80,49 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
 
     return <div css={C.container}>
 
-        <div css={mutedBold}>{type}</div>
 
-        <div css={C.buttons}>
-            {/* <Button variant="contained" size='small' >Change {type}</Button> */}
-            <Button onClick={handleOpen}
+        <div
+            style={{ width: type === 'banner' ? '240px' : '120px' }}
+            css={C.dropzone} {...getRootProps()}>
+            <input {...getInputProps()} />
+            {
+                isDragActive ?
+                    <p>Drop the files here ...</p> :
+
+                    <>
+                        <CloudUploadRoundedIcon sx={{ fontSize: '30px' }} />
+                        <p css={{
+                            fontSize: '12px',
+
+                        }}> Drag and Drop or Upload <span css={{ fontWeight: 'bold' }}>{type}</span> image</p>
+                    </>
+
+            }
+        </div>
+
+
+        {/* <div css={C.buttons}>
+
+            <Button
+                disableElevation
+                sx={{
+                    display: "flex",
+                    height: "42px",
+                    borderRadius: "8px",
+                    fontSize: "14px",
+                    fontWeight: 600,
+                    lineHeight: "24px",
+                }}
+                onClick={handleOpen}
                 variant="contained" size='small' component="label">
-                Change {type}
+                Upload
                 <input
                     onChange={handleImage}
                     hidden accept="image/*" multiple type="file" />
             </Button>
 
 
-            <Button variant="text" size='small' color='secondary'>Remove {type}</Button>
-        </div>
+        </div> */}
 
         <Dialog open={open} onClose={handleClose} maxWidth='lg' >
             <DialogContent>

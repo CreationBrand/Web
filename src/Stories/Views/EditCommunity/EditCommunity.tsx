@@ -2,35 +2,29 @@
 import { css } from '@emotion/react';
 
 import { useForm, Controller } from "react-hook-form";
-import { Divider, Input, Button, Box, Tab, TextField, } from "@mui/material"
-import { useEffect, useState } from "react";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { Divider, Input, Button, TextareaAutosize, styled, } from "@mui/material"
+import { useState } from "react";
+
 import { useRecoilValue } from "recoil";
 import { contentFlow } from "State/Flow";
 
-import Editor from 'Stories/Bits/Editor/Editor';
-// import Editor from "Stories/Forum/Editor/Editor";
 
 import { personData } from 'State/Data';
 
-
-import CommunitySelect from 'Stories/Bits/Select/CommunitySelect';
-import { textBold, textLabel } from 'Global/Mixins';
-
-// ICONS
-import FeedRoundedIcon from '@mui/icons-material/FeedRounded';
-import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
-import BackupRoundedIcon from '@mui/icons-material/BackupRounded';
-
+import { textLabel } from 'Global/Mixins';
 
 
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
-import DropZone from 'Stories/Bits/DropZone/DropZone';
-import MainPost from 'Stories/Chunk/Post/MainPost';
+
 import ImageEditor from 'Stories/Forum/ImageEditor/ImageEditor';
 import { useParams } from 'react-router-dom';
 import usePullCommunity from 'Hooks/usePullCommunity';
+
+import Box from '@mui/material/Box';
+import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+
+
 
 // VALIDATION
 
@@ -56,6 +50,7 @@ const C = {
         background: '#272732',
         marginTop: '8px',
         borderRadius: '8px',
+        position: 'relative',
 
     }),
     inner: css({
@@ -92,7 +87,20 @@ const C = {
         borderRadius: '8px',
         padding: '8px',
     }),
+    form: css({
+        // padding: '40px 40px 32px',
+
+
+        '@media only screen and (max-width: 800px)': {
+            flex: '0 100%',
+            padding: '0px',
+        }
+    }),
+
+
+
 }
+const StyledTextarea = styled(TextareaAutosize)(() => ``)
 
 const EditCommunity = () => {
 
@@ -109,24 +117,31 @@ const EditCommunity = () => {
     const data = watch()
 
     const onSubmit = async () => {
-
         console.log(data)
         // let req = await socketRequest('post-new', data)
 
     };
 
-    useEffect(() => { }, [])
 
 
 
+    console.log(req)
 
+
+
+    if (!req) return <div>loading</div>
 
 
     return <div css={C.container}>
+
         <div css={C.inner}>
 
             <div css={C.row}>
-                <div css={textBold('x')}>Edit Community</div>
+                <div css={{
+                    color: '#fff',
+                    fontSize: "20px",
+                    fontWeight: 450,
+                }}>Edit {req.community.title}</div>
                 <div>
                     <Button color='secondary'>Cancel</Button>
                     <Button
@@ -142,49 +157,186 @@ const EditCommunity = () => {
 
             <Divider sx={{ margin: '12px' }} />
 
-            <div css={textLabel('t')}>Change Title</div>
 
-            <Controller
-                name="title"
-                control={control}
-                defaultValue={'title'}
-                render={({ field: { onChange, value } }) => (
-                    <Input
-                        disableUnderline
-                        onChange={onChange} value={value} />
-                )} />
+            <form
+                css={C.form}>
+
+
+
+                <div css={{
+                    margin: "6px 0px",
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                    lineHeight: "22px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#fff',
+                }}>Display</div>
+                <div css={{
+                    margin: "0px 0px 30px",
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    lineHeight: "20px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#b9b6ba',
+                }}>This is how users will see your community.</div>
+
+
+                <h3 css={textLabel('s')}>Title</h3>
+
+                <Controller
+                    name="title"
+                    control={control}
+                    defaultValue={req.community.title}
+                    rules={{ required: true, maxLength: 30 }}
+                    render={({ field: { onChange, value } }) => (
+                        <Input
+
+                            error={errors.title ? true : false}
+                            autoComplete="off"
+                            onChange={onChange}
+                            value={value}
+                            disableUnderline
+                            fullWidth
+                            endAdornment={<div css={{
+                                color: '#b9b6ba',
+                                marginRight: '8px',
+                                fontSize: '12px'
+                            }}>{value.length}/30</div>}
+                            sx={{
+                                height: "42px",
+                                marginBottom: "26px",
+                            }}
+                        />
+                    )}
+                />
+
+
+                <h3 css={textLabel('s')}>description</h3>
+                <div>
+                    <Controller
+                        name="description"
+
+                        control={control}
+                        defaultValue=""
+                        rules={{ required: true, maxLength: 200 }}
+                        render={({ field: { onChange, value } }) => (
+                            <Input
+                                disableUnderline
+                                multiline
+                                fullWidth
+                                minRows={3}
+                                placeholder="Type a description..."
+                                onChange={onChange}
+                                value={value}
+
+                                //@ts-ignore
+                                endAdornment={<div css={{
+                                    top: '8px',
+                                    right: '8px',
+                                    color: '#b9b6ba',
+                                    marginRight: '8px',
+                                    fontSize: '12px'
+                                }}>{value.length}/200</div>}
+
+                            />
+                        )}
+                    />
+                </div>
+            </form>
 
             <Divider sx={{ margin: '12px' }} />
 
-            <div css={textLabel('t')}>Change Description</div>
 
-            <Controller
-                name="description"
-                control={control}
-                defaultValue={'title'}
-                render={({ field: { onChange, value } }) => (
-                    <TextField
-                        multiline
-                        minRows={4}
-                        onChange={onChange} value={value} />
-                )} />
+            <div css={{
+                margin: "6px 0px",
+                fontWeight: "bold",
+                fontSize: "18px",
+                lineHeight: "22px",
+                wordBreak: "normal",
+                textDecoration: "none",
+                color: '#fff',
+            }}>Images</div>
+            <div css={{
+                margin: "0px 0px 30px",
+                fontWeight: "400",
+                fontSize: "14px",
+                lineHeight: "20px",
+                wordBreak: "normal",
+                textDecoration: "none",
+                color: '#b9b6ba',
+            }}>Avatars are 80px by 80px. Community Banners need a min height of 140px. </div>
 
 
-            <div css={textLabel('t')}>Change Avatar</div>
-            <ImageEditor type='avatar' api='community-avatar' id={req?.community?.public_id} />
 
+            <div css={{ display: 'flex', gap: '12px' }}>
 
+                <div>
+                    <h3 css={textLabel('s')}>Avatar</h3>
+
+                    <ImageEditor type='avatar' api='community-avatar' id={req?.community?.public_id} />
+                    <div css={{ marginBottom: "26px" }} />
+                </div>
+                <div>
+                    <div css={textLabel('s')}>Banner</div>
+                    <ImageEditor type='banner' api='community-avatar' id={req?.community?.public_id} />
+                    <div css={{ marginBottom: "26px" }} />
+                </div>
+
+            </div>
 
             <Divider sx={{ margin: '12px' }} />
 
-            <div css={textLabel('s')}>Edit Roles</div>
 
+
+            <div css={{
+                margin: "6px 0px",
+                fontWeight: "bold",
+                fontSize: "18px",
+                lineHeight: "22px",
+                wordBreak: "normal",
+                textDecoration: "none",
+                color: '#fff',
+            }}>Roles and Flairs</div>
+            <div css={{
+                margin: "0px 0px 30px",
+                fontWeight: "400",
+                fontSize: "14px",
+                lineHeight: "20px",
+                wordBreak: "normal",
+                textDecoration: "none",
+                color: '#b9b6ba',
+            }}>Base Roles can not be edited or deleted.</div>
+
+
+
+            <Box sx={{ width: '100%', background: '#181820', borderRadius: '8px' }}>
+                <DataGrid
+                    checkboxSelection={false}
+                    autoHeight
+                    hideFooter
+                    editMode='row'
+                    isCellEditable={() => false}
+                    css={{ borderRadius: '8px' }}
+                    rows={req?.community?.community_roles}
+                    columns={columns}
+                    initialState={{
+                        pagination: {
+                            paginationModel: {
+                                pageSize: 5,
+                            },
+                        },
+                    }}
+                    pageSizeOptions={[5]}
+                />
+            </Box>
 
 
 
 
         </div>
-    </div>
+    </div >
 
 }
 
@@ -197,3 +349,36 @@ export default EditCommunity
     type: 'image' | 'carosoul' 
     source :
 }*/
+
+
+const columns: GridColDef[] = [
+    {
+        field: 'title',
+        headerName: 'Title',
+        flex: 1,
+    },
+    {
+        field: 'color',
+        headerName: 'Color',
+        flex: 1,
+    },
+    {
+        field: 'permissions',
+        headerName: 'Permissions',
+        flex: 1,
+    },
+    {
+        field: 'base',
+        headerName: 'Base',
+        flex: 1,
+    },
+];
+
+// const rows = [
+//     { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
+//     { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
+//     { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
+//     { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
+// ];
+
+

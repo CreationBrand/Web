@@ -35,7 +35,7 @@ const Tri = (props: Props) => {
 
     const c = {
         left: css({
-            height: '100vh',
+            height: height,
 
             padding: theme.spacing(2),
             paddingRight: '0px',
@@ -48,7 +48,7 @@ const Tri = (props: Props) => {
             transition: 'opacity 0.3s , margin-left 0.3s ease-in-out'
         }),
         right: css({
-            height: '100%',
+            height: height,
             padding: theme.spacing(2),
             paddingLeft: '0px',
             boxSizing: 'border-box',

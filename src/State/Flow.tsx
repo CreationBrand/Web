@@ -4,7 +4,7 @@ import { atom } from 'recoil'
 
 export const socketFlow = atom({
     key: 'socketFlow',
-    default: {},
+    default: 'loading' as 'loading' | 'error' | 'connected' | 'disconnected',
 })
 
 export const contentFlow = atom({

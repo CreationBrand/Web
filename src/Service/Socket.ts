@@ -78,7 +78,7 @@ var cookies = parseCookies()
 console.log('%c [Socket] ', 'background: #000; color: #da55cd', 'Initializing Socket');
 //@ts-ignore
 socket = io(process.env.REACT_APP_SOCKET, {
-    reconnectionDelayMax: 10000,
+    reconnectionDelayMax: 5000,
   
     auth: {
         token: cookies?.accessToken
@@ -90,6 +90,7 @@ socket = io(process.env.REACT_APP_SOCKET, {
 socket.io.on("error", (error: any) => {
     console.log('%c [Socket]', 'background: #290000; color: #da55cd', 'Socket Connection Failed');
     setRecoil(errorFlow, { type: 'socket', message: 'Failed to connect to server' })
+    setRecoil(socketFlow, 'error')
 
 });
 
@@ -102,12 +103,14 @@ socket.on("error", (error: any) => {
 // SOCKET connection established
 socket.on("connect", () => {
     console.log('%c [Socket] ', 'background: #052900; color: #da55cd', 'connection');
-    setRecoil(socketFlow, socket)
+    setRecoil(socketFlow, 'connected')
 });
 
 // SOCKET connection broken
 socket.on("disconnect", () => {
     console.log('%c [Socket] ', 'background: #290000; color: #da55cd', 'disconnected');
+    setRecoil(socketFlow, 'disconnected')
+
 });
 
 // SOCKET event

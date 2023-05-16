@@ -9,9 +9,8 @@ import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import { useState } from "react";
 import { smBold, xsMuted } from "Stories/Bits/Text/Text";
-import CreateCommunity from "Stories/Forum/CreateCommunity";
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
-
+import CreateCommunity from "Stories/Popups/CreateCommunity";
 
 import AddGroup from "Stories/Popups/AddGroup";
 
@@ -41,7 +40,7 @@ const CommunityControls = () => {
     return <div css={C.container}>
 
 
-        <CreateCommunity open={open1} handleClose={handleClose1} />
+        <CreateCommunity open={open1} onClose={ handleClose1} />
         <AddGroup open={group} handleClose={groupClose} />
 
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-// import { refreshSession } from "Services/cognito";
+import { refreshSession } from "Service/Cognito";
 import { verifyCognito } from 'Service/Cognito'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { useNavigate } from 'react-router-dom'
 import { get } from 'Service/Request'
 
@@ -18,7 +18,7 @@ import {
     tagData
 } from 'State/Data'
 import { communityLTL, communityLTT, messengerLTT } from 'Helper/Clean'
-import { authFlow } from 'State/Flow'
+import { authFlow, socketFlow } from 'State/Flow'
 import { set } from 'date-fns'
 
 var treeify = require('treeify');
@@ -49,6 +49,7 @@ var useAuth = () => {
         var trySession = async () => {
             try {
                 let session = await verifyCognito()
+
                 if (!session) {
                     console.log('%c [SESSION] ', 'background: #000; color: #bada55', 'Invalid Session Token');
                     setLoading(false)

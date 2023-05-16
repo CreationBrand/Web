@@ -14,20 +14,41 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom'
 
 const C = {
+    // container: css({
+    //     marginTop: '16px',
+    //     // width: '100%',
+    //     height: '140px',
+    //     background: '#272732',
+    //     borderRadius: '8px',
+    //     position: 'relative',
+    //     overflow: 'hidden',
+
+
+    //     ':hover': {
+    //         outline: `2px solid #583e76`,
+    //     },
+    // }),
+
     container: css({
-        marginTop: '16px',
+        width: '100%',
+        minHeight: '100px',
+        padding: '16px 2px 0px 0px',
+    }),
+    inner: css({
+        margin: '0 auto',
         width: '100%',
         height: '140px',
-        background: '#343442',
-        borderRadius: '16px',
-        position: 'relative',
+        maxWidth: '800px',
+        background: '#1c1c2d',
+        borderRadius: '8px',
         overflow: 'hidden',
-
-
-        ':hover': {
-            outline: `2px solid #583e76`,
-        },
+        position: 'relative',   
     }),
+
+
+
+
+
     banner: css({
         borderRadius: '16px',
         position: 'absolute',
@@ -95,8 +116,14 @@ const C = {
     }),
 }
 
+const handleImgError = (e: any) => {
+    // console.log('error')
+    e.target.style.display = 'none'
+}
 
 const CommunityPane = ({ data }: any) => {
+
+
 
 
     const navigate = useNavigate()
@@ -111,8 +138,8 @@ const CommunityPane = ({ data }: any) => {
     const openCommunity = () => setActive(!active)
 
     return (
-        <>
-            <div css={C.container} onClick={openCommunity}>
+        <div css={C.container}>
+            <div css={C.inner} onClick={openCommunity}>
 
                 <IconButton
                     sx={{
@@ -127,7 +154,9 @@ const CommunityPane = ({ data }: any) => {
 
 
 
-                <img css={C.banner} src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.public_id}.svg`} />
+                <img css={C.banner}
+                    onError={handleImgError}
+                    src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.public_id}`} />
                 <div css={C.float}>
                     <Avatar size='large' public_id={data.public_id} />
                     <div>
@@ -169,7 +198,7 @@ const CommunityPane = ({ data }: any) => {
 
 
             </div>}
-        </>
+        </div>
     )
 }
 

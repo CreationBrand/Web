@@ -6,9 +6,6 @@ var get = async (path: string) => {
     credentials: "include",
     //@ts-ignore
     headers: {
-      "Access-Control-Allow-Origin": process.env.REACT_APP_ENDPOINT,
-      "Access-Control-Allow-Credentials": "true",
-      "Content-Type": "application/json",
       Cookies: document.cookie,
     },
   });
@@ -75,7 +72,7 @@ var fileUpload = async (path: string, public_id: string, type: string, file: any
     body: JSON.stringify({
       public_id: public_id,
       type: type,
-      file:file,
+      file: file,
     })
   });
 

@@ -37,9 +37,11 @@ const CommunityTitle = ({ title, public_id }: any) => {
     const navigate = useNavigate()
 
 
+
     const handleClick = (e: any) => {
         e.stopPropagation()
         e.preventDefault()
+        navigate(`/c/${public_id}`)
     };
 
     const handleHover = (event: any) => setAnchorEl(event.target)
@@ -62,7 +64,9 @@ const CommunityTitle = ({ title, public_id }: any) => {
                     <div>
                         <div
                             onMouseEnter={debouncedEventHandler}
-                            {...bindHover(popupState)} css={C.underline}>{title}</div>
+                            {...bindHover(popupState)} 
+                            onClick={handleClick}
+                            css={C.underline}>{title}</div>
 
 
                         <HoverPopover

@@ -1,3 +1,5 @@
+import { sk } from "date-fns/locale"
+
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js')
 const CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool
 
@@ -10,70 +12,93 @@ const poolData = {
 }
 const pool_region = process.env.REACT_APP_POOL_REGION
 const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
-
 let cognitoUser = userPool.getCurrentUser()
 
-export const loginCognito = (
-    username: string,
-    password: string,
-    navigate: any
-) => {
+
+
+export function loginCognito(username: string, password: string) {
     return new Promise((resolve) => {
-        var authenticationDetails =
-            new AmazonCognitoIdentity.AuthenticationDetails({
+        var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
+            {
                 Username: username,
-                Password: password
-            })
+                Password: password,
+            }
+        );
         var userData = {
             Username: username,
             Pool: userPool,
-            Storage: new AmazonCognitoIdentity.CookieStorage({
-                domain: 'localhost'
-            })
-        }
-        cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
+            Storage: new AmazonCognitoIdentity.CookieStorage({ domain: "localhost" }),
+        };
+        cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
         cognitoUser.authenticateUser(authenticationDetails, {
+
+            mfaSetup: function (challengeName: any, challengeParameters: any) {
+
+
+                // if (userCode === '') {
+                //     setSession(user) // Persist old session
+                //     user.associateSoftwareToken(this);
+                // }
+                // else {
+                //     user = session // Change user to match persisted session
+                //     user.verifySoftwareToken(userCode, 'MY_TOTP_DEVICE', this)
+
+
+            },
+
             onSuccess: function (result: any) {
-                resolve(result)
-                navigate('/home')
+                resolve('sucess');
             },
             onFailure: function (err: any) {
                 if (err.code === 'UserNotConfirmedException') {
-                    navigate('/auth/verify')
+                    resolve('verify')
+                } else {
+                    resolve('error')
                 }
-                resolve(false)
+
+
+            },
+        });
+    });
+}
+
+
+
+export function signUpCognito(username: string, password: string, email: string) {
+
+    return new Promise((resolve) => {
+
+        var attributeList = [];
+        attributeList.push(
+            new AmazonCognitoIdentity.CognitoUserAttribute({
+                Name: 'email',
+                Value: email,
+            })
+        );
+
+        userPool.signUp(
+            username,
+            password,
+            attributeList,
+            null,
+            function (err: any, result: any) {
+                if (err) {
+                    resolve(false);
+                }
+                cognitoUser = result.user;
+                resolve(true);
             }
-        })
+        );
     })
 }
-export function signUpCognito(
-    username: string,
-    password: string,
-    email: string
-) {
-    var attributeList = []
 
-    attributeList.push(
-        new AmazonCognitoIdentity.CognitoUserAttribute({
-            Name: 'email',
-            Value: email
-        })
-    )
-
-    userPool.signUp(
-        username,
-        password,
-        attributeList,
-        null,
-        function (err: any, result: any) {
-            if (err) {
-                return false
-            }
-        }
-    )
-}
 export const verifyEmail = (code: string) => {
+
+
+
     return new Promise((resolve, reject) => {
+
+
         cognitoUser.confirmRegistration(
             code,
             true,
@@ -88,6 +113,8 @@ export const verifyEmail = (code: string) => {
     })
 }
 export const verifyCognito = async () => {
+
+
     return new Promise((resolve) => {
         try {
             const cookies = parseCookies()
@@ -108,6 +135,7 @@ export const verifyCognito = async () => {
             var token = new AmazonCognitoIdentity.CognitoRefreshToken({
                 RefreshToken: cookies.refreshToken
             })
+
 
             cognitoUser.refreshSession(
                 token,
@@ -166,4 +194,99 @@ const parseCookies = () => {
         output[name[name.length - 1]] = pair.splice(1).join('=')
     })
     return output
+}
+
+
+export const refreshSession = () => {
+    return new Promise((resolve, reject) => {
+        try {
+            var cookies = parseCookies();
+
+            const userData = {
+                Username: cookies.LastAuthUser,
+                Pool: userPool,
+            };
+
+            const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+            var token = new AmazonCognitoIdentity.CognitoRefreshToken({
+                RefreshToken: cookies.refreshToken,
+            });
+
+            cognitoUser.refreshSession(token, function (err: any, session: any) {
+                try {
+                    var token = session.getAccessToken().getJwtToken();
+                    createCookie(
+                        `CognitoIdentityServiceProvider.${poolData.ClientId}.${cookies.LastAuthUser}.accessToken`,
+                        token,
+                        1
+                    );
+                } catch {
+                    resolve(false);
+                }
+                if (err) {
+                    resolve(false);
+                }
+
+                if (session) {
+                    resolve(session);
+                }
+                resolve(false);
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
+
+
+
+
+const cognitoCallbacks = {
+    onSuccess: function (data: any) {
+        // Rest of login process...
+    },
+
+    onFailure: function (err: { message: any }) {
+        // alert(err.message || JSON.stringify(err));
+    },
+
+    mfaSetup: function (challengeName: any, challengeParameters: any) {
+        // setSetup2FA(true)
+        // if (userCode === '') {
+        //     setSession(user) // Persist old session
+        //     user.associateSoftwareToken(this);
+        // }
+        // else {
+        //     user = session // Change user to match persisted session
+        //     user.verifySoftwareToken(userCode, 'MY_TOTP_DEVICE', this)
+        // }
+    },
+
+    associateSecretCode: async function (secretCode: any) {
+        // const name = 'InfiniteSkyAI'
+        // const uri = `otpauth://totp/${decodeURI(name)}?secret=${secretCode}`
+
+        // try {
+        //     const image = await QR.toDataURL(uri)
+        //     setQrCodeImage(image)
+        // } catch (err) {
+        //     console.log(err)
+        // }
+    },
+
+    selectMFAType: function (challengeName: any, challengeParameters: any) {
+        // var mfaType = prompt('Please select the MFA method.', ''); // valid values for mfaType is "SMS_MFA", "SOFTWARE_TOKEN_MFA"
+        // user.sendMFASelectionAnswer(mfaType, this);
+    },
+
+    totpRequired: function (secretCode: any) {
+        // if (userCode === '') setSetup2FA(false)
+        // else user.sendMFACode(userCode, this, 'SOFTWARE_TOKEN_MFA')
+    },
+
+    mfaRequired: function (codeDeliveryDetails: any) {
+        // var verificationCode = prompt('Please input verification code', '');
+        // user.sendMFACode(verificationCode, this);
+    },
 }

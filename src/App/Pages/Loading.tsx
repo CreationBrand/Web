@@ -24,10 +24,10 @@ const C = {
     }),
     bar: css({}),
 }
-const Loading = () => {
-    
+const Loading = ({ variant }: any) => {
+
     const [layoutSize, setLayoutSize] = useRecoilState(layoutSizeData)
-    const {width, height} = useWindow()
+    const { width, height } = useWindow()
     const [position, setPosition] = useState(0)
 
 
@@ -41,7 +41,7 @@ const Loading = () => {
     return (
         < div css={C.page} >
 
-            <ChunkError variant='loading'></ChunkError>
+            <ChunkError variant={variant}></ChunkError>
             {/* <div css={C.wrapper}>
                 <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, repeatDelay: 3 }} css={[C.bar, brand]}>L</motion.div>
                 <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, repeatDelay: 3, delay: 0.2 }} css={[C.bar, brand]}>o</motion.div>
