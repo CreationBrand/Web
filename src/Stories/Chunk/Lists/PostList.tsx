@@ -31,8 +31,8 @@ const PostList = () => {
     const [contentState, setContentState] = useRecoilState(contentFlow)
     const [filter, setFilter] = useState('HOT')
 
-    const [error1, pane] = usePullPost(params.post_id)
-    const [error, list]: any = usePullComments(params.post_id, filter)
+    const [isLoading, isError, component, data] = usePullPost(params.post_id)
+    const [isLoading2, isError2, components, data2]: any = usePullComments(params.post_id, filter)
 
 
     useEffect(() => {
@@ -44,10 +44,8 @@ const PostList = () => {
     }, [])
 
 
-
-    if (!list || !pane) return <ChunkError variant={'loading'} />
-    if (error || error1) return <ChunkError variant={'error'} />
-
+    if (isError || isError2) return <ChunkError variant='error' />
+    if (isLoading || isLoading2) return <ChunkError variant='loading' />
 
     return (
         <motion.div
@@ -59,12 +57,12 @@ const PostList = () => {
             exit={{ opacity: 0 }}
         >
             <VirtualList list={[
-                pane,
+                component,
                 <div css={{ maxWidth: '800px', margin: 'auto', marginTop: '8px' }}>
                     <FilterPane value={filter} onChange={setFilter} />
                     <AddComment post_id={params.post_id} parent_id={params.post_id} />
                 </div>,
-                ...list
+                ...components
             ]} />
 
 

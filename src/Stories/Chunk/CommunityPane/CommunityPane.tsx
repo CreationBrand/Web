@@ -16,20 +16,6 @@ import { joinCommunity, leaveCommunity } from 'Helper/Action'
 import { is } from 'date-fns/locale'
 
 const C = {
-    // container: css({
-    //     marginTop: '16px',
-    //     // width: '100%',
-    //     height: '140px',
-    //     background: '#272732',
-    //     borderRadius: '8px',
-    //     position: 'relative',
-    //     overflow: 'hidden',
-
-
-    //     ':hover': {
-    //         outline: `2px solid #583e76`,
-    //     },
-    // }),
 
     container: css({
         width: '100%',
@@ -46,10 +32,6 @@ const C = {
         overflow: 'hidden',
         position: 'relative',
     }),
-
-
-
-
 
     banner: css({
         borderRadius: '16px',

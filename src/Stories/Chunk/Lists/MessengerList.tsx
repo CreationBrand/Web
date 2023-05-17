@@ -7,6 +7,7 @@ import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import ControlBar from '../ControlBar/ControlBar'
 import VirtualList from 'Stories/Chunk/VirtualList/VirtualList'
 import usePullMessages from 'Hooks/usePullMessages'
+import { memo } from 'react'
 
 
 const C = {
@@ -52,4 +53,4 @@ const MessengerList = () => {
 }
 
 
-export default MessengerList
+export default memo(MessengerList)

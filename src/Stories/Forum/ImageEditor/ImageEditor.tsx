@@ -76,14 +76,11 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
 
         const canvas = editor.current.getImage()
         const canvasScaled = editor.current.getImageScaledToCanvas()
-        console.log(canvas, canvasScaled.toDataURL("image/jpeg"))
 
-        let req = await socketRequest(api, { community_id: id, avatar: canvasScaled.toDataURL() })
+        let req = await socketRequest(api, { community_id: id, file: canvasScaled.toDataURL() })
 
     }
 
-
-    console.log(width, height)
 
 
     return <div>

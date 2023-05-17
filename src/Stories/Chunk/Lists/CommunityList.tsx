@@ -34,16 +34,13 @@ const CommunityList = () => {
     const [filter, setFilter] = useState('HOT')
 
     const [contentState, setContent] = useRecoilState(contentFlow)
+    const [isLoading1, isError1, component, data] = usePullCommunity(params.community_id)
+    const [isLoading, isError, components] = usePullPosts(params.community_id, filter)
 
-    const [error1, pane, data] = usePullCommunity(params.community_id)
-    const [error, list] = usePullPosts(params.community_id, filter, 'community')
 
 
     useEffect(() => {
-        // setContent(data)
-
-        if(!data) return
-
+        if (!data) return
         setContent({
             public_id: data.community?.public_id,
             roleSet: data.roleSet,
@@ -55,29 +52,29 @@ const CommunityList = () => {
 
 
 
-}, [data])
+    }, [data])
 
-if (error || error1) return <ChunkError />
+    if (isError1 || isError) return <ChunkError variant='error' />
+    if (isLoading1 || isLoading) return <ChunkError variant='loading' />
 
-
-
-return (
-    <motion.div
-        key={params.community_id}
-        css={C.container}
-        transition={{ duration: 0.4 }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-    >
-        <VirtualList
-            list={[
-                pane,
-                <FilterPane value={filter} onChange={setFilter} />, ...list]}
-        />
-    </motion.div>
-)
+    return (
+        <motion.div
+            key={params.community_id}
+            css={C.container}
+            transition={{ duration: 0.4 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+        >
+            <VirtualList
+                list={[
+                    component,
+                    <FilterPane value={filter} onChange={setFilter} />,
+                    ...components]}
+            />
+        </motion.div>
+    )
 }
 
 
-export default CommunityList
+export default memo(CommunityList)

@@ -7,27 +7,20 @@ import { useRecoilValue } from 'recoil'
 import { layoutSizeData } from 'State/Data'
 import useWindow from 'Hooks/useWindow'
 
-
-
-
-
 const VirtualList = ({ list }: any) => {
 
     const { height } = useWindow()
     const layoutSize = useRecoilValue(layoutSizeData)
     const parentRef: any = useRef()
 
-
-
     const virtualizer = useVirtualizer({
         count: list?.length,
         getScrollElement: () => parentRef.current,
         estimateSize: () => 200,
-        overscan: 4,
+        overscan: 10,
     })
 
     const items: any = virtualizer.getVirtualItems()
-
 
     if (!list || list.length === 0) return null
     if (!items || items.length === 0) return null
@@ -42,8 +35,6 @@ const VirtualList = ({ list }: any) => {
                     overflowY: 'auto',
                     scrollbarGutter: 'stable both-edges',
                     contain: 'strict',
-                    scrollBehavior: 'smooth',
-
                 }}
             >
                 <div
@@ -51,14 +42,10 @@ const VirtualList = ({ list }: any) => {
                         height: virtualizer.getTotalSize(),
                         width: '100%',
                         position: 'relative',
-                        scrollBehavior: 'smooth',
-
                     }}
                 >
                     <div
                         style={{
-                            scrollBehavior: 'smooth',
-
                             position: 'absolute',
                             top: 0,
                             left: 0,

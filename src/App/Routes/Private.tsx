@@ -8,7 +8,8 @@ import CommunityList from 'Stories/Chunk/Lists/CommunityList'
 import Submit from 'Stories/Views/Submit/Submit'
 import MessengerList from 'Stories/Chunk/Lists/MessengerList'
 import GroupList from 'Stories/Chunk/Lists/GroupList'
-import EditCommunity from 'Stories/Views/EditCommunity/EditCommunity'
+import EditCommunity from 'Stories/Views/EditCommunity'
+import EditPerson from 'Stories/Views/EditPerson'
 
 var Private = () => {
 
@@ -18,6 +19,10 @@ var Private = () => {
 
             <Routes>
                 <Route path="/" element={<Home />}>
+
+
+                    <Route path="/settings" element={<EditPerson />}></Route>
+
 
                     <Route
                         path="/submit"
@@ -60,7 +65,6 @@ var Private = () => {
                 </Route>
 
 
-                <Route path="/settings" element={<Settings />}></Route>
                 <Route path="/error" element={<div>404</div>}></Route>
                 <Route path="*" element={<Navigate to="/" replace={true} />} />
             </Routes>

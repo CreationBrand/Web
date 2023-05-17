@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import { memo } from 'react'
 
 const Left = ({ children }: any) => {
 
@@ -18,4 +19,4 @@ const Left = ({ children }: any) => {
     </div >
 }
 
-export default Left
+export default memo(Left)

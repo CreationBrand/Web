@@ -192,7 +192,7 @@ const LoginSignup = ({ open, handleClose }: any) => {
                                 fontSize: "28px",
                                 fontWeight: 450,
                                 lineHeight: "40px",
-                            }}>Sign in to your account</div>
+                            }}>Sign Into Your Account</div>
 
                             <h3 css={textLabel('s')}>Username</h3>
                             <Controller
@@ -315,7 +315,7 @@ const LoginSignup = ({ open, handleClose }: any) => {
                                 fontSize: "28px",
                                 fontWeight: 450,
                                 lineHeight: "40px",
-                            }}>Create your account
+                            }}>Create Your Account
                             </div>
 
                             <h3 css={textLabel('s')}>Username</h3>

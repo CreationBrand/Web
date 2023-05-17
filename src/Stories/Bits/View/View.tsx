@@ -37,8 +37,9 @@ const View = ({ views, public_id }: any) => {
 
     useEffect(() => {
 
+        
         if (!public_id) return
-        socketRequest('view', { public_id: public_id })
+        // socketRequest('view', { public_id: public_id })
     }, [public_id])
 
     return (

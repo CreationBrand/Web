@@ -61,7 +61,9 @@ const RightMenu = ({ children, tags, public_id, type }: any) => {
             {layoutSize === 'mobile' ?
                 <>
                     <Picker placement={'top'} setAnchorEl={setTagAnchorEl} anchorEl={tagAnchorEl} current={tags} public_id={public_id} type={type} />
-                    <Drawer open={open} setOpen={setOpen} >
+                    <Drawer open={open} setOpen={setOpen}
+                        css={{background:'#272732'}}
+                    >
 
                         <MenuItem onClick={handle1}>
                             <EditAttributesIcon />

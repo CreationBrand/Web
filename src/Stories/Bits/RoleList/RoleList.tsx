@@ -9,6 +9,7 @@ const C = {
         display: 'flex',
         flexDirection: 'column',
         gap: '4px',
+        marginTop: '4px',
     }),
     list: css({
         display: 'flex',
@@ -17,20 +18,25 @@ const C = {
 
 
 
-const RoleList = ({  roles }: any) => {
+const RoleList = ({ roles }: any) => {
 
     let list = roles?.map((role: any) => {
         //@ts-ignore
         return <Chip
+            key={role.id}
             sx={{
-                height: '22px',
-                padding: '4px',
-                color: role.color ? role.color : '#d7dadc',
+                height: '18px',
+                padding: '4px 0px',
+                color: role.color ? "#" + role.color.toString(16) : '#d7dadc',
                 fontFamily: 'Noto Sans',
-                fontSize: '12px',
-                background: '#272732',
-                borderRadius: '8px',
-                marginLeft: '2px',
+                fontSize: '10px',
+                fontWeight: '700',
+                lineHeight: '18px',
+                background: 'transparent',
+                border: '2px solid #b9b6ba',
+                borderColor: role.color ? "#" + role.color.toString(16) : '#b9b6ba',
+                borderRadius: '5px',
+                marginRight: '2px',
             }}
             size='small'
             label={role.title}>

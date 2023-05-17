@@ -20,8 +20,7 @@ import AddComment from '../AddComment/AddComment'
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import Author from 'Stories/Bits/Titles/Author'
-import { textBold } from 'Global/Mixins'
-
+import { textBold, textLight } from 'Global/Mixins'
 
 const C = {
     container: css({
@@ -73,6 +72,9 @@ const C = {
     }),
     header: css({
         marginBottom: '8px',
+        display: 'flex',
+        lineHeight: '20px',
+        gap: '4px',
     }),
     left: css({
         display: 'flex',
@@ -155,6 +157,10 @@ const Comment = ({ hidden, public_id, author, content, vote, depth, karma, path,
                     <div css={{ flexGrow: 1 }}>
                         <div css={C.header}>
                             <Author username={author.nickname} />
+                            <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
+                                addSuffix: true
+                            })}
+                            </div>
                         </div>
                         <ContentLoader type='text' content={content} />
                         <div css={C.float}>

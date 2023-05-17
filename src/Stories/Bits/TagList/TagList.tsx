@@ -8,7 +8,7 @@ const C = {
     container: css({
         display: 'flex',
         gap: '4px',
-        marginTop: '4px',
+   
     }),
     box: css({
         height: '12px',

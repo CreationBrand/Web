@@ -25,7 +25,7 @@ const GlobalList = ({ type }: any) => {
     const location = useLocation()
 
     const [contentState, setContentState] = useRecoilState(contentFlow)
-    const [error, list] = usePullPosts(type, 'none', 'global')
+    const [isLoading, isError, components] = usePullPosts(type, 'none')
 
 
     useEffect(() => {
@@ -61,7 +61,7 @@ const GlobalList = ({ type }: any) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}>
-            <VirtualList list={list} />
+            <VirtualList list={components} />
         </motion.div>
     )
 }

@@ -77,8 +77,7 @@ const Post = ({ tags, varient, public_id, title, type, content, karma, comments,
     const contentState = useRecoilValue(contentFlow)
     const navigate = useNavigate()
 
-
-    if(!public_id) return null
+    if (!public_id || public_id === undefined) return null
 
     const bodyClick = (e: any) => {
         // if (e.currentTarget !== e.target) return
@@ -109,8 +108,8 @@ const Post = ({ tags, varient, public_id, title, type, content, karma, comments,
 
                 <div css={C.header}>
                     {contentState.type === 'global' ?
-                        <Avatar size="medium" public_id={community.public_id} onClick={userClick} /> :
-                        <Avatar size="medium" public_id={author.public_id} onClick={userClick} />
+                        <Avatar size="medium" public_id={community?.public_id} onClick={userClick} /> :
+                        <Avatar size="medium" public_id={author?.public_id} onClick={userClick} />
                     }
                     <div>
 
@@ -118,14 +117,15 @@ const Post = ({ tags, varient, public_id, title, type, content, karma, comments,
 
 
                         {contentState.type === 'community' ? (
-                            <>    <div css={{ display: 'flex', gap: '4px' }}>
-                                <Author username={author?.nickname} public_id={author?.public_id} />
-                                {/* <span css={textLight('t')}> - {created_at && formatDistanceStrict(parseISO(created_at), new Date(), { addSuffix: false })}</span> */}
-                            </div>
-
-                                {tags ? <TagList tags={tags} /> : <Nickname title={author?.nickname} public_id={author?.public_id} />
-                                }
-
+                            <>
+                                <div css={{ display: 'flex', gap: '4px' }}>
+                                    <Author username={author?.nickname} public_id={author?.public_id} />
+                                    <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
+                                        addSuffix: true
+                                    })}
+                                    </div>
+                                </div>
+                                {tags && <TagList tags={tags} />}
                             </>
                         ) : (
                             <div>
@@ -136,9 +136,10 @@ const Post = ({ tags, varient, public_id, title, type, content, karma, comments,
                                         addSuffix: true
                                     })}</div>
                                 </div>
-
-                                <Nickname title={author?.nickname} public_id={author?.public_id} />
-
+                                <div css={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                    <Nickname title={author?.nickname} public_id={author?.public_id} />
+                                    {tags && <TagList tags={tags} />}
+                                </div>
                             </div>
                         )}
                     </div>

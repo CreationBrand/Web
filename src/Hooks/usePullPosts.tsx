@@ -1,76 +1,50 @@
-import { useEffect, useState } from "react"
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useLayoutEffect, useState } from "react"
+import { useRecoilState } from "recoil";
 import { socketRequest } from "Service/Socket";
 import { postListData } from "State/Data";
 import { socketFlow } from "State/Flow";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import MainPost from "Stories/Chunk/Post/MainPost";
-import Post from "Stories/Chunk/Post/Post";
-import LoaderPane from "Stories/Pane/loaderPane";
 var treeify = require('treeify');
 
 
-const usePullPosts = (community_id: any, filter: string, varient: string) => {
+const usePullPosts = (community_id: any, filter: string) => {
 
-
-    // state
-    const [list, setList]: any = useRecoilState(postListData)
-    const [page, setPage] = useState({ data: 0 })
+    const [page, setPage] = useState(0)
     const [end, setEnd] = useState(false)
-    const [error, setError] = useState(false)
-    const [loading, setLoading] = useState(true)
+    const [components, setComponents]: any = useState([])
 
-    const socket = useRecoilValue(socketFlow)
+    // useLayoutEffect(() => {
+    //     setComponents([])
+    // }, [community_id])
 
-    // reset list on props change
-    useEffect(() => {
-        setList([])
-        setPage({ data: 0 })
-        setEnd(false)
-        setError(false)
-    }, [community_id, filter, socket])
+    const { isLoading, isError, data, error } = useQuery({
+        enabled: true,
+        queryKey: ['post-list', community_id, filter, page],
+        queryFn: async () => {
 
+            let req: any = await socketRequest('posts', { community_id, filter, page })
 
-    // fetch posts
-    useEffect(() => {
-        if (!community_id || !filter) return
+            // console.groupCollapsed('%c [DATA - post list] ', 'background: #000; color: #5555da');
+            // console.log(treeify.asTree(req.posts, true));
+            // console.groupEnd();
 
-        const fetchMore = async () => {
+            let posts: any = []
+            if (req.posts.length < 25) setEnd(true)
 
-            let req: any = await socketRequest('posts', {
-                community_id: community_id,
-                filter: filter,
-                page: page.data,
-            })
+            for (var i in req.posts) { posts.push(<MainPost {...req.posts[i]} />) }
 
-            if (req === false || req.status === 'error') setError(true)
+            if (page === 0) setComponents(posts)
+            else await setComponents([...components, posts])
 
-            if (req.status === 'ok') {
-
-
-                console.groupCollapsed('%c [DATA - post list] ', 'background: #000; color: #5555da');
-                console.log(treeify.asTree(req.posts, true));
-                console.groupEnd();
-
-
-
-                if (req.posts.length < 25) setEnd(true)
-                let posts = []
-
-                for (var i in req.posts) {
-                    posts.push(<MainPost {...req.posts[i]} />)
-                }
-
-                if (page.data === 0) setList(posts)
-                else await setList([...list, posts])
-            }
+            return posts
         }
-        if (end === false) fetchMore().catch((err) => console.log(err))
-    }, [page])
 
-    if (end === true) return [error, list.concat(<ChunkError variant='end' />)]
+    })
 
-    return [error, list] as const;
+    if (end === true) return [isLoading, isError, components.concat(<ChunkError variant='end' />)]
+    return [isLoading, isError, components.concat(<ChunkError variant='loading' />)]
 }
 
 export default usePullPosts

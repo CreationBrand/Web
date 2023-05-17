@@ -94,6 +94,9 @@ const VirtualTree = ({ tree, term, operator, setTree, handleMove, height }: any)
                 width: '100%',
                 height: '40px',
                 padding: '8px',
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
             }),
             group: css({
                 height: '40px',
@@ -162,7 +165,11 @@ const VirtualTree = ({ tree, term, operator, setTree, handleMove, height }: any)
                     variants={innerMotion}
                 >
                     {node.data.object?.icon === true ? <Avatar size='small' public_id={node.data.object?.public_id} /> : node.data.object?.icon}
-                    {node.data.object?.title}
+                    <p css={{
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                    }}>  {node.data.object?.title}</p>
 
                 </motion.div>
 

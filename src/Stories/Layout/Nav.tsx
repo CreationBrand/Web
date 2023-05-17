@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import { memo } from 'react'
 
 
 
@@ -29,4 +30,4 @@ const Nav = ({ children }: any) => {
     </div >
 }
 
-export default Nav
+export default memo(Nav)

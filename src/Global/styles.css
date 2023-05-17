@@ -148,10 +148,10 @@ body {
 }
 
 .MuiPaper-root {
-    background: none !important;
+    background: #0f0e10 !important;
     border: none !important;
 
-    border-radius: 22px !important;
+    border-radius: 16px !important;
 }
 
 .MuiMenuItem-root {

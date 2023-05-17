@@ -1,43 +1,22 @@
-import { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query";
 import { socketRequest } from "Service/Socket";
 import CommunityPane from "Stories/Chunk/CommunityPane/CommunityPane";
-import Post from "Stories/Objects/Post/Post";
-import LoaderPane from "Stories/Pane/loaderPane";
-
 
 const usePullCommunity = (community_id: any) => {
 
-    // state
-    const [data, setData]: any = useState(false)
-    const [error, setError] = useState(false)
-    const [loading, setLoading] = useState(true)
-
-    // fetch posts
-    useEffect(() => {
-
-        if (!community_id) return
-
-        const fetchMore = async () => {
-
+    const { isLoading, isError, data, error } = useQuery({
+        queryKey: [community_id],
+        queryFn: async () => {
             let req: any = await socketRequest('community', {
                 community_id: community_id,
             })
 
-            if (req === false || req.status === 'error') setError(true)
+            if (req === false || req.status === 'error') throw new Error('Network response was not ok')
 
-            if (req.status === 'ok') {
-                setData(req)
-                setLoading(false)
-            }
+            return req
         }
-
-        fetchMore();
-    }, [community_id])
-
-
-
-    if (loading === true) return [error, <LoaderPane />];
-    return [error, <CommunityPane data={data.community} />, data];
+    })
+    return [isLoading, isError, <CommunityPane data={data?.community} />, data];
 }
 
 export default usePullCommunity
