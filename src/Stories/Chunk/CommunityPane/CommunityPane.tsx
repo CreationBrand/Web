@@ -14,6 +14,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom'
 import { joinCommunity, leaveCommunity } from 'Helper/Action'
 import { is } from 'date-fns/locale'
+import Online from 'Stories/Bits/Online/Online'
 
 const C = {
 
@@ -157,12 +158,12 @@ const CommunityPane = ({ data }: any) => {
                     <div>
                         <div css={textBold('x')}>{data.title}</div>
                         <div css={C.stats}>
-                            <div css={C.under}><span css={C.offline} /> {data.subscribers} Members  <span css={C.online} /> 2 Viewing</div>
+                            <div css={C.under}><span css={C.offline} /> {data.subscribers} Members
+                                <Online public_id={data.public_id} />
+                            </div>
                         </div>
-
                     </div>
                 </div>
-
                 <div css={C.action}>
                     <Button
                         onClick={handleJoin}

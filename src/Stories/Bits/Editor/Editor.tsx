@@ -35,10 +35,10 @@ const C = {
             border: 'none',
             background: '#3b3b4b',
         },
-        '.ql-formats':{
+        '.ql-formats': {
             paddingRight: '4px',
             paddingLeft: '4px',
-            marginRight:'0px !important',
+            marginRight: '0px !important',
             borderRight: '2px solid #4a484c',
             '&:last-child': {
                 borderRight: 'none',
@@ -47,7 +47,7 @@ const C = {
         },
 
         '.ql-container': {
-            
+
             border: 'none',
             borderBottomLeftRadius: '8px',
             borderBottomRightRadius: '8px'
@@ -97,13 +97,14 @@ const modules = {
 
 
 
-const Editor = ({ value, onChange, lock, placeholder }: any) => {
+const Editor = ({ value, onChange, lock, placeholder, disabled }: any) => {
 
 
 
 
     return (
         <ReactQuill
+            readOnly={disabled}
             preserveWhitespace
             css={[
                 C.editor,
@@ -114,7 +115,7 @@ const Editor = ({ value, onChange, lock, placeholder }: any) => {
             ]}
             modules={modules}
             theme="snow"
-            placeholder={placeholder}
+            placeholder={disabled ? 'Sign in to edit.' : placeholder}
             value={value}
             onChange={onChange}
 

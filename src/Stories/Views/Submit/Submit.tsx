@@ -12,7 +12,6 @@ import Editor from 'Stories/Bits/Editor/Editor';
 // import Editor from "Stories/Forum/Editor/Editor";
 
 import { personData } from 'State/Data';
-import Post from 'Stories/Chunk/Post/Post';
 import { socketRequest } from 'Service/Socket';
 import Avatar from 'Stories/Bits/Avatar/Avatar';
 

@@ -13,7 +13,7 @@ const Close = ({ onClose }: any) => {
                 position: "fixed",
                 top: "40px",
                 right: "56px",
-                zIndex: 4,
+                zIndex: 10000,
                 width: "44px",
                 height: "44px",
                 border: "2px solid #2C2C2C",

@@ -6,6 +6,8 @@ import NewReleasesRoundedIcon from '@mui/icons-material/NewReleasesRounded'
 import { Button } from '@mui/material'
 import { sMuted } from 'Stories/Bits/Text/Text'
 import AutoAwesomeMosaicRoundedIcon from '@mui/icons-material/AutoAwesomeMosaicRounded';
+import { faChartLine, faFire, faNewspaper } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const C = {
     container: css({
@@ -24,7 +26,8 @@ const C = {
         maxWidth: '800px',
         // justifyContent: 'space-between',
         alignItems: 'center',
-        display: 'flex'
+        display: 'flex',
+        fontFamily: 'noto sans',
     }),
 }
 
@@ -43,15 +46,19 @@ const FilterPane = ({ value, onChange }: any) => {
                     size="small"
                     color="secondary"
                     sx={{
+
                         gap: '6px',
                         borderRadius: '8px',
                         padding: '4px 12px 4px 12px',
-                        background: value === 'HOT' ? '#272732' : '',
-                        color: value === 'HOT' ? '#fff' : ''
+                        background: value === 'HOT' ? '#181820' : '',
+                        color: value === 'HOT' ? '#fff' : '#d7dadc'
                     }}
                 >
-                    <WhatshotRoundedIcon />
-                    <div css={[sMuted, { color: 'inherit' }]}>TRENDING</div>
+                    <FontAwesomeIcon icon={faFire} />
+                    <div css={{
+
+                        fontSize: '12px',
+                    }}>BEST</div>
                 </Button>
 
                 <Button
@@ -63,12 +70,15 @@ const FilterPane = ({ value, onChange }: any) => {
                         gap: '6px',
                         borderRadius: '8px',
                         padding: '4px 12px 4px 12px',
-                        background: value === 'TOP' ? '#272732' : '',
-                        color: value === 'TOP' ? '#fff' : ''
+                        background: value === 'TOP' ? '#181820' : '',
+                        color: value === 'TOP' ? '#fff' : '#d7dadc'
                     }}
                 >
-                    <AutoGraphRoundedIcon />
-                    <div css={[sMuted, { color: 'inherit' }]}>TOP</div>
+                    <FontAwesomeIcon icon={faChartLine} />
+                    <div css={{
+
+                        fontSize: '12px',
+                    }}>TOP</div>
                 </Button>
 
                 <Button
@@ -80,13 +90,16 @@ const FilterPane = ({ value, onChange }: any) => {
                         gap: '6px',
                         borderRadius: '8px',
                         padding: '4px 12px 4px 12px',
-                        background: value === 'NEW' ? '#272732' : '',
-                        color: value === 'NEW' ? '#fff' : ''
+                        background: value === 'NEW' ? '#181820' : '',
+                        color: value === 'NEW' ? '#fff' : '#d7dadc'
 
                     }}
                 >
-                    <NewReleasesRoundedIcon />
-                    <div css={[sMuted, { color: 'inherit' }]}>NEW</div>
+                    <FontAwesomeIcon icon={faNewspaper} />
+                    <div css={{
+
+                        fontSize: '12px',
+                    }}>NEW</div>
                 </Button>
 
 

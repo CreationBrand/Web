@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Input, TextField } from '@mui/material'
-import InputUnstyled from '@mui/base/InputUnstyled'
+import InputUnstyled from '@mui/base/Input'
 import { socketRequest } from 'Service/Socket'
 import { createMessage } from 'Helper/Action'
 import { useState } from 'react'

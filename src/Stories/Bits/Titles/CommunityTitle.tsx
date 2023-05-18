@@ -16,6 +16,7 @@ import RoleList from '../RoleList/RoleList'
 import { leaveCommunity, joinCommunity } from 'Helper/Action'
 import { useRecoilValue } from 'recoil'
 import { communityListData } from 'State/Data'
+import { authFlow } from 'State/Flow'
 
 const C = {
     container: css({
@@ -110,6 +111,7 @@ const D = {
 
 let Preview = ({ public_id }: any) => {
 
+    const authState = useRecoilValue(authFlow)
     let [data, setData]: any = useState(null)
     const [isMember, setIsMember] = useState(false)
     const communityList = useRecoilValue(communityListData)
@@ -182,7 +184,7 @@ let Preview = ({ public_id }: any) => {
                         }}>{data.title}</h4>
                     </div>
 
-                    <div css={D.action}>
+                    {authState !== 'guest' && <div css={D.action}>
                         <Button
                             onClick={handleJoin}
                             disableElevation
@@ -196,7 +198,7 @@ let Preview = ({ public_id }: any) => {
                             }}
                             variant="contained">{isMember ? 'LEAVE' : 'JOIN'}</Button>
                     </div>
-
+                    }
 
                 </div>
                 {data.description !== "undefined" &&

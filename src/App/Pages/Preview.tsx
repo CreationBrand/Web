@@ -153,8 +153,8 @@ const Preview = () => {
 
 
                             <Button
-                            onMouseDown={() => setShowLogin(true)}
-                            sx={{
+                                onMouseDown={() => setShowLogin(true)}
+                                sx={{
                                     display: 'inline-flex',
                                     whiteSpace: ' nowrap',
                                     borderRadius: '14px',
@@ -176,6 +176,7 @@ const Preview = () => {
                     </Nav>
                     <Outlet />
                 </Main>
+                <></>
             </Tri >
         </>
     )

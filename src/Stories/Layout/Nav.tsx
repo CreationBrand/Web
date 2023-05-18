@@ -25,7 +25,7 @@ const Nav = ({ children }: any) => {
         position: 'relative',
     })
 
-    return <div css={s} id="NAV">
+    return <div css={s} id="NAV" onClick={(e) => e.stopPropagation()}>
         {children}
     </div >
 }

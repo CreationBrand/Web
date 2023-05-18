@@ -2,7 +2,9 @@
 import { css } from '@emotion/react'
 import Button from '@mui/material/Button'
 import { useState } from 'react'
+import { useRecoilValue } from 'recoil'
 import { socketRequest } from 'Service/Socket'
+import { authFlow } from 'State/Flow'
 
 import Editor from 'Stories/Bits/Editor/Editor'
 
@@ -25,6 +27,7 @@ const C = {
 const AddComment = ({ parent_id, post_id }: any) => {
 
     const [comment, setComment] = useState('')
+    const authState = useRecoilValue(authFlow)
 
 
     const onSubmit = async () => {
@@ -45,6 +48,7 @@ const AddComment = ({ parent_id, post_id }: any) => {
     return <div css={C.container}>
 
         <Editor
+            disabled
             value={comment}
             onChange={(e: any) => setComment(e)}
             placeholder='Comment your thoughts?' />

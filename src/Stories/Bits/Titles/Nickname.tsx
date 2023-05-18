@@ -14,6 +14,8 @@ import Avatar from '../Avatar/Avatar'
 import { textLabel } from 'Global/Mixins'
 import RoleList from '../RoleList/RoleList'
 import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
+import { useRecoilValue } from 'recoil'
+import { authFlow } from 'State/Flow'
 
 const C = {
     container: css({
@@ -108,6 +110,7 @@ const D = {
 let Preview = ({ public_id, community_id }: any) => {
 
     let [data, setData]: any = useState(null)
+    const authState = useRecoilValue(authFlow)
 
 
     useEffect(() => {
@@ -170,7 +173,7 @@ let Preview = ({ public_id, community_id }: any) => {
                     </div>
 
 
-                    <MailOutlineRoundedIcon
+                    {authState !== 'guest' && <MailOutlineRoundedIcon
                         sx={{
                             color: '#b9b6ba',
                             fontSize: '24px',
@@ -181,7 +184,7 @@ let Preview = ({ public_id, community_id }: any) => {
                             }
                         }}
                     />
-
+                    }
 
                 </div>
                 {data.about_me &&

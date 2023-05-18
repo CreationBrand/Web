@@ -1,9 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { Menu } from "@mui/material"
 import { motion } from "framer-motion"
-import theme from "Global/Theme"
 import Avatar from 'Stories/Bits/Avatar/Avatar'
 import ContentLoader from 'Stories/Bits/ContentLoader/ContentLoader'
 import Author from "Stories/Bits/Titles/Author"
@@ -11,16 +9,14 @@ import CommunityTitle from "Stories/Bits/Titles/CommunityTitle"
 import Nickname from "Stories/Bits/Titles/Nickname"
 import Vote from "Stories/Bits/Vote/Vote"
 import { useNavigate } from 'react-router-dom'
-import PostStats from 'Stories/Bits/StatCheck/PostStats'
 import View from 'Stories/Bits/View/View'
 import Comment from 'Stories/Bits/Comment/Comment'
-import { memo, useEffect, useState } from 'react'
+import { memo, } from 'react'
 import { useRecoilValue } from 'recoil'
 import { authFlow, contentFlow } from 'State/Flow'
 import { textBold, textLight } from 'Global/Mixins'
 import RightMenu from 'Stories/Bits/RightMenu/RightMenu'
-import EditTags from 'Stories/Popups/EditTags'
-import RoleList from 'Stories/Bits/RoleList/RoleList'
+
 import TagList from 'Stories/Bits/TagList/TagList'
 import { formatDistanceStrict, parseISO } from 'date-fns'
 
@@ -29,6 +25,7 @@ const C = {
         width: '100%',
         minHeight: '100px',
         padding: '16px 2px 0px 0px',
+
     }),
     inner: css({
         // boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 12px',
@@ -37,6 +34,7 @@ const C = {
 
             // outline: `2px solid #583e7691`,
         },
+
         margin: '0 auto',
         width: '100%',
         maxWidth: '800px',
@@ -46,11 +44,11 @@ const C = {
         background: '#272732',
         padding: '8px',
         borderRadius: '8px',
-
+        cursor: 'pointer',
     }),
     footer: css({
         display: 'flex',
-
+        width: 'min-content',
         gap: '8px',
 
     }),

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { Autocomplete, Input, Popover, Popper } from '@mui/material'
+import { Autocomplete, ClickAwayListener, Input, Popover, Popper } from '@mui/material'
 import { useCallback, useRef, useState } from 'react'
 import { socketRequest } from 'Service/Socket'
 
@@ -9,8 +9,10 @@ import { Menu } from '@mui/material';
 import { mBold, mMuted, sBold, sMuted, sNormal } from 'Stories/Bits/Text/Text';
 import Avatar from 'Stories/Bits/Avatar/Avatar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { textLight } from 'Global/Mixins';
+import { faMagnifyingGlass, faYinYang } from '@fortawesome/free-solid-svg-icons';
+import { textLabel, textLight } from 'Global/Mixins';
+import { useNavigate } from 'react-router-dom';
+import { boolean } from 'joi';
 
 const s = css({
     width: '100%',
@@ -22,28 +24,35 @@ const s = css({
 
 const Search = () => {
 
-
-    const anchorEl: any = useRef(null);
-
+    const navigate = useNavigate()
+    const [anchorEl, setAnchorEl]: any = useState(null);
     const [query, setQuery] = useState('')
-    const [open, setOpen] = useState(false)
 
     const [persons, setPersons]: any = useState([])
     const [communitys, setCommunitys]: any = useState([])
 
-    let bounce = async (bouncedQuerry: any) => {
-        console.log('typeahead', bouncedQuerry)
 
+
+
+    const handleClick = (e: any) => {
+        setAnchorEl(e.currentTarget)
+    };
+    const handleClose = () => {
+        setAnchorEl(null)
+    };
+
+
+    let bounce = async (bouncedQuerry: any) => {
         if (bouncedQuerry.length < 5) return
         let req: any = await socketRequest('typeAhead', { query: bouncedQuerry })
-        setOpen(true)
-        console.log('req', req)
 
         let tempPersons = []
         for (var i in req.persons) {
 
             tempPersons.push(
-                <div key={req.persons[i].public_id}
+                <div
+                    onClick={() => { console.log('click') }}
+                    key={req.persons[i].public_id}
                     css={{
                         borderRadius: '8px',
                         gap: '8px',
@@ -58,8 +67,16 @@ const Search = () => {
                         size='small'
                         public_id={req.persons[i].public_id} />
                     <div>
-                        <div css={mBold}>{req.persons[i].username}</div>
-                        <div css={sNormal}>{req.persons[i].nickname} - {req.persons[i].karma} karma</div>
+                        <div css={{
+                            color: '#f3f3f5',
+                            fontFamily: 'Noto Sans',
+                            fontSize: '14px',
+                        }}>{req.persons[i].nickname}</div>
+                        <div css={{
+                            color: '#d7dadc',
+                            fontFamily: 'Noto Sans',
+                            fontSize: '12px',
+                        }}>{req.persons[i].about_me} <FontAwesomeIcon icon={faYinYang} /> {req.persons[i].karma} karma</div>
                     </div>
                 </div>)
         }
@@ -68,8 +85,15 @@ const Search = () => {
         for (var i in req.communities) {
 
             tempCommunitys.push(
-                <div key={req.communities[i].public_id}
+                <div
+                    onClick={() => {
+                        handleClose()
+                        navigate('c/' + req.communities[i].public_id)
+                    }}
+
+                    key={req.communities[i].public_id}
                     css={{
+                        fontFamily: 'Noto Sans',
                         borderRadius: '8px',
                         gap: '8px',
                         display: 'flex',
@@ -83,8 +107,16 @@ const Search = () => {
                         size='small'
                         public_id={req.communities[i].public_id} />
                     <div>
-                        <div css={mBold}>{req.communities[i].title}</div>
-                        <div css={sNormal}>{req.communities[i].description} - {req.communities[i].subscribers} members</div>
+                        <div css={{
+                            color: '#f3f3f5',
+                            fontFamily: 'Noto Sans',
+                            fontSize: '14px',
+                        }}>{req.communities[i].title}</div>
+                        <div css={{
+                            color: '#d7dadc',
+                            fontFamily: 'Noto Sans',
+                            fontSize: '12px',
+                        }}>{req.communities[i].description} - {req.communities[i].subscribers} member</div>
                     </div>
                 </div>)
         }
@@ -106,15 +138,9 @@ const Search = () => {
 
 
     return <div css={s} id="SEARCH">
-
-
-        {/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
-
         <Input
             startAdornment={<FontAwesomeIcon css={{ marginLeft: '8px', color: '#bcbdbe' }} icon={faMagnifyingGlass} />}
-            onFocus={() => setOpen(true)}
-            onBlur={() => setOpen(false)}
-            ref={anchorEl}
+            onClick={handleClick}
             value={query}
             onChange={typeahead}
             placeholder="Search Artram"
@@ -127,42 +153,46 @@ const Search = () => {
                 height: '40px',
                 marginTop: '8px',
                 color: '#d7dadc',
-                zIndex: 110
+                zIndex: 110,
+                border: Boolean(anchorEl) ? '2px solid #9147ff' : null,
             }}
             disableUnderline
-        ></Input>
-
+        />
         <Popper
+            onClick={(e: any) => e.stopPropagation()}
+            id={'search-popper'}
             disablePortal
             sx={{
 
+                border: '2px solid #343442',
                 position: 'relative',
                 borderRadius: '8px',
                 borderTopLeftRadius: '0px',
                 borderTopRightRadius: '0px',
-                top: '-2px !important',
+                top: '-12px !important',
                 padding: '12px 12px 12px 12px',
-                width: '100%', height: 'auto', background: '#0f0e10', zIndex: 100,
+                width: '100%', height: 'auto',
+                background: '#0f0e10',
+                zIndex: 100,
             }}
-            open={open} anchorEl={anchorEl.current}>
+            open={Boolean(anchorEl)}
+            anchorEl={anchorEl}>
 
+            <ClickAwayListener onClickAway={handleClose}>
+                <div>
 
+                    {communitys.length > 0 && <div css={{ marginTop: '8px' }}>
+                        <div css={textLabel('t')}>Communities</div>
+                        {communitys}
+                    </div>}
 
-            {communitys.length > 0 && <div>
-                <div css={[mMuted, { marginBottom: '4px' }]}>Communitys</div>
-                {communitys}
-            </div>}
-
-
-
-            {persons.length > 0 && <div>
-                <div css={[mMuted, { marginBottom: '4px' }]}>Users</div>
-                {persons}
-            </div>}
-
+                    {persons.length > 0 && <div css={{ marginTop: '8px' }}>
+                        <div css={textLabel('t')}>Users</div>
+                        {persons}
+                    </div>}
+                </div>
+            </ClickAwayListener>
         </Popper>
-
-
 
 
     </div >

@@ -164,7 +164,10 @@ const usePullComments = (comment_id: any, filter: string) => {
             let req: any = await socketRequest('comments', { post_id: comment_id, filter: filter, page })
 
             if (req.comments.length > 25) setEnd(true)
-            if (req.comments.length === 0) return setEnd(true)
+            if (req.comments.length === 0) {
+                setEnd(true)
+                return 'end'
+            }
 
             let result: any = {};
             let level = { result };

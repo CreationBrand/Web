@@ -14,7 +14,7 @@ import ImageEditor from 'Stories/Forum/ImageEditor/ImageEditor';
 import { useParams } from 'react-router-dom';
 import usePullCommunity from 'Hooks/usePullCommunity';
 import Box from '@mui/material/Box';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
 
 // VALIDATION
@@ -271,10 +271,10 @@ const EditCommunity = () => {
                 </div>
                 <div>
                     <div css={textLabel('s')}>Banner</div>
-                    <ImageEditor 
-                    width='800'
-                    height='140'
-                    type='banner' api='community-banner' id={req?.community?.public_id} />
+                    <ImageEditor
+                        width='800'
+                        height='140'
+                        type='banner' api='community-banner' id={req?.community?.public_id} />
                     <div css={{ marginBottom: "26px" }} />
                 </div>
 

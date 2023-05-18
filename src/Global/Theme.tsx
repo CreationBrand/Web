@@ -64,6 +64,7 @@ const theme: any = createTheme({
                 root: {
                     fontFamily: 'Noto Sans',
                     textTransform: 'none',
+                    
                 },
                 label: {
                     textTransform: 'none',

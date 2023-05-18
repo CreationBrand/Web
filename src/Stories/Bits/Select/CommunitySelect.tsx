@@ -1,21 +1,72 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
+
 import * as React from 'react';
-import SelectUnstyled, {
-  SelectUnstyledProps,
-  selectUnstyledClasses,
-} from '@mui/base/SelectUnstyled';
-import OptionUnstyled, { optionUnstyledClasses } from '@mui/base/OptionUnstyled';
-import OptionGroupUnstyled, {
-  OptionGroupUnstyledProps,
-} from '@mui/base/OptionGroupUnstyled';
-import PopperUnstyled from '@mui/base/PopperUnstyled';
+import Select, {
+  selectClasses,
+  SelectProps,
+  SelectRootSlotProps,
+} from '@mui/base/Select';
+import Option, { optionClasses } from '@mui/base/Option';
+import Popper from '@mui/base/Popper';
 import { styled } from '@mui/system';
+import UnfoldMoreRoundedIcon from '@mui/icons-material/UnfoldMoreRounded';
 import { useRecoilValue } from 'recoil';
-import { communityData, communityListData } from 'State/Data';
-import Avatar from '../Avatar/Avatar';
+import { communityListData } from 'State/Data';
+import { useEffect, useState } from 'react';
 import { textNormal } from 'Global/Mixins';
+import Avatar from '../Avatar/Avatar';
+
+export default function CommunitySelect({ onChange, value }: any) {
+
+  const communitys: any = useRecoilValue(communityListData)
+  const [components, setComponents]: any = useState([])
+
+
+  useEffect(() => {
+    var temp: any[] = [];
+
+    communitys.map((i: any) => {
+      temp.push(<StyledOption value={i.public_id} key={i.public_id}>
+        <div css={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          height: '40px',
+          padding: '4px',
+        }}>
+          <Avatar public_id={i.public_id} size={'small'} />
+          <div css={textNormal('s')}> {i.title}</div>
+        </div>
+      </StyledOption >)
+    })
+
+    setComponents(temp)
+  }, [communitys])
+
+
+
+  return (
+    <CustomSelect value={value} onChange={(_, newValue) => onChange(newValue)}>
+      {components}
+    </CustomSelect>
+  );
+}
+
+const CustomSelect = React.forwardRef(function CustomSelect<
+  TValue extends {},
+  Multiple extends boolean,
+>(props: SelectProps<TValue, Multiple>, ref: React.ForwardedRef<HTMLButtonElement>) {
+  const slots = {
+    root: StyledButton,
+    listbox: StyledListbox,
+    popper: StyledPopper,
+    ...props.slots,
+  };
+
+  return <Select {...props} ref={ref} slots={slots} />;
+});
 
 const blue = {
   100: '#DAECFF',
@@ -39,214 +90,114 @@ const grey = {
   900: '#24292f',
 };
 
-const StyledButton = styled('button')(
+const Button = React.forwardRef(function Button<
+  TValue extends {},
+  Multiple extends boolean,
+>(
+  props: SelectRootSlotProps<TValue, Multiple>,
+  ref: React.ForwardedRef<HTMLButtonElement>,
+) {
+  const { ownerState, ...other } = props;
+  return (
+    <button type="button" {...other} ref={ref}>
+      {other.children}
+      <UnfoldMoreRoundedIcon />
+    </button>
+  );
+});
+
+const StyledButton = styled(Button, { shouldForwardProp: () => true })(
   ({ theme }) => `
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  font-family: noto sans, sans-serif;
-  font-size: 1rem;
+  font-family: noto sans;
+  font-size: 0.875rem;
   box-sizing: border-box;
-  max-width: 360px;
-
-  padding: 8px;
-  border-radius: 8px;
+  height: 40px;
+  width: 100%;
+  max-width: 400px;
+  padding: 4px 12px;
+  border-radius: 12px;
   text-align: left;
-  line-height: 1.5;
-  background: #343442;
-  border: 2px solid #343442;
-  color: #afb8c1;
-
+  background: #181820;
+  border:2px solid #343442;
+  
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  position: relative;
+ 
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 120ms;
 
   &:hover {
-    background: ${theme.palette.mode === 'dark' ? grey[800] : grey[50]};
-    border-color: ${theme.palette.mode === 'dark' ? grey[600] : grey[300]};
+    background: #0f0e10;
+    border-color: #9147ff;
   }
 
-  &.${selectUnstyledClasses.focusVisible} {
-  //  border-color: ${grey[800]};
-  
-   outline:'none';
-  }
-
-  &.${selectUnstyledClasses.expanded} {
-    &::after {
-      content: '▴';
+  &.${selectClasses.focusVisible} {
+    border:2px solid #9147ff;
+    outline: none;
     }
-  }
 
-  &::after {
-    content: '▾';
-    float: right;
+  & > svg {
+    font-size: 1rem;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    right: 10px;
   }
   `,
 );
 
 const StyledListbox = styled('ul')(
   ({ theme }) => `
-
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-family: noto sans, sans-serif;
-
-
-  padding: 8px;
-  margin: 12px 0;
+  font-family: noto sans;
+  font-size: 0.875rem;
+  box-sizing: border-box;
+  padding: 6px;
+  margin: 8px 0;
   min-width: 320px;
+  width: 100%;
   border-radius: 12px;
   overflow: auto;
   outline: 0px;
-  background:#181820;
-  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  border:2px solid #343442;
+  background: #0f0e10;
+
+  color: #fff;
   box-shadow: 0px 4px 30px ${theme.palette.mode === 'dark' ? grey[900] : grey[200]};
   `,
 );
 
-const StyledOption = styled(OptionUnstyled)(
+const StyledOption = styled(Option)(
   ({ theme }) => `
-
   list-style: none;
-
+  padding: 4px;
   border-radius: 8px;
   cursor: default;
-
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
 
   &:last-of-type {
     border-bottom: none;
   }
 
-  &.${optionUnstyledClasses.selected} {
-    border:2px solid ${grey[600]};
-    background: ${theme.palette.mode === 'dark' ? grey[800] : grey[50]};
+  &.${optionClasses.selected} {
+    background-color: #272732;
+    color: #fff;
   }
 
-  &.${optionUnstyledClasses.highlighted} {
-    // background-color: ${theme.palette.mode === 'dark' ? grey[800] : grey[100]};
-    // color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  &.${optionClasses.highlighted} {
+    background-color: #272732;
+    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
   }
 
-  &.${optionUnstyledClasses.highlighted}.${optionUnstyledClasses.selected} {
-    // background-color: ${theme.palette.mode === 'dark' ? blue[900] : blue[100]};
-    // color: ${theme.palette.mode === 'dark' ? blue[100] : blue[900]};
-  }
 
-  &.${optionUnstyledClasses.disabled} {
-    color: ${theme.palette.mode === 'dark' ? grey[700] : grey[400]};
-  }
 
-  &:hover:not(.${optionUnstyledClasses.disabled}) {
-    background-color: ${theme.palette.mode === 'dark' ? grey[800] : grey[100]};
+
+  &:hover:not(.${optionClasses.disabled}) {
+    background-color: #181820;
     color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
   }
   `,
 );
 
-const StyledGroupRoot = styled('li')`
-  list-style: none;
+const StyledPopper = styled(Popper)`
+  z-index: 1000;
 `;
-
-const StyledGroupHeader = styled('span')`
-  display: block;
-  padding: 15px 0 5px 10px;
-  font-size: 12px;
-  font-weight: 700;
-  font-family: noto sans;
-  text-transform: uppercase;
-  letter-spacing: 0.05rem;
-  color: #b9bbbe;
-`;
-
-const StyledGroupOptions = styled('ul')`
-  list-style: none;
-  margin-left: 0;
-  padding: 0;
-
-
-  > li {
-    padding-left: 20px;
-  }
-`;
-
-const StyledPopper = styled(PopperUnstyled)`
-  z-index: 1;
-
-
-`;
-
-function CustomSelect(props: SelectUnstyledProps<string>) {
-  const slots: SelectUnstyledProps<string>['slots'] = {
-    root: StyledButton,
-    listbox: StyledListbox,
-    popper: StyledPopper,
-    ...props.slots,
-  };
-
-  return <SelectUnstyled {...props} slots={slots} />;
-}
-
-const CustomOptionGroup = React.forwardRef(function CustomOptionGroup(
-  props: OptionGroupUnstyledProps,
-  ref: React.ForwardedRef<any>,
-) {
-  const slots: OptionGroupUnstyledProps['slots'] = {
-    root: StyledGroupRoot,
-    label: StyledGroupHeader,
-    list: StyledGroupOptions,
-    ...props.slots,
-  };
-
-  return <OptionGroupUnstyled {...props} ref={ref} slots={slots} />;
-});
-
-export default function CommunitySelect({ value, onChange }: any) {
-
-  const communitys = useRecoilValue(communityListData)
-
-  if (!communitys) {
-    return <div></div>
-  }
-
-  let options: any = []
-
-  var map = new Map();
-
-  communitys.map((i: any) => {
-    map.set(i.public_id, <StyledOption value={i.public_id} key={i.public_id}>
-      <div css={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        height: '40px',
-        padding: '4px',
-      }}>
-        <Avatar public_id={i.public_id} size={'small'} />
-        <div css={textNormal('s')}> {i.title}</div>
-      </div>
-    </StyledOption >)
-  })
-
-  options = Array.from(map.values())
-
-
-  const onProxy = (e: any, value: any) => {
-    onChange(value)
-  }
-
-
-  return (
-    <CustomSelect value={value} onChange={onProxy}>
-      {options}
-    </CustomSelect>
-  );
-}
