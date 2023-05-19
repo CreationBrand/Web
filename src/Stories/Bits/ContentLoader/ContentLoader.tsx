@@ -14,7 +14,7 @@ import clsx from 'clsx';
 import * as React from "react";
 import { useState, useRef } from "react";
 import { AnimatePresence, motion, useDomEvent } from "framer-motion";
-import { Backdrop, Modal, styled } from '@mui/material';
+import { Backdrop, Dialog, Modal, styled } from '@mui/material';
 import Close from '../Close/Close';
 
 const C = {
@@ -160,7 +160,7 @@ const ContentLoader = ({ type, content }: any) => {
 
     else if (type === 'upload' && content.type === 'image' && content?.source?.length === 1) return (
 
-        <>
+        <div onClick={(e) => e.stopPropagation()}>
             <Viewer src={content.source[0]} open={open} onClose={handleClose} />
 
             <div
@@ -210,11 +210,9 @@ const ContentLoader = ({ type, content }: any) => {
 
                 }} />
             </div>
-        </>
+        </div>
 
     )
-
-
 
 
     return <div> error </div>
@@ -233,78 +231,31 @@ export default memo(ContentLoader)
 const Viewer = ({ src, open, onClose }: any) => {
 
     return (
-        <div>
-            <AnimatePresence>
 
-                {open && <>
+        <Dialog
+            open={open}
+            onClose={onClose}
+            sx={{
+                borderRadius: '0px',
+                Backdrop: {
+                    background: 'rgba(14,16,15,0.80)',
+                }
+            }}
+        >
+            <motion.img
+                src={src}
+                css={{
+                    zIndex: 10000,
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    width: 'auto',
+                    height: 'auto',
+                }}
+            />
 
+        </Dialog>
 
-
-                    <StyledModal
-                        key={'image modal'}
-                        disableAutoFocus
-                        aria-labelledby="unstylwertweitle"
-                        aria-describedby="wtetetdal-description"
-                        open={open}
-                        onClose={onClose}
-                        slotProps={{
-                            backdrop:
-                                <motion.div
-                                    css={{
-                                        width: '100%',
-                                        height: '100%',
-                                        position: 'fixed',
-                                        background: 'rgba(14,16,15,0.95)',
-                                    }}
-                                    transition={{ type: "spring" }}
-
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-
-                                />
-                            ,
-                        }}
-
-
-
-
-                    >
-                        <motion.img
-                            src={src}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.8 }}
-                            transition={{ type: "spring" }}
-
-                            css={{
-                                zIndex: 10000,
-                                maxWidth: '100%',
-                                maxHeight: '100%',
-                                width: 'auto',
-                                height: 'auto',
-                            }}
-                        />
-
-
-                    </StyledModal></>}
-            </AnimatePresence>
-        </div >
     );
 }
 
-
-
-
-const StyledModal = styled(Modal)`
-    position: fixed;
-    z-index: 2000;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
 

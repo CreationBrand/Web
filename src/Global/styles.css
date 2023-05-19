@@ -242,4 +242,8 @@ body {
       padding: 20px;
     }
   }
+ 
   
+.MuiDialog-container{
+    background-color: rgba(14, 16, 15, 0.559)
+}

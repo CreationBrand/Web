@@ -48,7 +48,7 @@ const AddComment = ({ parent_id, post_id }: any) => {
     return <div css={C.container}>
 
         <Editor
-            disabled
+            disabled={authState=== 'guest'}
             value={comment}
             onChange={(e: any) => setComment(e)}
             placeholder='Comment your thoughts?' />

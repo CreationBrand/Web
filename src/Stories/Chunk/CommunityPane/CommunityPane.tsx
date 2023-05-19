@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { commentListData, communityListData, postListData } from 'State/Data'
-import { contentFlow } from 'State/Flow'
+import { authFlow, contentFlow } from 'State/Flow'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
 import RoleList from 'Stories/Bits/RoleList/RoleList'
 import CommunityStats from 'Stories/Bits/StatCheck/CommunityStats'
@@ -33,14 +33,23 @@ const C = {
         overflow: 'hidden',
         position: 'relative',
     }),
+    inner2: css({
+        margin: '0 auto',
+        width: '100%',
+        maxWidth: '800px',
+        borderRadius: '8px',
+        overflow: 'hidden',
+        position: 'relative',
+    }),
 
     banner: css({
-        borderRadius: '16px',
+        borderRadius: '8px',
         position: 'absolute',
         width: '100%',
         height: '100%',
         objectFit: 'cover',
         zIndex: 10,
+        cursor: 'pointer',
     }),
     float: css({
         minWidth: '200px',
@@ -48,7 +57,7 @@ const C = {
         left: '8px',
         position: 'absolute',
         borderRadius: '16px',
-        background: '#343442',
+        background: '#0f0e10',
         zIndex: 100,
         padding: '4px 12px 4px 4px',
         gap: '4px',
@@ -69,8 +78,8 @@ const C = {
     }),
     offline: css({
         display: 'inline-block',
-        width: '8px',
-        height: '8px',
+        width: '10px',
+        height: '10px',
         borderRadius: '50%',
         background: '#c4c9ce',
     }),
@@ -96,7 +105,7 @@ const C = {
         gap: '8px',
         display: 'flex',
         flexDirection: 'column',
-        background: '#343442',
+        background: '#272732',
         borderRadius: '8px',
     }),
 }
@@ -107,6 +116,7 @@ const handleImgError = (e: any) => e.target.style.display = 'none'
 const CommunityPane = ({ data }: any) => {
 
 
+    const authState = useRecoilValue(authFlow)
     const [isMember, setIsMember] = useState(false)
     const navigate = useNavigate()
     const [active, setActive] = useState(false)
@@ -140,6 +150,7 @@ const CommunityPane = ({ data }: any) => {
             <div css={C.inner} onClick={openCommunity}>
 
                 <IconButton
+                    disabled={authState === 'guest'}
                     sx={{
                         zIndex: 100,
                         color: '#d7dadc', borderRadius: '12px', position: 'absolute', top: '8px', right: '8px'
@@ -158,14 +169,27 @@ const CommunityPane = ({ data }: any) => {
                     <div>
                         <div css={textBold('x')}>{data.title}</div>
                         <div css={C.stats}>
-                            <div css={C.under}><span css={C.offline} /> {data.subscribers} Members
-                                <Online public_id={data.public_id} />
+                            <div css={C.under}>
+
+                                <span
+                                    css={{
+                                        lineHeight: '20px',
+                                        fontSize: '14px',
+                                        fontWeight: 700,
+                                        color: '#fff',
+                                    }}>
+                                    <span css={C.offline} /> {data.subscribers} <span css={[textBold('t'), { color: '#d7dadc', }]}>Members</span>
+                                </span>
+
+                                <Online public_id={data.public_id} /> <span css={[textBold('t'), { color: '#d7dadc', }]}>Viewing</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div css={C.action}>
+
                     <Button
+                        disabled={authState === 'guest'}
                         onClick={handleJoin}
                         disableElevation
                         sx={{
@@ -175,24 +199,33 @@ const CommunityPane = ({ data }: any) => {
                             borderRadius: '16px',
                             fontSize: '12px',
                             fontWeight: '700',
+                            "&.Mui-disabled": {
+                                background: "#0f0e10",
+                                color: "#827d7d !important",
+                                ':hover': {
+                                    background: "#0f0e10",
+                                }
+                            }
                         }}
+
                         variant="contained">{isMember ? 'LEAVE' : 'JOIN'}</Button>
                 </div>
 
             </div>
             {active && <div css={C.more} key='more'>
 
-                <div css={C.roles}>
-                    <div>
-                        <div css={textLabel('s')}>Community Roles</div>
-                        <RoleList roles={data.community_roles} />
-                    </div>
-                    <div>
-                        <div css={textLabel('s')}>Your Roles</div>
-                        <RoleList roles={contentState.roles} />
+                <div css={C.inner2}>
+                    <div css={C.roles}>
+                        <div>
+                            <div css={textLabel('s')}>Community Roles</div>
+                            <RoleList roles={data.community_roles} />
+                        </div>
+                        <div>
+                            <div css={textLabel('s')}>Your Roles</div>
+                            <RoleList roles={contentState.roles} />
+                        </div>
                     </div>
                 </div>
-
 
             </div>}
         </div>

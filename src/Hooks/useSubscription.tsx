@@ -11,9 +11,8 @@ const useSubscription = (room: any) => {
         if (!room) return
 
         function deltaEvent(value: any) {
-            console.log('bab', value)
-            if (!value) return
-            setData(data)
+                if (!value) return
+            setData(value)
         }
         socket.emit(room)
         socket.on(room, deltaEvent);
@@ -23,7 +22,7 @@ const useSubscription = (room: any) => {
         };
     }, []);
 
-    return [data, setData]
+    return data
 }
 
 export default useSubscription

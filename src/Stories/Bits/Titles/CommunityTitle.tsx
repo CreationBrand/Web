@@ -17,6 +17,7 @@ import { leaveCommunity, joinCommunity } from 'Helper/Action'
 import { useRecoilValue } from 'recoil'
 import { communityListData } from 'State/Data'
 import { authFlow } from 'State/Flow'
+import Online from '../Online/Online'
 
 const C = {
     container: css({
@@ -96,7 +97,7 @@ const D = {
         flexDirection: 'column',
         border: '1px solid #1e1e1e',
         boxShadow: '0px 8px 10px -5px rgb(0 0 0 / 40%), 0px 16px 24px 2px rgb(1 0 0 / 14%), 0px 6px 30px 5px rgb(0 0 0 / 40%)',
-        paddingBottom: '16px',
+        paddingBottom: '8px',
     }),
     banner: css({
         height: '60px',
@@ -220,11 +221,14 @@ let Preview = ({ public_id }: any) => {
                 }}>
                     <div>
                         <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Members</div>
-                        <div>
+                        <div css={{
+                            color: '#fff',
+                            fontWeight: 700,
+                        }}>
                             <span css={{
                                 display: ' inline-block',
-                                width: '8px',
-                                height: '8px',
+                                width: '10px',
+                                height: '10px',
                                 borderRadius: '50%',
                                 background: '#c4c9ce',
                                 marginRight: '4px',
@@ -232,14 +236,9 @@ let Preview = ({ public_id }: any) => {
                     </div>
                     <div>
                         <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Online</div>
-                        <span css={{
-                            display: ' inline-block',
-                            width: '8px',
-                            height: '8px',
-                            borderRadius: '50%',
-                            background: '#60e660',
-                            marginRight: '4px',
-                        }} />12</div>
+                        <Online public_id={data.public_id} />
+
+                    </div>
 
                 </div>
 
