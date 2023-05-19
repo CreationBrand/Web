@@ -115,5 +115,5 @@ socket.on("disconnect", () => {
 
 // SOCKET event
 socket.onAny((eventName, ...args) => {
-    console.log('%c [Socket] ', 'background: #000; color: #da55cd', eventName, args);
+    // console.log('%c [Socket] ', 'background: #000; color: #da55cd', eventName, args);
 });

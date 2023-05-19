@@ -17,7 +17,7 @@ var Public = () => {
             <Error />
 
             <Routes>
-                {/* <Route path="/" element={<Navigate to="/trending" replace={true} />} /> */}
+                <Route path="/" element={<Navigate to="/trending" replace={true} />} />
 
                 <Route path="/" element={<Preview />}>
 

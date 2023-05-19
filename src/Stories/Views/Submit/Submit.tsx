@@ -6,14 +6,11 @@ import { Divider, Input, Button, Box, Tab, } from "@mui/material"
 import { useState } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useRecoilValue } from "recoil";
-import { contentFlow } from "State/Flow";
 
 import Editor from 'Stories/Bits/Editor/Editor';
-// import Editor from "Stories/Forum/Editor/Editor";
 
 import { personData } from 'State/Data';
 import { socketRequest } from 'Service/Socket';
-import Avatar from 'Stories/Bits/Avatar/Avatar';
 
 
 import CommunitySelect from 'Stories/Bits/Select/CommunitySelect';
@@ -107,8 +104,6 @@ const Submit = () => {
     const data = watch()
 
 
-    // console.log(data, errors)
-    // handlers
     const onSubmit = async () => {
         console.log(data)
         let req = await socketRequest('post-new', data)
@@ -249,28 +244,6 @@ const Submit = () => {
 
                                         }
                                     />
-
-
-
-
-
-
-                                    {/* <Controller
-                                        name="content"
-                                        control={control}
-                                        defaultValue=""
-                                        rules={{ required: true }}
-                                        render={({ field: { onChange, value } }) =>
-                                            <Input
-                                                sx={{ background: '#151618' }}
-                                                autoComplete="off"
-                                                onChange={onChange}
-                                                value={value}
-                                                disableUnderline
-                                                fullWidth
-
-                                            />}
-                                    /> */}
 
                                 </TabPanel>
 

@@ -97,7 +97,7 @@ const EditCommunity = () => {
 
 
     let params = useParams()
-    const [error, component, req] = usePullCommunity(params.community_id)
+    const [loadings, error, component, req] = usePullCommunity(params.community_id)
     // state
     const person = useRecoilValue(personData);
     const contentState: any = useRecoilValue(contentFlow);
@@ -114,12 +114,6 @@ const EditCommunity = () => {
     };
 
 
-
-
-    console.log(req)
-
-
-
     if (!req) return <div>loading</div>
 
 
@@ -132,11 +126,11 @@ const EditCommunity = () => {
                     color: '#fff',
                     fontSize: "20px",
                     fontWeight: 450,
-                }}>Edit {req.community.title}</div>
+                }}>Edit {req?.community?.title}</div>
                 <div>
                     <Button color='secondary'>Cancel</Button>
                     <Button
-                        disabled={!(Object.keys(errors).length === 0 && errors.constructor === Object)}
+                        disabled={!(Object.keys(errors)?.length === 0 && errors.constructor === Object)}
                         disableElevation
                         sx={{
                             marginLeft: '8px',
@@ -179,7 +173,7 @@ const EditCommunity = () => {
                 <Controller
                     name="title"
                     control={control}
-                    defaultValue={req.community.title}
+                    defaultValue={req?.community?.title}
                     rules={{ required: true, maxLength: 30 }}
                     render={({ field: { onChange, value } }) => (
                         <Input
@@ -194,7 +188,7 @@ const EditCommunity = () => {
                                 color: '#b9b6ba',
                                 marginRight: '8px',
                                 fontSize: '12px'
-                            }}>{value.length}/30</div>}
+                            }}>{value?.length}/30</div>}
                             sx={{
                                 height: "42px",
                                 marginBottom: "26px",
@@ -229,7 +223,7 @@ const EditCommunity = () => {
                                     color: '#b9b6ba',
                                     marginRight: '8px',
                                     fontSize: '12px'
-                                }}>{value.length}/200</div>}
+                                }}>{value?.length}/200</div>}
 
                             />
                         )}
@@ -304,29 +298,29 @@ const EditCommunity = () => {
             }}>Base Roles can not be edited or deleted.</div>
 
 
-
-            <Box sx={{ width: '100%', background: '#181820', borderRadius: '8px' }}>
-                <DataGrid
-                    checkboxSelection={false}
-                    autoHeight
-                    hideFooter
-                    editMode='row'
-                    isCellEditable={() => false}
-                    css={{ borderRadius: '8px' }}
-                    rows={req?.community?.community_roles}
-                    columns={columns}
-                    initialState={{
-                        pagination: {
-                            paginationModel: {
-                                pageSize: 5,
+            {(req?.community?.community_roles?.length > 0) &&
+                <Box sx={{ width: '100%', background: '#181820', borderRadius: '8px' }}>
+                    <DataGrid
+                        checkboxSelection={false}
+                        autoHeight
+                        hideFooter
+                        editMode='row'
+                        isCellEditable={() => false}
+                        css={{ borderRadius: '8px' }}
+                        rows={req?.community?.community_roles}
+                        columns={columns}
+                        initialState={{
+                            pagination: {
+                                paginationModel: {
+                                    pageSize: 5,
+                                },
                             },
-                        },
-                    }}
-                    pageSizeOptions={[5]}
-                />
-            </Box>
+                        }}
+                        pageSizeOptions={[5]}
+                    />
+                </Box>
 
-
+            }
 
 
         </div>

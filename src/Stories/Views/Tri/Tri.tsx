@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
-import { Global, css, useTheme } from '@emotion/react'
-import { useDrag, useGesture } from '@use-gesture/react'
+import { Global, css } from '@emotion/react'
+import { useDrag } from '@use-gesture/react'
 import { useRef, useEffect, useState } from 'react'
 import { animated, useSpring } from 'react-spring'
 import theme from 'Global/Theme'

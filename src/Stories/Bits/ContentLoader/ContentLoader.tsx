@@ -124,9 +124,6 @@ const ContentLoader = ({ type, content }: any) => {
         setOpen(false);
     }
 
-
-
-    console.log('content', open)
     if (type === 'text') return (
         <div className='quill css-16jn0ui-Editor'>
             <div className='ql-container ql-snow'>
