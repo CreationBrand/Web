@@ -54,6 +54,7 @@
     "react-scripts": "5.0.1",
     "react-spring": "^9.5.2",
     "react-virtual": "^2.10.4",
+    "react-visibility-sensor": "^5.1.1",
     "recoil": "^0.7.5",
     "recoil-nexus": "^0.4.0",
     "rehype-raw": "^6.1.1",

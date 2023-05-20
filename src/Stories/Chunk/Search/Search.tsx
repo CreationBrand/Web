@@ -83,14 +83,16 @@ const Search = () => {
 
         let tempCommunitys = []
         for (var i in req.communities) {
-
             tempCommunitys.push(
                 <div
-                    onClick={() => {
+                    onClick={(e) => {
                         handleClose()
-                        navigate('c/' + req.communities[i].public_id)
+                        //@ts-ignore
+                        navigate(e.currentTarget.dataset.test)
+                        e.stopPropagation()
                     }}
 
+                    data-test={`c/${req.communities[i].public_id}`}
                     key={req.communities[i].public_id}
                     css={{
                         fontFamily: 'Noto Sans',

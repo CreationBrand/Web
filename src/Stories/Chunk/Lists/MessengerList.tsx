@@ -27,11 +27,8 @@ const MessengerList = () => {
     const params = useParams()
 
 
-    console.log(params)
     const [error, list] = usePullMessages(params.messenger_id)
 
-
-    console.log(list)
     if (error) return <ChunkError />
 
     return (

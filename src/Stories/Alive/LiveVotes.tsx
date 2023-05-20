@@ -7,7 +7,7 @@ import ArrowDropUpRoundedIcon from '@mui/icons-material/ArrowDropUpRounded'
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded'
 import { mMuted } from 'Stories/Bits/Text/Text'
 import useDeltaSubscription from 'Hooks/useDeltaSubscription'
-import Ticker from '../Ticker/Ticker'
+import Ticker from '../Bits/Ticker/Ticker'
 import { useEffect, useState } from 'react'
 import { socketRequest } from 'Service/Socket'
 import { useRecoilValue } from 'recoil'
@@ -56,7 +56,7 @@ const C = {
     }),
 }
 
-const Vote = ({ karma, public_id, vote, size, type }: any) => {
+const LiveVotes = ({ karma, public_id, vote, size, type }: any) => {
 
     const [counter, setCounter] = useDeltaSubscription(`vote:${public_id}`, karma)
     const [interaction, setInteraction] = useState(vote)
@@ -121,7 +121,7 @@ const Vote = ({ karma, public_id, vote, size, type }: any) => {
     )
 }
 
-export default Vote
+export default LiveVotes
 
 
 

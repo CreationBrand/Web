@@ -11,6 +11,7 @@ import { useState } from 'react';
 import Picker from '../Picker/Picker';
 import Drawer from '../Drawer/Drawer';
 import { set } from 'date-fns';
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 
 import EditAttributesIcon from '@mui/icons-material/EditAttributes';
 import ReportGmailerrorredRoundedIcon from '@mui/icons-material/ReportGmailerrorredRounded';
@@ -50,7 +51,10 @@ const RightMenu = ({ children, tags, public_id, type }: any) => {
 
 
             <IconButton
-                sx={{ color: '#d7dadc', borderRadius: '12px' }}
+                sx={{
+                    color: '#d7dadc',
+                    borderRadius: '8px'
+                }}
                 aria-haspopup="true"
                 onClick={handleClick}
             >
@@ -62,7 +66,7 @@ const RightMenu = ({ children, tags, public_id, type }: any) => {
                 <>
                     <Picker placement={'top'} setAnchorEl={setTagAnchorEl} anchorEl={tagAnchorEl} current={tags} public_id={public_id} type={type} />
                     <Drawer open={open} setOpen={setOpen}
-                        css={{background:'#272732'}}
+                        css={{ background: '#272732' }}
                     >
 
                         <MenuItem onClick={handle1}>
@@ -81,6 +85,17 @@ const RightMenu = ({ children, tags, public_id, type }: any) => {
                     <Picker placement={'left-start'} setAnchorEl={setTagAnchorEl} anchorEl={tagAnchorEl} current={tags} public_id={public_id} type={type} />
 
                     <Menu
+                        sx={{
+
+                            '& .MuiPaper-root': {
+                                borderRadius: '4px !important',
+                                background: '#0f0e10 !important',
+                                padding:'6px 8px',
+                                // border: '2px solid #4a3b5a !important',
+                            },
+
+
+                        }}
                         anchorOrigin={{
                             vertical: 'bottom',
                             horizontal: 'right',
@@ -95,7 +110,11 @@ const RightMenu = ({ children, tags, public_id, type }: any) => {
                     >
                         <MenuItem onClick={handle1}>
                             <EditAttributesIcon />
-                            Edit Tags
+                            Tags
+                        </MenuItem>
+                        <MenuItem>
+                            <AdminPanelSettingsOutlinedIcon />
+                             Roles
                         </MenuItem>
                         <MenuItem>
                             <ReportGmailerrorredRoundedIcon />

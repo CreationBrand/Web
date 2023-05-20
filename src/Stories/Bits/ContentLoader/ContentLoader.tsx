@@ -16,6 +16,7 @@ import { useState, useRef } from "react";
 import { AnimatePresence, motion, useDomEvent } from "framer-motion";
 import { Backdrop, Dialog, Modal, styled } from '@mui/material';
 import Close from '../Close/Close';
+import VisibilitySensor from 'react-visibility-sensor';
 
 const C = {
     container: css({
@@ -118,10 +119,17 @@ const C = {
 
 const ContentLoader = ({ type, content }: any) => {
 
+    const [isVisable, setIsVisable] = useState(false)
+
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
         setOpen(false);
+    }
+
+
+    const handleVisability = (isVisible: boolean) => {
+        setIsVisable(isVisible)
     }
 
     if (type === 'text') return (
@@ -146,7 +154,13 @@ const ContentLoader = ({ type, content }: any) => {
 
     if (type === 'upload' && content.type === 'video') return (
         <div css={C.player} onClick={(e) => e.stopPropagation()}>
-            <ReactPlayer controls url={content.source} />
+            <VisibilitySensor onChange={handleVisability}>
+                <ReactPlayer controls url={content.source}
+                    playing={isVisable}
+                    muted={true}
+                    loop={true}
+                />
+            </VisibilitySensor>
         </div>
     )
 

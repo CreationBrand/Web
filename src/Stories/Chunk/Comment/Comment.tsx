@@ -1,4 +1,5 @@
-// @ts-nocheck
+
+//@ts-nocheck
 
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
@@ -12,7 +13,6 @@ import { commentTreeData } from 'State/Data'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
-import Vote from 'Stories/Bits/Vote/Vote'
 import ContentLoader from 'Stories/Bits/ContentLoader/ContentLoader'
 import AddComment from '../AddComment/AddComment'
 
@@ -187,7 +187,7 @@ const Comment = ({ hidden, public_id, author, content, vote, depth, karma, path,
                                 </>
                             }
 
-                            <Vote size='small' vote={vote} karma={karma} public_id={public_id} type='comment' />
+                            {/* <Vote size='small' vote={vote} karma={karma} public_id={public_id} type='comment' /> */}
                             <div css={C.divider} />
                             <Button
                                 onClick={handleReply}

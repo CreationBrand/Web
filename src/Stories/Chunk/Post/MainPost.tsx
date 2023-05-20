@@ -7,10 +7,7 @@ import ContentLoader from 'Stories/Bits/ContentLoader/ContentLoader'
 import Author from "Stories/Bits/Titles/Author"
 import CommunityTitle from "Stories/Bits/Titles/CommunityTitle"
 import Nickname from "Stories/Bits/Titles/Nickname"
-import Vote from "Stories/Bits/Vote/Vote"
 import { useNavigate } from 'react-router-dom'
-import View from 'Stories/Bits/View/View'
-import Comment from 'Stories/Bits/Comment/Comment'
 import { memo, } from 'react'
 import { useRecoilValue } from 'recoil'
 import { authFlow, contentFlow } from 'State/Flow'
@@ -19,6 +16,10 @@ import RightMenu from 'Stories/Bits/RightMenu/RightMenu'
 
 import TagList from 'Stories/Bits/TagList/TagList'
 import { formatDistanceStrict, parseISO } from 'date-fns'
+import VisibilitySensor from 'react-visibility-sensor';
+import LiveComments from 'Stories/Alive/LiveComments'
+import LiveViews from 'Stories/Alive/LiveViews'
+import LiveVotes from 'Stories/Alive/LiveVotes'
 
 const C = {
     container: css({
@@ -93,71 +94,77 @@ const Post = ({ tags, varient, public_id, title, type, content, karma, comments,
 
 
     return (
-        <div css={C.container} key={public_id}>
-
-            <motion.div
-                key={`post${public_id}`}
-                transition={{ duration: 0.4 }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                css={C.inner} onClick={bodyClick}>
+        <VisibilitySensor>
+            {({ isVisible }: any) => <div css={C.container} key={public_id}>
 
 
-                <div css={C.header}>
-                    {contentState.type === 'global' ?
-                        <Avatar size="medium" public_id={community?.public_id} onClick={userClick} /> :
-                        <Avatar size="medium" public_id={author?.public_id} onClick={userClick} />
-                    }
-                    <div>
 
-                        {/* {contentState.type === 'global' && <CommunityTitle title={community?.title} public_id={community?.public_id} />} */}
+                <motion.div
+                    key={`post${public_id}`}
+                    transition={{ duration: 0.4 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    css={C.inner} onClick={bodyClick}>
 
 
-                        {contentState.type === 'community' ? (
-                            <>
-                                <div css={{ display: 'flex', gap: '4px' }}>
-                                    <Author username={author?.nickname} public_id={author?.public_id} />
-                                    <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
-                                        addSuffix: true
-                                    })}
+                    <div css={C.header}>
+                        {contentState.type === 'global' ?
+                            <Avatar size="medium" public_id={community?.public_id} onClick={userClick} /> :
+                            <Avatar size="medium" public_id={author?.public_id} onClick={userClick} />
+                        }
+                        <div>
+
+                            {/* {contentState.type === 'global' && <CommunityTitle title={community?.title} public_id={community?.public_id} />} */}
+
+
+                            {contentState.type === 'community' ? (
+                                <>
+                                    <div css={{ display: 'flex', gap: '4px' }}>
+                                        <Author username={author?.nickname} public_id={author?.public_id} />
+                                        <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
+                                            addSuffix: true
+                                        })}
+                                        </div>
+                                    </div>
+                                    {tags && <TagList tags={tags} />}
+                                </>
+                            ) : (
+                                <div>
+                                    <div css={{ display: 'flex', gap: '4px', alignItems: 'baseline' }}>
+                                        <CommunityTitle title={community?.title} public_id={community?.public_id} />
+
+                                        <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
+                                            addSuffix: true
+                                        })}</div>
+                                    </div>
+                                    <div css={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                        <Nickname title={author?.nickname} public_id={author?.public_id} />
+                                        {tags && <TagList tags={tags} />}
                                     </div>
                                 </div>
-                                {tags && <TagList tags={tags} />}
-                            </>
-                        ) : (
-                            <div>
-                                <div css={{ display: 'flex', gap: '4px', alignItems: 'baseline' }}>
-                                    <CommunityTitle title={community?.title} public_id={community?.public_id} />
+                            )}
+                        </div>
 
-                                    <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
-                                        addSuffix: true
-                                    })}</div>
-                                </div>
-                                <div css={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                    <Nickname title={author?.nickname} public_id={author?.public_id} />
-                                    {tags && <TagList tags={tags} />}
-                                </div>
-                            </div>
-                        )}
+                        {authState !== 'guest' && <RightMenu tags={tags} type={'post'} public_id={public_id} />}
+
                     </div>
 
-                    {authState !== 'guest' && <RightMenu tags={tags} type={'post'} public_id={public_id} />}
+                    <div css={textBold('x')}>{title && title}</div>
+                    <ContentLoader type={type} content={content} />
 
-                </div>
 
-                <div css={textBold('x')}>{title && title}</div>
 
-                <ContentLoader type={type} content={content} />
 
-                <div css={C.footer} onClick={(e) => e.stopPropagation()}>
-                    <Vote karma={karma} vote={vote} public_id={public_id} type='post' />
-                    <View public_id={public_id} views={views} />
-                    <Comment public_id={public_id} comments={comments} />
-                </div>
+                    <div css={C.footer} onClick={(e) => e.stopPropagation()}>
+                        <LiveVotes active={isVisible} public_id={public_id} value={views} />
+                        <LiveViews active={isVisible} public_id={public_id} value={karma} />
+                        <LiveComments active={isVisible} public_id={public_id} value={comments} />
+                    </div>
 
-            </motion.div>
-        </div>
+                </motion.div>
+            </div>}
+        </VisibilitySensor>
     )
 }
 

@@ -37,8 +37,6 @@ const CommunityList = () => {
     const [isLoading1, isError1, component, data] = usePullCommunity(params.community_id)
     const [isLoading, isError, components] = usePullPosts(params.community_id, filter)
 
-    console.log('this')
-
     useEffect(() => {
         if (!data) return
         setContent({
