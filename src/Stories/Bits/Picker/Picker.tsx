@@ -70,7 +70,13 @@ export default function Picker({ anchorEl, setAnchorEl, current, public_id, type
     };
 
     const handleTag = (e: any) => {
-        console.log(e.currentTarget.dataset.test)
+
+        if (value.indexOf(e.currentTarget.dataset.test) > -1) {
+
+        } else {
+            socketRequest('tag-add', { type: 'post', tag_id: e.currentTarget.dataset.test, entity_id: public_id })
+
+        }
 
     }
 

@@ -14,12 +14,12 @@ import { authFlow, contentFlow } from 'State/Flow'
 import { textBold, textLight } from 'Global/Mixins'
 import RightMenu from 'Stories/Bits/RightMenu/RightMenu'
 
-import TagList from 'Stories/Bits/TagList/TagList'
 import { formatDistanceStrict, parseISO } from 'date-fns'
 import VisibilitySensor from 'react-visibility-sensor';
 import LiveComments from 'Stories/Alive/LiveComments'
 import LiveViews from 'Stories/Alive/LiveViews'
 import LiveVotes from 'Stories/Alive/LiveVotes'
+import LiveTags from '../../Alive/LiveTags'
 
 const C = {
     container: css({
@@ -127,7 +127,7 @@ const Post = ({ tags, varient, public_id, title, type, content, karma, comments,
                                         })}
                                         </div>
                                     </div>
-                                    {tags && <TagList tags={tags} />}
+                                    {tags && <LiveTags active={isVisible} public_id={public_id} value={views} />}
                                 </>
                             ) : (
                                 <div>
@@ -140,7 +140,7 @@ const Post = ({ tags, varient, public_id, title, type, content, karma, comments,
                                     </div>
                                     <div css={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                                         <Nickname title={author?.nickname} public_id={author?.public_id} />
-                                        {tags && <TagList tags={tags} />}
+                                        {/* {tags && <TagList tags={tags} />} */}
                                     </div>
                                 </div>
                             )}
