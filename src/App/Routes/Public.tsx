@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import Auth from 'App/Pages/Auth'
 
 import Preview from 'App/Pages/Preview'
 import GlobalList from 'Stories/Chunk/Lists/GlobalList'
@@ -7,6 +6,7 @@ import Error from 'Stories/Error/Error'
 import Announcements from 'Stories/Views/Announcements'
 import CommunityList from 'Stories/Chunk/Lists/CommunityList'
 import PostList from 'Stories/Chunk/Lists/PostList'
+import { memo } from 'react'
 
 var Public = () => {
 
@@ -43,4 +43,4 @@ var Public = () => {
         </>
     )
 }
-export default Public
+export default memo(Public)

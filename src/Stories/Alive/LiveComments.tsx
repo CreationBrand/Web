@@ -1,8 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import useDeltaSubscription from 'Hooks/useDeltaSubscription'
-import { memo, useEffect } from 'react'
+import { memo} from 'react'
 import { faComment } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Ticker from 'Stories/Bits/Ticker/Ticker'
@@ -18,22 +17,17 @@ const C = {
         alignItems: 'center',
         padding: '0px 8px',
         color: '#b9bbb3',
+        fontSize: '14px',
+        fontWeight: 'bold',
     })
 }
 
-const LiveComments = ({ active, value, public_id }: any) => {
-
-    const [counter, setCounter] = useDeltaSubscription(`post:comments:${public_id}`, value)
-
-    useEffect(() => {
-        // if (!public_id) return
-        // socketRequest('view', { public_id: public_id })
-    }, [public_id])
+const LiveComments = ({ value  }: any) => {
 
     return (
         <div css={C.container}>
-            <Ticker value={counter} />
             <FontAwesomeIcon icon={faComment} size='xs' />
+            <div css={{ height: '17px' }}><Ticker value={value} /></div>
         </div >
     )
 }

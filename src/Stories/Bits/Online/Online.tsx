@@ -36,7 +36,7 @@ const C = {
 }
 
 const Online = ({ public_id }: any) => {
-    const data = useSubscription(`online:${public_id}`)
+    const data = useSubscription(`online:${public_id}`, false, true)
 
 
     return (

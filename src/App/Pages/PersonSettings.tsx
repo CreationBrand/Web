@@ -11,7 +11,7 @@ import Grid from "@mui/system/Unstable_Grid";
 import { css } from "@emotion/react";
 
 import { Button, Divider, IconButton, Tab, Tabs } from "@mui/material";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import theme from 'Global/Theme';
 
@@ -69,8 +69,8 @@ const C = {
         display: 'flex',
         justifyContent: 'space-between',
     }),
-    title:css({
-        marginBottom:'22px'
+    title: css({
+        marginBottom: '22px'
     })
 
 }
@@ -109,7 +109,7 @@ const Settings = () => {
                             <Grid md={6} >
 
 
-                                <div css={[C.title,heading3]}>My Profile</div>
+                                <div css={[C.title, heading3]}>My Profile</div>
 
                                 <div css={C.paper}>
 
@@ -178,4 +178,4 @@ const Settings = () => {
 
 
 
-export default Settings
+export default memo(Settings)

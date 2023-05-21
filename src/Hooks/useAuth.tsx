@@ -62,32 +62,32 @@ var useAuth = () => {
                         setAF('user')
                         // DATA SUPPLY
                         setP(request.person)
-                        console.groupCollapsed('%c [DATA - person] ', 'background: #000; color: #5555da');
-                        console.log(treeify.asTree(request.person, true));
-                        console.groupEnd();
+                        // console.groupCollapsed('%c [DATA - person] ', 'background: #000; color: #5555da');
+                        // console.log(treeify.asTree(request.person, true));
+                        // console.groupEnd();
 
                         setMTD(messengerLTT(request.messengers))
-                        console.groupCollapsed('%c [DATA - messengers] ', 'background: #000; color: #5555da');
-                        console.log(treeify.asTree(request.messengers, true));
-                        console.groupEnd();
+                        // console.groupCollapsed('%c [DATA - messengers] ', 'background: #000; color: #5555da');
+                        // console.log(treeify.asTree(request.messengers, true));
+                        // console.groupEnd();
 
                         setC(request.communitys)
                         setCTD(communityLTT(request.communitys))
                         setCLD(communityLTL(request.communitys))
-                        console.groupCollapsed('%c [DATA - communitys] ', 'background: #000; color: #5555da');
-                        console.log(treeify.asTree(request.communitys, true));
-                        console.groupEnd();
+                        // console.groupCollapsed('%c [DATA - communitys] ', 'background: #000; color: #5555da');
+                        // console.log(treeify.asTree(request.communitys, true));
+                        // console.groupEnd();
 
                         setR(request.globalRoles)
-                        console.groupCollapsed('%c [DATA - globalRoles] ', 'background: #000; color: #5555da');
-                        console.log(treeify.asTree(request.globalRoles, true));
-                        console.groupEnd();
+                        // console.groupCollapsed('%c [DATA - globalRoles] ', 'background: #000; color: #5555da');
+                        // console.log(treeify.asTree(request.globalRoles, true));
+                        // console.groupEnd();
 
 
                         setT(request.tags)
-                        console.groupCollapsed('%c [DATA - tags] ', 'background: #000; color: #5555da');
-                        console.log(treeify.asTree(request.tags, true));
-                        console.groupEnd();
+                        // console.groupCollapsed('%c [DATA - tags] ', 'background: #000; color: #5555da');
+                        // console.log(treeify.asTree(request.tags, true));
+                        // console.groupEnd();
 
                         setAuth(true)
                         setLoading(false)

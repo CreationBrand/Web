@@ -10,7 +10,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import FilterPane from 'Stories/Pane/FilterPane'
 
-import AddComment from '../AddComment/AddComment'
+import AddComment from '../../Forum/AddComment/AddComment'
 import VirtualList from '../VirtualList/VirtualList'
 import { contentFlow } from 'State/Flow'
 

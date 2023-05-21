@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { useEffect, useMemo, useState } from 'react'
+import { memo, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Button, debounce } from '@mui/material'
@@ -12,7 +12,6 @@ import MiniError from '../ChunkError/MiniError'
 import { socketRequest } from 'Service/Socket'
 import Avatar from '../Avatar/Avatar'
 import { textLabel } from 'Global/Mixins'
-import RoleList from '../RoleList/RoleList'
 import { leaveCommunity, joinCommunity } from 'Helper/Action'
 import { useRecoilValue } from 'recoil'
 import { communityListData } from 'State/Data'
@@ -84,7 +83,7 @@ const CommunityTitle = ({ title, public_id }: any) => {
     )
 }
 
-export default CommunityTitle
+export default memo(CommunityTitle)
 
 
 const D = {

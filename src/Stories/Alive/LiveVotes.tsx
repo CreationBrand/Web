@@ -8,7 +8,7 @@ import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded'
 import { mMuted } from 'Stories/Bits/Text/Text'
 import useDeltaSubscription from 'Hooks/useDeltaSubscription'
 import Ticker from '../Bits/Ticker/Ticker'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { socketRequest } from 'Service/Socket'
 import { useRecoilValue } from 'recoil'
 import { authFlow } from 'State/Flow'
@@ -121,7 +121,7 @@ const LiveVotes = ({ karma, public_id, vote, size, type }: any) => {
     )
 }
 
-export default LiveVotes
+export default memo(LiveVotes)
 
 
 

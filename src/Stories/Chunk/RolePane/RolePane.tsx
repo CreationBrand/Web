@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import RoleList from 'Stories/Bits/RoleList/RoleList'
 
 const C = {
     container: css({
@@ -20,9 +19,9 @@ const RolePane = ({ roles }: any) => {
 
     return <div css={C.container}>
 
-        <RoleList
+        {/* <RoleList
             title='Roles'
-            roles={roles}></RoleList>
+            roles={roles}></RoleList> */}
 
         asdfasdf
 

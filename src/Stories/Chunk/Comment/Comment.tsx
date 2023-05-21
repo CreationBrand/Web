@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
 import ContentLoader from 'Stories/Bits/ContentLoader/ContentLoader'
-import AddComment from '../AddComment/AddComment'
+import AddComment from '../../Forum/AddComment/AddComment'
 
 //icons
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';

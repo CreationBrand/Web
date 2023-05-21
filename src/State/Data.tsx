@@ -1,4 +1,4 @@
-import { atom, atomFamily, selectorFamily } from 'recoil'
+import { atom, atomFamily, selectorFamily, useRecoilCallback, useRecoilState } from 'recoil'
 
 // GLOBAL STATE
 export const sessionData = atom({
@@ -45,7 +45,7 @@ export const commentTreeData = atom({
 
 export const postListData = atom({
     key: 'postListData',
-    default: []
+    default: [] as any,
 })
 
 export const messageListData = atom({
@@ -95,3 +95,31 @@ export const layoutSizeData = atom({
     key: 'layoutSizeData',
     default: 'desktop' as 'desktop' | 'mobile'
 })
+
+
+
+export const virtualListStateFamily = atomFamily({
+    key: 'virtualList',
+    default: {} as any,
+})
+
+export const virtualItem = atom({
+    key: "virtualItem",
+    default: {} as any,
+});
+
+
+
+// export const selector {
+//     key: "virtualList/newAtom",
+//     set :((setter newAtoms)->{
+
+//     }
+//         setter.get(atomIds)
+//         |> List.append newAtoms 
+//         |> fun res -> setter.set(atomIds, res)
+
+//         newAtoms
+//         |> List.iter(fun i -> setter.set(textFamily(i), Recoil.defaultValue))
+//     )
+// }

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { useEffect, useMemo, useState } from 'react'
+import { memo, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Button, debounce } from '@mui/material'
@@ -12,7 +12,6 @@ import MiniError from '../ChunkError/MiniError'
 import { socketRequest } from 'Service/Socket'
 import Avatar from '../Avatar/Avatar'
 import { textLabel } from 'Global/Mixins'
-import RoleList from '../RoleList/RoleList'
 import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 import { useRecoilValue } from 'recoil'
 import { authFlow } from 'State/Flow'
@@ -43,16 +42,8 @@ const Nickname = ({ title, public_id, community_id }: any) => {
     const navigate = useNavigate()
     const handleClick = () => { }
 
-
-
     const handleHover = (event: any) => setAnchorEl(event.target)
     const handleClose = () => setAnchorEl(null);
-
-
-    const debouncedEventHandler = useMemo(
-        () => debounce(handleHover, 500)
-        , []);
-
 
     return (
 
@@ -85,7 +76,7 @@ const Nickname = ({ title, public_id, community_id }: any) => {
     )
 }
 
-export default Nickname
+export default memo(Nickname)
 
 
 const D = {
@@ -220,7 +211,7 @@ let Preview = ({ public_id, community_id }: any) => {
 
                     <div>
                         <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>role</div>
-                        <RoleList roles={data.global_roles} />
+                        {/* <RoleList roles={data.global_roles} /> */}
                     </div>
 
 

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { memo, useRef } from 'react'
+import { cloneElement, memo, useRef } from 'react'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useRecoilValue } from 'recoil'
 import { layoutSizeData } from 'State/Data'
@@ -58,6 +58,7 @@ const VirtualList = ({ list }: any) => {
                                 data-index={virtualRow.index}
                                 ref={virtualizer.measureElement}
                             >
+
                                 {list[virtualRow.index]}
 
                             </div>

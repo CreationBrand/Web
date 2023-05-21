@@ -2,7 +2,7 @@
 
 import { Global, css } from '@emotion/react'
 import { useDrag } from '@use-gesture/react'
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useLayoutEffect } from 'react'
 import { animated, useSpring } from 'react-spring'
 import theme from 'Global/Theme'
 import { layoutSizeData } from 'State/Data'
@@ -20,7 +20,7 @@ const Tri = (props: Props) => {
 
 
     //runs on every size change (very inefficient)
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (width < 800 && layoutSize !== 'mobile') setLayoutSize('mobile')
         if (width > 800 && layoutSize !== 'desktop') setLayoutSize('desktop')
     }, [width])

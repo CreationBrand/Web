@@ -18,6 +18,7 @@ import { Button, Checkbox, MenuItem, ToggleButton, ToggleButtonGroup } from '@mu
 import { tagData } from 'State/Data';
 import { useRecoilValue } from 'recoil';
 import { socketRequest } from 'Service/Socket';
+import useSubscription from 'Hooks/useSubscription';
 
 
 const StyledPopper = styled(Popper)(({ theme }) => ({
@@ -36,6 +37,8 @@ export default function Picker({ anchorEl, setAnchorEl, current, public_id, type
 
 
     const tags = useRecoilValue(tagData)
+    // const updates = useSubscription(`tags:${public_id}`, current, true)
+
     const [value, setValue]: any = useState([]);
 
 
@@ -70,18 +73,12 @@ export default function Picker({ anchorEl, setAnchorEl, current, public_id, type
     };
 
     const handleTag = (e: any) => {
-
         if (value.indexOf(e.currentTarget.dataset.test) > -1) {
-
+            socketRequest('tag-remove', { type: 'post', tag_id: e.currentTarget.dataset.test, entity_id: public_id })
         } else {
             socketRequest('tag-add', { type: 'post', tag_id: e.currentTarget.dataset.test, entity_id: public_id })
-
         }
-
     }
-
-
-    console.log(value)
 
     return (
         <StyledPopper

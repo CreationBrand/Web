@@ -4,7 +4,6 @@ import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
 import { useParams } from 'react-router-dom'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
-import ControlBar from '../ControlBar/ControlBar'
 import VirtualList from 'Stories/Chunk/VirtualList/VirtualList'
 import usePullMessages from 'Hooks/usePullMessages'
 import { memo } from 'react'
@@ -44,7 +43,6 @@ const MessengerList = () => {
                 list={[list]}
             />
 
-            <ControlBar />
         </motion.div>
     )
 }

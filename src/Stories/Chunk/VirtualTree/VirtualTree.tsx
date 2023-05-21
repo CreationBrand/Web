@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 // ICONS
 import Avatar from "Stories/Bits/Avatar/Avatar";
 import Group from "./Group";
-import { useState } from "react";
+import { memo, useState } from "react";
 import EditGroup from "Stories/Popups/EditGroup";
 
 const VirtualTree = ({ tree, term, operator, setTree, handleMove, height }: any) => {
@@ -209,6 +209,6 @@ const VirtualTree = ({ tree, term, operator, setTree, handleMove, height }: any)
     );
 
 }
-export default VirtualTree
+export default memo(VirtualTree)
 
 

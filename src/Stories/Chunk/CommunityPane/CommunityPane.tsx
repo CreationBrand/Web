@@ -2,13 +2,12 @@
 import { css } from '@emotion/react'
 import { Button, IconButton } from '@mui/material'
 import { textBold, textLabel, textLight, textNormal } from 'Global/Mixins'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { commentListData, communityListData, postListData } from 'State/Data'
 import { authFlow, contentFlow } from 'State/Flow'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
-import RoleList from 'Stories/Bits/RoleList/RoleList'
 import CommunityStats from 'Stories/Bits/StatCheck/CommunityStats'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom'
@@ -218,11 +217,11 @@ const CommunityPane = ({ data }: any) => {
                     <div css={C.roles}>
                         <div>
                             <div css={textLabel('s')}>Community Roles</div>
-                            <RoleList roles={data.community_roles} />
+                            {/* <RoleList roles={data.community_roles} /> */}
                         </div>
                         <div>
                             <div css={textLabel('s')}>Your Roles</div>
-                            <RoleList roles={contentState.roles} />
+                            {/* <RoleList roles={contentState.roles} /> */}
                         </div>
                     </div>
                 </div>
@@ -233,7 +232,7 @@ const CommunityPane = ({ data }: any) => {
 }
 
 
-export default CommunityPane
+export default memo(CommunityPane)
 
 
 

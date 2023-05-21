@@ -1,13 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { motion } from 'framer-motion'
 import useWindow from 'Hooks/useWindow'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import { useRecoilState } from 'recoil'
 import { layoutSizeData } from 'State/Data'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
-import { brand } from 'Stories/Bits/Text/Text'
 
 const C = {
     page: css({
@@ -27,9 +25,7 @@ const C = {
 const Loading = ({ variant }: any) => {
 
     const [layoutSize, setLayoutSize] = useRecoilState(layoutSizeData)
-    const { width, height } = useWindow()
-    const [position, setPosition] = useState(0)
-
+    const { width } = useWindow()
 
     //runs on every size change (very inefficient)
     useEffect(() => {
@@ -55,8 +51,6 @@ const Loading = ({ variant }: any) => {
     )
 }
 
-export default Loading
-function useRecoilValue(layoutSizeData: any) {
-    throw new Error('Function not implemented.')
-}
+export default memo(Loading)
+
 

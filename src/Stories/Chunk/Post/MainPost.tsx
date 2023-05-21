@@ -8,18 +8,18 @@ import Author from "Stories/Bits/Titles/Author"
 import CommunityTitle from "Stories/Bits/Titles/CommunityTitle"
 import Nickname from "Stories/Bits/Titles/Nickname"
 import { useNavigate } from 'react-router-dom'
-import { memo, } from 'react'
+import { memo, useState, } from 'react'
 import { useRecoilValue } from 'recoil'
 import { authFlow, contentFlow } from 'State/Flow'
 import { textBold, textLight } from 'Global/Mixins'
 import RightMenu from 'Stories/Bits/RightMenu/RightMenu'
-
 import { formatDistanceStrict, parseISO } from 'date-fns'
 import VisibilitySensor from 'react-visibility-sensor';
 import LiveComments from 'Stories/Alive/LiveComments'
 import LiveViews from 'Stories/Alive/LiveViews'
 import LiveVotes from 'Stories/Alive/LiveVotes'
 import LiveTags from '../../Alive/LiveTags'
+import useLiveData from 'Hooks/useLiveData'
 
 const C = {
     container: css({
@@ -29,13 +29,6 @@ const C = {
 
     }),
     inner: css({
-        // boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 12px',
-        ':hover': {
-            // boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 12px',
-
-            // outline: `2px solid #583e7691`,
-        },
-
         margin: '0 auto',
         width: '100%',
         maxWidth: '800px',
@@ -69,49 +62,39 @@ const C = {
 }
 
 
-const Post = ({ tags, varient, public_id, title, type, content, karma, comments, vote, created_at, updated_at, hot, author, views, community, ...props }: any) => {
+const Post = ({ public_id }: any) => {
 
+
+    // proxing data
+    const [visibility, setVisibility] = useState(false)
+    const data = useLiveData(visibility, public_id)
+
+    const { title, content, created_at, author, community, vote, karma, views, comments, tags, type } = data
 
     const authState = useRecoilValue(authFlow)
     const contentState = useRecoilValue(contentFlow)
+
     const navigate = useNavigate()
+    const handleVisibility = (isVisible: boolean) => setVisibility(isVisible)
+    const bodyClick = () => navigate(`/c/${community.public_id}/p/${public_id}`)
 
-    if (!public_id || public_id === undefined) return null
-
-    const bodyClick = (e: any) => {
-        // if (e.currentTarget !== e.target) return
-
-        navigate(`/c/${community.public_id}/p/${public_id}`)
-        // if (varient === 'community') navigate(`p/${public_id}`)
-    }
-
-
-
-
-
-    const contentClick = () => { }
-    const userClick = () => { }
+    if (!data || data === undefined || !created_at) return null
 
 
     return (
-        <VisibilitySensor>
-            {({ isVisible }: any) => <div css={C.container} key={public_id}>
-
-
+        <VisibilitySensor> 
+            <div css={C.container} key={public_id}>
 
                 <motion.div
                     key={`post${public_id}`}
-                    transition={{ duration: 0.4 }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+
                     css={C.inner} onClick={bodyClick}>
 
 
                     <div css={C.header}>
                         {contentState.type === 'global' ?
-                            <Avatar size="medium" public_id={community?.public_id} onClick={userClick} /> :
-                            <Avatar size="medium" public_id={author?.public_id} onClick={userClick} />
+                            <Avatar size="medium" public_id={community?.public_id} /> :
+                            <Avatar size="medium" public_id={author?.public_id} />
                         }
                         <div>
 
@@ -127,7 +110,7 @@ const Post = ({ tags, varient, public_id, title, type, content, karma, comments,
                                         })}
                                         </div>
                                     </div>
-                                    {tags && <LiveTags active={isVisible} public_id={public_id} value={views} />}
+                                    {/* {tags && <LiveTags active={isVisible} public_id={public_id} value={tags} />} */}
                                 </>
                             ) : (
                                 <div>
@@ -155,18 +138,23 @@ const Post = ({ tags, varient, public_id, title, type, content, karma, comments,
 
 
 
-
                     <div css={C.footer} onClick={(e) => e.stopPropagation()}>
-                        <LiveVotes active={isVisible} public_id={public_id} value={views} />
-                        <LiveViews active={isVisible} public_id={public_id} value={karma} />
-                        <LiveComments active={isVisible} public_id={public_id} value={comments} />
+                        <LiveVotes value={vote} karma={karma} public_id={public_id} type='post' />
+                        <LiveViews value={views} />
+                        <LiveComments value={comments} />
                     </div>
 
                 </motion.div>
-            </div>}
+
+
+
+            </div>
         </VisibilitySensor>
     )
 }
 
 
 export default memo(Post)
+
+
+

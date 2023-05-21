@@ -1,6 +1,5 @@
-import { Home, CommunitySettings } from 'App/Pages'
 import Settings from 'App/Pages/PersonSettings'
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { Routes, Route, Navigate, } from 'react-router-dom'
 import Error from 'Stories/Error/Error'
 import GlobalList from 'Stories/Chunk/Lists/GlobalList'
 import PostList from 'Stories/Chunk/Lists/PostList'
@@ -10,6 +9,8 @@ import MessengerList from 'Stories/Chunk/Lists/MessengerList'
 import GroupList from 'Stories/Chunk/Lists/GroupList'
 import EditCommunity from 'Stories/Views/EditCommunity'
 import EditPerson from 'Stories/Views/EditPerson'
+import { memo } from 'react'
+import Home from 'App/Pages/Home'
 
 var Private = () => {
 
@@ -71,4 +72,4 @@ var Private = () => {
         </>
     )
 }
-export default Private
+export default memo(Private)

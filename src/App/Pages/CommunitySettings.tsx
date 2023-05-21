@@ -1,17 +1,13 @@
 /** @jsxImportSource @emotion/react */
 
-
 import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded';
-import { bold, heading3, smMuted, xsMuted } from "Stories/Bits/Text/Text";
+import { bold, heading3, smMuted } from "Stories/Bits/Text/Text";
 import { Link } from "react-router-dom";
 import ImageEditor from "Stories/Forum/ImageEditor/ImageEditor";
 import { useRecoilValue } from "recoil";
-import { communityData, sessionData } from "State/Data";
-import Grid from "@mui/system/Unstable_Grid";
 import { css } from "@emotion/react";
-
-import { Button, Divider, IconButton, Tab, Tabs } from "@mui/material";
-import { useState } from "react";
+import { Button, IconButton, Tab, } from "@mui/material";
+import { memo, useState } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import theme from 'Global/Theme';
 import { contentFlow } from 'State/Flow';
@@ -78,9 +74,7 @@ const C = {
 
 
 const CommunitySettings = () => {
-    const community:any = useRecoilValue(contentFlow)
-
-    console.log(community)
+    const community: any = useRecoilValue(contentFlow)
 
 
     const [value, setValue] = useState('Profile');
@@ -94,14 +88,12 @@ const CommunitySettings = () => {
 
                 <div css={C.drawer}>
 
-
                     <TabList onChange={handleChange}
                         orientation="vertical">
                         <Tab label="Item One" value="Profile" />
                         <Tab label="Item Two" value="2" />
                         <Tab label="Item Three" value="3" />
                     </TabList>
-
 
                 </div>
 
@@ -110,48 +102,44 @@ const CommunitySettings = () => {
 
                     <TabPanel value="Profile">
 
-                        <Grid container justifyContent='center' >
-                            <Grid md={6} >
 
 
-                                <div css={[C.title, heading3]}>Community Public</div>
+                        <div css={[C.title, heading3]}>Community Public</div>
 
-                                <div css={C.paper}>
+                        <div css={C.paper}>
 
-                                    <div css={C.field}>
-                                        <div>
-                                            <div css={smMuted}>Community Name</div>
-                                            <div css={bold}>{community.title}</div>
-                                        </div>
-                                        <Button size="small" color='tri' variant="contained">Edit</Button>
-                                    </div>
-
-                                    <div css={C.field}>
-                                        <div>
-                                            <div css={smMuted}>Email</div>
-                                            <div css={bold}>Isaacman090@gmail.com</div>
-                                        </div>
-                                        <Button size="small" color='tri' variant="contained">Edit</Button>
-                                    </div>
-
-
-                                    <div css={C.field}>
-                                        <div>
-                                            <div css={smMuted}>Password</div>
-                                            <div css={bold}>*************</div>
-                                        </div>
-                                        <Button size="small" color='tri' variant="contained">Edit</Button>
-                                    </div>
-
-                                    <ImageEditor api='community' id={community.public_id} type='avatar' width={80} height={80} />
-                                    <ImageEditor api='community' id={community.public_id} type='banner' width={600} height={200} />
-
-
+                            <div css={C.field}>
+                                <div>
+                                    <div css={smMuted}>Community Name</div>
+                                    <div css={bold}>{community.title}</div>
                                 </div>
+                                <Button size="small" color='tri' variant="contained">Edit</Button>
+                            </div>
 
-                            </Grid>
-                        </Grid>
-                        {/* </div> */}
+                            <div css={C.field}>
+                                <div>
+                                    <div css={smMuted}>Email</div>
+                                    <div css={bold}>Isaacman090@gmail.com</div>
+                                </div>
+                                <Button size="small" color='tri' variant="contained">Edit</Button>
+                            </div>
+
+
+                            <div css={C.field}>
+                                <div>
+                                    <div css={smMuted}>Password</div>
+                                    <div css={bold}>*************</div>
+                                </div>
+                                <Button size="small" color='tri' variant="contained">Edit</Button>
+                            </div>
+
+                            <ImageEditor api='community' id={community.public_id} type='avatar' width={80} height={80} />
+                            <ImageEditor api='community' id={community.public_id} type='banner' width={600} height={200} />
+
+
+                        </div>
+
+
 
                     </TabPanel>
                     <TabPanel value="2">Item Two</TabPanel>
@@ -182,4 +170,4 @@ const CommunitySettings = () => {
 
 
 
-export default CommunitySettings
+export default memo(CommunitySettings)

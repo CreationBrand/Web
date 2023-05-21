@@ -26,26 +26,20 @@ const C = {
         width: 'min-content',
         height: '30px',
         alignItems: 'center',
-        padding: '0px 8px',
+        padding: '6px 8px',
         color: '#b9bbb3',
+        fontSize: '14px',
+        fontWeight: 'bold',
+
     })
 }
 
-const LiveViews = ({ views, public_id }: any) => {
-
-    const [counter, setCounter] = useDeltaSubscription(`view:${public_id}`, views)
-
-    useEffect(() => {
-
-
-        if (!public_id) return
-        socketRequest('view', { public_id: public_id })
-    }, [public_id])
+const LiveViews = ({ value }: any) => {
 
     return (
         <div css={C.vote}>
-            <Ticker value={counter} />
             <FontAwesomeIcon icon={faEye} version='fa-reg' size='xs' />
+            <div css={{ height: '17px' }}><Ticker value={value} /></div>
         </div >
     )
 }
