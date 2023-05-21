@@ -20,6 +20,7 @@ import LiveViews from 'Stories/Alive/LiveViews'
 import LiveVotes from 'Stories/Alive/LiveVotes'
 import LiveTags from '../../Alive/LiveTags'
 import useLiveData from 'Hooks/useLiveData'
+import LiveRoles from 'Stories/Alive/LiveRoles'
 
 const C = {
     container: css({
@@ -72,7 +73,6 @@ const Post = ({ public_id }: any) => {
     // proxing data
     const [visibility, setVisibility] = useState(false)
     const data = useLiveData(visibility, public_id)
-
     const { title, content, created_at, author, community, vote, karma, views, comments, tags, type, community_roles, global_roles } = data
 
     const authState = useRecoilValue(authFlow)
@@ -84,9 +84,6 @@ const Post = ({ public_id }: any) => {
 
     if (!data || data === undefined || !created_at) return null
 
-
-
-
     return (
         <VisibilitySensor onChange={handleVisibility}>
             <div css={C.container} key={`/c/${community.public_id}/p/${public_id}`}>
@@ -94,41 +91,47 @@ const Post = ({ public_id }: any) => {
 
 
                     <div css={C.header}>
+
                         {contentState === 'global' ?
                             <Avatar size="medium" public_id={community?.public_id} /> :
-                            <Avatar size="medium" public_id={author?.public_id} />
-                        }
-                        <div>
+                            <Avatar size="medium" public_id={author?.public_id} />}
 
-                            {/* {contentState.type === 'global' && <CommunityTitle title={community?.title} public_id={community?.public_id} />} */}
+                        {contentState === 'community' && <div>
+                            <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <Author
+                                    title={author?.nickname}
+                                    public_id={author?.public_id}
+                                    community_id={community?.public_id}
+                                    global_roles={global_roles}
+                                />
+                                <span css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), { addSuffix: true })}</span>
+                            </div>
+
+                            <div css={{ display: 'flex', alignItems: 'center', gap: '4px', height: '20px' }}>
+                                {community_roles && <LiveRoles value={community_roles} />}
+                                {tags && <LiveTags value={tags} />}
+                            </div>
+                        </div>}
 
 
-                            {contentState === 'community' ? (
-                                <>
-                                    <div css={{ display: 'flex', gap: '4px' }}>
-                                        <Author username={author?.nickname} public_id={author?.public_id} />
-                                        <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
-                                            addSuffix: true
-                                        })}
-                                        </div>
-                                    </div>
-                                    {tags && <LiveTags value={tags} />}
-                                </>
-                            ) : (
-                                <div>
-                                    <div css={{ display: 'flex', gap: '4px', alignItems: 'baseline' }}>
-                                        <CommunityTitle title={community?.title} public_id={community?.public_id} />
+                        {contentState !== 'community' && <div>
+                            <div>
+                                <div css={{ display: 'flex', gap: '4px', alignItems: 'baseline' }}>
+                                    <CommunityTitle title={community?.title} public_id={community?.public_id} />
 
-                                        <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
-                                            addSuffix: true
-                                        })}</div>
-                                    </div>
-                                    <div css={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                        <Nickname title={author?.nickname} public_id={author?.public_id} />
-                                        {tags && <LiveTags value={tags} />}                                    </div>
+                                    <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
+                                        addSuffix: true
+                                    })}</div>
                                 </div>
-                            )}
-                        </div>
+                                <div css={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                    <Nickname title={author?.nickname} public_id={author?.public_id} global_roles={global_roles} />
+                                    {tags && <LiveTags value={tags} />}                                    </div>
+                            </div>
+
+
+                        </div>}
+
+
 
                         {authState !== 'guest' && <RightMenu tags={tags} type={'post'} public_id={public_id} global_roles={global_roles} community_roles={community_roles} />}
 
@@ -154,3 +157,27 @@ export default memo(Post)
 
 
 
+                        //     <>
+                        //         <div css={{ display: 'flex', gap: '4px' }}>
+                        //             <Author username={author?.nickname} public_id={author?.public_id} />
+                        //             <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
+                        //                 addSuffix: true
+                        //             })}
+                        //             </div>
+                        //         </div>
+                        //         {tags && <LiveTags value={tags} />}
+                        //     </>
+                        // ) : (<></>
+                            // <div>
+                            //     <div css={{ display: 'flex', gap: '4px', alignItems: 'baseline' }}>
+                            //         <CommunityTitle title={community?.title} public_id={community?.public_id} />
+
+                            //         <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
+                            //             addSuffix: true
+                            //         })}</div>
+                            //     </div>
+                            //     <div css={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            //         <Nickname title={author?.nickname} public_id={author?.public_id} />
+                            //         {tags && <LiveTags value={tags} />}                                    </div>
+                            // </div>
+                        // )}

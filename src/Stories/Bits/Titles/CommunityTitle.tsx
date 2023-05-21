@@ -29,6 +29,8 @@ const C = {
     underline: css({
         fontSize: '16px',
         lineHeight: '20px',
+        fontWeight: 600,
+
         color: '#fff',
         ':hover': {
 
@@ -43,12 +45,17 @@ const CommunityTitle = ({ title, public_id }: any) => {
     const [anchorEl, setAnchorEl] = useState(null)
     const navigate = useNavigate()
 
+
+
     const handleClick = (e: any) => {
         e.stopPropagation()
         navigate(`/c/${public_id}`)
     }
     const handleHover = (event: any) => setAnchorEl(event.target)
     const handleClose = () => setAnchorEl(null);
+
+
+
 
     return (
 

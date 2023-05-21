@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import { Visibility } from '@mui/icons-material';
 import { textNormal } from 'Global/Mixins'
 import { memo, useState } from 'react';
 
@@ -74,9 +75,7 @@ const ChunkError = ({ variant }: any) => {
 
 
     return (
-
         <div css={C.container} key={'chunckerror'}>
-
             <div css={C.inner}>
 
                 <div css={C.float}>

@@ -15,6 +15,7 @@ import { textLabel } from 'Global/Mixins'
 import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 import { useRecoilValue } from 'recoil'
 import { authFlow } from 'State/Flow'
+import LiveRoles from 'Stories/Alive/LiveRoles'
 
 const C = {
     container: css({
@@ -26,7 +27,7 @@ const C = {
     }),
     underline: css({
         fontSize: '12px',
-        lineHeight: '20px',
+        // lineHeight: '20px',
         color: '#b9b6ba',
         ':hover': {
 
@@ -36,7 +37,7 @@ const C = {
     }),
 }
 
-const Nickname = ({ title, public_id, community_id }: any) => {
+const Nickname = ({ title, public_id, community_id, global_roles }: any) => {
 
     const [anchorEl, setAnchorEl] = useState(null)
     const navigate = useNavigate()
@@ -44,6 +45,17 @@ const Nickname = ({ title, public_id, community_id }: any) => {
 
     const handleHover = (event: any) => setAnchorEl(event.target)
     const handleClose = () => setAnchorEl(null);
+    const [color, setColor]: any = useState(null)
+
+
+    useEffect(() => {
+        if (global_roles) {
+            let temp = global_roles.find((obj: any) => obj.title === 'admin')
+            if (temp) setColor(`#${temp.color.toString(16)}`)
+        }
+    }, [global_roles])
+
+
 
     return (
 
@@ -51,6 +63,7 @@ const Nickname = ({ title, public_id, community_id }: any) => {
             {(popupState) => (
                 <div onClick={(e: any) => e.stopPropagation()}>
                     <div
+                        style={{ color: color }}
                         onMouseEnter={handleHover}
                         {...bindHover(popupState)}
                         onClick={handleClick}
@@ -215,8 +228,8 @@ let Preview = ({ public_id, community_id }: any) => {
                     </div>
 
                     <div>
-                        <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>role</div>
-                        {/* <RoleList roles={data.global_roles} /> */}
+                        <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Global role</div>
+                        <LiveRoles value={data.global_roles} />
                     </div>
 
 

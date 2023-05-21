@@ -4,8 +4,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Button, } from '@mui/material'
-
-import { sMuted } from 'Stories/Bits/Text/Text'
+import LiveRoles from 'Stories/Alive/LiveRoles'
 import { formatDistance, formatDistanceStrict, formatDistanceToNowStrict, parseISO } from 'date-fns'
 import ReplyAllRoundedIcon from '@mui/icons-material/ReplyAllRounded'
 import { useRecoilState, } from 'recoil'
@@ -22,6 +21,8 @@ import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/Indeterminate
 import Author from 'Stories/Bits/Titles/Author'
 import { textBold, textLight } from 'Global/Mixins'
 
+import LiveTags from '../../Alive/LiveTags'
+import Nickname from 'Stories/Bits/Titles/Nickname'
 const C = {
     container: css({
         width: '100%',
@@ -71,10 +72,11 @@ const C = {
         alignItems: 'center',
     }),
     header: css({
-        marginBottom: '8px',
+
         display: 'flex',
-        lineHeight: '20px',
-        gap: '4px',
+        gap: '2px',
+        flexDirection: 'column',
+
     }),
     left: css({
         display: 'flex',
@@ -114,7 +116,7 @@ const C = {
 
 
 
-const Comment = ({ hidden, public_id, author, content, vote, depth, karma, path, created_at, updated_at, }: any) => {
+const Comment = ({ hidden, public_id, author, content, vote, depth, karma, path, created_at, updated_at, global_roles, tags, community_roles }: any) => {
 
     const params = useParams()
     const [showReply, setShowReply] = useState(false)
@@ -141,6 +143,8 @@ const Comment = ({ hidden, public_id, author, content, vote, depth, karma, path,
     for (var i = 0; i < depth - 2; i++) { spacers.push(<div css={C.spacer} key={i} />) }
     if (!relation?.visibility) return null
 
+
+
     return (
         <div css={C.container}>
             <div css={C.inner}>
@@ -156,10 +160,25 @@ const Comment = ({ hidden, public_id, author, content, vote, depth, karma, path,
 
                     <div css={{ flexGrow: 1 }}>
                         <div css={C.header}>
-                            <Author username={author.nickname} />
-                            <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
-                                addSuffix: true
-                            })}
+
+                            <div css={{ display: 'flex', alignItems: 'center', gap: '4px', lineHeight: '12px !important' }}>
+                                <Author
+                                    title={author?.nickname}
+                                    public_id={author?.public_id}
+                                    // community_id={community?.public_id}
+                                    global_roles={global_roles}
+                                />
+
+                                {community_roles && <LiveRoles value={community_roles} />}
+
+
+                                <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
+                                    addSuffix: true
+                                })}
+                                </div>
+                            </div>
+                            <div css={{ display: 'flex' }}>
+                                {tags && <LiveTags value={tags} />}
                             </div>
                         </div>
                         <ContentLoader type='text' content={content} />

@@ -10,22 +10,22 @@ const C = {
         gap: '4px',
     }),
     box: css({
-        height: '22px',
+        height: '20px',
         color: '#d7dadc',
         padding: '0px 6px',
-        fontSize: '12px',
+        fontSize: '11px',
         background: '#181820',
         borderRadius: '6px',
-        fontWeight: '400',
-        lineHeight: '20px',
+        fontWeight: '600',
+        lineHeight: '12px',
         textTransform: 'capitalize',
         display: 'flex',
         alignItems: 'center',
         gap: '4px',
     }),
     blob: css({
-        height: '12px',
-        width: '12px',
+        height: '10px',
+        width: '10px',
         borderRadius: '50%',
     }),
 }
@@ -41,8 +41,6 @@ const LiveRoles = ({ value }: any) => {
 
         let list: any = []
         for (let i = 0; i < value.length; i++) {
-
-            console.log(value[i].color?.toString(16))
             list.push(<div
                 css={C.box} key={value[i].public_id} >
                 {value[i].color && <div css={C.blob} style={{ backgroundColor: "#" + value[i].color?.toString(16) }}></div>}

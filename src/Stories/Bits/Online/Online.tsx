@@ -15,7 +15,7 @@ const C = {
         background: '#43b581',
         marginLeft: '8px',
         marginRight: '2px',
-        animation: 'pulse 2s infinite',
+ 
 
         "@keyframes pulse": {
             "0%": {

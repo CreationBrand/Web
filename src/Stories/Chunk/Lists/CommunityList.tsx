@@ -33,7 +33,7 @@ const CommunityList = () => {
     const params = useParams()
     const [filter, setFilter] = useState('HOT')
 
-    // useContentFlow('community')
+    useContentFlow('community')
     useCommunityFlow(params.community_id)
 
     const [isLoading1, isError1, component, data] = usePullCommunity(params.community_id)
