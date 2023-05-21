@@ -34,7 +34,7 @@ const MessengerList = () => {
         <motion.div
             key={params.community_id}
             css={C.container}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.8, type: 'spring' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

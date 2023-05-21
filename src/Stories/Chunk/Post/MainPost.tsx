@@ -8,7 +8,7 @@ import Author from "Stories/Bits/Titles/Author"
 import CommunityTitle from "Stories/Bits/Titles/CommunityTitle"
 import Nickname from "Stories/Bits/Titles/Nickname"
 import { useNavigate } from 'react-router-dom'
-import { memo, useState, } from 'react'
+import { memo, useEffect, useState, } from 'react'
 import { useRecoilValue } from 'recoil'
 import { authFlow, contentFlow } from 'State/Flow'
 import { textBold, textLight } from 'Global/Mixins'
@@ -64,12 +64,16 @@ const C = {
 
 const Post = ({ public_id }: any) => {
 
+    useEffect(() => {
+        return () => {
+        };
+    }, []);
 
     // proxing data
     const [visibility, setVisibility] = useState(false)
     const data = useLiveData(visibility, public_id)
 
-    const { title, content, created_at, author, community, vote, karma, views, comments, tags, type } = data
+    const { title, content, created_at, author, community, vote, karma, views, comments, tags, type, community_roles, global_roles } = data
 
     const authState = useRecoilValue(authFlow)
     const contentState = useRecoilValue(contentFlow)
@@ -81,18 +85,16 @@ const Post = ({ public_id }: any) => {
     if (!data || data === undefined || !created_at) return null
 
 
+
+
     return (
-        <VisibilitySensor> 
-            <div css={C.container} key={public_id}>
-
-                <motion.div
-                    key={`post${public_id}`}
-
-                    css={C.inner} onClick={bodyClick}>
+        <VisibilitySensor onChange={handleVisibility}>
+            <div css={C.container} key={`/c/${community.public_id}/p/${public_id}`}>
+                <div css={C.inner} onClick={bodyClick}>
 
 
                     <div css={C.header}>
-                        {contentState.type === 'global' ?
+                        {contentState === 'global' ?
                             <Avatar size="medium" public_id={community?.public_id} /> :
                             <Avatar size="medium" public_id={author?.public_id} />
                         }
@@ -101,7 +103,7 @@ const Post = ({ public_id }: any) => {
                             {/* {contentState.type === 'global' && <CommunityTitle title={community?.title} public_id={community?.public_id} />} */}
 
 
-                            {contentState.type === 'community' ? (
+                            {contentState === 'community' ? (
                                 <>
                                     <div css={{ display: 'flex', gap: '4px' }}>
                                         <Author username={author?.nickname} public_id={author?.public_id} />
@@ -110,7 +112,7 @@ const Post = ({ public_id }: any) => {
                                         })}
                                         </div>
                                     </div>
-                                    {/* {tags && <LiveTags active={isVisible} public_id={public_id} value={tags} />} */}
+                                    {tags && <LiveTags value={tags} />}
                                 </>
                             ) : (
                                 <div>
@@ -123,20 +125,17 @@ const Post = ({ public_id }: any) => {
                                     </div>
                                     <div css={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                                         <Nickname title={author?.nickname} public_id={author?.public_id} />
-                                        {/* {tags && <TagList tags={tags} />} */}
-                                    </div>
+                                        {tags && <LiveTags value={tags} />}                                    </div>
                                 </div>
                             )}
                         </div>
 
-                        {authState !== 'guest' && <RightMenu tags={tags} type={'post'} public_id={public_id} />}
+                        {authState !== 'guest' && <RightMenu tags={tags} type={'post'} public_id={public_id} global_roles={global_roles} community_roles={community_roles} />}
 
                     </div>
 
                     <div css={textBold('x')}>{title && title}</div>
                     <ContentLoader type={type} content={content} />
-
-
 
                     <div css={C.footer} onClick={(e) => e.stopPropagation()}>
                         <LiveVotes value={vote} karma={karma} public_id={public_id} type='post' />
@@ -144,10 +143,7 @@ const Post = ({ public_id }: any) => {
                         <LiveComments value={comments} />
                     </div>
 
-                </motion.div>
-
-
-
+                </div>
             </div>
         </VisibilitySensor>
     )

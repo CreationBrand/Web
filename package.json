@@ -30,6 +30,7 @@
     "@use-gesture/react": "^10.2.19",
     "amazon-cognito-identity-js": "^5.2.10",
     "ansicolor": "^1.1.100",
+    "bitset": "^5.1.1",
     "date-fns": "^2.29.3",
     "framer-motion": "^7.5.3",
     "fs-extra": "^10.1.0",

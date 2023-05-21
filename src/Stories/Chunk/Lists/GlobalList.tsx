@@ -8,6 +8,8 @@ import { contentFlow, pageFlow } from 'State/Flow'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import VirtualList from '../VirtualList/VirtualList'
 import { useLocation, useParams } from 'react-router-dom'
+import useCommunityFlow from 'Hooks/useCommunityFlow'
+import useContentFlow from 'Hooks/useContentFlow'
 
 const C = {
     container: css({
@@ -22,45 +24,21 @@ const C = {
 
 const GlobalList = ({ type }: any) => {
 
-    const location = useLocation()
 
-    const [contentState, setContentState] = useRecoilState(contentFlow)
     const [isLoading, isError, components] = usePullPosts(type, 'none')
 
-
-    useEffect(() => {
-
-        let title = null
-        let path = location.pathname.split('/')[1]
-        if (path === 'home') title = 'home'
-        else if (path === 'trending') title = 'trending'
-
-        setContentState({
-            public_id: null,
-            roleSet: null,
-            title: title,
-            type: 'global',
-            link: title,
-        })
-    }, [])
-
-
-
-    // if (error) return <ChunkError variant='error' />
-
-
-
-
+    useContentFlow('global')
+    useCommunityFlow(null)
 
 
     return (
         <motion.div
-            key={`global`}
+            key={type}
             css={C.container}
-            transition={{ duration: 0.4 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}>
+            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, }}
+            animate={{ opacity: 1, }}
+        >
             <VirtualList list={components} />
         </motion.div>
     )

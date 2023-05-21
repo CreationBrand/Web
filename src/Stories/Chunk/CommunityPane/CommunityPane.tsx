@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom'
 import { joinCommunity, leaveCommunity } from 'Helper/Action'
 import { is } from 'date-fns/locale'
 import Online from 'Stories/Bits/Online/Online'
+import LiveRoles from 'Stories/Alive/LiveRoles'
 
 const C = {
 
@@ -31,14 +32,19 @@ const C = {
         borderRadius: '8px',
         overflow: 'hidden',
         position: 'relative',
+
     }),
     inner2: css({
+        padding: '8px',
         margin: '0 auto',
         width: '100%',
         maxWidth: '800px',
         borderRadius: '8px',
         overflow: 'hidden',
         position: 'relative',
+        background: '#272732',
+        color: '#f2f2f2',
+        fontSize: '16px',
     }),
 
     banner: css({
@@ -95,17 +101,15 @@ const C = {
         zIndex: 100,
     }),
     more: css({
+        marginTop: '16px',
 
     }),
     roles: css({
-        padding: '8px',
-        marginTop: '8px',
+        marginTop: '16px',
         width: '100%',
-        gap: '8px',
+        gap: '32px',
         display: 'flex',
-        flexDirection: 'column',
-        background: '#272732',
-        borderRadius: '8px',
+
     }),
 }
 
@@ -119,10 +123,8 @@ const CommunityPane = ({ data }: any) => {
     const [isMember, setIsMember] = useState(false)
     const navigate = useNavigate()
     const [active, setActive] = useState(false)
-    const contentState = useRecoilValue(contentFlow)
+
     const communityList = useRecoilValue(communityListData)
-
-
 
     const handleEdit = (e: any) => {
         e.stopPropagation()
@@ -145,7 +147,7 @@ const CommunityPane = ({ data }: any) => {
 
 
     return (
-        <div css={C.container}>
+        <div css={C.container} key={'community'}>
             <div css={C.inner} onClick={openCommunity}>
 
                 <IconButton
@@ -214,14 +216,22 @@ const CommunityPane = ({ data }: any) => {
             {active && <div css={C.more} key='more'>
 
                 <div css={C.inner2}>
+
+
+                    {data.description && <>
+                        <div css={textLabel('t')}>description</div>
+                        {data.description}
+                    </>}
+
                     <div css={C.roles}>
                         <div>
-                            <div css={textLabel('s')}>Community Roles</div>
-                            {/* <RoleList roles={data.community_roles} /> */}
+                            <div css={textLabel('t')}>Community Roles</div>
+                            <LiveRoles value={data.community_roles} />
                         </div>
                         <div>
-                            <div css={textLabel('s')}>Your Roles</div>
-                            {/* <RoleList roles={contentState.roles} /> */}
+                            <div css={textLabel('t')}>Your Roles</div>
+                            <LiveRoles value={data.your_roles} />
+
                         </div>
                     </div>
                 </div>

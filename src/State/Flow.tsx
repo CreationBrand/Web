@@ -9,13 +9,10 @@ export const socketFlow = atom({
 
 export const contentFlow = atom({
     key: 'contentFlow',
-    default: {
-        type: null,
-        public_id: null,
-        title: null,
-        roleSet: {},
-    } as any,
+    default: null as contentFlow | null,
 })
+
+type contentFlow = 'post' | 'comment' | 'community' | 'global' | 'group'
 
 export const errorFlow = atom({
     key: 'errorFlow',
@@ -44,5 +41,21 @@ export const portalControlFlow = atom({
     default: {} as any,
 })
 
+
+
+export const communityFlow = atom({
+    key: 'communityFlow',
+    default: null as communityF | null,
+
+})
+
+
+interface communityF {
+    public_id: string;
+    title: string;
+    roleHex: string;
+    allRoles: any;
+    yourRoles: any;
+}
 
 

@@ -1,3 +1,4 @@
+import BitSet from 'bitset'
 import { atom, atomFamily, selectorFamily, useRecoilCallback, useRecoilState } from 'recoil'
 
 // GLOBAL STATE
@@ -110,16 +111,8 @@ export const virtualItem = atom({
 
 
 
-// export const selector {
-//     key: "virtualList/newAtom",
-//     set :((setter newAtoms)->{
+export const globalHex = atom({
+    key: 'globalHex',
+    default: new BitSet('00000') as any
+})
 
-//     }
-//         setter.get(atomIds)
-//         |> List.append newAtoms 
-//         |> fun res -> setter.set(atomIds, res)
-
-//         newAtoms
-//         |> List.iter(fun i -> setter.set(textFamily(i), Recoil.defaultValue))
-//     )
-// }

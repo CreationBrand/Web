@@ -1,9 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { set } from "date-fns";
-import { th } from "date-fns/locale";
-import { useEffect, useLayoutEffect, useState } from "react"
-import { useRecoilCallback, useRecoilState, useRecoilTransaction_UNSTABLE, useSetRecoilState } from "recoil";
-import { socket, socketRequest } from "Service/Socket";
+import { useEffect, useState } from "react"
+import { useRecoilState, useRecoilTransaction_UNSTABLE } from "recoil";
+import { socketRequest } from "Service/Socket";
 import { postListData, virtualListStateFamily } from "State/Data";
 import { socketFlow } from "State/Flow";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
@@ -26,8 +24,9 @@ const usePullPosts = (community_id: any, filter: string) => {
                 set(virtualListStateFamily(listItems[i].public_id), listItems[i]);
                 temp.push(<MainPost public_id={listItems[i].public_id} />)
             }
-            if (page === 0) set(postListData,temp);
-            else set(postListData,[...components, temp])
+            // setComponents([temp])
+            if (page === 0) set(postListData, temp);
+            else set(postListData, [...components, temp])
         },
         []
     );
@@ -47,9 +46,9 @@ const usePullPosts = (community_id: any, filter: string) => {
             if (page === -1) return false
             let req: any = await socketRequest('posts', { community_id, filter, page })
 
-            console.groupCollapsed('%c [DATA - post list] ', 'background: #000; color: #5555da');
-            console.log(treeify.asTree(req.posts, true));
-            console.groupEnd();
+            // console.groupCollapsed('%c [DATA - post list] ', 'background: #000; color: #5555da');
+            // console.log(treeify.asTree(req.posts, true));
+            // console.groupEnd();
 
             if (req.posts.length < 25) setPage(-1)
 

@@ -12,6 +12,9 @@ import FilterPane from 'Stories/Pane/FilterPane'
 import VirtualList from 'Stories/Chunk/VirtualList/VirtualList'
 import { useRecoilState } from 'recoil'
 import { contentFlow } from 'State/Flow'
+import BitSet from 'bitset'
+import useCommunityFlow from 'Hooks/useCommunityFlow'
+import useContentFlow from 'Hooks/useContentFlow'
 
 
 const C = {
@@ -30,26 +33,11 @@ const CommunityList = () => {
     const params = useParams()
     const [filter, setFilter] = useState('HOT')
 
-    const [contentState, setContent] = useRecoilState(contentFlow)
+    // useContentFlow('community')
+    useCommunityFlow(params.community_id)
+
     const [isLoading1, isError1, component, data] = usePullCommunity(params.community_id)
     const [isLoading, isError, components] = usePullPosts(params.community_id, filter)
-
-    useEffect(() => {
-        if (!data) return
-        setContent({
-            public_id: data.community?.public_id,
-            roleSet: data.roleSet,
-            role: data.roles,
-            title: data.community.title,
-            type: 'community',
-            active: true,
-        })
-
-    }, [data])
-
-
-
-
 
 
     if (isError1 || isError) return <ChunkError variant='error' />
@@ -59,10 +47,10 @@ const CommunityList = () => {
         <motion.div
             key={params.community_id}
             css={C.container}
-            transition={{ duration: 0.4 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, }}
+            animate={{ opacity: 1, }}
+
         >
             <VirtualList
                 list={[

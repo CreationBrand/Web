@@ -59,6 +59,7 @@ var useAuth = () => {
                     var request = await get('user')
 
                     if (request !== false) {
+
                         setAF('user')
                         // DATA SUPPLY
                         setP(request.person)

@@ -58,6 +58,11 @@ const Nickname = ({ title, public_id, community_id }: any) => {
 
 
                     <HoverPopover
+                        sx={{
+                            '& .MuiPaper-root': {
+                                borderRadius: '16px !important',
+                            }
+                        }}
                         {...bindPopover(popupState)}
                         anchorOrigin={{
                             vertical: 'bottom',

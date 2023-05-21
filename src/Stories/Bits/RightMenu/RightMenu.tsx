@@ -12,15 +12,23 @@ import Drawer from '../Drawer/Drawer';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import EditAttributesIcon from '@mui/icons-material/EditAttributes';
 import ReportGmailerrorredRoundedIcon from '@mui/icons-material/ReportGmailerrorredRounded';
-import { layoutSizeData } from 'State/Data';
+import { globalHex, layoutSizeData } from 'State/Data';
 import { useRecoilValue } from 'recoil';
 
+import StyleRoundedIcon from '@mui/icons-material/StyleRounded';
+import { communityFlow, contentFlow } from 'State/Flow';
+import { canManageGlobalRole, canManageRole, canManageTags } from 'Service/Rbac';
+import CommunityRolePicker from '../Picker/CommunityRolePicker';
 
-const RightMenu = ({ tags, public_id, type }: any) => {
+const RightMenu = ({ tags, public_id, type, community_roles, global_roles }: any) => {
     const layoutSize: any = useRecoilValue(layoutSizeData)
 
     const [anchorEl, setAnchorEl]: any = useState(null);
     const [tagAnchorEl, setTagAnchorEl]: any = useState(null);
+    const [roleAnchorEl, setRoleAnchorEl]: any = useState(null);
+
+    const content = useRecoilValue(contentFlow)
+    const community: any = useRecoilValue(communityFlow)
 
     const handleClick = (e: any) => {
         e.preventDefault()
@@ -32,6 +40,7 @@ const RightMenu = ({ tags, public_id, type }: any) => {
     const handleClose = () => {
         setAnchorEl(null);
         setTagAnchorEl(null);
+        setRoleAnchorEl(null);
         setOpen(false)
     };
 
@@ -39,8 +48,13 @@ const RightMenu = ({ tags, public_id, type }: any) => {
         setTagAnchorEl(e.currentTarget);
     };
 
+    const handle2 = (e: any) => {
+        setRoleAnchorEl(e.currentTarget);
+    };
+
 
     const [open, setOpen] = useState(false);
+
 
     return (
         <div css={{ marginLeft: 'auto' }} onClick={(e) => e.stopPropagation()}>
@@ -77,7 +91,7 @@ const RightMenu = ({ tags, public_id, type }: any) => {
                     </>
                     :
                     <>
-
+                        <CommunityRolePicker placement={'left-start'} setAnchorEl={setRoleAnchorEl} anchorEl={roleAnchorEl} current={community_roles} public_id={public_id} type={type} />
                         <Picker placement={'left-start'} setAnchorEl={setTagAnchorEl} anchorEl={tagAnchorEl} current={tags} public_id={public_id} type={type} />
 
                         <Menu
@@ -104,13 +118,30 @@ const RightMenu = ({ tags, public_id, type }: any) => {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={handle1}>
-                                <EditAttributesIcon />
-                                Tags
-                            </MenuItem>
-                            <MenuItem>
+
+                            {content !== 'global' &&
+                                <MenuItem
+                                    disabled={canManageTags(community.roleHex)}
+                                    onClick={handle1}>
+                                    <EditAttributesIcon />
+                                    Tags
+                                </MenuItem>
+                            }
+                            {content !== 'global' &&
+                                <MenuItem
+                                    onClick={handle2}
+                                    disabled={canManageRole(community.roleHex)}
+                                >
+                                    <StyleRoundedIcon />
+                                    Community Roles
+                                </MenuItem>}
+
+                            <MenuItem
+                                disabled={canManageGlobalRole()}>
+
+
                                 <AdminPanelSettingsOutlinedIcon />
-                                Roles
+                                Global Roles
                             </MenuItem>
                             <MenuItem>
                                 <ReportGmailerrorredRoundedIcon />

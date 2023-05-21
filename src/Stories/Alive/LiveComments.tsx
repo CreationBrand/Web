@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { memo} from 'react'
+import { memo } from 'react'
 import { faComment } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Ticker from 'Stories/Bits/Ticker/Ticker'
@@ -22,12 +22,12 @@ const C = {
     })
 }
 
-const LiveComments = ({ value  }: any) => {
+const LiveComments = ({ value }: any) => {
 
     return (
         <div css={C.container}>
             <FontAwesomeIcon icon={faComment} size='xs' />
-            <div css={{ height: '17px' }}><Ticker value={value} /></div>
+            <div css={{ height: '20px' }}><Ticker value={value} /></div>
         </div >
     )
 }

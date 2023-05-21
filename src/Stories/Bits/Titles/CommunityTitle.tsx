@@ -65,6 +65,13 @@ const CommunityTitle = ({ title, public_id }: any) => {
                     </div>
 
                     <HoverPopover
+
+                        sx={{
+                            '& .MuiPaper-root': {
+                                borderRadius: '16px !important',
+                            }
+                        }}
+
                         {...bindPopover(popupState)}
                         anchorOrigin={{
                             vertical: 'bottom',

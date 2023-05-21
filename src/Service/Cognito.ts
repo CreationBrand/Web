@@ -17,6 +17,9 @@ let cognitoUser = userPool.getCurrentUser()
 
 
 export function loginCognito(username: string, password: string) {
+
+    deleteAllCookies()
+
     return new Promise((resolve) => {
         var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
             {

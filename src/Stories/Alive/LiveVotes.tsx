@@ -42,6 +42,9 @@ const C = {
         overflow: 'hidden',
         gap: '4px',
         height: '30px',
+        fontSize: '14px',
+        fontWeight: 'bold',
+        color: '#b9bbb3',
     }),
     small: css({
         flexDirection: 'row',
@@ -99,14 +102,9 @@ const LiveVotes = ({ karma, public_id, vote, size, type }: any) => {
                 <ArrowDropUpRoundedIcon fontSize="large" />
             </Button>
 
-            <div css={[mMuted,
 
+            <Ticker value={counter} />
 
-                {
-                    color: color
-                }]}>
-                <Ticker value={counter} />
-            </div>
 
             <Button
                 css={[C.down, size === 'small' && C.smallDown, interaction === -1 && { color: '#f04747' }]}

@@ -13,6 +13,8 @@ import FilterPane from 'Stories/Pane/FilterPane'
 import AddComment from '../../Forum/AddComment/AddComment'
 import VirtualList from '../VirtualList/VirtualList'
 import { contentFlow } from 'State/Flow'
+import useCommunityFlow from 'Hooks/useCommunityFlow'
+import useContentFlow from 'Hooks/useContentFlow'
 
 const C = {
     container: css({
@@ -28,21 +30,13 @@ const C = {
 const PostList = () => {
 
     const params = useParams()
-    const [contentState, setContentState] = useRecoilState(contentFlow)
     const [filter, setFilter] = useState('HOT')
 
     const [isLoading, isError, component, data] = usePullPost(params.post_id)
     const [isLoading2, isError2, components, data2]: any = usePullComments(params.post_id, filter)
 
-
-    useEffect(() => {
-        setContentState({
-            public_id: params.post_id,
-            roleSet: null,
-            type: 'post',
-        })
-    }, [])
-
+    useContentFlow('post')
+    useCommunityFlow(data?.post?.community?.public_id)
 
     if (isError || isError2) return <ChunkError variant='error' />
     if (isLoading || isLoading2) return <ChunkError variant='loading' />
@@ -51,10 +45,10 @@ const PostList = () => {
         <motion.div
             key={`Post:${params.post_id}`}
             css={C.container}
-            transition={{ duration: 0.4 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, }}
+            animate={{ opacity: 1, }}
+
         >
             <VirtualList list={[
                 component,

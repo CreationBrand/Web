@@ -27,6 +27,7 @@ import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
 import CommunityTree from 'Stories/Chunk/CommunityTree/CommunityTree'
 import NavLabel from 'Stories/Bits/NavLabel/NavLabel'
 import { transform } from 'typescript'
+import LivePermissions from 'Stories/Alive/LivePermissions'
 
 
 const Home = () => {
@@ -63,23 +64,7 @@ const Home = () => {
             <Main>
                 <Nav>
                     <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        <IconButton
-                            disableRipple={true}
-                            size="small"
-                            color="secondary"
-                            sx={{
-                                ':hover': { color: '#fff' },
-                                height: '32px',
-                                width: '32px',
-
-                            }}>
-                            <KeyRoundedIcon
-                                sx={{
-                                    fontSize: '26px',
-                                    transform: 'rotate(90deg)',
-                                }}
-                            />
-                        </IconButton>
+                        <LivePermissions />
                     </div>
                     {/* <NavLabel /> */}
                     <Search />
