@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import Comment from "Stories/Chunk/Comment/Comment";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRecoilState, useRecoilTransaction_UNSTABLE } from "recoil";
 import { socketRequest } from "Service/Socket";
 import { commentTreeData, virtualListStateFamily, } from "State/Data";
@@ -10,6 +10,11 @@ const usePullComments = (comment_id: any, filter: string) => {
 
     const [page, setPage] = useState(0)
     const [commentTree, setCommentTree]: any = useRecoilState(commentTreeData)
+
+    useEffect(() => {
+        setPage(0)
+    }, [comment_id, filter])
+
 
     const setListItems = useRecoilTransaction_UNSTABLE(
         ({ set }) => (req: any) => {
@@ -71,13 +76,16 @@ const usePullComments = (comment_id: any, filter: string) => {
             //@ts-ignore
             // setCommentTree(result[Object.keys(result)].children)
 
-
             let comments: any = []
             for (var i in req.comments) { comments.push(<Comment public_id={req.comments[i].public_id} />) }
-
+            
             if (page === 0) set(commentTreeData, comments);
+
             //@ts-ignore
             else set(commentTreeData, [...commentTree, comments])
+
+            if (req.comments.length < 24) setPage(-1)
+
         },
         []
     );
@@ -91,7 +99,6 @@ const usePullComments = (comment_id: any, filter: string) => {
 
             if (page === -1) return false
             let req: any = await socketRequest('comments', { post_id: comment_id, filter: filter, page })
-            if (req.comments.length < 24) setPage(-1)
             if (req.comments.length === 0) return false
 
             return req

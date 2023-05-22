@@ -1,14 +1,13 @@
-//@ts-nocheck
-
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { animate } from "framer-motion";
-import { useRef, useEffect } from "react";
+
+import { useMotionValue, useSpring } from "framer-motion";
+import { useRef, useEffect, memo } from "react";
 
 let formatter = Intl.NumberFormat('en', { notation: 'compact' });
 
-export function usePrevious(value) {
+export function usePrevious(value: any) {
     const ref = useRef();
 
     useEffect(() => {
@@ -18,23 +17,26 @@ export function usePrevious(value) {
     return ref.current;
 }
 
-export default function Ticker({ value }: any) {
-
-    const from = usePrevious(value);
-    const ref = useRef();
+function Ticker({ value, color }: any) {
+    const ref = useRef<HTMLSpanElement>(null);
+    const motionValue = useMotionValue(0);
+    const springValue = useSpring(motionValue);
 
     useEffect(() => {
-        const controls = animate(from ? from : 0, value, {
-            duration: 1,
-            style: {
+        motionValue.set(value);
+    }, [motionValue, value]);
 
-            },
-            onUpdate(value) {
-                ref.current.textContent = value.toFixed();
-            }
-        });
-        return () => controls.stop();
-    }, [value]);
+    useEffect(
+        () =>
+            springValue.onChange((latest) => {
+                if (ref.current) {
+                    ref.current.textContent = latest.toFixed();
+                }
+            }),
+        [springValue]
+    );
 
-    return <p ref={ref} />;
+    return <span style={{ color: color }} ref={ref}>0</span>;
 }
+
+export default memo(Ticker)

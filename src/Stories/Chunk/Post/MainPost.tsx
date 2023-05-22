@@ -146,7 +146,7 @@ const Post = ({ public_id }: any) => {
                     <ContentLoader type={type} content={content} />
 
                     <div css={C.footer} onClick={(e) => e.stopPropagation()}>
-                        <LiveVotes value={vote} karma={karma} public_id={public_id} type='post' />
+                        <LiveVotes vote={vote} karma={karma} public_id={public_id} type='post' />
                         <LiveViews value={views} />
                         <LiveComments value={comments} />
                     </div>

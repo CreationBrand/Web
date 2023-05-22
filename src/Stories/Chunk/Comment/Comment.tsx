@@ -193,22 +193,24 @@ const Comment = ({ public_id }: any) => {
                             css={C.header}>
                             <Avatar public_id={author.public_id} size={'small'} />
                             <div css={{
-                                height: '32px',
+                                height: '34px',
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'center',
                             }}>
-                                <div css={{ display: 'flex', alignItems: 'center', gap: '4px', height: '16px' }}>
+                                <div css={{ display: 'flex', alignItems: 'center', gap: '4px', height: '12px', lineHeight: '10px', marginBottom: '4px' }}>
                                     <Nickname
                                         title={author?.nickname}
                                         public_id={author?.public_id}
                                         // community_id={community?.public_id}
                                         global_roles={global_roles}
                                     />
-                                    {community_roles && <LiveRoles value={community_roles} />}
-                                    <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), { addSuffix: true })}</div>
+                                    {created_at && <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), { addSuffix: true })}</div>}
                                 </div>
-                                {tags && <LiveTags value={tags} />}
+                                <div css={{ display: 'flex', alignItems: 'center', gap: '4px', height: '20px' }}>
+                                    {community_roles && <LiveRoles value={community_roles} />}
+                                    {tags && <LiveTags value={tags} />}
+                                </div>
                             </div>
                             {authState !== 'guest' && <RightMenu tags={tags} type={'comment'} public_id={public_id} global_roles={global_roles} community_roles={community_roles} />}
 

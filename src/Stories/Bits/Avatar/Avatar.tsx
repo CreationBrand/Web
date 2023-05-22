@@ -11,7 +11,7 @@ const Avatar = ({ public_id, size, onClick }: Props) => {
     }
 
     let sizeMap = {
-        small: '32px',
+        small: '34px',
         medium: '40px',
         large: '50px',
         extra: '80px',

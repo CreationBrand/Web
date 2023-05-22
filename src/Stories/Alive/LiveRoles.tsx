@@ -10,10 +10,10 @@ const C = {
         gap: '4px',
     }),
     box: css({
-        height: '20px',
+        height: '18px',
         color: '#d7dadc',
         padding: '0px 6px',
-        fontSize: '11px',
+        fontSize: '10px',
         background: '#181820',
         borderRadius: '6px',
         fontWeight: '600',

@@ -61,10 +61,9 @@ const C = {
 
 const LiveVotes = ({ karma, public_id, vote, size, type }: any) => {
 
-    const [counter, setCounter] = useDeltaSubscription(`vote:${public_id}`, karma)
     const [interaction, setInteraction] = useState(vote)
     const authData = useRecoilValue(authFlow)
-
+    const [counter, setCounter] = useState(karma)
 
     useEffect(() => {
         if (authData === 'guest') setInteraction(0)
@@ -84,11 +83,9 @@ const LiveVotes = ({ karma, public_id, vote, size, type }: any) => {
         else if (interaction === -1) { setCounter(counter + 1); setInteraction(0); socketRequest('vote', { vote: 0, public_id: public_id, type: type }) }
     }
 
-
     let color = '#b9bbbe'
     if (interaction === 1) { color = '#43b581' }
     else if (interaction === -1) { color = '#f04747' }
-
 
     return (
         <div css={[C.vote, size === 'small' && C.small]}>
@@ -102,9 +99,7 @@ const LiveVotes = ({ karma, public_id, vote, size, type }: any) => {
                 <ArrowDropUpRoundedIcon fontSize="large" />
             </Button>
 
-
-            <Ticker value={counter} />
-
+            <Ticker value={counter} color={color} />
 
             <Button
                 css={[C.down, size === 'small' && C.smallDown, interaction === -1 && { color: '#f04747' }]}
