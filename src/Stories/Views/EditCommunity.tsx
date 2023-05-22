@@ -15,6 +15,8 @@ import { useParams } from 'react-router-dom';
 import usePullCommunity from 'Hooks/usePullCommunity';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import RoleEditor from 'Stories/Forum/RoleEditor';
+import useLiveData from 'Hooks/useLiveData';
 
 
 // VALIDATION
@@ -98,6 +100,10 @@ const EditCommunity = () => {
 
     let params = useParams()
     const [loadings, error, component, req] = usePullCommunity(params.community_id)
+
+    const data = useLiveData(true, `community:${params.community_id}`)
+
+
     // state
     const person = useRecoilValue(personData);
     const contentState: any = useRecoilValue(contentFlow);
@@ -105,11 +111,9 @@ const EditCommunity = () => {
     // form
     const { register, handleSubmit, watch, formState: { errors }, control } = useForm({ mode: 'onChange', resolver: joiResolver(schema) });
     const [loading, setLoading] = useState(false);
-    const data = watch()
 
     const onSubmit = async () => {
-        console.log(data)
-        // let req = await socketRequest('post-new', data)
+        // console.log(data)
 
     };
 
@@ -297,8 +301,9 @@ const EditCommunity = () => {
                 color: '#b9b6ba',
             }}>Base Roles can not be edited or deleted.</div>
 
+            <RoleEditor roles={data.community_roles} public_id={data.public_id}></RoleEditor>
 
-            {(req?.community?.community_roles?.length > 0) &&
+            {/* {(req?.community?.community_roles?.length > 0) &&
                 <Box sx={{ width: '100%', background: '#181820', borderRadius: '8px' }}>
                     <DataGrid
                         checkboxSelection={false}
@@ -320,7 +325,7 @@ const EditCommunity = () => {
                     />
                 </Box>
 
-            }
+            } */}
 
 
         </div>

@@ -21,8 +21,12 @@ export const globalRoles = {
 }
 
 export const canManageTags = (set: any) => {
+
+
     if (set === null) return false
     let bs = new BitSet(set)
+
+
     return Boolean(bs.get(0) !== 0)
 };
 

@@ -42,7 +42,7 @@ const LiveRoles = ({ value }: any) => {
         let list: any = []
         for (let i = 0; i < value.length; i++) {
             list.push(<div
-                css={C.box} key={value[i].public_id} >
+                css={C.box} key={`${i},${value[i].public_id}`} >
                 {value[i].color && <div css={C.blob} style={{ backgroundColor: "#" + value[i].color?.toString(16) }}></div>}
                 {value[i].title}</div>
             )

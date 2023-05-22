@@ -1,5 +1,4 @@
 
-//@ts-nocheck
 
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
@@ -7,8 +6,8 @@ import { Button, } from '@mui/material'
 import LiveRoles from 'Stories/Alive/LiveRoles'
 import { formatDistance, formatDistanceStrict, formatDistanceToNowStrict, parseISO } from 'date-fns'
 import ReplyAllRoundedIcon from '@mui/icons-material/ReplyAllRounded'
-import { useRecoilState, } from 'recoil'
-import { commentTreeData } from 'State/Data'
+import { useRecoilState, useRecoilValue, } from 'recoil'
+import { commentTreeData, layoutSizeData } from 'State/Data'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
@@ -23,6 +22,13 @@ import { textBold, textLight } from 'Global/Mixins'
 
 import LiveTags from '../../Alive/LiveTags'
 import Nickname from 'Stories/Bits/Titles/Nickname'
+import LiveVotes from 'Stories/Alive/LiveVotes'
+import Right from 'Stories/Layout/Right'
+import RightMenu from 'Stories/Bits/RightMenu/RightMenu'
+import { authFlow } from 'State/Flow'
+import useLiveData from 'Hooks/useLiveData'
+import VisibilitySensor from 'react-visibility-sensor';
+
 const C = {
     container: css({
         width: '100%',
@@ -35,14 +41,24 @@ const C = {
         width: '100%',
         maxWidth: '800px',
         margin: '0 auto',
-        display: 'flex',
-    }),
-    comment: css({
         background: '#272732',
+        padding: '0px 8px',
+
         display: 'flex',
+
+    }),
+
+    header: css({
+        marginTop: '8px',
+        display: 'flex',
+        gap: '8px',
+        height: '32px',
+    }),
+
+
+    comment: css({
         width: '100%',
-        padding: '8px',
-        position: 'relative',
+
     }),
     spacer: css({
         height: 'calc(100% + 20px)',
@@ -55,15 +71,27 @@ const C = {
         position: 'relative',
         top: '-20px',
     }),
+    spacerMobile: css({
+        height: 'calc(100%)',
+        width: '2px',
+        borderRadius: '8px',
+        marginRight: '6px',
+        marginLeft: '0px',
+        background: '#52555d',
+        position: 'relative',
+
+    }),
     defaultSpacer: css({
-        flexGrow: 1,
+
         marginLeft: '15px',
+        marginRight: '22px',
         borderRadius: '8px',
         width: '2px',
         background: '#52555d',
     }),
     float: css({
         marginTop: '8px',
+        marginBottom: '8px',
         background: '#3b3b4b',
         borderRadius: '8px',
         width: 'min-content',
@@ -71,13 +99,7 @@ const C = {
         display: 'flex',
         alignItems: 'center',
     }),
-    header: css({
 
-        display: 'flex',
-        gap: '2px',
-        flexDirection: 'column',
-
-    }),
     left: css({
         display: 'flex',
         flexDirection: 'column',
@@ -116,22 +138,31 @@ const C = {
 
 
 
-const Comment = ({ hidden, public_id, author, content, vote, depth, karma, path, created_at, updated_at, global_roles, tags, community_roles }: any) => {
+const Comment = ({ public_id }: any) => {
+
+    const [visibility, setVisibility] = useState(false)
+
+    const data = useLiveData(visibility, `subscribe:${public_id}`)
+
+    const { last, author, content, created_at, global_roles, community_roles, vote, karma, tags, path, depth } = data
 
     const params = useParams()
     const [showReply, setShowReply] = useState(false)
     const [commentTree, setCommentTreeData] = useRecoilState(commentTreeData)
     const [relation, setRelation] = useState<any>(null)
 
+    const layoutState = useRecoilValue(layoutSizeData)
+    const authState = useRecoilValue(authFlow)
+
     //relations for tree stuff
     useEffect(() => { setRelation(goDeep(commentTree, path)) }, [commentTree])
 
     const handleReply = () => setShowReply(!showReply)
+    const handleVisibility = (isVisible: boolean) => setVisibility(isVisible)
 
     const handleChildren = () => {
-
         let deepClone = JSON.parse(JSON.stringify(commentTree));
-        traverseTree(deepClone, (node) => {
+        traverseTree(deepClone, (node: any) => {
             if (!node.path) return
             if (node.path === path) return node.active = !node.active;
             if (node.path.indexOf(path) === 0) node.visibility = !node.visibility;
@@ -140,94 +171,102 @@ const Comment = ({ hidden, public_id, author, content, vote, depth, karma, path,
     }
 
     const spacers = []
-    for (var i = 0; i < depth - 2; i++) { spacers.push(<div css={C.spacer} key={i} />) }
-    if (!relation?.visibility) return null
+    for (var i = 0; i < depth - 2; i++) {
+        if (layoutState === 'desktop') spacers.push(<div css={C.spacer} key={i} />)
+        else spacers.push(<div css={C.spacerMobile} key={i} />)
+    }
 
+    if (!data || !data?.visibility) return null
 
 
     return (
-        <div css={C.container}>
-            <div css={C.inner}>
-
-                <div css={[C.comment, depth == 2 && C.headComment, relation.last && C.tailComment]}>
+        <VisibilitySensor onChange={handleVisibility}>
+            <div css={C.container}>
+                <div css={[C.inner, depth == 2 && C.headComment, data.last && C.tailComment]}>
 
                     <div css={C.spacers}>{spacers}</div>
 
-                    <div css={C.left}>
-                        <Avatar public_id={author.public_id} size={'small'} />
-                        <div css={C.defaultSpacer} />
-                    </div>
+                    <div css={C.comment}>
 
-                    <div css={{ flexGrow: 1 }}>
-                        <div css={C.header}>
-
-                            <div css={{ display: 'flex', alignItems: 'center', gap: '4px', lineHeight: '12px !important' }}>
-                                <Author
-                                    title={author?.nickname}
-                                    public_id={author?.public_id}
-                                    // community_id={community?.public_id}
-                                    global_roles={global_roles}
-                                />
-
-                                {community_roles && <LiveRoles value={community_roles} />}
-
-
-                                <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
-                                    addSuffix: true
-                                })}
+                        <div
+                            style={{ marginBottom: layoutState === 'mobile' ? '8px' : '0px' }}
+                            css={C.header}>
+                            <Avatar public_id={author.public_id} size={'small'} />
+                            <div css={{
+                                height: '32px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                            }}>
+                                <div css={{ display: 'flex', alignItems: 'center', gap: '4px', height: '16px' }}>
+                                    <Nickname
+                                        title={author?.nickname}
+                                        public_id={author?.public_id}
+                                        // community_id={community?.public_id}
+                                        global_roles={global_roles}
+                                    />
+                                    {community_roles && <LiveRoles value={community_roles} />}
+                                    <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), { addSuffix: true })}</div>
                                 </div>
-                            </div>
-                            <div css={{ display: 'flex' }}>
                                 {tags && <LiveTags value={tags} />}
                             </div>
+                            {authState !== 'guest' && <RightMenu tags={tags} type={'comment'} public_id={public_id} global_roles={global_roles} community_roles={community_roles} />}
+
                         </div>
-                        <ContentLoader type='text' content={content} />
-                        <div css={C.float}>
 
-                            {relation?.hasChildren &&
-                                <>
-                                    <Button
-                                        sx={{
+                        <div css={{ display: 'flex' }}>
+                            {layoutState === 'desktop' && <div css={C.defaultSpacer} />}
+                            <div>
+                                <ContentLoader type='text' content={content} />
+                                <div css={C.float}>
 
-                                        }}
-                                        onClick={handleChildren}
-                                        css={C.action}
-                                        variant="text"
-                                        color="secondary"
-                                        size="large"
-                                    >
+                                    {relation?.hasChildren &&
+                                        <>
+                                            <Button
+                                                sx={{
 
-                                        {relation?.active ? <IndeterminateCheckBoxOutlinedIcon
-                                            sx={{ fontSize: '22px' }}
-                                        /> : <AddBoxOutlinedIcon fontSize="inherit" />}
+                                                }}
+                                                onClick={handleChildren}
+                                                css={C.action}
+                                                variant="text"
+                                                color="secondary"
+                                                size="large"
+                                            >
 
-                                    </Button>
+                                                {relation?.active ? <IndeterminateCheckBoxOutlinedIcon
+                                                    sx={{ fontSize: '22px' }}
+                                                /> : <AddBoxOutlinedIcon fontSize="inherit" />}
+
+                                            </Button>
+                                            <div css={C.divider} />
+                                        </>
+                                    }
+
+                                    <LiveVotes size='small' vote={vote} karma={karma} public_id={public_id} type='comment' />
                                     <div css={C.divider} />
-                                </>
-                            }
-
-                            {/* <Vote size='small' vote={vote} karma={karma} public_id={public_id} type='comment' /> */}
-                            <div css={C.divider} />
-                            <Button
-                                onClick={handleReply}
-                                variant="text"
-                                size="small"
-                                color="secondary"
-                                sx={{ gap: '8px', fontSize: '16px' }}
-                            >
-                                <ReplyAllRoundedIcon fontSize="inherit" />
-                                <div css={[textBold('t'), {
-                                    color: '#b9bbbe',
-                                }]}>Reply</div>
-                            </Button>
+                                    <Button
+                                        onClick={handleReply}
+                                        variant="text"
+                                        size="small"
+                                        color="secondary"
+                                        sx={{ gap: '8px', fontSize: '16px' }}
+                                    >
+                                        <ReplyAllRoundedIcon fontSize="inherit" />
+                                        <div css={[textBold('t'), {
+                                            color: '#b9bbbe',
+                                        }]}>Reply</div>
+                                    </Button>
+                                </div>
+                            </div>
                         </div>
+
                         {showReply && <AddComment parent_id={public_id} post_id={params.post_id} />}
 
                     </div>
                 </div>
-
             </div>
-        </div >
+
+        </VisibilitySensor>
     )
 }
 
@@ -252,7 +291,7 @@ function goDeep(obj: any, path: any) {
     return rv;
 }
 
-function traverseTree(tree, callback) {
+function traverseTree(tree: any, callback: any) {
     callback(tree);
 
     for (const key in tree) {
@@ -260,4 +299,50 @@ function traverseTree(tree, callback) {
             traverseTree(tree[key], callback);
         }
     }
+
+
 }
+
+
+
+
+// \                <div css={[C.comment, depth == 2 && C.headComment, relation.last && C.tailComment]}>
+
+// <div css={C.spacers}>{spacers}</div>
+
+// <div css={C.left}>
+//     <Avatar public_id={author.public_id} size={'small'} />
+//     <div css={C.defaultSpacer} />
+// </div>
+
+// <div css={{ flexGrow: 1 }}>
+//     <div css={C.header}>
+
+//         <div css={{ display: 'flex', alignItems: 'center', gap: '4px', lineHeight: '12px !important' }}>
+//             <Author
+//                 title={author?.nickname}
+//                 public_id={author?.public_id}
+//                 // community_id={community?.public_id}
+//                 global_roles={global_roles}
+//             />
+
+//             {community_roles && <LiveRoles value={community_roles} />}
+
+
+//             <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
+//                 addSuffix: true
+//             })}
+//             </div>
+//         </div>
+//         <div css={{ display: 'flex' }}>
+//             {tags && <LiveTags value={tags} />}
+//         </div>
+//     </div>
+//     <ContentLoader type='text' content={content} />
+
+
+
+//     {showReply && <AddComment parent_id={public_id} post_id={params.post_id} />}
+
+// </div>
+// </div>

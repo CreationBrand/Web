@@ -21,7 +21,7 @@ const usePullPosts = (community_id: any, filter: string) => {
         ({ set }) => (listItems: any) => {
             let temp = []
             for (let i = 0; i < listItems.length; i++) {
-                set(virtualListStateFamily(listItems[i].public_id), listItems[i]);
+                set(virtualListStateFamily(`subscribe:${listItems[i].public_id}`), listItems[i]);
                 temp.push(<MainPost public_id={listItems[i].public_id} />)
             }
             // setComponents([temp])

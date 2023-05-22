@@ -74,9 +74,9 @@ export default function Picker({ anchorEl, setAnchorEl, current, public_id, type
 
     const handleTag = (e: any) => {
         if (value.indexOf(e.currentTarget.dataset.test) > -1) {
-            socketRequest('tag-remove', { type: 'post', tag_id: e.currentTarget.dataset.test, entity_id: public_id })
+            socketRequest('tag-remove', { type: type, tag_id: e.currentTarget.dataset.test, entity_id: public_id })
         } else {
-            socketRequest('tag-add', { type: 'post', tag_id: e.currentTarget.dataset.test, entity_id: public_id })
+            socketRequest('tag-add', { type: type, tag_id: e.currentTarget.dataset.test, entity_id: public_id })
         }
     }
 

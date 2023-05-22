@@ -1,33 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import Comment from "Stories/Chunk/Comment/Comment";
 import { useState } from "react"
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilTransaction_UNSTABLE } from "recoil";
 import { socketRequest } from "Service/Socket";
-import { commentTreeData, } from "State/Data";
+import { commentTreeData, virtualListStateFamily, } from "State/Data";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
-var treeify = require('treeify');
-
 
 const usePullComments = (comment_id: any, filter: string) => {
 
     const [page, setPage] = useState(0)
-    const [components, setComponents]: any = useState([])
     const [commentTree, setCommentTree]: any = useRecoilState(commentTreeData)
 
-    
-
-    const { isLoading, isError, data, error } = useQuery({
-        enabled: true,
-        queryKey: ['comment-list', comment_id, filter, page],
-        queryFn: async () => {
-
-            if (page === -1) return false
-
-            let req: any = await socketRequest('comments', { post_id: comment_id, filter: filter, page })
-
-            if (req.comments.length < 24) setPage(-1)
-            if (req.comments.length === 0) return false
-
+    const setListItems = useRecoilTransaction_UNSTABLE(
+        ({ set }) => (req: any) => {
             let result: any = {};
             let level = { result };
 
@@ -36,6 +21,7 @@ const usePullComments = (comment_id: any, filter: string) => {
                     if (!r[name]) {
                         r[name] = { result: {} };
                         let data: any = {
+                            content: c,
                             path: c.path,
                             active: true,
                             hasChildren: false,
@@ -69,31 +55,56 @@ const usePullComments = (comment_id: any, filter: string) => {
                     }
                 }
                 node.childrenCount = count;
+                node.content.last = node.last
+                node.content.depthChange = node.depthChange
+                node.content.hasChildren = node.hasChildren
+                node.content.childrenCount = node.childrenCount
+                node.content.depth = node.depth
+                node.content.visibility = node.visibility
+                node.content.path = node.path
+
+                set(virtualListStateFamily(`subscribe:${node.public_id}`), node.content);
             }
 
             //@ts-ignore
             addChildrenCount(result[Object.keys(result)]);
             //@ts-ignore
-            setCommentTree(result[Object.keys(result)].children)
+            // setCommentTree(result[Object.keys(result)].children)
 
-            // console.groupCollapsed('%c [DATA - comment list] ', 'background: #000; color: #5555da');
-            // console.log(treeify.asTree(req.comments, true));
-            // console.groupEnd();
 
             let comments: any = []
-            for (var i in req.comments) { comments.push(<Comment {...req.comments[i]} />) }
+            for (var i in req.comments) { comments.push(<Comment public_id={req.comments[i].public_id} />) }
 
-            if (page === 0) setComponents(comments)
-            else await setComponents([...comments, comments])
+            if (page === 0) set(commentTreeData, comments);
+            //@ts-ignore
+            else set(commentTreeData, [...commentTree, comments])
+        },
+        []
+    );
+
+
+
+    const { isLoading, isError, data, error } = useQuery({
+        enabled: true,
+        queryKey: ['comment-list', comment_id, filter, page],
+        queryFn: async () => {
+
+            if (page === -1) return false
+            let req: any = await socketRequest('comments', { post_id: comment_id, filter: filter, page })
+            if (req.comments.length < 24) setPage(-1)
+            if (req.comments.length === 0) return false
 
             return req
-        }
+        },
+        onSuccess: (data) => {
+            if (!data || data === undefined) return
+            setListItems(data)
+        },
 
     })
 
-
-    if (page === -1) return [isLoading, isError, components.concat(<ChunkError variant='end' />)]
-    return [isLoading, isError, components.concat(<ChunkError variant='loading' />)]
+    if (page === -1) return [isLoading, isError, commentTree.concat(<ChunkError variant='end' />)]
+    return [isLoading, isError, commentTree.concat(<ChunkError variant='loading' />)]
 }
 
 export default usePullComments

@@ -18,28 +18,27 @@ const StyledPopper = styled(Popper)(({ theme }) => ({
     fontSize: 13,
     color: '#f2f3f5',
     padding: '6px 8px',
-    width: '180px',
+    minWidth: '180px',
     backgroundColor: '#0f0e10',
     boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)',
 }));
 
 
-export default function CommunityRolePicker({ anchorEl, setAnchorEl, public_id, placement }: any) {
+export default function CommunityRolePicker({ anchorEl, setAnchorEl, person_id, public_id, placement, current }: any) {
+
 
     const community: any = useRecoilValue(communityFlow)
     const [value, setValue]: any = useState([]);
 
 
-
-
     useEffect(() => {
-        if (!community.yourRoles || community.yourRoles < 1) return
+        if (!current || current < 1) return
         let temp: any = []
-        community.yourRoles.forEach((elem: any) => {
+        current.forEach((elem: any) => {
             temp.push(elem.public_id)
         });
         setValue(temp)
-    }, [public_id])
+    }, [public_id, current])
 
     const handleClose = () => {
         if (anchorEl) {
@@ -48,11 +47,13 @@ export default function CommunityRolePicker({ anchorEl, setAnchorEl, public_id, 
         setAnchorEl(null);
     };
 
-    const handleTag = (e: any) => {
+    const handleClick = (e: any) => {
         if (value.indexOf(e.currentTarget.dataset.test) > -1) {
-            // socketRequest('tag-remove', { type: 'post', tag_id: e.currentTarget.dataset.test, entity_id: public_id })
+            socketRequest('roles-remove-person', { public_id: public_id, role_id: e.currentTarget.dataset.test, person_id: person_id, community_id: community.public_id })
         } else {
-            // socketRequest('tag-add', { type: 'post', tag_id: e.currentTarget.dataset.test, entity_id: public_id })
+
+            socketRequest('roles-add-person', { public_id: public_id, role_id: e.currentTarget.dataset.test, person_id: person_id, community_id: community.public_id })
+
         }
     }
 
@@ -76,7 +77,7 @@ export default function CommunityRolePicker({ anchorEl, setAnchorEl, public_id, 
                         <MenuItem
                             key={tag.public_id}
                             data-test={tag.public_id}
-                            onClick={handleTag}
+                            onClick={handleClick}
                         >
                             <div
                                 css={{

@@ -4,17 +4,17 @@ import { Button, IconButton } from '@mui/material'
 import { textBold, textLabel, textLight, textNormal } from 'Global/Mixins'
 import { memo, useEffect, useState } from 'react'
 
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { commentListData, communityListData, postListData } from 'State/Data'
-import { authFlow, contentFlow } from 'State/Flow'
+import { useRecoilValue, } from 'recoil'
+import { communityListData, } from 'State/Data'
+import { authFlow, communityFlow, } from 'State/Flow'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
-import CommunityStats from 'Stories/Bits/StatCheck/CommunityStats'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom'
 import { joinCommunity, leaveCommunity } from 'Helper/Action'
-import { is } from 'date-fns/locale'
 import Online from 'Stories/Bits/Online/Online'
 import LiveRoles from 'Stories/Alive/LiveRoles'
+import { canManageCommunity } from 'Service/Rbac'
+import useLiveData from 'Hooks/useLiveData'
 
 const C = {
 
@@ -116,14 +116,17 @@ const C = {
 const handleImgError = (e: any) => e.target.style.display = 'none'
 
 
-const CommunityPane = ({ data }: any) => {
+const CommunityPane = ({ public_id }: any) => {
 
+
+    const data = useLiveData(true, `community:${public_id}`)
 
     const authState = useRecoilValue(authFlow)
     const [isMember, setIsMember] = useState(false)
     const navigate = useNavigate()
     const [active, setActive] = useState(false)
 
+    const community: any = useRecoilValue(communityFlow)
     const communityList = useRecoilValue(communityListData)
 
     const handleEdit = (e: any) => {
@@ -151,7 +154,7 @@ const CommunityPane = ({ data }: any) => {
             <div css={C.inner} onClick={openCommunity}>
 
                 <IconButton
-                    disabled={authState === 'guest'}
+                    disabled={authState === 'guest' || !canManageCommunity(community?.roleHex)}
                     sx={{
                         zIndex: 100,
                         color: '#d7dadc', borderRadius: '12px', position: 'absolute', top: '8px', right: '8px'

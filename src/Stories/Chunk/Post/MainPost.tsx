@@ -72,7 +72,7 @@ const Post = ({ public_id }: any) => {
 
     // proxing data
     const [visibility, setVisibility] = useState(false)
-    const data = useLiveData(visibility, public_id)
+    const data = useLiveData(visibility, `subscribe:${public_id}`)
     const { title, content, created_at, author, community, vote, karma, views, comments, tags, type, community_roles, global_roles } = data
 
     const authState = useRecoilValue(authFlow)
@@ -125,15 +125,20 @@ const Post = ({ public_id }: any) => {
                                 </div>
                                 <div css={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                                     <Nickname title={author?.nickname} public_id={author?.public_id} global_roles={global_roles} />
+                                    {community_roles && <LiveRoles value={community_roles} />}
                                     {tags && <LiveTags value={tags} />}                                    </div>
                             </div>
 
 
                         </div>}
 
-
-
-                        {authState !== 'guest' && <RightMenu tags={tags} type={'post'} public_id={public_id} global_roles={global_roles} community_roles={community_roles} />}
+                        {authState !== 'guest' && <RightMenu
+                            tags={tags}
+                            type={'post'}
+                            person_id={author?.public_id}
+                            public_id={public_id}
+                            global_roles={global_roles}
+                            community_roles={community_roles} />}
 
                     </div>
 

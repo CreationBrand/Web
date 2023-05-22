@@ -20,7 +20,11 @@ import { communityFlow, contentFlow } from 'State/Flow';
 import { canManageGlobalRole, canManageRole, canManageTags } from 'Service/Rbac';
 import CommunityRolePicker from '../Picker/CommunityRolePicker';
 
-const RightMenu = ({ tags, public_id, type, community_roles, global_roles }: any) => {
+const RightMenu = ({ tags, public_id, person_id, type, community_roles, global_roles }: any) => {
+
+
+
+
     const layoutSize: any = useRecoilValue(layoutSizeData)
 
     const [anchorEl, setAnchorEl]: any = useState(null);
@@ -46,9 +50,11 @@ const RightMenu = ({ tags, public_id, type, community_roles, global_roles }: any
 
     const handle1 = (e: any) => {
         setTagAnchorEl(e.currentTarget);
+        setRoleAnchorEl(null);
     };
 
     const handle2 = (e: any) => {
+        setTagAnchorEl(null);
         setRoleAnchorEl(e.currentTarget);
     };
 
@@ -91,7 +97,7 @@ const RightMenu = ({ tags, public_id, type, community_roles, global_roles }: any
                     </>
                     :
                     <>
-                        <CommunityRolePicker placement={'left-start'} setAnchorEl={setRoleAnchorEl} anchorEl={roleAnchorEl} current={community_roles} public_id={public_id} type={type} />
+                        <CommunityRolePicker placement={'left-start'} setAnchorEl={setRoleAnchorEl} anchorEl={roleAnchorEl} person_id={person_id} current={community_roles} public_id={public_id} type={type} />
                         <Picker placement={'left-start'} setAnchorEl={setTagAnchorEl} anchorEl={tagAnchorEl} current={tags} public_id={public_id} type={type} />
 
                         <Menu
@@ -121,7 +127,7 @@ const RightMenu = ({ tags, public_id, type, community_roles, global_roles }: any
 
                             {content !== 'global' &&
                                 <MenuItem
-                                    disabled={canManageTags(community.roleHex)}
+                                    disabled={!canManageTags(community.roleHex)}
                                     onClick={handle1}>
                                     <EditAttributesIcon />
                                     Tags
@@ -130,14 +136,14 @@ const RightMenu = ({ tags, public_id, type, community_roles, global_roles }: any
                             {content !== 'global' &&
                                 <MenuItem
                                     onClick={handle2}
-                                    disabled={canManageRole(community.roleHex)}
+                                    disabled={!canManageRole(community.roleHex)}
                                 >
                                     <StyleRoundedIcon />
                                     Community Roles
                                 </MenuItem>}
 
                             <MenuItem
-                                disabled={canManageGlobalRole()}>
+                                disabled={!canManageGlobalRole()}>
 
 
                                 <AdminPanelSettingsOutlinedIcon />

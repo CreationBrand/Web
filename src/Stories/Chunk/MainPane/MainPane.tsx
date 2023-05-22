@@ -4,7 +4,6 @@ import { css } from '@emotion/react'
 import { textBold, textLight } from 'Global/Mixins'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
 
-
 const C = {
     container: css({
         width: '100%',
