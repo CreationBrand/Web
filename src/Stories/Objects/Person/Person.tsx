@@ -1,18 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { List, ListItemButton, Menu } from '@mui/material'
+import { Menu } from '@mui/material'
 import theme from 'Global/Theme'
 import { useState } from 'react'
-import LogoutIcon from '@mui/icons-material/Logout'
 import PersonPopup from 'Stories/Bits/PersonPopup/PersonPopup'
-import Chip from 'Stories/Objects/Chip/Chip'
-import { bold, listText, smBold, smMuted, xsMuted } from 'Stories/Bits/Text/Text'
 import Avatar from '../../Bits/Avatar/Avatar'
-import SettingsIcon from '@mui/icons-material/Settings'
-import DragIndicatorRoundedIcon from '@mui/icons-material/DragIndicatorRounded'
 import { useNavigate } from 'react-router-dom'
-import { textBold, textLight, textNormal } from 'Global/Mixins'
+import { textBold, textLight } from 'Global/Mixins'
 
 const C = {
     container: css({
@@ -64,38 +59,19 @@ const Person = ({ username, nickname, roles, route, public_id, status }: Props) 
     const open = Boolean(anchorEl)
 
     const handleClick = (event: any) => setAnchorEl(event.currentTarget)
-
     const handleClose = () => setAnchorEl(null)
 
-    let rolesArr = []
 
-    for (var i in roles) {
-        console.log(i)
-
-        rolesArr.push(
-            <Chip
-                key={i}
-                //@ts-ignore
-                color={roles[i].color}
-                //@ts-ignore
-                title={roles[i].title}
-                showBullet={false}
-                clickable={false}
-            />,
-        )
-    }
 
     return (
         <>
             <div id="person" css={C.container} onClick={handleClick}>
+
                 <Avatar public_id={public_id} size="medium" />
 
                 <div css={C.content}>
                     <div css={textBold('m')}>{nickname}</div>
                     <div css={textLight('t')}>@{username}</div>
-
-
-                    {rolesArr.length !== 0 && <div css={C.roles}>{rolesArr}</div>}
                 </div>
 
                 {status && <div css={C.status} />}
@@ -127,53 +103,10 @@ const Person = ({ username, nickname, roles, route, public_id, status }: Props) 
                 }}
             >
                 <PersonPopup username={username} nickname={nickname} public_id={public_id}>
-                    <List css={C.list}>
-                        <ListItemButton
-                            sx={{
-                                borderRadius: '4px !important',
-                                gap: '12px',
-                                '&:hover': {
-                                    background: '#7166bb !important',
-                                    color: '#fff !important',
-                                },
-                                color: '#b9bbbe',
-                            }}
-                        >
-                            <DragIndicatorRoundedIcon fontSize="small" color="inherit" />
-                            <div css={listText}> Status </div>
-                        </ListItemButton>
+               
 
-                        <ListItemButton
-                            onClick={() => nagivate('/settings')}
-                            sx={{
-                                borderRadius: '4px !important',
-                                gap: '12px',
-                                '&:hover': {
-                                    background: '#7166bb !important',
-                                    color: '#fff !important',
-                                },
-                                color: '#b9bbbe',
-                            }}
-                        >
-                            <SettingsIcon fontSize="small" color="inherit" />
-                            <div css={listText}> Settings </div>
-                        </ListItemButton>
 
-                        <ListItemButton
-                            sx={{
-                                borderRadius: '4px !important',
-                                gap: '12px',
-                                '&:hover': {
-                                    background: '#ed4245 !important',
-                                    color: '#fff !important',
-                                },
-                                color: '#ed4245',
-                            }}
-                        >
-                            <LogoutIcon fontSize="small" color="inherit" />
-                            <div css={listText}> Logout </div>
-                        </ListItemButton>
-                    </List>
+               
                 </PersonPopup>
             </Menu>
         </>

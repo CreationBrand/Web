@@ -57,7 +57,7 @@ const ProfilePopup = ({ username }: Props) => {
 
     return <div css={C.container}>
 
-        <div css={C.banner}>
+        {/* <div css={C.banner}>
             <img css={C.bannerImg}
                 src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${username}.png`} />
         </div>
@@ -72,7 +72,7 @@ const ProfilePopup = ({ username }: Props) => {
                 <div css={mutedBold}>@UserName</div>
             </div>
         </div>
-
+ */}
 
 
 
