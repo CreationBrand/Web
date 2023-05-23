@@ -85,7 +85,7 @@ const CommunityControls = () => {
                 <UnfoldMoreIcon sx={{ fontSize: '20px' }} />
             </IconButton>
         </Tooltip>
-
+        
         <Tooltip title="Add Group" arrow>
             <IconButton
                 onClick={() => setGroup(true)}

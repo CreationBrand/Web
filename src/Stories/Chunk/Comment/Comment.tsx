@@ -25,7 +25,7 @@ import Nickname from 'Stories/Bits/Titles/Nickname'
 import LiveVotes from 'Stories/Alive/LiveVotes'
 import Right from 'Stories/Layout/Right'
 import RightMenu from 'Stories/Bits/RightMenu/RightMenu'
-import { authFlow } from 'State/Flow'
+import { authFlow, filterFlow } from 'State/Flow'
 import useLiveData from 'Hooks/useLiveData'
 import VisibilitySensor from 'react-visibility-sensor';
 
@@ -150,6 +150,8 @@ const Comment = ({ public_id }: any) => {
     const [showReply, setShowReply] = useState(false)
     const [commentTree, setCommentTreeData] = useRecoilState(commentTreeData)
     const [relation, setRelation] = useState<any>(null)
+    const filter = useRecoilValue(filterFlow)
+
 
     const layoutState = useRecoilValue(layoutSizeData)
     const authState = useRecoilValue(authFlow)
@@ -177,7 +179,7 @@ const Comment = ({ public_id }: any) => {
     }
 
     if (!data || !data?.visibility) return null
-
+    if (data.tags && data.tags.some((obj: any) => filter.includes(obj.public_id))) return null
 
     return (
         <VisibilitySensor onChange={handleVisibility}>

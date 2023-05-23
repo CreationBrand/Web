@@ -1,5 +1,6 @@
 import { type } from 'os'
 import { atom } from 'recoil'
+import { localStorageEffect } from './Effects'
 
 
 export const socketFlow = atom({
@@ -58,4 +59,10 @@ interface communityF {
     yourRoles: any;
 }
 
+
+export const filterFlow = atom({
+    key: 'filterFlow',
+    default: [] as any,
+    effects_UNSTABLE: [localStorageEffect('filterFlow')],
+})
 

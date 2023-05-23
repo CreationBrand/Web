@@ -3,11 +3,13 @@ import { css } from '@emotion/react'
 import AutoGraphRoundedIcon from '@mui/icons-material/AutoGraphRounded'
 import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded'
 import NewReleasesRoundedIcon from '@mui/icons-material/NewReleasesRounded'
-import { Button } from '@mui/material'
+import { Button, Menu } from '@mui/material'
 import { sMuted } from 'Stories/Bits/Text/Text'
 import AutoAwesomeMosaicRoundedIcon from '@mui/icons-material/AutoAwesomeMosaicRounded';
 import { faChartLine, faFire, faNewspaper } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useState } from 'react'
+import TagFilter from 'Stories/Bits/Picker/TagFilter'
 
 const C = {
     container: css({
@@ -24,7 +26,6 @@ const C = {
         padding: '8px',
         gap: '8px',
         maxWidth: '800px',
-        // justifyContent: 'space-between',
         alignItems: 'center',
         display: 'flex',
         fontFamily: 'noto sans',
@@ -32,6 +33,24 @@ const C = {
 }
 
 const FilterPane = ({ value, onChange }: any) => {
+
+    const [open, setOpen] = useState(false);
+    const [anchorEl, setAnchorEl]: any = useState(null);
+
+    const handleClose = () => {
+        if (anchorEl) {
+            anchorEl.focus();
+        }
+        setAnchorEl(null);
+        setOpen(false)
+    };
+
+    const handleClick = (e: any) => {
+        setAnchorEl(e.currentTarget);
+        setOpen(true)
+    };
+
+
     const handleHot = () => onChange('HOT')
     const handleNew = () => onChange('NEW')
     const handleTop = () => onChange('TOP')
@@ -105,6 +124,7 @@ const FilterPane = ({ value, onChange }: any) => {
 
 
                 <Button
+                    onClick={handleClick}
                     variant="text"
                     size="small"
                     color="secondary"
@@ -117,6 +137,33 @@ const FilterPane = ({ value, onChange }: any) => {
                 >
                     <AutoAwesomeMosaicRoundedIcon />
                 </Button>
+
+
+                {open && <TagFilter anchorEl={anchorEl} onClose={handleClose} />}
+
+                {/* <Menu
+                    sx={{
+                        '& .MuiPaper-root': {
+                            borderRadius: '4px !important',
+                            background: '#0f0e10 !important',
+                            padding: '6px 8px',
+                        },
+                    }}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <TagFilter />
+                </Menu> */}
+
             </div>
         </div>
     )
