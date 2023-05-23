@@ -10,7 +10,7 @@ import Nickname from "Stories/Bits/Titles/Nickname"
 import { useNavigate } from 'react-router-dom'
 import { memo, useEffect, useState, } from 'react'
 import { useRecoilValue } from 'recoil'
-import { authFlow, contentFlow } from 'State/Flow'
+import { authFlow, contentFlow, filterFlow } from 'State/Flow'
 import { textBold, textLight } from 'Global/Mixins'
 import RightMenu from 'Stories/Bits/RightMenu/RightMenu'
 import { formatDistanceStrict, parseISO } from 'date-fns'
@@ -75,6 +75,7 @@ const Post = ({ public_id }: any) => {
     const data = useLiveData(visibility, `subscribe:${public_id}`)
     const { title, content, created_at, author, community, vote, karma, views, comments, tags, type, community_roles, global_roles } = data
 
+    const filter = useRecoilValue(filterFlow)
     const authState = useRecoilValue(authFlow)
     const contentState = useRecoilValue(contentFlow)
 
@@ -82,7 +83,13 @@ const Post = ({ public_id }: any) => {
     const handleVisibility = (isVisible: boolean) => setVisibility(isVisible)
     const bodyClick = () => navigate(`/c/${community.public_id}/p/${public_id}`)
 
+
+
+    // filtering || null if not found
     if (!data || data === undefined || !created_at) return null
+    if (tags && tags.some((obj: any) => filter.includes(obj.public_id))) return null
+
+
 
     return (
         <VisibilitySensor onChange={handleVisibility}>
