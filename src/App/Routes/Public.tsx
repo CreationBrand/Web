@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, } from 'react-router-dom'
 
 import Preview from 'App/Pages/Preview'
 import GlobalList from 'Stories/Chunk/Lists/GlobalList'
@@ -7,6 +7,7 @@ import Announcements from 'Stories/Views/Announcements'
 import CommunityList from 'Stories/Chunk/Lists/CommunityList'
 import PostList from 'Stories/Chunk/Lists/PostList'
 import { memo } from 'react'
+import SearchList from 'Stories/Chunk/Lists/SearchList'
 
 var Public = () => {
 
@@ -20,6 +21,11 @@ var Public = () => {
                 <Route path="/" element={<Navigate to="/trending" replace={true} />} />
 
                 <Route path="/" element={<Preview />}>
+
+                    <Route
+                        path="/search/:query"
+                        element={<SearchList />} />
+
 
                     <Route
                         path="c/:community_id"

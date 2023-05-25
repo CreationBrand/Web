@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { cloneElement, memo, useRef } from 'react'
+import { cloneElement, memo, useEffect, useRef } from 'react'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useRecoilValue } from 'recoil'
 import { layoutSizeData } from 'State/Data'
 import useWindow from 'Hooks/useWindow'
 
-const VirtualList = ({ list }: any) => {
+const VirtualList = ({ list, offset, flip }: any) => {
 
     const { height } = useWindow()
     const layoutSize = useRecoilValue(layoutSizeData)
@@ -20,6 +20,20 @@ const VirtualList = ({ list }: any) => {
         overscan: 6,
     })
 
+    useEffect(() => {
+        const el = parentRef.current;
+
+        const invertedWheelScroll = (event: any) => {
+            el.scrollTop -= event.deltaY;
+            event.preventDefault();
+        };
+
+        if (flip) el.addEventListener('wheel', invertedWheelScroll, false);
+        return () => el.removeEventListener('wheel', invertedWheelScroll);
+    }, []);
+
+
+
     const items: any = virtualizer.getVirtualItems()
 
     if (!list || list.length === 0) return null
@@ -30,7 +44,7 @@ const VirtualList = ({ list }: any) => {
                 ref={parentRef}
                 className="List"
                 style={{
-                    height: height - 56,
+                    height: (height - 72) - (offset ? offset : 0),
                     width: '100%',
                     overflowY: 'auto',
                     contain: 'strict',

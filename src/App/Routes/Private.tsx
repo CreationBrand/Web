@@ -11,6 +11,7 @@ import EditCommunity from 'Stories/Views/EditCommunity'
 import EditPerson from 'Stories/Views/EditPerson'
 import { memo } from 'react'
 import Home from 'App/Pages/Home'
+import SearchList from 'Stories/Chunk/Lists/SearchList'
 
 var Private = () => {
 
@@ -23,6 +24,12 @@ var Private = () => {
 
 
                     <Route path="/settings" element={<EditPerson />}></Route>
+
+
+
+                    <Route
+                        path="/search/:query"
+                        element={<SearchList />} />
 
 
                     <Route

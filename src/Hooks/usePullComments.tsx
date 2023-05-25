@@ -9,6 +9,7 @@ import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 const usePullComments = (comment_id: any, filter: string) => {
 
     const [page, setPage] = useState(0)
+    const [components, setComponents]: any = useState([])
     const [commentTree, setCommentTree]: any = useRecoilState(commentTreeData)
 
     useEffect(() => {

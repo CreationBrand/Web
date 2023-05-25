@@ -6,33 +6,36 @@ import { useParams } from 'react-router-dom'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import VirtualList from 'Stories/Chunk/VirtualList/VirtualList'
 import usePullMessages from 'Hooks/usePullMessages'
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
+import MessagePane from 'Stories/Pane/messagePane'
 
 
 const C = {
     container: css({
         height: '100%',
-        padding: '20px',
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between'
+        marginTop: '8px',
+        padding: '0px 16px',
+        borderRadius: '8px',
+        flexDirection: 'column-reverse',
+        backgroundColor: '#272732',
+        transform: 'rotate(180deg)',
     })
 }
 
 const MessengerList = () => {
 
     const params = useParams()
+    const [isLoading, isError, list] = usePullMessages(params.messenger_id)
 
-
-    const [error, list] = usePullMessages(params.messenger_id)
-
-    if (error) return <ChunkError />
+    if (isError) return <ChunkError />
 
     return (
         <motion.div
-            key={params.community_id}
+            id="messenger-list"
+            key={params.messenger_id}
             css={C.container}
             transition={{ duration: 0.8, type: 'spring' }}
             initial={{ opacity: 0 }}
@@ -40,8 +43,11 @@ const MessengerList = () => {
             exit={{ opacity: 0 }}
         >
             <VirtualList
-                list={[list]}
+                list={list}
+                offset={76}
+                flip
             />
+            <MessagePane messenger_id={params.messenger_id} />
 
         </motion.div>
     )

@@ -79,7 +79,7 @@ console.log('%c [Socket] ', 'background: #000; color: #da55cd', 'Initializing So
 //@ts-ignore
 socket = io(process.env.REACT_APP_SOCKET, {
     reconnectionDelayMax: 5000,
-  
+
     auth: {
         token: cookies?.accessToken
     },

@@ -1,5 +1,7 @@
 
+import { personData } from "State/Data";
 import Avatar from "Stories/Bits/Avatar/Avatar";
+import { getRecoil } from "recoil-nexus";
 
 interface tree {
     id: string,
@@ -80,27 +82,42 @@ export const communityLTL = (list: any) => {
 }
 export const messengerLTT = (list: any) => {
 
+    let person = getRecoil(personData)
+
+    console.log(';ost', list,)
+
     let tree: any = [];
 
 
 
     list.forEach((messenger: any, iter: any) => {
-        tree.push({
-            id: messenger.public_id,
-            type: 'leaf',
-            path: `m${iter}`,
-            link: `/m/${messenger.public_id}`,
-            active: true,
-            visible: true,
-            object: {
+        console.log(messenger)
+
+        const other = messenger.members.filter((item: any) => item.person.public_id !== person.public_id)
+
+        console.log('other', other[0])
+        try {
+            tree.push({
                 id: messenger.public_id,
-                title: messenger.person.nickname,
-                icon: <Avatar size='small' public_id={messenger.public_id} />,
-                ...messenger
-            },
-            children: false,
-        })
+                type: 'leaf',
+                path: `m${iter}`,
+                link: `/m/${messenger.public_id}`,
+                active: true,
+                visible: true,
+                object: {
+                    id: messenger.public_id,
+                    title: other[0].person.nickname,
+                    icon: <Avatar size='small' public_id={other[0].person.public_id} />,
+                    // ...messenger
+                },
+                children: false,
+            })
+        } catch (e) {
+            console.log(e)
+
+        }
     })
+    console.log('tree', tree)
 
     return tree
 

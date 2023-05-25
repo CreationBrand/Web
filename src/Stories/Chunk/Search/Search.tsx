@@ -32,6 +32,15 @@ const Search = () => {
     const [communitys, setCommunitys]: any = useState([])
 
 
+    const handleSearch = (e: any) => {
+        if (e.key === 'Enter') {
+
+            setAnchorEl(null)
+
+            navigate(`/search/${query}`)
+
+        }
+    }
 
 
     const handleClick = (e: any) => {
@@ -131,8 +140,6 @@ const Search = () => {
     const optimizedFn = useCallback(debounce(bounce), []);
 
     const typeahead = async (e: any) => {
-        // console.log('typeahead1', e.target.value)
-        // e.stopPropagation()
         await setQuery(e.target.value)
         optimizedFn(e.target.value)
     }
@@ -142,6 +149,7 @@ const Search = () => {
     return <div css={s} id="SEARCH">
         <Input
             startAdornment={<FontAwesomeIcon css={{ marginLeft: '8px', color: '#bcbdbe' }} icon={faMagnifyingGlass} />}
+            onKeyPress={handleSearch}
             onClick={handleClick}
             value={query}
             onChange={typeahead}

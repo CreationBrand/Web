@@ -1,58 +1,68 @@
 
 
 
+import { useQuery } from "@tanstack/react-query";
+import { te } from "date-fns/locale";
 import { useEffect, useState } from "react"
 import { useRecoilState, useRecoilValue } from "recoil";
 import { socketRequest } from "Service/Socket";
 import { messageListData, postListData } from "State/Data";
-import Message from "Stories/Objects/Message/Message";
+import { socketFlow } from "State/Flow";
+import Loading from "Stories/Bits/ChunkError/Loading";
+import Message from "Stories/Chunk/Message/Message";
 
 const usePullMessages = (messenger_id: any) => {
     // state
-    const [list, setList]: any = useRecoilState(messageListData)
-    const [page, setPage] = useState({ data: 0 })
+    const [socket, setSocket] = useRecoilState(socketFlow)
+    const [last, setLast] = useState(null)
+    const [cursor, setCursor]: any = useState(false)
+    const [components, setComponents]: any = useRecoilState(messageListData)
+
     const [end, setEnd] = useState(false)
-    const [error, setError] = useState(false)
 
-    // reset list on props change
-    useEffect(() => {
-        setList([])
-        setPage({ data: 0 })
-        setEnd(false)
-        setError(false)
-    }, [messenger_id])
+    const handleEnd = (asdf: any) => {
+        console.log('handleEnd')
+        setCursor(last)
+    }
 
-    // fetch posts
-    useEffect(() => {
-        if (!messenger_id) return
 
-        const fetchMore = async () => {
+    const { isLoading, isError, data } = useQuery({
+        enabled: socket === 'connected' || !end,
+        queryKey: ['post-list', messenger_id, cursor],
+        queryFn: async () => {
 
-            let req: any = await socketRequest('messages', {
-                messenger_id: messenger_id,
-                page: page.data,
-            })
-
-            if (req === false || req.status === 'error') setError(true)
-
-            if (req.status === 'ok') {
-                if (req.messages.length < 25) setEnd(true)
-                let messages = []
-
-                for (var i in req.messages) {
-                    messages.push(<Message props={req.messages[i]} />)
-                }
-
-                if (page.data === 0) setList(messages)
-                else await setList([...list, messages])
+            let req: any = await socketRequest('messages', { messenger_id, cursor: cursor })
+            if (req.messages.length < 25) {
+                setEnd(true)
             }
-        }
 
-        if (end === false) fetchMore().catch((err) => console.log(err))
-    }, [page])
+            return req
+        },
+        onSuccess: (data) => {
+            if (!data || data === undefined || data.messages.length === 0) return
 
-    return [error, list]
+            let temp = []
+            for (var i in data.messages) {
+                temp.push(<Message props={data.messages[i]} />)
+            }
+            console.log(data.messages[data.messages.length - 1].created_at)
+            setLast(data.messages[data.messages.length - 1].created_at)
+
+            setComponents([...components, ...temp])
+
+        },
+
+    })
+
+
+
+
+
+
+    return [isLoading, isError, components.concat(<Loading onEnd={handleEnd} />)]
 }
 
 
 export default usePullMessages
+
+

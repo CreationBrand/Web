@@ -12,7 +12,8 @@ const C = {
         gap: '8px',
         border: '1px solid red',
         padding: '2px 16px 2px 16px',
-  
+        transform: `rotate(180deg)`,
+
         '&:hover': {
             background: 'rgba(0,0,0,0.1)'
         }
@@ -25,7 +26,7 @@ const C = {
     header: css({
         display: 'flex',
         gap: '4px',
-        alignItems: 'center',     
+        alignItems: 'center',
     }),
     name: css({
         color: 'white'
@@ -36,15 +37,16 @@ const Message = ({ props }: any) => {
     // console.log('MESSSAGE',props)
 
     if (!props) return null
+
     return (
-        <div css={C.container}>
-            <Avatar public_id={props.author.public_id} size="medium" />
+        <div css={C.container} key={props.public_id}>
+            {/* <Avatar public_id={props.author.public_id} size="medium" /> */}
 
             <div css={C.content}>
 
                 <div css={C.header}>
-                    <div css={[lNormal, C.name]}>{props.author.nickname}</div>
-                    <div css={sNormal}>{formatDistance(parseISO(props.created_at),new Date(),{ addSuffix: true })}</div>
+                    {/* <div css={[lNormal, C.name]}>{props.author.nickname}</div> */}
+                    <div css={sNormal}>{formatDistance(parseISO(props.created_at), new Date(), { addSuffix: true })}</div>
                 </div>
 
                 <div css={lNormal}>{props.content}</div>
