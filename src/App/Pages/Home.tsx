@@ -28,6 +28,7 @@ import CommunityTree from 'Stories/Chunk/CommunityTree/CommunityTree'
 import NavLabel from 'Stories/Bits/NavLabel/NavLabel'
 import { transform } from 'typescript'
 import LivePermissions from 'Stories/Alive/LivePermissions'
+import MessengerTree from 'Stories/Chunk/VirtualTree/MessengerTree'
 
 
 const Home = () => {
@@ -58,7 +59,7 @@ const Home = () => {
                     public_id={person.public_id}
                     status={'active'}
                 />
-                <VirtualTree tree={tree} />
+                <MessengerTree />
             </Left>
 
             <Main>

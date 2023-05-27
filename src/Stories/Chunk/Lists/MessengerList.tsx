@@ -8,7 +8,8 @@ import VirtualList from 'Stories/Chunk/VirtualList/VirtualList'
 import usePullMessages from 'Hooks/usePullMessages'
 import { memo, useEffect } from 'react'
 import MessagePane from 'Stories/Pane/messagePane'
-
+import useMessenger from 'Hooks/Pull/useMessenger'
+import MessengerControl from 'Stories/Bits/MessengerFilter/MessengerControl'
 
 const C = {
     container: css({
@@ -28,7 +29,12 @@ const C = {
 const MessengerList = () => {
 
     const params = useParams()
+
+    const [isLoading1, isError1, pane, status] = useMessenger(params.messenger_id)
     const [isLoading, isError, list] = usePullMessages(params.messenger_id)
+
+
+
 
     if (isError) return <ChunkError />
 
@@ -42,12 +48,16 @@ const MessengerList = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
         >
+            {pane}
             <VirtualList
                 list={list}
                 offset={76}
                 flip
             />
-            <MessagePane messenger_id={params.messenger_id} />
+
+            {status === 'active' ?
+                <MessagePane messenger_id={params.messenger_id} /> :
+                <MessengerControl messenger_id={params.messenger_id} status={status} />}
 
         </motion.div>
     )

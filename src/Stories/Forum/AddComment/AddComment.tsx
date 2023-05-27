@@ -14,9 +14,11 @@ const C = {
         background: '#343442',
         width: '100%',
         borderRadius: '8px',
-        marginTop: '8px',
+        // marginBottom: '8px',
+        // marginLeft: '12px',
         border: `2px solid #343442`,
         cursor: 'pointer',
+        zIndex: 1000,
         ':hover': {
             border: `2px solid #583e76`,
         },
@@ -31,7 +33,6 @@ const AddComment = ({ parent_id, post_id }: any) => {
 
 
     const onSubmit = async () => {
-        console.log('submit')
 
         const req: any = await socketRequest('comment-new', {
             content: comment,
@@ -39,7 +40,6 @@ const AddComment = ({ parent_id, post_id }: any) => {
             parent_id: parent_id,
         })
 
-        console.log(req)
         if (req.status === 'ok') {
             setComment('')
         }
@@ -48,7 +48,7 @@ const AddComment = ({ parent_id, post_id }: any) => {
     return <div css={C.container}>
 
         <Editor
-            disabled={authState=== 'guest'}
+            disabled={authState === 'guest'}
             value={comment}
             onChange={(e: any) => setComment(e)}
             placeholder='Comment your thoughts?' />

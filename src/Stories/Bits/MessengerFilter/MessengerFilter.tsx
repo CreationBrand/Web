@@ -1,61 +1,78 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { Button, ButtonGroup } from '@mui/material'
+import { Button, ButtonGroup, Input } from '@mui/material'
+import { ManageSearchRounded } from '@mui/icons-material'
+import AllInboxIcon from '@mui/icons-material/AllInbox';
+import EmailIcon from '@mui/icons-material/Email';
 
 const C = {
     container: css({
-        background: '#272732',
-        // padding: '8px 0px 8px 0px',
-        borderRadius: '8px',
+        marginTop: 'auto',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
         width: '100%',
         height: '40px',
         fontFamily: 'Noto Sans',
 
     }),
 }
-const MessengerFilter = ({ value, onChange }: any) => {
+const MessengerFilter = ({ value, onChange, filter, filterChange }: any) => {
+
+
     return (
         <div css={C.container}>
-            <ButtonGroup
-                color="secondary"
-                variant="text"
-                aria-label="medium secondary button group"
-                sx={{ height: '40px', borderRadius: '8px' }}
-                fullWidth
-            >
-                <Button
-                    size="small"
-                    onClick={() => onChange('active')}
-                    sx={{
-                        borderColor: '#4e4e5a !important',
 
-                        fontSize: '10px', color: value === 'active' ? '#60ff67' : ''
-                    }}
-                >
-                    Active
-                </Button>
-                <Button
-                    size="small"
-                    onClick={() => onChange('pending')}
-                    sx={{ borderColor: '#4e4e5a !important', fontSize: '10px', color: value === 'pending' ? '#bb9666' : '' }}
-                >
-                    Pending
-                </Button>
-                <Button
-                    size="small"
-                    onClick={() => onChange('closed')}
-                    sx={{ borderColor: '#4e4e5a !important', fontSize: '10px', color: value === 'closed' ? '#6671bb' : '' }}
-                >
-                    Closed
-                </Button>
-                <Button
-                    size="small"
-                    onClick={() => onChange('blocked')}
-                    sx={{ borderColor: '#4e4e5a !important', fontSize: '10px', color: value === 'blocked' ? '#bb6666' : '' }}
-                >
-                    Blocked
-                </Button>
-            </ButtonGroup>
+            <Input
+                onChange={onChange}
+                value={value}
+                fullWidth
+                disableUnderline
+                placeholder="Search..."
+                startAdornment={<ManageSearchRounded color="secondary" />}
+                sx={{
+                    input: {
+                        paddingLeft: '4px',
+
+                    },
+                    paddingLeft: '4px',
+
+                    height: '32px',
+                    fontSize: '14px',
+                    borderRadius: '8px',
+                    backgroundColor: '#0f0e10',
+                    border: '2px solid',
+                    borderColor: '#0f0e10',
+                }}
+            />
+
+        {filter === 'active' ?
+                <AllInboxIcon
+                    onClick={() => filterChange('pending')}
+                    sx={{
+                        color: '#b9bbbe',
+                        fontSize: '32px',
+                        cursor: 'pointer',
+                        ':hover': {
+                            color: '#ffffff',
+
+                        },
+                    }} />
+                :
+                <EmailIcon
+                    onClick={() => filterChange('active')}
+                    sx={{
+                        color: '#b9bbbe',
+                        fontSize: '32px',
+                        cursor: 'pointer',
+                        ':hover': {
+                            color: '#ffffff',
+
+                        },
+                    }} />
+
+            }
+
         </div>
     )
 }

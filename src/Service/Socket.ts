@@ -110,10 +110,17 @@ socket.on("connect", () => {
 socket.on("disconnect", () => {
     console.log('%c [Socket] ', 'background: #290000; color: #da55cd', 'disconnected');
     setRecoil(socketFlow, 'disconnected')
-
 });
 
 // SOCKET event
 socket.onAny((eventName, ...args) => {
     // console.log('%c [Socket] ', 'background: #000; color: #da55cd', eventName, args);
 });
+
+
+
+socket.on("notif", () => {
+    // console.log('%c [Socket] ', 'background: #290000; color: #da55cd', 'disconnected');
+    setRecoil(socketFlow, 'disconnected')
+});
+

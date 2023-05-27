@@ -48,6 +48,8 @@ const VirtualList = ({ list, offset, flip }: any) => {
                     width: '100%',
                     overflowY: 'auto',
                     contain: 'strict',
+                
+
                 }}
             >
                 <div

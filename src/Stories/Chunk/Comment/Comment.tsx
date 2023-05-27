@@ -87,6 +87,7 @@ const C = {
         marginRight: '22px',
         borderRadius: '8px',
         width: '2px',
+        minWidth: '2px',
         background: '#52555d',
     }),
     float: css({
@@ -130,6 +131,7 @@ const C = {
     }),
     divider: css({
         width: '1.5px',
+        minWidth: '1.5px',
         borderRadius: '8px',
         height: '100%',
         background: '#272732',

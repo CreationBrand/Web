@@ -7,11 +7,11 @@ import { Button } from '@mui/material';
 
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react"
-import { useRecoilState, useRecoilTransaction_UNSTABLE } from "recoil";
+import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue } from "recoil";
 import { openDM } from 'Service/Action';
 import { socketRequest } from "Service/Socket";
 import { postListData, virtualListStateFamily } from "State/Data";
-import { socketFlow } from "State/Flow";
+import { authFlow, socketFlow } from "State/Flow";
 import Avatar from 'Stories/Bits/Avatar/Avatar';
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import MainPost from "Stories/Chunk/Post/MainPost";
@@ -47,7 +47,7 @@ const useSearch = (type: string, query: string) => {
 
     const [components, setComponents]: any = useRecoilState(postListData)
     const [socket, setSocket] = useRecoilState(socketFlow)
-
+    const authData = useRecoilValue(authFlow)
 
     const setPosts = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
@@ -92,6 +92,7 @@ const useSearch = (type: string, query: string) => {
                             </div>
 
                             <Button
+                                disabled={authData === "guest"}
                                 data-value={req.persons[i].public_id}
                                 onClick={(e) => {
                                     //@ts-ignore

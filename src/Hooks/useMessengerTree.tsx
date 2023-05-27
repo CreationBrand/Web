@@ -12,68 +12,8 @@ import { useRecoilValue } from "recoil"
 const useMessengerTree = () => {
 
     const messengers = useRecoilValue(messengerTreeData)
-    const [filter, setFilter] = useState('active')
 
-
-    const [tree, setTree] = useState([
-        {
-            id: 'feeds',
-            type: 'branch',
-            path: 'feeds',
-            title: 'FEEDS',
-            active: true,
-            visible: true,
-            children: [
-                {
-                    id: "trending",
-                    type: 'leaf',
-                    path: 'trending',
-                    link: '/trending',
-                    active: true,
-                    visible: true,
-                    object: {
-                        id: "trending",
-                        title: "Trending",
-
-                        icon: <FontAwesomeIcon size='1x' icon={faFire} />
-                    },
-                }, {
-                    id: "home",
-                    type: 'leaf',
-                    link: '/home',
-                    path: 'home',
-                    active: true,
-                    visible: true,
-                    object: {
-                        id: "home",
-                        title: "Home",
-
-                        icon: <FontAwesomeIcon size='1x' icon={faHouse} />
-                    }
-                }
-
-            ],
-        },
-        {
-            id: 'dm',
-            type: 'branch',
-            path: 'dm',
-            title: 'DIRECTS MESSAGES',
-            active: true,
-            visible: true,
-            children: [{
-                id: 'filter',
-                type: 'component',
-                path: 'filter',
-                title: 'DIRECTS MESSAGES"',
-                active: true,
-                visible: true,
-                component: <MessengerFilter value={filter} onChange={setFilter} />
-            }, ...messengers],
-        }
-
-
-    ])
+    const [tree, setTree] = useState(messengers)
 
     return tree
 }

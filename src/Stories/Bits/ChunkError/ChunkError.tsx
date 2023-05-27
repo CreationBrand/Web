@@ -11,6 +11,9 @@ const C = {
         paddingBottom: '80px',
         paddingTop: '40px',
         margin: 'auto 0px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     }),
     inner: css({
         display: 'flex',

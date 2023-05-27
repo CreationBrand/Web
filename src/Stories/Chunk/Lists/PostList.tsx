@@ -52,7 +52,7 @@ const PostList = () => {
         >
             <VirtualList list={[
                 component,
-                <div css={{ maxWidth: '800px', margin: 'auto', marginTop: '8px' }}>
+                <div css={{ maxWidth: '800px', margin: 'auto', marginTop: '8px', gap: '8px', display: 'flex', flexDirection: 'column' }}>
                     <FilterPane value={filter} onChange={setFilter} />
                     <AddComment post_id={params.post_id} parent_id={params.post_id} />
                 </div>,

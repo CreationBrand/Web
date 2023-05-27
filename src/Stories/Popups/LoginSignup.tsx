@@ -120,19 +120,19 @@ const LoginSignup = ({ open, handleClose }: any) => {
             } catch (e) {
 
             }
-            console.log('update loading')
             setLoading(false)
 
         }
 
-        console.log(data)
         setLoading(false)
     })
 
-
-
-
-
+    const enterSubmit = (e: any) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            onSubmit()
+        }
+    }
 
     return (
         <Modal open={open} onClose={handleClose} css={C.container} >
@@ -223,6 +223,7 @@ const LoginSignup = ({ open, handleClose }: any) => {
                                 rules={{ required: true }}
                                 render={({ field: { onChange, value } }) => (
                                     <Input
+                                        onKeyDown={enterSubmit}
                                         type={showPassword ? 'text' : 'password'}
                                         error={errors.password ? true : false}
                                         autoComplete="off"
@@ -255,6 +256,7 @@ const LoginSignup = ({ open, handleClose }: any) => {
                                 )}
                             />
                             <LoadingButton
+
                                 loadingIndicator="Loading…"
                                 loading={loading}
                                 onClick={onSubmit}
@@ -411,7 +413,7 @@ const LoginSignup = ({ open, handleClose }: any) => {
                             <LoadingButton
 
 
-                                // disabled={true}
+                                disabled={true}
                                 loadingIndicator="Loading…"
                                 loading={loading}
                                 onClick={onSubmit}

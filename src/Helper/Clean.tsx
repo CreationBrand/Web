@@ -84,18 +84,17 @@ export const messengerLTT = (list: any) => {
 
     let person = getRecoil(personData)
 
-    console.log(';ost', list,)
+
 
     let tree: any = [];
 
 
 
     list.forEach((messenger: any, iter: any) => {
-        console.log(messenger)
 
         const other = messenger.members.filter((item: any) => item.person.public_id !== person.public_id)
+        const you = messenger.members.filter((item: any) => item.person.public_id === person.public_id)
 
-        console.log('other', other[0])
         try {
             tree.push({
                 id: messenger.public_id,
@@ -104,11 +103,13 @@ export const messengerLTT = (list: any) => {
                 link: `/m/${messenger.public_id}`,
                 active: true,
                 visible: true,
+                filter: you[0].messenger_member.status !== 'pending' ? 'active' : 'pending',
+
                 object: {
+                    status: you[0].messenger_member.status,
                     id: messenger.public_id,
                     title: other[0].person.nickname,
-                    icon: <Avatar size='small' public_id={other[0].person.public_id} />,
-                    // ...messenger
+                    icon: <Avatar public_id={other[0].person.public_id} size='small' />,
                 },
                 children: false,
             })
@@ -117,7 +118,6 @@ export const messengerLTT = (list: any) => {
 
         }
     })
-    console.log('tree', tree)
 
     return tree
 

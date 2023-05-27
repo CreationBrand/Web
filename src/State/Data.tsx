@@ -56,10 +56,6 @@ export const messageListData = atom({
 
 // FAMILY?
 
-export const notificationStateFamily = atomFamily({
-    key: 'notificationState',
-    default: false as any,
-})
 
 
 
@@ -116,3 +112,16 @@ export const globalHex = atom({
     default: new BitSet('00000') as any
 })
 
+
+
+// notif
+
+export const notificationStateFamily = atomFamily({
+    key: 'notificationState',
+    default: false as any,
+})
+
+export const notification = atom({
+    key: "notification",
+    default: {} as any,
+});
