@@ -38,8 +38,21 @@ const StyledPopper = styled(Popper)(({ theme }) => ({
 
 export default function TagFilter({ anchorEl, onClose }: any) {
 
-    const tags = useRecoilValue(tagData)
+    const [tags, setTags] = useRecoilState(tagData)
     const [filter, setFilter] = useRecoilState(filterFlow)
+
+    useEffect(() => {
+
+        (async () => {
+            if (tags.length === 0) {
+                let res:any = await socketRequest('tags', {})
+                setTags(res.tags)
+            }
+
+        })()
+    }, [tags])
+
+
 
 
     const handleTag = (e: any) => {
