@@ -410,11 +410,8 @@ const LoginSignup = ({ open, handleClose }: any) => {
                                     />
                                 )}
                             />
-
-
-                            <span css={{ fontSize: '12px', color: '#f46161' }}>
-                                A very cool individual sql inj dropped our DB so we are making some changes. RIP pl/pgsql, Hello Prepared statements</span>
                             <LoadingButton
+                                disabled={true}
                                 loadingIndicator="Loading…"
                                 loading={loading}
                                 onClick={onSubmit}

@@ -1,3 +1,4 @@
+import { ConnectingAirportsOutlined } from "@mui/icons-material";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { set } from "date-fns";
 import { useEffect, useState } from "react"
@@ -15,14 +16,12 @@ const usePullPosts = (community_id: any, filter: string) => {
     const [socket, setSocket] = useRecoilState(socketFlow)
     const [components, setComponents]: any = useRecoilState(postListData)
 
-
     useEffect(() => {
         end = false
         setComponents([])
     }, [community_id, filter])
 
     const fetch = async ({ pageParam = false }) => {
-        if (end) return
         let req: any = await socketRequest('posts', { community_id, filter, cursor: pageParam })
         setListItems(req.posts)
         return req.posts
@@ -48,30 +47,22 @@ const usePullPosts = (community_id: any, filter: string) => {
         isFetchingNextPage,
         status,
     } = useInfiniteQuery({
-        enabled: socket === 'connected' || !end,
+        enabled: socket === 'connected' && !end,
         queryKey: ['post-list', community_id, filter],
-
         queryFn: fetch,
         getNextPageParam: (lastPage, pages) => {
-
-            if (!lastPage) return
-
-            if (lastPage.length < 25) {
-                end = true
-                return undefined
-            }
-            if (filter === 'none') return pages[0][pages[0].length - 1].hot
-            else if (filter === 'HOT') return pages[0][pages[0].length - 1].hot
-            else if (filter === 'NEW') return pages[0][pages[0].length - 1].created_at
-            else if (filter === 'TOP') return pages[0][pages[0].length - 1].karma
-
+            if (!lastPage || lastPage.length === 0) return undefined
+            if (filter === 'none') return lastPage[lastPage.length - 1].hot
+            else if (filter === 'HOT') return lastPage[lastPage.length - 1].hot
+            else if (filter === 'NEW') return lastPage[lastPage.length - 1].created_at
+            else if (filter === 'TOP') return lastPage[lastPage.length - 1].karma
         },
 
         onSuccess: (data) => {
+            if (end) return
+            if (!data || data === undefined || data.pages.length === 0) return
             if (!data || data === undefined || data.pages.length === 0) return
 
-
-            if (!data || data === undefined || data.pages.length === 0) return
             const temp = []
             for (let i in data.pages) {
                 for (let j in data.pages[i]) {

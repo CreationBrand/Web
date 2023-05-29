@@ -128,8 +128,6 @@ const C = {
         borderBottomLeftRadius: '8px',
         borderBottomRightRadius: '8px',
         paddingBottom: '8px',
-
-
     }),
     spacers: css({
         display: 'flex',
@@ -174,7 +172,18 @@ const Comment = ({ public_id }: any) => {
 
     const data = useLiveData(false, `subscribe:${public_id}`)
 
+
+    console.log('data', data)
+
+
     const { last, author, content, created_at, global_roles, community_roles, vote, karma, tags, path, depth } = data
+
+
+
+
+
+
+
 
     const params = useParams()
     const [showReply, setShowReply] = useState(false)
@@ -246,7 +255,7 @@ const Comment = ({ public_id }: any) => {
                                 />
                                 {created_at && <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), { addSuffix: true })}</div>}
                             </div>
-                            <div css={{ display: 'flex', alignItems: 'center', gap: '4px', height: '20px' }}>
+                            <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                                 {community_roles && <LiveRoles value={community_roles} />}
                                 {tags && <LiveTags value={tags} />}
                             </div>

@@ -20,6 +20,8 @@ import VirtualTree from 'Stories/Chunk/VirtualTree/VirtualTree'
 import { layoutSizeData } from 'State/Data'
 import DragIndicatorRoundedIcon from '@mui/icons-material/DragIndicatorRounded';
 import LoginSignup from 'Stories/Popups/LoginSignup'
+import Leaf from 'Stories/Chunk/VirtualTree/Leaf'
+import { textLabel } from 'Global/Mixins'
 
 const Preview = () => {
 
@@ -42,49 +44,16 @@ const Preview = () => {
                 <Left>
                     <LogoWithName />
 
-                    <VirtualTree
-                        tree={[
-                            {
-                                id: 'feeds',
-                                type: 'branch',
-                                path: 'feeds',
-                                title: 'FEEDS',
-                                active: true,
-                                visible: true,
-                                children: [
-                                    {
-                                        id: "trending",
-                                        type: 'leaf',
-                                        path: 'trending',
-                                        link: '/trending',
-                                        active: true,
-                                        visible: true,
-                                        object: {
-                                            id: "trending",
-                                            title: "Trending",
+                    <div css={[textLabel('t'), { color: '#d7dadc', marginTop: '16px' }]}>Feeds</div >
+                    <Leaf
+                        icon={<FontAwesomeIcon css={{ fontSize: '18px' }} icon={faFire} />}
+                        title='Trending'
+                        link='/trending' />
+                    <Leaf
+                        icon={<FontAwesomeIcon css={{ fontSize: '18px' }} icon={faScroll} />}
+                        title='Read Me'
+                        link='/announcements' />
 
-                                            icon: <FontAwesomeIcon size='1x' icon={faFire} />
-                                        },
-                                    }, {
-                                        id: "annoucements",
-                                        type: 'leaf',
-                                        link: '/announcements',
-                                        path: 'annoucements',
-                                        active: true,
-                                        visible: true,
-                                        object: {
-                                            id: "annoucements",
-                                            title: "Read Me",
-                                            icon: <FontAwesomeIcon size='1x' icon={faScroll} />
-                                        }
-                                    }
-
-                                ],
-                            }
-                        ]}
-
-
-                    ></VirtualTree>
 
                     <div css={{ marginTop: 'auto', padding: '20px 4px 20px' }}>
                         <div css={[textNormal('s'), {
