@@ -24,14 +24,21 @@ const usePullPosts = (post_id: any, filter: string) => {
     const fetch = async ({ pageParam = false }) => {
         if (end) return
         let req: any = await socketRequest('comments', { post_id, filter, cursor: pageParam })
-        setListItems(req.posts)
-        return req.posts
+        setListItems(req.comments)
+        return req.comments
     }
 
     const setListItems = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
             if (!listItems) return
             for (let i = 0; i < listItems.length; i++) {
+
+                try {
+                    if (2 === listItems[i + 1].depth) {
+                        listItems[i].last = true
+                    }
+                } catch (e) { listItems[i].last = true }
+
                 set(virtualListStateFamily(`subscribe:${listItems[i].public_id}`), listItems[i]);
             }
         },
@@ -55,7 +62,6 @@ const usePullPosts = (post_id: any, filter: string) => {
         queryFn: fetch,
         getNextPageParam: (lastPage, pages) => {
 
-            console.log(lastPage, pages, 'hererere')
 
             if (!lastPage) return
 
@@ -63,20 +69,15 @@ const usePullPosts = (post_id: any, filter: string) => {
                 end = true
                 return undefined
             }
-            console.log(pages)
+            return pages[0][pages[0].length - 1].sort_path
 
-            // else if (filter === 'HOT') return pages[0][pages[0].length - 1].hot
-            // else if (filter === 'NEW') return pages[0][pages[0].length - 1].created_at
-            // else if (filter === 'TOP') return pages[0][pages[0].length - 1].karma
 
         },
 
         onSuccess: (data) => {
-            console.log(data, 'data')
+            if (!data || data === undefined || data.pages.length === 0) return
             if (!data || data === undefined || data.pages.length === 0) return
 
-
-            if (!data || data === undefined || data.pages.length === 0) return
             const temp = []
             for (let i in data.pages) {
                 for (let j in data.pages[i]) {
@@ -84,7 +85,7 @@ const usePullPosts = (post_id: any, filter: string) => {
                 }
             }
 
-            // conosle.log(temp, 'temp')
+
             setComponents(temp)
 
         },

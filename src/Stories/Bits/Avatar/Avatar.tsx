@@ -26,6 +26,7 @@ const Avatar = ({ public_id, size, onClick }: Props) => {
 
     const C = {
         icon: css({
+            zIndex: 100,
             minWidth: sizeMap[size],
             height: sizeMap[size],
             width: sizeMap[size],

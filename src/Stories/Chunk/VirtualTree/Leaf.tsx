@@ -1,13 +1,35 @@
 
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react"
+import { Badge, BadgeProps, styled } from "@mui/material";
 
 import { textNormal } from "Global/Mixins";
+import { notificationStateFamily } from "State/Data";
 import Avatar from "Stories/Bits/Avatar/Avatar";
 import { motion } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 
 
+
+
+
+const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+    '& .MuiBadge-badge': {
+        // right: -3,
+        top: 6,
+        lineHeight: '10px',
+        // height: '18px',
+        fontWeight: '600',
+        // minHeight: '12px',
+        fontSize: '10px',
+        fontFamily: 'noto sans',
+        border: `3px solid #181820`,
+        padding: '0px 2px',
+        // borderRadius: '8px',
+        background: '#af4141',
+    },
+}));
 
 const C = {
 
@@ -69,15 +91,15 @@ const innerMotion = {
     }
 };
 
-const Leaf = ({ link, title, icon }: any) => {
+const Leaf = ({ link, title, icon, public_id }: any) => {
 
+    const notification = useRecoilValue(notificationStateFamily(public_id))
     const navigate = useNavigate()
     const location = useLocation()
 
     const handleClick = () => {
         if (link) navigate(link)
     }
-
 
     return (
         <motion.div
@@ -90,7 +112,12 @@ const Leaf = ({ link, title, icon }: any) => {
             <motion.div variants={bulgeMotion} css={C.bulge} />
             <motion.div css={C.inner} variants={innerMotion}>
 
-                {icon && icon}
+                {icon &&
+                    <StyledBadge
+                        badgeContent={notification} invisible={notification <= 1}>
+                        {icon}
+                    </StyledBadge>
+                }
 
                 <p css={{
                     textOverflow: "ellipsis",

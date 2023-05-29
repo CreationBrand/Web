@@ -1,6 +1,6 @@
 import { getRecoil, setRecoil } from 'recoil-nexus'
 import { io, Socket } from 'socket.io-client'
-import { communityData } from 'State/Data'
+import { communityData, notificationStateFamily } from 'State/Data'
 import { errorFlow, socketFlow } from 'State/Flow'
 import { DefaultEventsMap } from '@socket.io/component-emitter'
 import { parseCookies } from 'Util'
@@ -98,6 +98,8 @@ socket.io.on("error", (error: any) => {
 socket.on("error", (error: any) => {
     console.log('%c [Socket] ', 'background: #290000; color: #da55cd', error);
     // setRecoil(errorFlow, { type: error.type, message: error.message })
+    setRecoil(socketFlow, 'error')
+
 });
 
 // SOCKET connection established
@@ -119,8 +121,19 @@ socket.onAny((eventName, ...args) => {
 
 
 
-socket.on("notif", () => {
-    // console.log('%c [Socket] ', 'background: #290000; color: #da55cd', 'disconnected');
-    setRecoil(socketFlow, 'disconnected')
+socket.on("notif", (message: any) => {
+
+    console.log('notif', message)
+    try {
+        if (message.type === 'message') {
+
+            setRecoil(notificationStateFamily(`${message.messenger_id}`), message.count)
+            console.log('message')
+
+
+        }
+
+    } catch (e) { }
+
 });
 

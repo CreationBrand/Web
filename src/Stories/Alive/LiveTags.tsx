@@ -10,8 +10,8 @@ const C = {
         gap: '4px',
     }),
     box: css({
-        height: '12px',
-        width: '12px',
+        height: '10px',
+        width: '10px',
         borderRadius: '3px',
 
     }),
@@ -22,8 +22,10 @@ const LiveTags = ({ value }: any) => {
     const [components, setComponents] = useState([])
 
     useEffect(() => {
+        if (value.length < 1) return
         let list: any = []
         for (let i = 0; i < value.length; i++) {
+            if(!value[i]) continue
             list.push(<div
                 style={{ backgroundColor: "#" + value[i].color?.toString(16) }}
                 css={C.box} key={value[i].public_id} />
@@ -31,6 +33,8 @@ const LiveTags = ({ value }: any) => {
         }
         setComponents(list)
     }, [value])
+
+    if (!value) return null
     return <div css={C.container}>{components} </div>
 }
 

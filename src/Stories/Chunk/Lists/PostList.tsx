@@ -15,6 +15,7 @@ import VirtualList from '../VirtualList/VirtualList'
 import { contentFlow } from 'State/Flow'
 import useCommunityFlow from 'Hooks/useCommunityFlow'
 import useContentFlow from 'Hooks/useContentFlow'
+import useComments from 'Hooks/Pull/useComments'
 
 const C = {
     container: css({
@@ -33,7 +34,7 @@ const PostList = () => {
     const [filter, setFilter] = useState('HOT')
 
     const [isLoading, isError, component, data] = usePullPost(params.post_id)
-    const [isLoading2, isError2, components, data2]: any = usePullComments(params.post_id, filter)
+    const [isLoading2, isError2, components, data2]: any = useComments(params.post_id, filter)
 
     useContentFlow('post')
     useCommunityFlow(data?.post?.community?.public_id)

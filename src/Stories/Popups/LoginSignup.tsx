@@ -15,7 +15,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { authFlow } from "State/Flow";
-import { loginCognito, signUpCognito, verifyEmail } from "Service/Cognito";
+import { loginCognito, reSendCode, signUpCognito, verifyEmail } from "Service/Cognito";
+import { get } from "Service/Request";
 
 const C = {
     container: css({
@@ -115,7 +116,10 @@ const LoginSignup = ({ open, handleClose }: any) => {
         else if (view === 'verify') {
             try {
                 let status = await verifyEmail(data.code)
-                if (status) window.location.reload();
+                if (status) {
+                    var request = await get('user')
+                    window.location.reload()
+                }
                 else setError('code', { type: 'custom', message: 'Invalid code' });
             } catch (e) {
 
@@ -411,9 +415,6 @@ const LoginSignup = ({ open, handleClose }: any) => {
                             <span css={{ fontSize: '12px', color: '#f46161' }}>
                                 A very cool individual sql inj dropped our DB so we are making some changes. RIP pl/pgsql, Hello Prepared statements</span>
                             <LoadingButton
-
-
-                                disabled={true}
                                 loadingIndicator="Loading…"
                                 loading={loading}
                                 onClick={onSubmit}
@@ -517,7 +518,35 @@ const LoginSignup = ({ open, handleClose }: any) => {
                                 Verify Code
                             </LoadingButton>
 
+
+                            <div css={{
+                                marginTop: "24px",
+                                fontSize: "13px",
+                                fontWeight: 450,
+                                lineHeight: "14px",
+                                color: "rgba(255,255,255,0.75)",
+                                textAlign: "center"
+                            }}>
+                                Dont see the email? {` `}
+                                <span
+                                    onClick={() => reSendCode()}
+                                    css={{
+                                        color: '#fff',
+                                        cursor: 'pointer',
+                                        '&:hover': {
+                                            textDecoration: 'underline',
+                                            textDecorationThickness: '2px',
+
+                                        }
+                                    }}>Resend Code
+                                </span>
+                            </div>
+
+
+
+
                         </motion.form>
+
 
                     )}
 

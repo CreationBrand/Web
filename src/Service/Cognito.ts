@@ -1,5 +1,3 @@
-import { sk } from "date-fns/locale"
-
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js')
 const CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool
 
@@ -65,8 +63,6 @@ export function loginCognito(username: string, password: string) {
     });
 }
 
-
-
 export function signUpCognito(username: string, password: string, email: string) {
 
     return new Promise((resolve) => {
@@ -115,6 +111,7 @@ export const verifyEmail = (code: string) => {
         )
     })
 }
+
 export const verifyCognito = async () => {
 
 
@@ -168,37 +165,12 @@ export const verifyCognito = async () => {
     })
 }
 
-//   HELPERS
-const deleteAllCookies = () => {
-    var cookies = document.cookie.split(';')
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i]
-        var eqPos = cookie.indexOf('=')
-        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
-        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
-    }
+export const reSendCode = () => {
+    cognitoUser.resendConfirmationCode(function (err: any, result: any) {
+        if (err) return false
+        return true
+    });
 }
-const createCookie = (name: string, value: any, hours: number) => {
-    if (hours) {
-        var date = new Date()
-        date.setTime(date.getTime() + hours * 60 * 60 * 1000)
-        var expires = '; expires=' + date.toUTCString()
-    } else {
-        expires = ''
-    }
-    document.cookie = name + '=' + value + expires + '; path=/'
-}
-const parseCookies = () => {
-    var cookies = document.cookie
-    var output: any = {}
-    cookies.split(/\s*;\s*/).forEach(function (pair: any) {
-        pair = pair.split(/\s*=\s*/)
-        var name = pair[0].split('.')
-        output[name[name.length - 1]] = pair.splice(1).join('=')
-    })
-    return output
-}
-
 
 export const refreshSession = () => {
     return new Promise((resolve, reject) => {
@@ -243,8 +215,38 @@ export const refreshSession = () => {
 
 
 
+//   HELPERS
+const deleteAllCookies = () => {
+    var cookies = document.cookie.split(';')
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i]
+        var eqPos = cookie.indexOf('=')
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
+        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    }
+}
+const createCookie = (name: string, value: any, hours: number) => {
+    if (hours) {
+        var date = new Date()
+        date.setTime(date.getTime() + hours * 60 * 60 * 1000)
+        var expires = '; expires=' + date.toUTCString()
+    } else {
+        expires = ''
+    }
+    document.cookie = name + '=' + value + expires + '; path=/'
+}
+const parseCookies = () => {
+    var cookies = document.cookie
+    var output: any = {}
+    cookies.split(/\s*;\s*/).forEach(function (pair: any) {
+        pair = pair.split(/\s*=\s*/)
+        var name = pair[0].split('.')
+        output[name[name.length - 1]] = pair.splice(1).join('=')
+    })
+    return output
+}
 
-
+// HANDLER
 const cognitoCallbacks = {
     onSuccess: function (data: any) {
         // Rest of login process...

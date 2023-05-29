@@ -2,7 +2,10 @@
 import { css } from '@emotion/react'
 import { Visibility } from '@mui/icons-material';
 import { textNormal } from 'Global/Mixins'
-import { memo, useState } from 'react';
+import { socketFlow } from 'State/Flow';
+import { on } from 'events';
+import { memo, useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 const C = {
     container: css({
@@ -65,8 +68,13 @@ const C = {
 
 }
 
-const ChunkError = ({ variant }: any) => {
+const ChunkError = ({ variant, onLoad, end }: any) => {
 
+    const socket = useRecoilValue(socketFlow)
+
+    useEffect(() => {
+        if (onLoad && !end) onLoad()
+    }, [])
 
     let colors: any = {
         error: '#fb4b4b',
@@ -75,6 +83,8 @@ const ChunkError = ({ variant }: any) => {
         connected: '#51fb4b',
         disconnected: '#fb8c4b',
     }
+
+    if(socket === 'error') variant = 'error'
 
 
     return (

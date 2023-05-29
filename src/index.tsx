@@ -9,7 +9,16 @@ import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 
-const queryClient = new QueryClient()
+
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  })
+  
 
 const domNode: any = document.getElementById('root');
 const root = createRoot(domNode);

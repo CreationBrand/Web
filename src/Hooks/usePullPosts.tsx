@@ -1,4 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { set } from "date-fns";
 import { useEffect, useState } from "react"
 import { useRecoilState, useRecoilTransaction_UNSTABLE } from "recoil";
 import { socketRequest } from "Service/Socket";
@@ -7,64 +8,83 @@ import { socketFlow } from "State/Flow";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import MainPost from "Stories/Chunk/Post/MainPost";
 
-var treeify = require('treeify');
-
+let end = false
 
 const usePullPosts = (community_id: any, filter: string) => {
 
-    const [page, setPage] = useState(0)
-    const [components, setComponents]: any = useRecoilState(postListData)
     const [socket, setSocket] = useRecoilState(socketFlow)
+    const [components, setComponents]: any = useRecoilState(postListData)
 
+
+    useEffect(() => {
+        end = false
+        setComponents([])
+    }, [community_id, filter])
+
+    const fetch = async ({ pageParam = false }) => {
+        if (end) return
+        let req: any = await socketRequest('posts', { community_id, filter, cursor: pageParam })
+        setListItems(req.posts)
+        return req.posts
+    }
 
     const setListItems = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
-            let temp = []
+            if (!listItems) return
             for (let i = 0; i < listItems.length; i++) {
                 set(virtualListStateFamily(`subscribe:${listItems[i].public_id}`), listItems[i]);
-                temp.push(<MainPost public_id={listItems[i].public_id} />)
             }
-            // setComponents([temp])
-            if (page === 0) set(postListData, temp);
-            else set(postListData, [...components, temp])
         },
         []
     );
 
+    const {
+        data,
+        isError,
+        isLoading,
+        fetchNextPage,
+        hasNextPage,
+        isFetching,
+        isFetchingNextPage,
+        status,
+    } = useInfiniteQuery({
+        enabled: socket === 'connected' || !end,
+        queryKey: ['post-list', community_id, filter],
 
-    useEffect(() => {
-        setPage(0)
-    }, [community_id, filter])
+        queryFn: fetch,
+        getNextPageParam: (lastPage, pages) => {
 
+            if (!lastPage) return
 
+            if (lastPage.length < 25) {
+                end = true
+                return undefined
+            }
+            if (filter === 'none') return pages[0][pages[0].length - 1].hot
+            else if (filter === 'HOT') return pages[0][pages[0].length - 1].hot
+            else if (filter === 'NEW') return pages[0][pages[0].length - 1].created_at
+            else if (filter === 'TOP') return pages[0][pages[0].length - 1].karma
 
-    const { isLoading, isError, data } = useQuery({
-        enabled: socket === 'connected',
-        queryKey: ['post-list', community_id, filter, page],
-        queryFn: async () => {
-
-            if (page === -1) return false
-            let req: any = await socketRequest('posts', { community_id, filter, page })
-
-            // console.groupCollapsed('%c [DATA - post list] ', 'background: #000; color: #5555da');
-            // console.log(treeify.asTree(req.posts, true));
-            // console.groupEnd();
-
-            if (req.posts.length < 25) setPage(-1)
-
-            return req.posts
         },
+
         onSuccess: (data) => {
-            if (!data || data === undefined) return
-            setListItems(data)
-        },
+            if (!data || data === undefined || data.pages.length === 0) return
 
+
+            if (!data || data === undefined || data.pages.length === 0) return
+            const temp = []
+            for (let i in data.pages) {
+                for (let j in data.pages[i]) {
+                    temp.push(<MainPost public_id={data.pages[i][j].public_id} />)
+                }
+            }
+            setComponents(temp)
+
+        },
     })
 
-
-
-    if (page === -1) return [isLoading, isError, components.concat(<ChunkError variant='end' />)]
-    return [isLoading, isError, components.concat(<ChunkError variant='loading' />)]
+    return [isLoading, isError, components.concat(<ChunkError variant={hasNextPage ? 'loading' : 'end'} onLoad={fetchNextPage} />)]
 }
+
 
 export default usePullPosts

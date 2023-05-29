@@ -39,7 +39,6 @@ const CommunityList = () => {
     const [isLoading1, isError1, component, data] = usePullCommunity(params.community_id)
     const [isLoading, isError, components] = usePullPosts(params.community_id, filter)
 
-
     if (isError1 || isError) return <ChunkError variant='error' />
     if (isLoading1 || isLoading) return <ChunkError variant='loading' />
 

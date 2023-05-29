@@ -87,6 +87,7 @@ const MessengerTree = () => {
 const Node = ({ node, style, dragHandle }: any) => {
 
     return <Leaf
+        public_id={node.id}
         icon={node.data.object.icon}
         title={node.data.object.title}
         link={node.data.link} />

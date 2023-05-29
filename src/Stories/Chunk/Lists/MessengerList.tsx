@@ -10,6 +10,7 @@ import { memo, useEffect } from 'react'
 import MessagePane from 'Stories/Pane/messagePane'
 import useMessenger from 'Hooks/Pull/useMessenger'
 import MessengerControl from 'Stories/Bits/MessengerFilter/MessengerControl'
+import useClearNotif from 'Hooks/useClearNotif'
 
 const C = {
     container: css({
@@ -30,11 +31,11 @@ const MessengerList = () => {
 
     const params = useParams()
 
-    const [isLoading1, isError1, pane, status] = useMessenger(params.messenger_id)
+    useClearNotif(params.messenger_id)
+    const [isLoading1, isError1, pane, data, status] = useMessenger(params.messenger_id)
     const [isLoading, isError, list] = usePullMessages(params.messenger_id)
 
-
-
+    
 
     if (isError) return <ChunkError />
 
@@ -55,7 +56,7 @@ const MessengerList = () => {
                 flip
             />
 
-            {status === 'active' ?
+            {status === 'active' || status === 'owner' ?
                 <MessagePane messenger_id={params.messenger_id} /> :
                 <MessengerControl messenger_id={params.messenger_id} status={status} />}
 
