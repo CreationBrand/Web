@@ -164,7 +164,6 @@ body {
 }
 
 .MuiList-root {
- 
     background: none !important;
 }
 
@@ -181,12 +180,7 @@ body {
     outline: none !important;
 }
 
-
-
-
-
 /* SLIDE OUT  */
-
 
 .image-container {
     position: absolute;
@@ -195,13 +189,13 @@ body {
     padding-top: 66.66%;
     cursor: zoom-in;
     margin: 50px 0;
-  }
-  
-  .image-container.open {
+}
+
+.image-container.open {
     cursor: zoom-out;
-  }
-  
-  .image-container .shade {
+}
+
+.image-container .shade {
     position: fixed;
     top: 0;
     left: 0;
@@ -210,14 +204,14 @@ body {
     pointer-events: none;
     opacity: 0;
     background: rgba(0, 0, 0, 0.9);
-  }
-  
-  .image-container.open .shade {
+}
+
+.image-container.open .shade {
     pointer-events: auto;
     opacity: 1;
-  }
-  
-  .image-container img {
+}
+
+.image-container img {
     position: absolute;
     top: 0;
     left: 0;
@@ -225,30 +219,61 @@ body {
     bottom: 0;
     width: 100%;
     height: 100%;
-  }
-  
-  .image-container.open img {
+}
+
+.image-container.open img {
     position: fixed;
     width: auto;
     height: auto;
     max-width: 100%;
     margin: auto;
-  }
-  
-  @media (max-width: 600px) {
-    article {
-      padding: 20px;
-    }
-  }
- 
-  
-.MuiDialog-container{
-    background-color: rgba(14, 16, 15, 0.559)
 }
 
+@media (max-width: 600px) {
+    article {
+        padding: 20px;
+    }
+}
 
+.MuiDialog-container {
+    background-color: rgba(14, 16, 15, 0.559);
+}
 
-
-p{
+p {
     font-size: 16px;
+}
+
+/* TINY LINK CARD OVERRIDES */
+.react_tinylink_card {
+    width: 100% !important;
+    padding: 8px;
+    background: #181820 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+    border-radius: 8px !important;
+    border: none !important;
+}
+
+.react_tinylink_card_content_wrapper {
+    z-index: 100;
+    color: #f2f2f2;
+    padding: 0px !important;
+    margin-left: 8px;
+    box-sizing: border-box !important;
+    font-family: 'Noto Sans', sans-serif !important;
+}
+
+.react_tinylink_card_content_description {
+    font-family: 'Noto Sans', sans-serif !important;
+    font-size: 14px !important;
+}
+
+.react_tinylink_card_footer_description {
+    font-family: 'Noto Sans', sans-serif !important;
+    font-size: 12px !important;
+    color: #d7dadc !important;
+}
+
+.react_tinylink_card_media {
+    background-color: #0f0e10 !important;
 }

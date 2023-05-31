@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 /** @jsxImportSource @emotion/react */
 
 import { Global, css } from '@emotion/react'

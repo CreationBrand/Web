@@ -1,14 +1,13 @@
 {
     "hide-files.files": [
-        ".prettierrc.json",
         "yarn.lock",
+        ".gitignore",
+        ".prettierrc.json",
         "dockerfile",
-        "tsconfig.json",
-        "webpack.config.js",
+        "yarn-error.log",
         "README.md",
-        ".vscode",
-        ".storybook",
-        "node_modules"
+        "package.json",
+        ".storybook"
     ],
     "files.exclude": {
         "**/.git": true,
@@ -17,14 +16,15 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
-        ".prettierrc.json": true,
+        "node_modules": true,
         "yarn.lock": true,
+        ".gitignore": true,
+        ".prettierrc.json": true,
         "dockerfile": true,
-        "tsconfig.json": true,
         "webpack.config.js": true,
+        "yarn-error.log": true,
         "README.md": true,
-        ".vscode": true,
-        ".storybook": true,
-        "node_modules": true
+        "package.json": true,
+        ".storybook": true
     }
 }

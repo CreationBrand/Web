@@ -17,6 +17,14 @@ import { AnimatePresence, motion, useDomEvent } from "framer-motion";
 import { Backdrop, Dialog, Modal, styled } from '@mui/material';
 import Close from '../Close/Close';
 import VisibilitySensor from 'react-visibility-sensor';
+//@ts-ignore
+import { ReactTinyLink } from 'react-tiny-link'
+import { LinkPreview } from '@dhaiwat10/react-link-preview';
+import { ErrorBoundary } from 'react-error-boundary';
+import Link from './Link';
+
+
+
 
 const C = {
     container: css({
@@ -127,6 +135,7 @@ const ContentLoader = ({ type, content }: any) => {
         setOpen(false);
     }
 
+    
 
     const handleVisability = (isVisible: boolean) => {
         setIsVisable(isVisible)
@@ -150,8 +159,6 @@ const ContentLoader = ({ type, content }: any) => {
     } catch (error) { }
 
 
-    // console.log(content)
-
     if (type === 'upload' && content.type === 'video') return (
         <div css={C.player} onClick={(e) => e.stopPropagation()}>
             <VisibilitySensor onChange={handleVisability}>
@@ -166,7 +173,6 @@ const ContentLoader = ({ type, content }: any) => {
 
     else if (type === 'upload' && content.type === 'image' && content?.source?.length > 1) return (
         <Carousel images={content.source} />
-
     )
 
     else if (type === 'upload' && content.type === 'image' && content?.source?.length === 1) return (
@@ -225,9 +231,11 @@ const ContentLoader = ({ type, content }: any) => {
 
     )
 
+  
+
+    else if (type === 'link') return (<Link url={content} />)
 
     return <div> error </div>
-
 
 }
 

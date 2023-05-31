@@ -2,6 +2,8 @@
 import { css } from '@emotion/react';
 import { motion } from 'framer-motion';
 
+//@ts-ignore
+import { ReactTinyLink } from 'react-tiny-link'
 
 
 const C = {
@@ -45,6 +47,7 @@ const Announcements = () => {
 
 
             <div css={C.inner}>
+
 
                 <div css={{
                     marginBottom: "16px",

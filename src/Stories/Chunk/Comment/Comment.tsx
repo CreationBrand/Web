@@ -172,17 +172,7 @@ const Comment = ({ public_id }: any) => {
 
     const data = useLiveData(false, `subscribe:${public_id}`)
 
-
-    console.log('data', data)
-
-
     const { last, author, content, created_at, global_roles, community_roles, vote, karma, tags, path, depth } = data
-
-
-
-
-
-
 
 
     const params = useParams()
