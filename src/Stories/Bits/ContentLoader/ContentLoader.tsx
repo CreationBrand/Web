@@ -19,7 +19,6 @@ import Close from '../Close/Close';
 import VisibilitySensor from 'react-visibility-sensor';
 //@ts-ignore
 import { ReactTinyLink } from 'react-tiny-link'
-import { LinkPreview } from '@dhaiwat10/react-link-preview';
 import { ErrorBoundary } from 'react-error-boundary';
 import Link from './Link';
 
@@ -135,7 +134,7 @@ const ContentLoader = ({ type, content }: any) => {
         setOpen(false);
     }
 
-    
+
 
     const handleVisability = (isVisible: boolean) => {
         setIsVisable(isVisible)
@@ -231,7 +230,7 @@ const ContentLoader = ({ type, content }: any) => {
 
     )
 
-  
+
 
     else if (type === 'link') return (<Link url={content} />)
 
