@@ -17,8 +17,7 @@ const C = {
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between'
+        justifyContent: 'center',
     })
 }
 
@@ -29,7 +28,6 @@ const GlobalList = ({ type }: any) => {
 
     useContentFlow('global')
     useCommunityFlow(null)
-
 
     return (
         <motion.div

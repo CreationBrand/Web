@@ -39,50 +39,49 @@ const VirtualList = ({ list, offset, flip }: any) => {
     if (!list || list.length === 0) return null
     if (!items || items.length === 0) return null
     return (
-        <div>
-            <div
-                ref={parentRef}
-                className="List"
-                style={{
-                    height: (height - 72) - (offset ? offset : 0),
-                    width: '100%',
-                    overflowY: 'auto',
-                    contain: 'strict',
-                
+        <div
+            ref={parentRef}
+            className="List"
+            style={{
+                height: (height - 72) - (offset ? offset : 0),
+                width: '100%',
+                overflowY: 'auto',
+                contain: 'strict',
 
+
+            }}
+        >
+            <div
+                style={{
+                    height: virtualizer.getTotalSize(),
+                    width: '100%',
+                    position: 'relative',
                 }}
             >
                 <div
                     style={{
-                        height: virtualizer.getTotalSize(),
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
                         width: '100%',
-                        position: 'relative',
+                        transform: `translateY(${items[0].start}px)`,
                     }}
                 >
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            transform: `translateY(${items[0].start}px)`,
-                        }}
-                    >
-                        {items.map((virtualRow: any) => (
-                            <div
-                                key={virtualRow.key}
-                                data-index={virtualRow.index}
-                                ref={virtualizer.measureElement}
-                            >
+                    {items.map((virtualRow: any) => (
+                        <div
+                            key={virtualRow.key}
+                            data-index={virtualRow.index}
+                            ref={virtualizer.measureElement}
+                        >
 
-                                {list[virtualRow.index]}
+                            {list[virtualRow.index]}
 
-                            </div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
+
     )
 
 

@@ -5,7 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Divider, Input, Button, Box, Tab, } from "@mui/material"
 import { useState } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 import Editor from 'Stories/Bits/Editor/Editor';
 
@@ -27,6 +27,8 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import DropZone from 'Stories/Bits/DropZone/DropZone';
 import MainPost from 'Stories/Chunk/Post/MainPost';
+import { useNavigate } from 'react-router-dom';
+import { postFilterFlow } from 'State/Flow';
 
 // VALIDATION
 
@@ -102,11 +104,14 @@ const Submit = () => {
     const { register, handleSubmit, watch, formState: { errors }, control } = useForm({ mode: 'onChange', resolver: joiResolver(schema) });
     const [loading, setLoading] = useState(false);
     const data = watch()
-
+    const navigate = useNavigate()
 
     const onSubmit = async () => {
         console.log(data)
-        let req = await socketRequest('post-new', data)
+        let req: any = await socketRequest('post-new', data)
+        if (req.status === 'ok') {
+            navigate(`/c/${data.community_id}`)
+        }
     };
 
 

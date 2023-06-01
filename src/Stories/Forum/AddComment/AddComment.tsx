@@ -14,6 +14,7 @@ const C = {
         background: '#343442',
         width: '100%',
         borderRadius: '8px',
+        marginTop: '8px',
         // marginBottom: '8px',
         // marginLeft: '12px',
         border: `2px solid #343442`,
@@ -58,6 +59,7 @@ const AddComment = ({ parent_id, post_id }: any) => {
             size='small'
             disableElevation
             sx={{
+                
                 margin: '4px',
                 bottom: '0px',
                 right: '0px',

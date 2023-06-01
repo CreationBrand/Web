@@ -1,11 +1,13 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-
-import { useEffect, useState } from "react";
 import { getLinkPreview, } from "link-preview-js";
 import { memo } from 'react'
 import Walk from '../ChunkError/Walk';
+import { useQuery } from '@tanstack/react-query';
+
+
+const proxy = "https://cors.creationbrand.workers.dev"
 
 
 const C = {
@@ -36,23 +38,15 @@ const C = {
 }
 
 
-const proxy = "https://cors.creationbrand.workers.dev"
-
 const Link = ({ url }: any) => {
 
-    const [loading, setLoading] = useState(true)
-    const [data, setData]: any = useState({
-        contentType: false,
-        description: false,
-        favicons: false,
-        images: false,
-        mediaType: false,
-        siteName: false,
-        title: false,
-        url: false,
-        videos: false,
+    const { isLoading, isError, data }: any = useQuery({
+        queryKey: [url],
+        queryFn: async () => {
+            let res = await getLinkPreview(`${proxy}/${url}`)
+            return res
+        },
     })
-
 
     const handleClick = (e: any) => {
         e.stopPropagation()
@@ -60,30 +54,15 @@ const Link = ({ url }: any) => {
         if (url) window.open(url, '_blank').focus();
     }
 
-
-    useEffect(() => {
-        (async () => {
-            let data = await getLinkPreview(`${proxy}/${url}`)
-            setData(data)
-            setLoading(false)
-        })()
-    }, [url])
-
-
-    if (loading) return <div css={C.container}>
-        <Walk />
-    </div>
+    if (isLoading) return <div css={C.container}> <Walk /> </div>
 
 
     return <div css={C.container} onClick={handleClick}>
-
         {data.images && <img src={data.images[0]} css={C.image} />}
-
         <div>
             {data.title && <div css={C.title}>{data.title}</div>}
             {data.description && <div css={C.desc}>{data.description}</div>}
         </div>
-
     </div>
 };
 

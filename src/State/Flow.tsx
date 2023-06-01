@@ -66,3 +66,11 @@ export const filterFlow = atom({
     effects_UNSTABLE: [localStorageEffect('filterFlow')],
 })
 
+
+
+export const postFilterFlow = atom({
+    key: 'postFilterFlow',
+    default: "HOT" as any,
+    effects_UNSTABLE: [localStorageEffect('postFilterFlow')],
+})
+

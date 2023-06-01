@@ -11,7 +11,7 @@ import FilterPane from 'Stories/Pane/FilterPane'
 
 import VirtualList from 'Stories/Chunk/VirtualList/VirtualList'
 import { useRecoilState } from 'recoil'
-import { contentFlow } from 'State/Flow'
+import { contentFlow, postFilterFlow } from 'State/Flow'
 import BitSet from 'bitset'
 import useCommunityFlow from 'Hooks/useCommunityFlow'
 import useContentFlow from 'Hooks/useContentFlow'
@@ -31,7 +31,7 @@ const C = {
 const CommunityList = () => {
 
     const params = useParams()
-    const [filter, setFilter] = useState('HOT')
+    const [filter, setFilter] = useRecoilState(postFilterFlow)
 
     useContentFlow('community')
     useCommunityFlow(params.community_id)

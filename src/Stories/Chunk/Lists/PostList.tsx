@@ -12,7 +12,7 @@ import FilterPane from 'Stories/Pane/FilterPane'
 
 import AddComment from '../../Forum/AddComment/AddComment'
 import VirtualList from '../VirtualList/VirtualList'
-import { contentFlow } from 'State/Flow'
+import { contentFlow, postFilterFlow } from 'State/Flow'
 import useCommunityFlow from 'Hooks/useCommunityFlow'
 import useContentFlow from 'Hooks/useContentFlow'
 import useComments from 'Hooks/Pull/useComments'
@@ -31,8 +31,8 @@ const C = {
 const PostList = () => {
 
     const params = useParams()
-    const [filter, setFilter] = useState('HOT')
-
+    const [filter, setFilter] = useRecoilState(postFilterFlow)
+    
     const [isLoading, isError, component, data] = usePullPost(params.post_id)
     const [isLoading2, isError2, components, data2]: any = useComments(params.post_id, filter)
 
@@ -53,7 +53,7 @@ const PostList = () => {
         >
             <VirtualList list={[
                 component,
-                <div css={{ maxWidth: '800px', margin: 'auto', marginTop: '8px', gap: '8px', display: 'flex', flexDirection: 'column' }}>
+                <div css={{ maxWidth: '800px', margin: 'auto', marginTop: '4px',  display: 'flex', flexDirection: 'column' }}>
                     <FilterPane value={filter} onChange={setFilter} />
                     <AddComment post_id={params.post_id} parent_id={params.post_id} />
                 </div>,
