@@ -90,8 +90,7 @@ const Post = ({ public_id }: any) => {
 
     // filtering || null if not found
     if (!data || data === undefined || !created_at) return null
-
-    // if (tags && tags.some((obj: any) => filter.includes(obj.public_id))) return null
+    if (tags && tags.some((obj: any) => filter.includes(obj.public_id))) return null
 
 
 
