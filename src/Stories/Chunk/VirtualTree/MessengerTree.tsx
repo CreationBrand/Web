@@ -27,6 +27,7 @@ const MessengerTree = () => {
     const { width, height } = useWindow()
 
 
+    console.log(tree)
 
     const handleFilter = (e: any) => {
         setFilter(e)

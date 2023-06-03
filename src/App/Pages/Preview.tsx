@@ -11,7 +11,7 @@ import { memo, useState } from 'react'
 import Main from 'Stories/Layout/Main'
 import Left from 'Stories/Layout/Left'
 import LogoWithName from 'Stories/Bits/Branding/LogoWithName'
-import { faFire, faScroll } from '@fortawesome/free-solid-svg-icons'
+import { faAddressCard, faFire, faScroll } from '@fortawesome/free-solid-svg-icons'
 import { textNormal } from 'Global/Mixins'
 import Search from 'Stories/Chunk/Search/Search'
 import { Button, IconButton } from '@mui/material'
@@ -53,6 +53,10 @@ const Preview = () => {
                         icon={<FontAwesomeIcon css={{ fontSize: '18px' }} icon={faScroll} />}
                         title='Read Me'
                         link='/announcements' />
+                    <Leaf
+                        icon={<FontAwesomeIcon css={{ fontSize: '18px' }}  icon={faAddressCard} />}
+                        title='Contact Us'
+                        link='/contact' />
 
 
                     <div css={{ marginTop: 'auto', padding: '20px 4px 20px' }}>

@@ -1,4 +1,10 @@
 
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react"
+
+
+import { faUserSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { personData } from "State/Data";
 import Avatar from "Stories/Bits/Avatar/Avatar";
 import { getRecoil } from "recoil-nexus";
@@ -83,39 +89,68 @@ export const communityLTL = (list: any) => {
 export const messengerLTT = (list: any) => {
 
     let person = getRecoil(personData)
-
-
-
     let tree: any = [];
-
-
 
     list.forEach((messenger: any, iter: any) => {
 
         const other = messenger.members.filter((item: any) => item.person.public_id !== person.public_id)
         const you = messenger.members.filter((item: any) => item.person.public_id === person.public_id)
 
-        try {
-            tree.push({
-                id: messenger.public_id,
-                type: 'leaf',
-                path: `m${iter}`,
-                link: `/m/${messenger.public_id}`,
-                active: true,
-                visible: true,
-                filter: you[0].messenger_member.status !== 'pending' ? 'active' : 'pending',
+        console.log(other)
 
-                object: {
-                    status: you[0].messenger_member.status,
+        if (other.length === 0) {
+            try {
+                tree.push({
                     id: messenger.public_id,
-                    title: other[0].person.nickname,
-                    icon: <Avatar public_id={other[0].person.public_id} size='small' />,
-                },
-                children: false,
-            })
-        } catch (e) {
-            console.log(e)
+                    type: 'leaf',
+                    path: `m${iter}`,
+                    link: `/m/${messenger.public_id}`,
+                    active: true,
+                    visible: true,
+                    filter: you[0].messenger_member.status !== 'pending' ? 'active' : 'pending',
 
+                    object: {
+                        status: 'close',
+                        id: messenger.public_id,
+                        title: 'No Members',
+                        icon: <div css={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: 34, height: 34, border: '2px solid #D7DADC', borderRadius: 8
+                        }}></div>,
+                    },
+                    children: false,
+                })
+            } catch (e) {
+                console.log(e)
+
+            }
+        }
+
+        else {
+            try {
+                tree.push({
+                    id: messenger.public_id,
+                    type: 'leaf',
+                    path: `m${iter}`,
+                    link: `/m/${messenger.public_id}`,
+                    active: true,
+                    visible: true,
+                    filter: you[0].messenger_member.status !== 'pending' ? 'active' : 'pending',
+
+                    object: {
+                        status: you[0].messenger_member.status,
+                        id: messenger.public_id,
+                        title: other[0].person.nickname,
+                        icon: <Avatar public_id={other[0].person.public_id} size='small' />,
+                    },
+                    children: false,
+                })
+            } catch (e) {
+                console.log(e)
+
+            }
         }
     })
 

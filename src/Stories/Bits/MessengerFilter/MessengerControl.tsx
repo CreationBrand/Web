@@ -22,7 +22,7 @@ const C = {
         zIndex: 1000,
         gap: '8px',
         fontSize: '24px',
-        rotate: '180deg',
+        // rotate: '180deg',
     }),
 
 }
@@ -34,15 +34,25 @@ const MessengerControl = ({ messenger_id }: any) => {
 
 
     const handleAccept = async () => {
-
         let res: any = await socketRequest('messenger-accept', { messenger_id })
-
-
         if (res.status === 'ok') {
             set((prev: any) => ({ ...prev, status: 'active' }))
         }
     }
 
+    const handleClose = async () => {
+        let res: any = await socketRequest('messenger-close', { messenger_id })
+        if (res.status === 'ok') {
+            set((prev: any) => false)
+        }
+    }
+
+    const handleBlock = async () => {
+        let res: any = await socketRequest('messenger-block', { messenger_id })
+        if (res.status === 'ok') {
+            set((prev: any) => ({ ...prev, status: 'block' }))
+        }
+    }
 
 
     return (
@@ -50,15 +60,17 @@ const MessengerControl = ({ messenger_id }: any) => {
 
 
             <Button
+                disableElevation
                 onClick={handleAccept}
                 color='success'
                 sx={{
                     // backgroundColor: '#605d57',
+                    background: '#181820 !important',
                     color: '#b9bbbe',
                     borderRadius: '8px',
                     gap: '8px',
                     '&:hover': {
-                        // backgroundColor: '#3d3a36',
+                        backgroundColor: '#22222e !important',
 
                     },
                 }}
@@ -70,13 +82,16 @@ const MessengerControl = ({ messenger_id }: any) => {
 
 
             <Button
+                disableElevation
+                onClick={handleClose}
+
                 sx={{
-                    backgroundColor: '#605d57',
+                    background: '#181820 !important',
                     color: '#b9bbbe',
                     borderRadius: '8px',
                     gap: '8px',
                     '&:hover': {
-                        backgroundColor: '#3d3a36',
+                        backgroundColor: '#22222e !important',
 
                     },
                 }}
@@ -87,12 +102,18 @@ const MessengerControl = ({ messenger_id }: any) => {
             </Button>
 
             <Button
+                disableElevation
+                onClick={handleBlock}
                 color='error'
                 sx={{
-                    // backgroundColor: '#b22f47',
+                    background: '#181820 !important',
                     color: '#b9bbbe',
                     borderRadius: '8px',
                     gap: '8px',
+                    '&:hover': {
+                        backgroundColor: '#22222e !important',
+
+                    },
                 }}
                 variant="contained">
 

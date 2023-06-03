@@ -5,6 +5,7 @@ import { errorFlow, socketFlow } from 'State/Flow'
 import { DefaultEventsMap } from '@socket.io/component-emitter'
 import { parseCookies } from 'Util'
 import { handleNotification } from 'Helper/Notif'
+import { json } from 'stream/consumers'
 
 export let socket: Socket<DefaultEventsMap, DefaultEventsMap>
 
@@ -106,6 +107,19 @@ socket.on("error", (error: any) => {
 socket.on("connect", () => {
     console.log('%c [Socket] ', 'background: #052900; color: #da55cd', 'connection');
     setRecoil(socketFlow, 'connected')
+
+
+    socketRequest('notifs', {}).then((data: any) => {
+     
+        for (const property in data.notifs) {
+            console.log(`${property}: ${data.notifs[property]}`);
+            setRecoil(notificationStateFamily(property), data.notifs[property])
+
+        }
+
+    })
+
+
 });
 
 // SOCKET connection broken

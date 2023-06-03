@@ -20,17 +20,17 @@ const VirtualList = ({ list, offset, flip }: any) => {
         overscan: 6,
     })
 
-    useEffect(() => {
-        const el = parentRef.current;
+    // useEffect(() => {
+    //     const el = parentRef.current;
 
-        const invertedWheelScroll = (event: any) => {
-            el.scrollTop -= event.deltaY;
-            event.preventDefault();
-        };
+    //     const invertedWheelScroll = (event: any) => {
+    //         el.scrollTop -= event.deltaY;
+    //         event.preventDefault();
+    //     };
 
-        if (flip) el.addEventListener('wheel', invertedWheelScroll, false);
-        return () => el.removeEventListener('wheel', invertedWheelScroll);
-    }, []);
+    //     if (flip) el.addEventListener('wheel', invertedWheelScroll, false);
+    //     return () => el.removeEventListener('wheel', invertedWheelScroll);
+    // }, []);
 
 
 

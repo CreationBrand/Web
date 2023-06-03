@@ -29,6 +29,7 @@ import DropZone from 'Stories/Bits/DropZone/DropZone';
 import MainPost from 'Stories/Chunk/Post/MainPost';
 import { useNavigate } from 'react-router-dom';
 import { postFilterFlow } from 'State/Flow';
+import ContentLoader from 'Stories/Bits/ContentLoader/ContentLoader';
 
 // VALIDATION
 
@@ -290,24 +291,12 @@ const Submit = () => {
             </form >
 
             <Divider sx={{ margin: '12px' }} />
-
             <div css={textLabel('s')}>POST PREVIEW</div>
+            <div css={textBold('x')}>{data.title && data.title}</div>
+            <ContentLoader type={data.type} content={data.content} />
 
-            <MainPost
-                public_id={false}
-                title={data.title}
-                type={data.type}
-                content={data.content}
-                karma={0}
-                views={0}
-                comments={0}
-                created_at={'2023-05-12T08:12:02.829Z'}
-                updated_at={false}
-                hot={false}
-                author={person}
-            />
-        </div>
-    </div>
+        </div >
+    </div >
 
 }
 

@@ -11,19 +11,17 @@ import MessagePane from 'Stories/Pane/messagePane'
 import useMessenger from 'Hooks/Pull/useMessenger'
 import MessengerControl from 'Stories/Bits/MessengerFilter/MessengerControl'
 import useClearNotif from 'Hooks/useClearNotif'
+import ReverseList from '../VirtualList/ReverseList'
 
 const C = {
     container: css({
         height: '100%',
         position: 'relative',
         overflow: 'hidden',
-        display: 'flex',
         marginTop: '8px',
         padding: '0px 16px',
         borderRadius: '8px',
-        flexDirection: 'column-reverse',
         backgroundColor: '#272732',
-        transform: 'rotate(180deg)',
     })
 }
 
@@ -35,7 +33,8 @@ const MessengerList = () => {
     const [isLoading1, isError1, pane, data, status] = useMessenger(params.messenger_id)
     const [isLoading, isError, list] = usePullMessages(params.messenger_id)
 
-    
+
+    console.log('messenger list', status)
 
     if (isError) return <ChunkError />
 
@@ -49,13 +48,13 @@ const MessengerList = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
         >
-            {pane}
-            <VirtualList
+
+            <ReverseList
                 list={list}
                 offset={76}
-                flip
-            />
 
+            />
+            {pane}
             {status === 'active' || status === 'owner' ?
                 <MessagePane messenger_id={params.messenger_id} /> :
                 <MessengerControl messenger_id={params.messenger_id} status={status} />}

@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { Theme, css } from '@emotion/react'
 import { memo } from 'react'
+import { useScroll } from "framer-motion"
 
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
@@ -248,21 +249,48 @@ export default memo(ContentLoader)
 
 const Viewer = ({ src, open, onClose }: any) => {
 
+    const [scale, setScale] = useState(1)
+
+    const handleScroll = (e: any) => {
+        setScale(scale + e.deltaY * -0.0005)
+    }
+
+    function onPanEnd(event: any, info: { point: { x: any; y: any; }; }) {
+        console.log(info.point.x, info.point.y)
+    }
+
+
     return (
 
         <Dialog
             open={open}
             onClose={onClose}
+            
             sx={{
                 borderRadius: '0px',
+                backgroundColor: 'transparent',
+                '& .MuiDialog-paper': {
+                    backgroundColor: 'transparent !important',
+                    boxShadow: 'none !important',
+                    width: '100%',
+                    height: 'auto',
+                    
+                },
                 Backdrop: {
                     background: 'rgba(14,16,15,0.80)',
                 }
             }}
         >
             <motion.img
+                onWheel={handleScroll}
                 src={src}
+                onPanEnd={onPanEnd}
+                // animate={{ scale: scale }}
+                style={{
+                    width: '100%',
+                }}
                 css={{
+                    
                     zIndex: 10000,
                     maxWidth: '100%',
                     maxHeight: '100%',
@@ -270,7 +298,6 @@ const Viewer = ({ src, open, onClose }: any) => {
                     height: 'auto',
                 }}
             />
-
         </Dialog>
 
     );

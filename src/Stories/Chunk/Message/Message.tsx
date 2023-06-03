@@ -9,11 +9,11 @@ const C = {
     container: css({
         width: '100%',
         display: 'flex',
-
+        paddingTop: '16px',
         // border: '1px solid red',
-        marginTop: '18px',
+        // marginTop: '18px',
         // padding: '4px 0px 2px 0px',
-        transform: `rotate(180deg)`,
+        // transform: `rotate(180deg)`,
 
 
     }),

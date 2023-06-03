@@ -8,6 +8,7 @@ import CommunityList from 'Stories/Chunk/Lists/CommunityList'
 import PostList from 'Stories/Chunk/Lists/PostList'
 import { memo } from 'react'
 import SearchList from 'Stories/Chunk/Lists/SearchList'
+import Contact from 'Stories/Views/Contact'
 
 var Public = () => {
 
@@ -39,6 +40,7 @@ var Public = () => {
 
                     <Route path="/trending" element={<GlobalList type='trending' />} />
                     <Route path="/announcements" element={<Announcements />} />
+                    <Route path="/contact" element={<Contact />} />
                 </Route>
 
 

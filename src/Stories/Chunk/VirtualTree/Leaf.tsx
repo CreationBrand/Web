@@ -27,6 +27,7 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
         border: `3px solid #181820`,
         padding: '0px 2px',
         // borderRadius: '8px',
+        zIndex: 200,
         background: '#af4141',
     },
 }));
@@ -114,7 +115,7 @@ const Leaf = ({ link, title, icon, public_id }: any) => {
 
                 {icon &&
                     <StyledBadge
-                        badgeContent={notification} invisible={notification <= 1}>
+                        badgeContent={notification} invisible={!Boolean(notification)}>
                         {icon}
                     </StyledBadge>
                 }

@@ -27,7 +27,7 @@ const C = {
         zIndex: 1000,
         backgroundColor: '#343446',
         fontSize: '24px',
-        rotate: '180deg',
+        // rotate: '180deg',
     }),
     input: css({
         all: 'unset',
