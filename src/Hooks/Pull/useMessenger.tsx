@@ -43,10 +43,7 @@ const useMessenger = (messenger_id: any) => {
         status = you[0].messenger_member.status
     } catch (e) { }
 
-
-
-
-    return [isLoading, isError, <MessengerPane public_id={data?.community?.public_id} status={status} />, data, status];
+    return [isLoading, isError, <MessengerPane messenger_id={data?.messenger?.public_id} status={status} />, data, status];
 }
 
 export default useMessenger 

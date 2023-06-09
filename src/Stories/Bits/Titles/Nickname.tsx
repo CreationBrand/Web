@@ -1,10 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { memo, useEffect, useMemo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Button, debounce } from '@mui/material'
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
 import HoverPopover from 'material-ui-popup-state/HoverPopover'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -26,8 +25,9 @@ const C = {
         whiteSpace: 'nowrap',
     }),
     underline: css({
-        fontSize: '12px',
-        // lineHeight: '20px',
+        fontSize: '14px',
+        fontWeight: 500,
+        lineHeight: '20px',
         color: '#b9b6ba',
         ':hover': {
 
@@ -59,7 +59,9 @@ const Nickname = ({ title, public_id, community_id, global_roles }: any) => {
 
     return (
 
-        <PopupState variant="popover" popupId="demo-popup-popover">
+        <PopupState
+
+            variant="popover" popupId="demo-popup-popover">
             {(popupState) => (
                 <div onClick={(e: any) => e.stopPropagation()}>
                     <div
@@ -69,9 +71,9 @@ const Nickname = ({ title, public_id, community_id, global_roles }: any) => {
                         onClick={handleClick}
                         css={C.underline}>{title}</div>
 
-
                     <HoverPopover
                         sx={{
+                            // marginTop: '2px',
                             '& .MuiPaper-root': {
                                 borderRadius: '16px !important',
                             }
@@ -121,12 +123,10 @@ let Preview = ({ public_id, community_id }: any) => {
     let [data, setData]: any = useState(null)
     const authState = useRecoilValue(authFlow)
 
-
     useEffect(() => {
         (async () => {
             let temp: any = await socketRequest('person', { person_id: public_id, community_id: community_id })
             setData(temp.person)
-
         })()
     }, [public_id])
 

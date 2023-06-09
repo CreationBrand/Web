@@ -11,6 +11,7 @@ import { LoadingButton } from '@mui/lab';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import BitSet from 'bitset';
 import { socketRequest } from 'Service/Socket';
+import ColorPicker from './ColorPicker';
 
 const C = {
     container: css({
@@ -202,7 +203,10 @@ const RoleEditor = ({ roles, public_id, }: any) => {
 
             <div css={[textLabel('s'), { marginTop: '36px' }]}>Group Color</div>
 
-            <Controller
+
+            <ColorPicker control={control} />
+
+            {/* <Controller
                 name="color"
                 control={control}
                 render={({ field: { onChange, value } }: any) => <div css={{ display: 'flex', gap: '8px' }}>
@@ -394,7 +398,7 @@ const RoleEditor = ({ roles, public_id, }: any) => {
                     //     color={value}
                     // />
                 }
-            />
+            /> */}
 
 
 

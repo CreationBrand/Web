@@ -26,9 +26,6 @@ const MessengerTree = () => {
     const [search, setSearch] = useState('')
     const { width, height } = useWindow()
 
-
-    console.log(tree)
-
     const handleFilter = (e: any) => {
         setFilter(e)
     }
@@ -88,6 +85,7 @@ const MessengerTree = () => {
 const Node = ({ node, style, dragHandle }: any) => {
 
     return <Leaf
+        atom={`messenger:${node.id}`}
         public_id={node.id}
         icon={node.data.object.icon}
         title={node.data.object.title}

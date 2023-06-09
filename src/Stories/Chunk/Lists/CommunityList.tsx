@@ -15,6 +15,7 @@ import { contentFlow, postFilterFlow } from 'State/Flow'
 import BitSet from 'bitset'
 import useCommunityFlow from 'Hooks/useCommunityFlow'
 import useContentFlow from 'Hooks/useContentFlow'
+import VirtuList from '../VirtualList/VirtuList'
 
 
 const C = {
@@ -42,6 +43,7 @@ const CommunityList = () => {
     if (isError1 || isError) return <ChunkError variant='error' />
     if (isLoading1 || isLoading) return <ChunkError variant='loading' />
 
+
     return (
         <motion.div
             key={params.community_id}
@@ -51,7 +53,8 @@ const CommunityList = () => {
             animate={{ opacity: 1, }}
 
         >
-            <VirtualList
+            <VirtuList
+                public_id={params.community_id}
                 list={[
                     component,
                     <FilterPane value={filter} onChange={setFilter} />,

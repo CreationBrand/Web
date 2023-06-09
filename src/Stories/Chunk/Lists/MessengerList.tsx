@@ -33,9 +33,7 @@ const MessengerList = () => {
     const [isLoading1, isError1, pane, data, status] = useMessenger(params.messenger_id)
     const [isLoading, isError, list] = usePullMessages(params.messenger_id)
 
-
-    console.log('messenger list', status)
-
+  
     if (isError) return <ChunkError />
 
     return (

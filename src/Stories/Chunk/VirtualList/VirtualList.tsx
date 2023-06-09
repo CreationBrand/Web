@@ -1,37 +1,21 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { cloneElement, memo, useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import { useRecoilValue } from 'recoil'
-import { layoutSizeData } from 'State/Data'
 import useWindow from 'Hooks/useWindow'
 
-const VirtualList = ({ list, offset, flip }: any) => {
+const VirtualList = ({ list, offset, overscan, public_id }: any) => {
 
     const { height } = useWindow()
-    const layoutSize = useRecoilValue(layoutSizeData)
     const parentRef: any = useRef()
 
-    const virtualizer = useVirtualizer({
+    let virtualizer = useVirtualizer({
         count: list?.length,
         getScrollElement: () => parentRef.current,
         estimateSize: () => 500,
-        overscan: 6,
+        overscan: overscan ? overscan : 6,
     })
-
-    // useEffect(() => {
-    //     const el = parentRef.current;
-
-    //     const invertedWheelScroll = (event: any) => {
-    //         el.scrollTop -= event.deltaY;
-    //         event.preventDefault();
-    //     };
-
-    //     if (flip) el.addEventListener('wheel', invertedWheelScroll, false);
-    //     return () => el.removeEventListener('wheel', invertedWheelScroll);
-    // }, []);
-
 
 
     const items: any = virtualizer.getVirtualItems()
@@ -40,6 +24,7 @@ const VirtualList = ({ list, offset, flip }: any) => {
     if (!items || items.length === 0) return null
     return (
         <div
+            id={'list'}
             ref={parentRef}
             className="List"
             style={{
@@ -47,8 +32,6 @@ const VirtualList = ({ list, offset, flip }: any) => {
                 width: '100%',
                 overflowY: 'auto',
                 contain: 'strict',
-
-
             }}
         >
             <div
@@ -67,13 +50,13 @@ const VirtualList = ({ list, offset, flip }: any) => {
                         transform: `translateY(${items[0].start}px)`,
                     }}
                 >
+
                     {items.map((virtualRow: any) => (
                         <div
                             key={virtualRow.key}
                             data-index={virtualRow.index}
                             ref={virtualizer.measureElement}
                         >
-
                             {list[virtualRow.index]}
 
                         </div>
@@ -92,4 +75,4 @@ const VirtualList = ({ list, offset, flip }: any) => {
 
 
 
-export default memo(VirtualList)
+export default VirtualList

@@ -29,7 +29,7 @@ import DropZone from 'Stories/Bits/DropZone/DropZone';
 import MainPost from 'Stories/Chunk/Post/MainPost';
 import { useNavigate } from 'react-router-dom';
 import { postFilterFlow } from 'State/Flow';
-import ContentLoader from 'Stories/Bits/ContentLoader/ContentLoader';
+import ContentLoader from 'Stories/Chunk/ContentLoader/ContentLoader';
 
 // VALIDATION
 

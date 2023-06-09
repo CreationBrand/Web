@@ -13,6 +13,7 @@ import { title } from 'process'
 import usePullGroup from 'Hooks/usePullGroup'
 import useContentFlow from 'Hooks/useContentFlow'
 import useCommunityFlow from 'Hooks/useCommunityFlow'
+import VirtuList from '../VirtualList/VirtuList'
 
 const C = {
     container: css({
@@ -47,7 +48,7 @@ const GroupList = () => {
             initial={{ opacity: 0, }}
             animate={{ opacity: 1, }}
 >
-            <VirtualList list={[group, ...list]} />
+            <VirtuList public_id={params.group_id} list={[group, ...list]} />
         </motion.div>
     )
 }

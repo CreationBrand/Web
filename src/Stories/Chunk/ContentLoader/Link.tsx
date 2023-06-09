@@ -3,8 +3,8 @@
 import { css } from '@emotion/react'
 import { getLinkPreview, } from "link-preview-js";
 import { memo } from 'react'
-import Walk from '../ChunkError/Walk';
 import { useQuery } from '@tanstack/react-query';
+import Walk from 'Stories/Bits/ChunkError/Walk';
 
 
 const proxy = "https://cors.creationbrand.workers.dev"

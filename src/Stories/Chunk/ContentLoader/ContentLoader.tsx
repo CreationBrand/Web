@@ -1,28 +1,19 @@
 /** @jsxImportSource @emotion/react */
-import { Theme, css } from '@emotion/react'
-import { memo } from 'react'
-import { useScroll } from "framer-motion"
 
+import { css } from '@emotion/react'
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
-
-import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import ReactPlayer from 'react-player'
-import Carousel from '../Carousel/Carousel';
-import clsx from 'clsx';
-
-import * as React from "react";
-import { useState, useRef } from "react";
-import { AnimatePresence, motion, useDomEvent } from "framer-motion";
-import { Backdrop, Dialog, Modal, styled } from '@mui/material';
-import Close from '../Close/Close';
+import { useState, memo } from "react";
+import { motion } from "framer-motion";
+import { Dialog } from '@mui/material';
 import VisibilitySensor from 'react-visibility-sensor';
 //@ts-ignore
-import { ReactTinyLink } from 'react-tiny-link'
-import { ErrorBoundary } from 'react-error-boundary';
-import Link from './Link';
 
+import Link from './Link';
+import Carousel from './Carousel';
+import Text from './Text';
 
 
 
@@ -125,7 +116,7 @@ const C = {
 }
 
 
-const ContentLoader = ({ type, content }: any) => {
+const ContentLoader = ({ type, content, public_id }: any) => {
 
     const [isVisable, setIsVisable] = useState(false)
 
@@ -141,18 +132,7 @@ const ContentLoader = ({ type, content }: any) => {
         setIsVisable(isVisible)
     }
 
-    if (type === 'text') return (
-        <div className='quill css-16jn0ui-Editor'>
-            <div className='ql-container ql-snow'>
-                <div className='ql-container ql-snow'>
-                    <div className='ql-editor'>
-                        <ReactMarkdown
-                            children={content} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
+    if (type === 'text') return <Text content={content} public_id={public_id} />
 
     try {
         if (typeof content === 'string') content = JSON.parse(content)
@@ -265,7 +245,7 @@ const Viewer = ({ src, open, onClose }: any) => {
         <Dialog
             open={open}
             onClose={onClose}
-            
+
             sx={{
                 borderRadius: '0px',
                 backgroundColor: 'transparent',
@@ -274,7 +254,7 @@ const Viewer = ({ src, open, onClose }: any) => {
                     boxShadow: 'none !important',
                     width: '100%',
                     height: 'auto',
-                    
+
                 },
                 Backdrop: {
                     background: 'rgba(14,16,15,0.80)',
@@ -290,7 +270,7 @@ const Viewer = ({ src, open, onClose }: any) => {
                     width: '100%',
                 }}
                 css={{
-                    
+
                     zIndex: 10000,
                     maxWidth: '100%',
                     maxHeight: '100%',

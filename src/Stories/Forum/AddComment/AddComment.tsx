@@ -1,12 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import Button from '@mui/material/Button'
-import { useState } from 'react'
-import { useRecoilValue } from 'recoil'
+import { useEffect, useState } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { socketRequest } from 'Service/Socket'
-import { authFlow } from 'State/Flow'
-
+import { postListData, virtualListStateFamily } from 'State/Data'
+import { authFlow, postFilterFlow } from 'State/Flow'
+import Comment from 'Stories/Chunk/Comment/Comment'
 import Editor from 'Stories/Bits/Editor/Editor'
+import { setRecoil } from 'recoil-nexus'
+import { set } from 'date-fns'
+import { useQueryClient } from '@tanstack/react-query'
+
 
 const C = {
     container: css({
@@ -15,8 +20,6 @@ const C = {
         width: '100%',
         borderRadius: '8px',
         marginTop: '8px',
-        // marginBottom: '8px',
-        // marginLeft: '12px',
         border: `2px solid #343442`,
         cursor: 'pointer',
         zIndex: 1000,
@@ -27,10 +30,11 @@ const C = {
 }
 
 
-const AddComment = ({ parent_id, post_id }: any) => {
+const AddComment = ({ parent_id, post_id, onClose }: any) => {
 
     const [comment, setComment] = useState('')
     const authState = useRecoilValue(authFlow)
+    const [list, setList] = useRecoilState(postListData)
 
 
     const onSubmit = async () => {
@@ -42,7 +46,27 @@ const AddComment = ({ parent_id, post_id }: any) => {
         })
 
         if (req.status === 'ok') {
+            // const loading = setRecoil(virtualListStateFamily(`subscribe:${req.comments.public_id}`), req.comments);
             setComment('')
+
+            try {
+
+                // setQueryState
+                // let clone = [...state]
+                // clone[0][1].pages[page].splice(page_index + 1, 0, req.comments);
+                // queryClient.setQueryData(['comment-list', post_id, filter], clone)
+
+                //Set Recoil State
+                const clone2 = [...list]
+                var insertIndex = clone2.findIndex((obj: any) => obj.props.public_id === parent_id);
+                clone2.splice(insertIndex + 1, 0, <Comment {...req.comments} />);
+                setList(clone2)
+
+                onClose()
+            }
+            catch (e) {
+                // console.log(e)
+            }
         }
     }
 
@@ -59,7 +83,7 @@ const AddComment = ({ parent_id, post_id }: any) => {
             size='small'
             disableElevation
             sx={{
-                
+
                 margin: '4px',
                 bottom: '0px',
                 right: '0px',

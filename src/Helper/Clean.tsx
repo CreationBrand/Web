@@ -96,8 +96,6 @@ export const messengerLTT = (list: any) => {
         const other = messenger.members.filter((item: any) => item.person.public_id !== person.public_id)
         const you = messenger.members.filter((item: any) => item.person.public_id === person.public_id)
 
-        console.log(other)
-
         if (other.length === 0) {
             try {
                 tree.push({

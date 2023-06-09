@@ -6,7 +6,6 @@
         "dockerfile",
         "yarn-error.log",
         "README.md",
-        "package.json",
         ".storybook"
     ],
     "files.exclude": {
@@ -17,14 +16,13 @@
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         "node_modules": true,
+        "webpack.config.js": true,
         "yarn.lock": true,
         ".gitignore": true,
         ".prettierrc.json": true,
         "dockerfile": true,
-        "webpack.config.js": true,
         "yarn-error.log": true,
         "README.md": true,
-        "package.json": true,
         ".storybook": true
     }
 }

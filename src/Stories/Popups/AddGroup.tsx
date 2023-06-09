@@ -10,6 +10,7 @@ import { textBold, textLabel, textLight, textNormal } from "Global/Mixins";
 import { HexColorPicker } from "react-colorful";
 import { socketRequest } from "Service/Socket";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import ColorPicker from "Stories/Forum/ColorPicker";
 
 
 const C = {
@@ -84,7 +85,7 @@ const AddGroup = ({ open, handleClose }: Props) => {
 
                 <div css={C.content}>
 
-                    <div css={textLabel('t')}>Group Name</div>
+                    <div css={textLabel('s')}>Group Name</div>
 
                     <Controller
                         name="title"
@@ -107,26 +108,8 @@ const AddGroup = ({ open, handleClose }: Props) => {
 
 
                 <div css={C.content}>
-                    <div css={textLabel('t')}>Group Color</div>
-
-                    <Controller
-                        name="color"
-                        control={control}
-                        defaultValue="#aabbcc"
-                        rules={{ required: true }}
-                        render={({ field: { onChange, value } }: any) =>
-
-                            <HexColorPicker
-
-                                onChange={onChange}
-                                //@ts-ignore
-                                value={value}
-                            />
-
-
-
-                        }
-                    />
+                    <div css={textLabel('s')}>Group Color</div>
+                    <ColorPicker control={control} />
 
                 </div>
 

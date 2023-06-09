@@ -10,6 +10,7 @@ import VirtualList from '../VirtualList/VirtualList'
 import { useLocation, useParams } from 'react-router-dom'
 import useCommunityFlow from 'Hooks/useCommunityFlow'
 import useContentFlow from 'Hooks/useContentFlow'
+import VirtuList from '../VirtualList/VirtuList'
 
 const C = {
     container: css({
@@ -37,7 +38,8 @@ const GlobalList = ({ type }: any) => {
             initial={{ opacity: 0, }}
             animate={{ opacity: 1, }}
         >
-            <VirtualList list={components} />
+            <VirtuList list={components} public_id={type} />
+            {/* <VirtualList list={components} public_id={type} /> */}
         </motion.div>
     )
 }

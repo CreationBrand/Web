@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 
 import { motion } from "framer-motion"
 import Avatar from 'Stories/Bits/Avatar/Avatar'
-import ContentLoader from 'Stories/Bits/ContentLoader/ContentLoader'
+import ContentLoader from '../ContentLoader/ContentLoader'
 import Author from "Stories/Bits/Titles/Author"
 import CommunityTitle from "Stories/Bits/Titles/CommunityTitle"
 import Nickname from "Stories/Bits/Titles/Nickname"
@@ -21,6 +21,7 @@ import LiveVotes from 'Stories/Alive/LiveVotes'
 import LiveTags from '../../Alive/LiveTags'
 import useLiveData from 'Hooks/useLiveData'
 import LiveRoles from 'Stories/Alive/LiveRoles'
+import { hasSeen } from 'State/seenAtom'
 
 const C = {
     container: css({
@@ -65,14 +66,6 @@ const C = {
 
 const Post = ({ public_id }: any) => {
 
-
-
-
-    useEffect(() => {
-        return () => {
-        };
-    }, []);
-
     // proxing data
     const [visibility, setVisibility] = useState(false)
     const data = useLiveData(visibility, `subscribe:${public_id}`)
@@ -87,10 +80,19 @@ const Post = ({ public_id }: any) => {
     const bodyClick = () => navigate(`/c/${community.public_id}/p/${public_id}`)
 
 
+    const seen = useRecoilValue(hasSeen);
+    let [grayed, setGrayed] = useState(false)
+
+    useEffect(() => {
+        setGrayed(seen(public_id))
+    }, [])
+
+
+
 
     // filtering || null if not found
     if (!data || data === undefined || !created_at) return null
-    if (tags && tags.some((obj: any) => filter.includes(obj.public_id))) return null
+    if (tags && tags.some((obj: any) => filter.includes(obj?.public_id))) return null
 
 
 
@@ -114,7 +116,7 @@ const Post = ({ public_id }: any) => {
                                     community_id={community?.public_id}
                                     global_roles={global_roles}
                                 />
-                                <span css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), { addSuffix: true })}</span>
+                                <span css={textLight('t')}> • {formatDistanceStrict(parseISO(created_at), new Date(), { addSuffix: true })}</span>
                             </div>
 
                             <div css={{ display: 'flex', alignItems: 'center', gap: '4px', height: '20px' }}>
@@ -129,7 +131,7 @@ const Post = ({ public_id }: any) => {
                                 <div css={{ display: 'flex', gap: '4px', alignItems: 'baseline' }}>
                                     <CommunityTitle title={community?.title} public_id={community?.public_id} />
 
-                                    <div css={textLight('t')}> - {formatDistanceStrict(parseISO(created_at), new Date(), {
+                                    <div css={textLight('t')}> • {formatDistanceStrict(parseISO(created_at), new Date(), {
                                         addSuffix: true
                                     })}</div>
                                 </div>
@@ -152,8 +154,8 @@ const Post = ({ public_id }: any) => {
 
                     </div>
 
-                    <div css={textBold('x')}>{title && title}</div>
-                    <ContentLoader type={type} content={content} />
+                    <div css={[textBold('x'), (contentState !== 'post' && grayed) && { color: '#b9b6ba !important' }]}>{title && title}</div>
+                    <ContentLoader type={type} content={content} public_id={public_id} />
 
                     <div css={C.footer} onClick={(e) => e.stopPropagation()}>
                         <LiveVotes vote={vote} karma={karma} public_id={public_id} type='post' />

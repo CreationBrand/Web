@@ -6,7 +6,7 @@ import usePullComments from 'Hooks/usePullComments'
 import usePullPost from 'Hooks/usePullPost'
 import { memo, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import FilterPane from 'Stories/Pane/FilterPane'
 
@@ -15,7 +15,8 @@ import VirtualList from '../VirtualList/VirtualList'
 import { contentFlow, postFilterFlow } from 'State/Flow'
 import useCommunityFlow from 'Hooks/useCommunityFlow'
 import useContentFlow from 'Hooks/useContentFlow'
-import useComments from 'Hooks/Pull/useComments'
+import useComments from 'Hooks/Pull/useComments2'
+import { seenAtom } from 'State/seenAtom'
 
 const C = {
     container: css({
@@ -32,12 +33,18 @@ const PostList = () => {
 
     const params = useParams()
     const [filter, setFilter] = useRecoilState(postFilterFlow)
-    
+
     const [isLoading, isError, component, data] = usePullPost(params.post_id)
-    const [isLoading2, isError2, components, data2]: any = useComments(params.post_id, filter)
+    const [isLoading2, isError2, components]: any = useComments(params.post_id, filter)
+    const see = useSetRecoilState(seenAtom)
 
     useContentFlow('post')
     useCommunityFlow(data?.post?.community?.public_id)
+
+    useEffect(() => {
+        see((o: any) => [...o, params.post_id])
+    }, [params.post_id])
+
 
     if (isError || isError2) return <ChunkError variant='error' />
     if (isLoading || isLoading2) return <ChunkError variant='loading' />
@@ -51,14 +58,16 @@ const PostList = () => {
             animate={{ opacity: 1, }}
 
         >
-            <VirtualList list={[
-                component,
-                <div css={{ maxWidth: '800px', margin: 'auto', marginTop: '4px',  display: 'flex', flexDirection: 'column' }}>
-                    <FilterPane value={filter} onChange={setFilter} />
-                    <AddComment post_id={params.post_id} parent_id={params.post_id} />
-                </div>,
-                ...components
-            ]} />
+            <VirtualList
+            
+                list={[
+                    component,
+                    <div css={{ maxWidth: '800px', margin: 'auto', marginTop: '4px', display: 'flex', flexDirection: 'column' }}>
+                        <FilterPane value={filter} onChange={setFilter} />
+                        <AddComment post_id={params.post_id} parent_id={params.post_id} />
+                    </div>,
+                    ...components
+                ]} />
 
 
         </motion.div>

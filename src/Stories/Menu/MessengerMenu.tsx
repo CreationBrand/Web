@@ -8,6 +8,9 @@ import { Menu } from '@mui/base';
 import { MenuItem } from '@mui/material';
 
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { socketRequest } from 'Service/Socket';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { virtualListStateFamily } from 'State/Data';
 
 
 const StyledPopper = styled(Popper)(({ theme }) => ({
@@ -26,9 +29,18 @@ const StyledPopper = styled(Popper)(({ theme }) => ({
 const MessengerMenu = ({ anchorEl, onClose, messenger_id, status }: any) => {
 
 
+    const [isasdf, set]: any = useRecoilState(virtualListStateFamily(`messenger:${messenger_id}`))
+
+
+    console.log(isasdf)
 
     const handleDelete = async () => {
-
+        let res: any = await socketRequest('messenger-delete', { messenger_id })
+        console.log(res)
+        if (res.status === 'ok') {
+            set((prev: any) => false)
+            onClose()
+        }
     }
 
 

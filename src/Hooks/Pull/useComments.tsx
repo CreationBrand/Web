@@ -1,5 +1,4 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { set } from "date-fns";
 import { useEffect, useState } from "react"
 import { useRecoilState, useRecoilTransaction_UNSTABLE } from "recoil";
 import { socketRequest } from "Service/Socket";
@@ -61,31 +60,27 @@ const usePullPosts = (post_id: any, filter: string) => {
 
         queryFn: fetch,
         getNextPageParam: (lastPage, pages) => {
-
-
-            if (!lastPage) return
-
+            if (!lastPage) return undefined
             if (lastPage.length < 25) {
                 end = true
                 return undefined
             }
             return pages[0][pages[0].length - 1].sort_path
-
-
         },
 
-        onSuccess: (data) => {
-            if (!data || data === undefined || data.pages.length === 0) return
-            if (!data || data === undefined || data.pages.length === 0) return
 
+        onSuccess: (data) => {
+            if (!data.pages[0]) return
             const temp = []
             for (let i in data.pages) {
                 for (let j in data.pages[i]) {
-                    temp.push(<Comment public_id={data.pages[i][j].public_id} />)
+                    temp.push(<Comment
+                        post_id={post_id}
+                        page={i}
+                        page_index={j}
+                        public_id={data.pages[i][j].public_id} />)
                 }
             }
-
-
             setComponents(temp)
 
         },

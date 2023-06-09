@@ -4,7 +4,7 @@ import { css } from "@emotion/react"
 import { Badge, BadgeProps, styled } from "@mui/material";
 
 import { textNormal } from "Global/Mixins";
-import { notificationStateFamily } from "State/Data";
+import { notificationStateFamily, virtualListStateFamily } from "State/Data";
 import Avatar from "Stories/Bits/Avatar/Avatar";
 import { motion } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -92,15 +92,19 @@ const innerMotion = {
     }
 };
 
-const Leaf = ({ link, title, icon, public_id }: any) => {
+const Leaf = ({ link, title, icon, public_id, atom }: any) => {
 
     const notification = useRecoilValue(notificationStateFamily(public_id))
+    const state = useRecoilValue(virtualListStateFamily(atom))
+
     const navigate = useNavigate()
     const location = useLocation()
 
     const handleClick = () => {
         if (link) navigate(link)
     }
+
+    if(!state) return null
 
     return (
         <motion.div

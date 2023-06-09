@@ -115,7 +115,6 @@ export const globalHex = atom({
 
 
 // notif
-
 export const notificationStateFamily = atomFamily({
     key: 'notificationState',
     default: false as any,

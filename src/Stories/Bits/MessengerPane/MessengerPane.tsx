@@ -25,7 +25,7 @@ const C = {
 }
 
 
-const MessengerPane = ({ public_id, status }: any) => {
+const MessengerPane = ({ messenger_id, status }: any) => {
 
     const [anchorEl, setAnchorEl]: any = useState(null);
     const [open, setOpen] = useState(false)
@@ -48,7 +48,7 @@ const MessengerPane = ({ public_id, status }: any) => {
             {status}
             <SettingsRoundedIcon sx={{ fontSize: '16px' }} />
         </div>
-        <MessengerMenu anchorEl={anchorEl} onClose={handleClose} messenger_id={public_id} status={status} />
+        <MessengerMenu anchorEl={anchorEl} onClose={handleClose} messenger_id={messenger_id} status={status} />
     </>
 }
 
