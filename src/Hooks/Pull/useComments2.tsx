@@ -1,79 +1,12 @@
-//@ts-nocheck
 
 import { useEffect, useState } from "react"
 import { atom, atomFamily, selector, useRecoilState, useRecoilTransaction_UNSTABLE, useResetRecoilState, selectorFamily } from "recoil";
 import { socketRequest } from "Service/Socket";
+import { commentList, commentSync, resetAllAtoms } from "State/commentAtoms";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import Comment from "Stories/Chunk/Comment/Comment";
 
 let end: boolean = false
-
-export const commentSync = atomFamily({
-    key: 'commentSync',
-    default: {} as any,
-})
-
-const resetAllAtoms = selector({
-    key: 'resetAllAtoms',
-    get: ({ get }) => {
-        const atomKeys = Object.keys(commentSync).filter((key) =>
-            key.includes(commentSync.key)
-        );
-        const initialValues = atomKeys.reduce((acc, key) => {
-            acc[key] = get(commentSync(key)).default;
-            return acc;
-        }, {});
-
-        return initialValues;
-    },
-    set: ({ set }, newValue) => {
-        Object.entries(newValue).forEach(([key, value]) =>
-            set(commentSync(key), value)
-        );
-    },
-});
-
-
-export const setVisibilityByPath = selectorFamily({
-    key: 'setVisibilityByPath',
-    get: () => ({ get }) => {
-        return;
-    },
-    set: (param) => ({ set, get }) => {
-
-        let temp = get(commentList)
-        for (let i = 0; i < temp.length; i++) {
-
-            if (temp[i].props.path === param.dynamicPath) {
-                const atomValue = get(commentSync(temp[i].props.public_id));
-
-                const updatedValue = {
-                    ...atomValue,
-                    active: param.status,
-                };
-                set(commentSync(temp[i].props.public_id), updatedValue);
-            }
-
-            else if (temp[i].props.path.includes(param.dynamicPath)) {
-                const atomValue = get(commentSync(temp[i].props.public_id));
-
-                const updatedValue = {
-                    ...atomValue,
-                    visibility: !param.status,
-                };
-                set(commentSync(temp[i].props.public_id), updatedValue);
-
-            }
-
-        }
-
-    },
-});
-
-export const commentList = atom({
-    key: 'commentList',
-    default: [] as any,
-})
 
 
 

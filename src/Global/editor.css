@@ -1,0 +1,48 @@
+#text {
+    font-family: 'Noto Sans';
+    font-size: 16px;
+    color: #ecedef;
+    margin: 0;
+    padding: 0;
+    text-wrap: wrap;
+
+    max-width: 800px;
+    width: 100%;
+    word-wrap: break-word;
+}
+
+blockquote {
+    border-left: #d7dadc 4px solid;
+    padding-left: 8px;
+    margin: 0px !important;
+    font-family: 'noto sans';
+    font-size: 12px;
+}
+
+h1 {
+    font-weight: 600;
+    font-size: 20px !important;
+    margin: 8px 0 4px !important;
+    font-family: 'noto sans';
+
+}
+h2 {
+    font-weight: 600;
+    font-size: 18px;
+    margin: 4px 0 2px;
+    font-family: 'noto sans';
+}
+p {
+    font-size: 16px;
+    font-family: 'noto sans';
+}
+.ql-syntax {
+    font-size: 14px;
+    padding: 12px 8px;
+    background: #181820;
+    border-radius: 8px;
+    width: 100%;
+    text-wrap: wrap;
+    display: inline-block;
+    word-break: break-word;
+}

@@ -14,6 +14,9 @@ const C = {
     container: css({
         position: 'relative',
         color: '#f2f3f5',
+        overflow: 'hidden',
+        width: '100%',
+        height: 'auto',
     }),
     tailed: css({
         maskImage: 'linear-gradient(180deg,#000 70%,transparent)',
@@ -39,10 +42,12 @@ const Text = ({ content, public_id }: any) => {
     }, [])
 
     return (
-        <div className='quill css-16jn0ui-Editor' css={[
-            flow !== 'post' && C.tailed,
-            (flow !== 'post' && grayed) && C.grayed
-            , C.container]}>
+        <div
+            id={'text'}
+            css={[
+                flow !== 'post' && C.tailed,
+                (flow !== 'post' && grayed) && C.grayed
+                , C.container]}>
 
             <ReactMarkdown
                 children={content} rehypePlugins={[rehypeRaw]}></ReactMarkdown>

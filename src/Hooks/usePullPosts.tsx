@@ -74,6 +74,7 @@ const usePullPosts = (community_id: any, filter: string) => {
         },
     })
 
+
     return [isLoading, isError, components.concat(<ChunkError variant={hasNextPage ? 'loading' : 'end'} onLoad={fetchNextPage} />)]
 }
 

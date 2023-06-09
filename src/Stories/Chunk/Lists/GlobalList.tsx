@@ -30,6 +30,8 @@ const GlobalList = ({ type }: any) => {
     useContentFlow('global')
     useCommunityFlow(null)
 
+
+ 
     return (
         <motion.div
             key={type}
@@ -39,7 +41,6 @@ const GlobalList = ({ type }: any) => {
             animate={{ opacity: 1, }}
         >
             <VirtuList list={components} public_id={type} />
-            {/* <VirtualList list={components} public_id={type} /> */}
         </motion.div>
     )
 }

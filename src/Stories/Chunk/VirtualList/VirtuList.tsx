@@ -20,7 +20,7 @@ const VirtuList = ({ list, public_id }: any) => {
     return (
         <Virtuoso
             ref={ref}
-
+            // increaseViewportBy={}
             rangeChanged={setScroll}
             initialTopMostItemIndex={Number(sessionStorage.getItem(public_id))}
             style={{ height: height - 72, marginBottom: 8, width: '100%' }}

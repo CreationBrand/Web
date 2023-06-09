@@ -10,7 +10,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import FilterPane from 'Stories/Pane/FilterPane'
 
-import AddComment from '../../Forum/AddComment/AddComment'
+import AddComment from '../Comment/AddComment'
 import VirtualList from '../VirtualList/VirtualList'
 import { contentFlow, postFilterFlow } from 'State/Flow'
 import useCommunityFlow from 'Hooks/useCommunityFlow'
@@ -49,6 +49,8 @@ const PostList = () => {
     if (isError || isError2) return <ChunkError variant='error' />
     if (isLoading || isLoading2) return <ChunkError variant='loading' />
 
+    console.log('components', components)
+
     return (
         <motion.div
             key={`Post:${params.post_id}`}
@@ -62,7 +64,7 @@ const PostList = () => {
             
                 list={[
                     component,
-                    <div css={{ maxWidth: '800px', margin: 'auto', marginTop: '4px', display: 'flex', flexDirection: 'column' }}>
+                    <div css={{ maxWidth: '800px', margin: 'auto', marginTop: '0px', display: 'flex', flexDirection: 'column' }}>
                         <FilterPane value={filter} onChange={setFilter} />
                         <AddComment post_id={params.post_id} parent_id={params.post_id} />
                     </div>,

@@ -11,7 +11,7 @@ import { commentTreeData, layoutSizeData } from 'State/Data'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
-import AddComment from '../../Forum/AddComment/AddComment'
+import AddComment from './AddComment'
 
 //icons
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
@@ -54,10 +54,10 @@ const C = {
 
     header: css({
         marginTop: '8px',
-
+        
         display: 'flex',
         gap: '8px',
-        height: '34px',
+        height: '36px',
     }),
 
 
@@ -107,7 +107,7 @@ const C = {
     }),
     float: css({
         marginTop: '8px',
-        // marginBottom: '8px',
+        marginBottom: '8px',
         background: '#353544',
         borderRadius: '8px',
         width: 'min-content',

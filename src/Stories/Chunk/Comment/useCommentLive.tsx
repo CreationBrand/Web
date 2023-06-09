@@ -1,7 +1,7 @@
-import { commentSync } from "Hooks/Pull/useComments2";
 import { useEffect, useState } from "react"
 import { useRecoilState } from "recoil";
 import { socket } from "Service/Socket";
+import { commentSync } from "State/commentAtoms";
 import { postListData, virtualListStateFamily } from "State/Data";
 
 

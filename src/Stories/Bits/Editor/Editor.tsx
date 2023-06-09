@@ -1,9 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-
 import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
+// import 'react-quill/dist/quill.snow.css'
 
 const C = {
     container: css({
@@ -12,7 +11,7 @@ const C = {
     }),
     editor: css({
         background: '#272732',
-        padding: '8px',
+        // padding: '8px',
         fontFamily: 'noto sans',
         color: 'white',
         width: '100%',
@@ -23,7 +22,10 @@ const C = {
 
         '.ql-blank': {
             '&::before': {
-                color: '#bcbdbe'
+                fontFamily: 'noto sans',
+                fontSize: '12px',
+                color: '#bcbdbe',
+                left: '0px',
             }
         },
 
@@ -31,6 +33,7 @@ const C = {
             borderRadius: '8px',
             width: 'fit-content',
             padding: '4px',
+            marginTop: '4px',
             // margin: '4px',
             border: 'none',
             background: '#3b3b4b',
@@ -77,9 +80,11 @@ const C = {
             border: 'none'
         },
         '.ql-editor': {
-            minHeight: '40px !important',
+            minHeight: '24px !important',
             borderRadius: '8px',
+            padding: '0px 0px',
         }
+
     })
 }
 
@@ -106,15 +111,16 @@ const Editor = ({ value, onChange, lock, placeholder, disabled }: any) => {
         <ReactQuill
             readOnly={disabled}
             preserveWhitespace
+            id={'text'}
             css={[
                 C.editor,
                 lock && {
                     height: lock,
-                    '.ql-container': { overflowY: 'scroll' }
+
                 }
             ]}
             modules={modules}
-            theme="snow"
+            // theme="snow"
             placeholder={disabled ? 'Sign in to edit.' : placeholder}
             value={value}
             onChange={onChange}
