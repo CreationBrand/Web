@@ -9,6 +9,7 @@ import PostList from 'Stories/Chunk/Lists/PostList'
 import { memo } from 'react'
 import SearchList from 'Stories/Chunk/Lists/SearchList'
 import Contact from 'Stories/Views/Contact'
+import PersonList from 'Stories/Chunk/Lists/PersonList'
 
 var Public = () => {
 
@@ -37,6 +38,10 @@ var Public = () => {
                         element={<PostList />}
                     ></Route>
 
+                    <Route
+                        path="p/:person_id"
+                        element={<PersonList />}
+                    ></Route>
 
                     <Route path="/trending" element={<GlobalList type='trending' />} />
                     <Route path="/announcements" element={<Announcements />} />

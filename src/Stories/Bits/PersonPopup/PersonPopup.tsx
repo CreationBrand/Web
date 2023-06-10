@@ -6,6 +6,7 @@ import { socketRequest } from 'Service/Socket'
 import Avatar from '../Avatar/Avatar'
 import { textBold, textNormal } from 'Global/Mixins'
 import { MenuItem } from '@mui/material'
+import { logoutCognito } from 'Service/Cognito'
 
 const C = {
     container: css({
@@ -88,6 +89,9 @@ const PersonPopup = ({ username, public_id, nickname, children }: any) => {
                 <MenuItem>Set Status</MenuItem>
                 <MenuItem onClick={() => navigate('/settings')}>Settings</MenuItem>
                 <MenuItem
+                    onClick={() => {
+                        logoutCognito()
+                    }}
                     css={{
                         '&:hover': {
                             background: '#da373C',

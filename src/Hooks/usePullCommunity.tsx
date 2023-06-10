@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { socketRequest } from "Service/Socket";
 import { virtualListStateFamily } from "State/Data";
-import CommunityPane from "Stories/Chunk/CommunityPane/CommunityPane";
+import CommunityPane from "Stories/Bits/Header/CommunityPane";
 import { on } from "events";
 import { useRecoilTransaction_UNSTABLE } from "recoil";
 

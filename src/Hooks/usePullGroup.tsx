@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { socketRequest } from "Service/Socket";
-import GroupPane from "Stories/Bits/GroupPane/GroupPane";
-import CommunityPane from "Stories/Chunk/CommunityPane/CommunityPane";
+import CommunityPane from "Stories/Bits/Header/CommunityPane";
+import GroupPane from "Stories/Bits/Header/GroupPane";
 import LoaderPane from "Stories/Pane/loaderPane";
 
 

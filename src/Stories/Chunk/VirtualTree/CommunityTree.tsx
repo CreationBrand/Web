@@ -2,7 +2,7 @@
 
 import { useRecoilState } from "recoil"
 import { communityData, communityTreeData } from "State/Data"
-import VirtualTree from "../VirtualTree/VirtualTree";
+import VirtualTree from "./VirtualTree";
 import { memo, useState } from "react";
 import { Input } from "@mui/material";
 import ManageSearchRoundedIcon from '@mui/icons-material/ManageSearchRounded'

@@ -116,43 +116,44 @@ const C = {
 const handleImgError = (e: any) => e.target.style.display = 'none'
 
 
-const CommunityPane = ({ public_id }: any) => {
+const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nickname, posts, public_id, username, }: any) => {
 
 
-    const data = useLiveData(true, `community:${public_id}`)
+    // const data = useLiveData(true, `community:${public_id}`)
 
     const authState = useRecoilValue(authFlow)
-    const [isMember, setIsMember] = useState(false)
-    const navigate = useNavigate()
-    const [active, setActive] = useState(false)
+    // const [isMember, setIsMember] = useState(false)
+    // const navigate = useNavigate()
+    // const [active, setActive] = useState(false)
 
-    const community: any = useRecoilValue(communityFlow)
-    const communityList = useRecoilValue(communityListData)
+    // const community: any = useRecoilValue(communityFlow)
+    // const communityList = useRecoilValue(communityListData)
 
-    const handleEdit = (e: any) => {
-        e.stopPropagation()
-        navigate(`/c/${data.public_id}/edit`)
-    }
+    // const handleEdit = (e: any) => {
+    //     e.stopPropagation()
+    //     navigate(`/c/${data.public_id}/edit`)
+    // }
 
-    const handleJoin = (e: any) => {
-        e.stopPropagation()
-        setIsMember(!isMember)
-        if (isMember) leaveCommunity(data.public_id)
-        else joinCommunity(data.public_id)
-    }
+    // const handleJoin = (e: any) => {
+    //     e.stopPropagation()
+    //     setIsMember(!isMember)
+    //     if (isMember) leaveCommunity(data.public_id)
+    //     else joinCommunity(data.public_id)
+    // }
 
-    const openCommunity = () => setActive(!active)
+    // const openCommunity = () => setActive(!active)
 
-    useEffect(() => {
-        const hasMatchingId = communityList.some((obj: any) => obj.public_id === data.public_id);
-        setIsMember(hasMatchingId)
-    }, [communityList])
+    // useEffect(() => {
+    //     const hasMatchingId = communityList.some((obj: any) => obj.public_id === data.public_id);
+    //     setIsMember(hasMatchingId)
+    // }, [communityList])
 
 
     return (
-        <div css={C.container} key={'community'}>
-            <div css={C.inner} onClick={openCommunity}>
-
+        <div css={C.container} key={'person'}>
+            asdfasdf
+            <div css={C.inner}>
+                {/* 
                 <IconButton
                     disabled={authState === 'guest' || !canManageCommunity(community?.roleHex)}
                     sx={{
@@ -163,35 +164,20 @@ const CommunityPane = ({ public_id }: any) => {
                     onClick={handleEdit}
                 >
                     <MoreVertIcon />
-                </IconButton>
+                </IconButton> */}
 
                 <img css={C.banner}
                     onError={handleImgError}
-                    src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.public_id}`} />
+                    src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${public_id}`} />
                 <div css={C.float}>
-                    <Avatar size='large' public_id={data.public_id} />
-                    <div>
-                        <div css={textBold('x')}>{data.title}</div>
-                        <div css={C.stats}>
-                            <div css={C.under}>
-
-                                <span
-                                    css={{
-                                        lineHeight: '20px',
-                                        fontSize: '14px',
-                                        fontWeight: 700,
-                                        color: '#fff',
-                                    }}>
-                                    <span css={C.offline} /> {data.subscribers} <span css={[textBold('t'), { color: '#d7dadc', }]}>Members</span>
-                                </span>
-
-                                <Online public_id={data.public_id} /> <span css={[textBold('t'), { color: '#d7dadc', }]}>Viewing</span>
-                            </div>
-                        </div>
+                    <Avatar size='large' public_id={public_id} />
+                    <div css={{lineHeight:'25px !important'}}>
+                        <div css={textBold('x')}>{nickname}</div>
+                        <div css={textLight('s')}>@{username}</div>
                     </div>
                 </div>
                 <div css={C.action}>
-
+                    {/* 
                     <Button
                         disabled={authState === 'guest'}
                         onClick={handleJoin}
@@ -212,40 +198,17 @@ const CommunityPane = ({ public_id }: any) => {
                             }
                         }}
 
-                        variant="contained">{isMember ? 'LEAVE' : 'JOIN'}</Button>
+                        variant="contained">{isMember ? 'LEAVE' : 'JOIN'}</Button> */}
                 </div>
-
             </div>
-            {active && <div css={C.more} key='more'>
-
-                <div css={C.inner2}>
 
 
-                    {data.description && <>
-                        <div css={textLabel('t')}>description</div>
-                        {data.description}
-                    </>}
-
-                    <div css={C.roles}>
-                        <div>
-                            <div css={textLabel('t')}>Community Roles</div>
-                            <LiveRoles value={data.community_roles} />
-                        </div>
-                        <div>
-                            <div css={textLabel('t')}>Your Roles</div>
-                            <LiveRoles value={data.your_roles} />
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>}
         </div>
     )
 }
 
 
-export default memo(CommunityPane)
+export default memo(PersonHeader)
 
 
 

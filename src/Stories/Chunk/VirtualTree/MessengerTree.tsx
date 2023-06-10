@@ -12,16 +12,19 @@ import { useLocation } from "react-router-dom";
 import Leaf from "./Leaf";
 import MessengerFilter from "Stories/Bits/MessengerFilter/MessengerFilter";
 import { useState } from "react";
-import { faFire, faHouse, faHouseUser } from "@fortawesome/free-solid-svg-icons";
+import { faFire, faHouse, faHouseUser, faStopwatch, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useWindow from "Hooks/useWindow";
 import MessengerControl from "Stories/Bits/MessengerFilter/MessengerControl";
+import { useRecoilValue } from "recoil";
+import { personData } from "State/Data";
 
 
 
 const MessengerTree = () => {
 
     const tree = useMessengerTree();
+    const person = useRecoilValue(personData)
     const [filter, setFilter]: any = useState('active')
     const [search, setSearch] = useState('')
     const { width, height } = useWindow()
@@ -39,14 +42,17 @@ const MessengerTree = () => {
             <div css={[textLabel('t'), { color: '#d7dadc', marginTop: '16px' }]}>Feeds</div >
 
             <Leaf
-                icon={<FontAwesomeIcon css={{ fontSize: '18px' }} icon={faFire} />}
+                icon={<FontAwesomeIcon css={{ fontSize: '18px', width: 20 }} icon={faFire} />}
                 title='Trending'
                 link='/trending' />
             <Leaf
-                icon={<FontAwesomeIcon css={{ fontSize: '18px' }} icon={faHouseUser} />}
+                icon={<FontAwesomeIcon css={{ fontSize: '18px', width: 20 }} icon={faHouseUser} />}
                 title='Home'
                 link='/home' />
-
+            <Leaf
+                icon={<FontAwesomeIcon css={{ fontSize: '18px', width: 20 }} icon={faUser} />}
+                title='Me'
+                link={`/p/${person.public_id}`} />
 
 
             {filter === 'active' ?

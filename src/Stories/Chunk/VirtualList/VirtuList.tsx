@@ -2,9 +2,20 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { memo, useRef, } from 'react'
+import { memo, useEffect, useRef, } from 'react'
 import useWindow from 'Hooks/useWindow'
 import { Virtuoso } from 'react-virtuoso'
+
+
+
+function debounce(func: any, timeout = 300) {
+    let timer: any;
+    return (...args: any) => {
+        clearTimeout(timer);
+        //@ts-ignore
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
+}
 
 
 const VirtuList = ({ list, public_id }: any) => {
@@ -13,21 +24,26 @@ const VirtuList = ({ list, public_id }: any) => {
     const ref: any = useRef(null)
 
     const setScroll = (e: any) => {
-        sessionStorage.setItem(public_id, e?.startIndex)
+        //@ts-ignore
+        sessionStorage.setItem(public_id, (e.startIndex))
     }
 
+    const processChange = debounce((e: any) => setScroll(e));
 
     return (
         <Virtuoso
             ref={ref}
-            // increaseViewportBy={}
-            rangeChanged={setScroll}
-            initialTopMostItemIndex={Number(sessionStorage.getItem(public_id))}
+            // increaseViewportBy={1000}
+            rangeChanged={processChange}
+            initialTopMostItemIndex={{
+                align: 'center',
+                index: Number(sessionStorage.getItem(public_id))
+            }}
             style={{ height: height - 72, marginBottom: 8, width: '100%' }}
             data={list}
             itemContent={(index, item) => {
                 return (
-                    <div>
+                    <div key={index} style={{ minHeight: '10px' }}>
                         {item}
                     </div>
                 )

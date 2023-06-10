@@ -17,7 +17,7 @@ import { boolean } from 'joi';
 const s = css({
     width: '100%',
     height: '100%',
-    maxWidth: '750px',
+    // maxWidth: '750px',
     position: 'relative',
 })
 
@@ -180,7 +180,6 @@ const Search = () => {
                 borderTopLeftRadius: '0px',
                 borderTopRightRadius: '0px',
                 top: '-12px !important',
-                padding: '12px 12px 12px 12px',
                 width: '100%', height: 'auto',
                 background: '#0f0e10',
                 zIndex: 100,
@@ -191,12 +190,18 @@ const Search = () => {
             <ClickAwayListener onClickAway={handleClose}>
                 <div>
 
-                    {communitys.length > 0 && <div css={{ marginTop: '8px' }}>
+                    {communitys.length > 0 && <div css={{
+                        marginTop: '8px',
+                        padding: '12px 12px 12px 12px',
+                    }}>
                         <div css={textLabel('t')}>Communities</div>
                         {communitys}
                     </div>}
 
-                    {persons.length > 0 && <div css={{ marginTop: '8px' }}>
+                    {persons.length > 0 && <div css={{
+             
+                        padding: '0px 12px 12px 12px',
+                    }}>
                         <div css={textLabel('t')}>Users</div>
                         {persons}
                     </div>}
@@ -221,6 +226,6 @@ const debounce = (func: any) => {
         timer = setTimeout(() => {
             timer = null;
             func.apply(context, args);
-        }, 500);
+        }, 200);
     };
 };

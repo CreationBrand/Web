@@ -24,11 +24,13 @@ import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 import KeyRoundedIcon from '@mui/icons-material/KeyRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
-import CommunityTree from 'Stories/Chunk/CommunityTree/CommunityTree'
 import NavLabel from 'Stories/Bits/NavLabel/NavLabel'
 import { transform } from 'typescript'
 import LivePermissions from 'Stories/Alive/LivePermissions'
 import MessengerTree from 'Stories/Chunk/VirtualTree/MessengerTree'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLayerGroup } from '@fortawesome/free-solid-svg-icons'
+import CommunityTree from 'Stories/Chunk/VirtualTree/CommunityTree'
 
 
 const Home = () => {
@@ -65,7 +67,23 @@ const Home = () => {
             <Main>
                 <Nav>
                     <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        <LivePermissions />
+
+                    <IconButton
+                            onClick={() => setTri([!l, r])}
+                            disableRipple={true}
+                            size="small"
+                            color="secondary"
+                            sx={{
+                                ':hover': { color: '#fff' },
+                                height: '32px',
+                                width: '32px',
+
+                            }}>
+                            <LibraryBooksRoundedIcon
+                                fontSize='medium'
+                            />
+                        </IconButton>
+
                     </div>
                     {/* <NavLabel /> */}
                     <Search />
@@ -104,8 +122,9 @@ const Home = () => {
                             />
                         </IconButton>
 
+            
                         <IconButton
-                            onClick={() => setTri([true, !r])}
+                            onClick={() => setTri([l, !r])}
                             disableRipple={true}
                             size="small"
                             color="secondary"
@@ -115,11 +134,8 @@ const Home = () => {
                                 width: '32px',
 
                             }}>
-                            <LibraryBooksRoundedIcon
-                                fontSize='medium'
-                            />
+                            <FontAwesomeIcon icon={faLayerGroup} />
                         </IconButton>
-
 
                     </div>
                 </Nav>

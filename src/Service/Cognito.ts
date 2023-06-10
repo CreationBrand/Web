@@ -67,6 +67,7 @@ export function signUpCognito(username: string, password: string, email: string)
 
     return new Promise((resolve) => {
 
+
         var attributeList = [];
         attributeList.push(
             new AmazonCognitoIdentity.CognitoUserAttribute({
@@ -75,19 +76,23 @@ export function signUpCognito(username: string, password: string, email: string)
             })
         );
 
-        userPool.signUp(
-            username,
-            password,
-            attributeList,
-            null,
-            function (err: any, result: any) {
-                if (err) {
-                    resolve(false);
+        try {
+            userPool.signUp(
+                username,
+                password,
+                attributeList,
+                null,
+                function (err: any, result: any) {
+                    if (err) {
+                        resolve(err.message);
+                    }
+                    cognitoUser = result?.user;
+                    resolve(true);
                 }
-                cognitoUser = result.user;
-                resolve(true);
-            }
-        );
+            );
+        } catch (e) {
+            resolve(false)
+        }
     })
 }
 
@@ -213,7 +218,12 @@ export const refreshSession = () => {
     });
 };
 
-
+export const logoutCognito = () => {
+    cognitoUser?.signOut();
+    deleteAllCookies()
+    window.location.reload()
+    return true
+}
 
 //   HELPERS
 const deleteAllCookies = () => {

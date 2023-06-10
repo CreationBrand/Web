@@ -107,18 +107,23 @@ const LoginSignup = ({ open, handleClose }: any) => {
         }
 
         else if (view === 'signup') {
-            console.log('signup')
+
             let status = await signUpCognito(data.username, data.password, data.email)
-            if (status) setView('verify')
-            else setError('username', { type: 'custom', message: 'Invalid username or password' });
+            if (status === 'User already exists') setError('username', { type: 'custom', message: 'User already exists' });
+            if (status === true) setView('verify')
+            // else setError('username', { type: 'custom', message: 'Invalid username or password' });
         }
 
         else if (view === 'verify') {
             try {
                 let status = await verifyEmail(data.code)
                 if (status) {
-                    var request = await get('user')
+                    console.log(data)
+                    var request = await loginCognito(data.username, data.password)
+                    console.log(request)
                     window.location.reload()
+
+                    // window.location.reload()
                 }
                 else setError('code', { type: 'custom', message: 'Invalid code' });
             } catch (e) {
@@ -138,6 +143,9 @@ const LoginSignup = ({ open, handleClose }: any) => {
         }
     }
 
+
+
+    console.log(errors)
     return (
         <Modal open={open} onClose={handleClose} css={C.container} >
             <div css={C.popup}>
@@ -203,6 +211,7 @@ const LoginSignup = ({ open, handleClose }: any) => {
                                 defaultValue=""
                                 rules={{ required: true }}
                                 render={({ field: { onChange, value } }) => (
+
                                     <Input
                                         error={errors.username ? true : false}
                                         autoComplete="off"
@@ -215,6 +224,7 @@ const LoginSignup = ({ open, handleClose }: any) => {
                                             marginBottom: "26px",
                                         }}
                                     />
+
                                 )}
                             />
 
@@ -322,25 +332,32 @@ const LoginSignup = ({ open, handleClose }: any) => {
                             }}>Create Your Account
                             </div>
 
-                            <h3 css={textLabel('s')}>Username</h3>
+                            <h3 css={[textLabel('s'), { display: 'flex' }]}>Username
+                                {/*@ts-ignore */}
+
+                                {errors?.username?.message ? <span css={{ textAlign: 'right', marginLeft: 'auto', color: 'red', fontSize: '12px' }}> {errors?.username?.message}</span> : ''}
+
+                            </h3>
                             <Controller
                                 name="username"
                                 control={control}
                                 defaultValue=""
                                 rules={{ required: true }}
                                 render={({ field: { onChange, value } }) => (
-                                    <Input
-                                        error={errors.username ? true : false}
-                                        autoComplete="off"
-                                        onChange={onChange}
-                                        value={value}
-                                        disableUnderline
-                                        fullWidth
-                                        sx={{
-                                            height: "42px",
-                                            marginBottom: "26px",
-                                        }}
-                                    />
+                                    <div>
+                                        <Input
+                                            error={errors.username ? true : false}
+                                            autoComplete="off"
+                                            onChange={onChange}
+                                            value={value}
+                                            disableUnderline
+                                            fullWidth
+                                            sx={{
+                                                height: "42px",
+                                                marginBottom: "26px",
+                                            }}
+                                        />
+                                    </div>
                                 )}
                             />
 
@@ -411,7 +428,6 @@ const LoginSignup = ({ open, handleClose }: any) => {
                                 )}
                             />
                             <LoadingButton
-                                disabled={true}
                                 loadingIndicator="Loading…"
                                 loading={loading}
                                 onClick={onSubmit}
@@ -429,7 +445,7 @@ const LoginSignup = ({ open, handleClose }: any) => {
                                     marginTop: '24px',
 
                                 }}>
-                                it will be open again soon...
+                                Sign Up
                             </LoadingButton>
 
                             <div css={{

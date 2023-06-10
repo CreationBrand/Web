@@ -12,6 +12,7 @@ import EditPerson from 'Stories/Views/EditPerson'
 import { memo } from 'react'
 import Home from 'App/Pages/Home'
 import SearchList from 'Stories/Chunk/Lists/SearchList'
+import PersonList from 'Stories/Chunk/Lists/PersonList'
 
 var Private = () => {
 
@@ -52,6 +53,10 @@ var Private = () => {
                     <Route
                         path="g/:group_id"
                         element={<GroupList />}
+                    ></Route>
+                    <Route
+                        path="p/:person_id"
+                        element={<PersonList />}
                     ></Route>
 
 
