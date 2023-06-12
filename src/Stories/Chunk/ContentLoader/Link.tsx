@@ -56,8 +56,14 @@ const Link = ({ url }: any) => {
 
     if (isLoading) return <div css={C.container}> <Walk /> </div>
 
+  
 
     return <div css={C.container} onClick={handleClick}>
+
+
+
+
+
         {data.images && <img src={data.images[0]} css={C.image} />}
         <div>
             {data.title && <div css={C.title}>{data.title}</div>}

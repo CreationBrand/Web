@@ -22,8 +22,10 @@ const C = {
         justifyContent: 'space-between',
         width: '100%',
         whiteSpace: 'nowrap',
+
     }]),
     group: css({
+        cursor: 'pointer',
         padding: '8px',
         borderRadius: '8px',
         height: '40px',
@@ -44,20 +46,27 @@ const innerMotion = {
 };
 
 
-const Group = ({ node, editOpen }: any) => {
+const Group = ({ node, onEdit }: any) => {
 
     const navigate = useNavigate()
 
     const handleEdit = (e: any) => {
         e.stopPropagation()
         e.preventDefault()
-        editOpen(node)
+        onEdit(node)
     }
     const handleGroup = () => node.toggle()
-    const handleNav = () => navigate(node.data.link)
+    const handleNav = () => {
+        if (node.data.object.base) return
+        navigate(node.data.link)
+    }
+
+
 
     return (
         <motion.div css={C.group} initial="rest" whileHover="hover" variants={innerMotion} >
+
+
 
             <div css={{
                 height: '18px',
@@ -79,15 +88,16 @@ const Group = ({ node, editOpen }: any) => {
             </div>
 
             <motion.div css={C.inner} onClick={handleNav}>
+
                 <div css={[{ color: "#" + node.data?.object?.color?.toString(16) + '!important', marginBottom: '0px !important' }]}>
                     {node.data.object.title}
                 </div>
-                <SettingsOutlinedIcon onClick={handleEdit} sx={{
+                {!node.data.object.base && <SettingsOutlinedIcon onClick={handleEdit} sx={{
                     fontSize: '18px', fill: '#b9bbbe', '&:hover': {
                         fill: '#fff !important',
                     }
                 }} />
-
+                }
             </motion.div>
 
 

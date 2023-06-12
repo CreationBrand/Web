@@ -2,7 +2,7 @@
 
 import { useForm, Controller } from "react-hook-form";
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Dialog, Divider, Input, Button } from "@mui/material"
+import { Dialog, Divider, Input, Button, Modal } from "@mui/material"
 import { css } from '@emotion/react';
 import { useState } from "react";
 import { textBold, textLabel, textLight, textNormal } from "Global/Mixins";
@@ -11,18 +11,39 @@ import { HexColorPicker } from "react-colorful";
 import { socketRequest } from "Service/Socket";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorPicker from "Stories/Forum/ColorPicker";
-
+import CommunitySelect from "Stories/Bits/CommunitySelect/CommunitySelect";
+import { communityTreeData } from "State/Data";
+import { useRecoilState } from "recoil";
 
 const C = {
     container: css({
-        background: '#15161894',
+        backgroundColor: 'rgba(15,14,16,0.90)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     }),
     popup: css({
+        overflow: "hidden",
+        color: '#fff',
         background: '#272732',
-        borderRadius: '8px',
-        width: '460px',
-        position: 'relative',
+        display: "flex",
+        flexDirection: "column",
+        height: "auto",
+        margin: "0 auto",
+        borderRadius: "8px",
+        boxShadow: "0px 8px 80px rgba(0,0,0,0.4)",
+
+        '@media only screen and (max-width: 800px)': {
+            // flex: '0 100%',
+            width: '100vw',
+            height: '100%',
+            borderRadius: '0px',
+            padding: '110px 24px 40px',
+
+        }
+
     }),
+
     title: css({
         padding: '16px',
         textAlign: 'center',
@@ -52,36 +73,62 @@ const C = {
 
 const AddGroup = ({ open, handleClose }: Props) => {
 
+
     const { register, handleSubmit, watch, formState: { errors }, control } = useForm();
     const [loading, setLoading] = useState(false);
+    const [tree, setTree] = useRecoilState(communityTreeData)
 
 
     const onSubmit = async (data: any) => {
         setLoading(true)
-        data.color = parseInt(data.color.slice(1), 16)
+        console.log(data)
         let req: any = await socketRequest('group-new', data)
+        console.log(req)
         if (req.status === 'ok') handleClose()
+
         setLoading(false)
     }
 
 
+
+
     return (
-        <Dialog open={open} onClose={handleClose} css={C.container} sx={{
-            paper: { borderRadius: '12px' },
-            borderRadius: '12px'
-        }}>
+        <Modal open={open} onClose={handleClose} css={C.container} >
+            <div css={C.popup}>
 
-            <form css={C.popup}>
+                <div
+                    onClick={handleClose}
+                    css={{
+                        cursor: "pointer",
+                        position: "fixed",
+                        top: "40px",
+                        right: "56px",
+                        zIndex: 4,
+                        width: "44px",
+                        height: "44px",
+                        border: "2px solid #2C2C2C",
+                        borderRadius: "50%",
+                        fontSize: "0",
+                        WebkitTransition: "border-color .2s",
+                        transition: "border-color .2s",
 
-                <div css={C.close} onClick={handleClose}><CloseRoundedIcon sx={{ fontSize: '29px' }} /></div>
+                        '&:hover': {
+                            borderColor: '#fff'
+                        },
+                    }}>
+                    <CloseRoundedIcon sx={{
+                        position: "relative",
+                        top: "6px",
+                        left: "6px",
+                        color: "#adb7be",
+                        fontSize: "28px",
+                    }} />
+                </div>
 
                 <div css={C.title}>
                     <div css={textBold('x')}>Create Group</div>
                     <div css={textLight('t')}>Group communitys to create seperate feeds   </div>
                 </div>
-
-
-                <Divider />
 
                 <div css={C.content}>
 
@@ -110,13 +157,16 @@ const AddGroup = ({ open, handleClose }: Props) => {
                 <div css={C.content}>
                     <div css={textLabel('s')}>Group Color</div>
                     <ColorPicker control={control} />
-
                 </div>
 
+                <Divider />
+                {/* 
+                <div css={C.content}>
+                    <div css={textLabel('s')}>Communitys</div>
+                    <CommunitySelect control={control} />
+                </div> */}
 
                 <Divider />
-
-
 
                 <div css={C.footer}>
                     <Button onClick={handleClose} color='secondary'>Cancel</Button>
@@ -128,9 +178,12 @@ const AddGroup = ({ open, handleClose }: Props) => {
                         variant="contained"
                     >Create</LoadingButton>
                 </div>
-            </form>
-        </Dialog >
+
+
+            </div>
+        </Modal >
     )
+
 
 }
 

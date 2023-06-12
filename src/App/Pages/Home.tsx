@@ -31,6 +31,7 @@ import MessengerTree from 'Stories/Chunk/VirtualTree/MessengerTree'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import CommunityTree from 'Stories/Chunk/VirtualTree/CommunityTree'
+import GroupTree from 'Stories/Chunk/VirtualTree/GroupTree'
 
 
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
@@ -121,25 +122,25 @@ const Home = () => {
                             />
                         </IconButton>
 
-                       
-                    <StyledBadge
-                        badgeContent={noti} invisible={!Boolean(noti)}>
-                    
-                    <IconButton
-                            onClick={() => navigate(`/notifications`)}
-                            disableRipple={true}
-                            size="small"
-                            color="secondary"
-                            sx={{
-                                ':hover': { color: '#fff' },
-                                height: '32px',
-                                width: '32px',
 
-                            }}>
-                            <NotificationsRoundedIcon sx={{ fontSize: '26px' }} />
-                        </IconButton>
-                    </StyledBadge>
-      
+                        <StyledBadge
+                            badgeContent={noti} invisible={!Boolean(noti)}>
+
+                            <IconButton
+                                onClick={() => navigate(`/notifications`)}
+                                disableRipple={true}
+                                size="small"
+                                color="secondary"
+                                sx={{
+                                    ':hover': { color: '#fff' },
+                                    height: '32px',
+                                    width: '32px',
+
+                                }}>
+                                <NotificationsRoundedIcon sx={{ fontSize: '26px' }} />
+                            </IconButton>
+                        </StyledBadge>
+
 
 
                         <IconButton
@@ -164,7 +165,7 @@ const Home = () => {
             </Main>
             <Right>
 
-                <CommunityTree />
+                <GroupTree />
 
             </Right>
         </Tri >

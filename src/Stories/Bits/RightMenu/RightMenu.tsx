@@ -28,10 +28,7 @@ const RightMenu = ({ tags, public_id, person_id, type, community_roles, }: any) 
     const handleClick = (e: any) => {
         e.preventDefault()
         e.stopPropagation()
-        if (anchorEl) {
-            setAnchorEl(null);
-            return;
-        }
+
         setAnchorEl(e.currentTarget);
     };
 

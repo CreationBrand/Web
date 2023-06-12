@@ -62,10 +62,8 @@ const EditGroup = ({ group, handleClose }: any) => {
     // setDefaultValues
     useEffect(() => {
         let currentChildren = group?.children?.map((child: any) => child.public_id)
-
         setValue('children', currentChildren)
         setValue('color', "#" + group?.color?.toString(16))
-
     }, [])
 
     if (!group) return (<></>)
@@ -140,7 +138,7 @@ const EditGroup = ({ group, handleClose }: any) => {
                 <div css={C.content}>
 
                     <div css={textLabel('t')}>Communitys</div>
-
+{/* 
                     <Controller
                         name="children"
                         control={control}
@@ -149,7 +147,7 @@ const EditGroup = ({ group, handleClose }: any) => {
                             <CommunitySelect onChange={onChange}
                                 value={value} group={group} />
                         }
-                    />
+                    /> */}
                 </div>
 
                 <div css={C.footer}>

@@ -37,7 +37,7 @@ export const communityLTT = (list: any) => {
                     active: true,
                     visible: true,
                     object: {
-                        icon: true,
+                        icon: <Avatar public_id={item.public_id} size='small' />,
                         ...item
                     },
                 })
@@ -164,7 +164,6 @@ export const buildHex = (roles: any) => {
         const temp = new BitSet(`0x${roles[i].permissions}`)
         hex = hex.or(temp)
     }
-
     return hex
 }
 

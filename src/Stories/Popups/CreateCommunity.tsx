@@ -84,32 +84,6 @@ const C = {
 
 const StyledTextarea = styled(TextareaAutosize)(() => ``)
 
-// const StyledTextarea = styled(TextareaAutosize)(
-//     () => `
-//     // width: 320px;
-//     // font-family: IBM Plex Sans, sans-serif;
-//     // font-size: 0.875rem;
-//     // font-weight: 400;
-//     // line-height: 1.5;
-//     // padding: 12px;
-//     // border-radius: 12px 12px 0 12px;
-//     // color: #fff;
-//     // background: gray;
-
-//     // &:hover {
-//     //   border-color: none;
-//     // }
-
-//     // &:focus {
-//     //     border: 2px solid #9147ff,
-//     // }
-
-//     // // firefox
-//     // &:focus-visible {
-//     //   outline: 0;
-//     // }
-//   `,
-// );
 
 const CreateCommunity = ({ open, onClose }: any) => {
 
@@ -135,7 +109,6 @@ const CreateCommunity = ({ open, onClose }: any) => {
 
     return (
         <Modal open={open} onClose={onClose} css={C.container} >
-
             <div css={C.popup}>
 
                 <div
