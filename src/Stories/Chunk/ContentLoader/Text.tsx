@@ -45,8 +45,8 @@ const Text = ({ content, public_id }: any) => {
         <div
             id={'text'}
             css={[
-                flow !== 'post' && C.tailed,
-                (flow !== 'post' && grayed) && C.grayed
+                (flow === 'community' || flow === 'global') && C.tailed,
+                (flow === 'post' && grayed) && C.grayed
                 , C.container]}>
 
             <ReactMarkdown

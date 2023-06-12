@@ -65,7 +65,7 @@ const MessengerTree = () => {
                 initialData={tree}
                 openByDefault={false}
                 width={216}
-                height={height - 290}
+                height={height - 330}
                 indent={24}
                 rowHeight={40}
                 overscanCount={1}

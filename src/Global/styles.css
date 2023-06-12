@@ -146,12 +146,24 @@ body {
 
 .MuiMenuItem-root {
     font-family: 'Noto Sans', sans-serif !important;
-    font-size: 14px !important;
-    font-weight: 700;
-    color: #f2f2f2 !important;
-    border-radius: 8px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #b5bab1 !important;
+    height: 32px !important;
+    max-height: 32px !important;
+    border-radius: 4px !important;
+    padding:6px 8px !important;
+    margin:2px 0px !important;
     gap: 8px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+ 
 }
+
+.MuiMenuItem-root:hover {
+    color: #fff !important;
+    background:#5b47c4 !important;
+} 
 
 .MuiList-root {
     background: none !important;
@@ -164,6 +176,8 @@ body {
 .MuiDrawer-root > .MuiPaper-root {
     height: 50%;
     overflow: 'visible';
+    padding:8px;
+    background: #181820 !important;
 }
 
 .MuiDataGrid-root .MuiDataGrid-cell:focus-within {

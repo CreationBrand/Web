@@ -7,7 +7,7 @@ import { socketRequest } from "Service/Socket";
 import { postListData, virtualListStateFamily } from "State/Data";
 import { socketFlow } from "State/Flow";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
-import MainPost from "Stories/Chunk/Post/MainPost";
+import MainPost from "Stories/Chunk/Post/Post";
 
 let end = false
 
@@ -23,6 +23,7 @@ const usePullPosts = (community_id: any, filter: string) => {
 
     const fetch = async ({ pageParam = false }) => {
         let req: any = await socketRequest('posts', { community_id, filter, cursor: pageParam })
+        console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.posts?.length}) Posts From: ${pageParam}`);
         setListItems(req.posts)
         return req.posts
     }
@@ -60,6 +61,7 @@ const usePullPosts = (community_id: any, filter: string) => {
 
         onSuccess: (data) => {
             if (end) return
+
             if (!data || data === undefined || data.pages.length === 0) return
             if (!data || data === undefined || data.pages.length === 0) return
 
@@ -70,6 +72,8 @@ const usePullPosts = (community_id: any, filter: string) => {
                 }
             }
             setComponents(temp)
+
+            if (data.pages[data.pages.length - 1].length < 25) end = true
 
         },
     })

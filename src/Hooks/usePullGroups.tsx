@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { socketRequest } from "Service/Socket";
 import { postListData } from "State/Data";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
-import MainPost from "Stories/Chunk/Post/MainPost";
+import MainPost from "Stories/Chunk/Post/Post";
 import LoaderPane from "Stories/Pane/loaderPane";
 
 

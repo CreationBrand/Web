@@ -33,15 +33,10 @@ const StyledPopper = styled(Popper)(({ theme }) => ({
 }));
 
 
-export default function Picker({ anchorEl, setAnchorEl, current, public_id, type, placement }: any) {
-
+export default function TagMenu({ anchorEl, setAnchorEl, current, public_id, type, placement }: any) {
 
     const tags = useRecoilValue(tagData)
-    // const updates = useSubscription(`tags:${public_id}`, current, true)
-
     const [value, setValue]: any = useState([]);
-
-
 
     useEffect(() => {
         if (!current || current.length < 1) return
@@ -52,20 +47,8 @@ export default function Picker({ anchorEl, setAnchorEl, current, public_id, type
         setValue(temp)
     }, [public_id, current])
 
-
-    // const handleSubmit = async () => {
-
-    //     let strip = []
-
-    //     for (let i = 0; i < pendingValue.length; i++) {
-    //         strip.push(pendingValue[i].public_id)
-    //     }
-
-    //     await socketRequest('tag-update', { type: type, tags: strip, public_id: public_id })
-
-    // }
-
-    const handleClose = () => {
+    const handleClose = (e:any) => {
+        console.log(e)
         if (anchorEl) {
             anchorEl.focus();
         }
@@ -80,17 +63,15 @@ export default function Picker({ anchorEl, setAnchorEl, current, public_id, type
         }
     }
 
+    if (!anchorEl) return null
+
     return (
         <StyledPopper
-            modifiers={[
-                {
-                    name: "offset",
-                    options: {
-                        offset: [-6, 12],
-                    },
-                },
-            ]}
+            disablePortal={true}
+            modifiers={[{ name: "offset", options: { offset: [-8, 12] } }]}
             id={'picker'} open={Boolean(anchorEl)} anchorEl={anchorEl} placement={placement}>
+
+
             <ClickAwayListener onClickAway={handleClose}>
                 <>
                     {tags.map((tag: any) =>

@@ -110,9 +110,8 @@ socket.on("connect", () => {
 
 
     socketRequest('notifs', {}).then((data: any) => {
-     
+
         for (const property in data.notifs) {
-            console.log(`${property}: ${data.notifs[property]}`);
             setRecoil(notificationStateFamily(property), data.notifs[property])
 
         }
@@ -137,14 +136,12 @@ socket.onAny((eventName, ...args) => {
 
 socket.on("notif", (message: any) => {
 
-    console.log('notif', message)
     try {
         if (message.type === 'message') {
-
             setRecoil(notificationStateFamily(`${message.messenger_id}`), message.count)
-            console.log('message')
-
-
+        }
+        if (message.type === 'noti') {
+            setRecoil(notificationStateFamily('noti'), message.count)
         }
 
     } catch (e) { }

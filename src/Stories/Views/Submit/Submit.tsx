@@ -26,7 +26,7 @@ import BackupRoundedIcon from '@mui/icons-material/BackupRounded';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import DropZone from 'Stories/Bits/DropZone/DropZone';
-import MainPost from 'Stories/Chunk/Post/MainPost';
+import MainPost from 'Stories/Chunk/Post/Post';
 import { useNavigate } from 'react-router-dom';
 import { postFilterFlow } from 'State/Flow';
 import ContentLoader from 'Stories/Chunk/ContentLoader/ContentLoader';

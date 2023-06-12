@@ -14,7 +14,7 @@ import { postListData, virtualListStateFamily } from "State/Data";
 import { authFlow, socketFlow } from "State/Flow";
 import Avatar from 'Stories/Bits/Avatar/Avatar';
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
-import MainPost from "Stories/Chunk/Post/MainPost";
+import MainPost from "Stories/Chunk/Post/Post";
 
 var treeify = require('treeify');
 

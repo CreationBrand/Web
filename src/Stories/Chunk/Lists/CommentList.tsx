@@ -15,6 +15,8 @@ import usePerson from 'Hooks/Pull/usePerson'
 import PersonFilter from 'Stories/Bits/Filter/PersonFilter'
 import { postFilter } from 'State/filterAtoms'
 import usePersonList from 'Hooks/Pull/usePersonList'
+import useCommentSubTree from 'Hooks/Pull/useCommentSubTree'
+import usePullPost from 'Hooks/usePullPost'
 
 const C = {
     container: css({
@@ -26,15 +28,13 @@ const C = {
     })
 }
 
-const PersonList = () => {
+const CommentList = () => {
 
     const params = useParams()
 
-    const filter = useRecoilValue(postFilter)
+    const [isLoading, isError, component, data] = usePullPost(params.post_id)
+    const [isLoading2, isError2, components] = useCommentSubTree(params.comment_id)
 
-    const [isLoading2, isError2, components] = usePersonList(params.person_id)
-    const [isLoading, isError, component] = usePerson(params.person_id)
-    // const [isLoading2, isError2, components] = usePullPosts('person', filter)
 
     useContentFlow('person')
     useCommunityFlow(null)
@@ -54,7 +54,6 @@ const PersonList = () => {
             <VirtuList
                 list={[
                     component,
-                    <PersonFilter key={'filter'} />,
                     ...components
                 ]}
                 public_id={params.person_id} />
@@ -63,4 +62,4 @@ const PersonList = () => {
 }
 
 
-export default memo(PersonList)
+export default memo(CommentList)

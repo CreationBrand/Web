@@ -41,7 +41,9 @@ const Nickname = ({ title, public_id, community_id, global_roles }: any) => {
 
     const [anchorEl, setAnchorEl] = useState(null)
     const navigate = useNavigate()
-    const handleClick = () => { }
+    const handleClick = () => { 
+        navigate(`/p/${public_id}`)
+    }
 
     const handleHover = (event: any) => setAnchorEl(event.target)
     const handleClose = () => setAnchorEl(null);

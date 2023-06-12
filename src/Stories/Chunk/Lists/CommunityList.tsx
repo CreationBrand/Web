@@ -2,20 +2,19 @@
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
 import usePullCommunity from 'Hooks/usePullCommunity'
-import usePullPosts from 'Hooks/usePullPosts'
-import { memo, useEffect, useState } from 'react'
+import { memo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
-import FilterPane from 'Stories/Pane/FilterPane'
+import FilterPane from 'Stories/Bits/Filter/CommunityFilter'
 
-import VirtualList from 'Stories/Chunk/VirtualList/VirtualList'
-import { useRecoilState } from 'recoil'
-import { contentFlow, postFilterFlow } from 'State/Flow'
-import BitSet from 'bitset'
+
+import { useRecoilValue } from 'recoil'
 import useCommunityFlow from 'Hooks/useCommunityFlow'
 import useContentFlow from 'Hooks/useContentFlow'
 import VirtuList from '../VirtualList/VirtuList'
+import { postFilter } from 'State/filterAtoms'
+import usePostList from 'Hooks/Pull/usePostList'
 
 
 const C = {
@@ -32,13 +31,13 @@ const C = {
 const CommunityList = () => {
 
     const params = useParams()
-    const [filter, setFilter] = useRecoilState(postFilterFlow)
+    const filter = useRecoilValue(postFilter)
 
     useContentFlow('community')
     useCommunityFlow(params.community_id)
 
     const [isLoading1, isError1, component, data] = usePullCommunity(params.community_id)
-    const [isLoading, isError, components] = usePullPosts(params.community_id, filter)
+    const [isLoading, isError, components] = usePostList(params.community_id, filter)
 
     if (isError1 || isError) return <ChunkError variant='error' />
     if (isLoading1 || isLoading) return <ChunkError variant='loading' />
@@ -55,7 +54,7 @@ const CommunityList = () => {
                 public_id={params.community_id}
                 list={[
                     component,
-                    <FilterPane value={filter} onChange={setFilter} />,
+                    <FilterPane />,
                     ...components]}
             />
         </motion.div>

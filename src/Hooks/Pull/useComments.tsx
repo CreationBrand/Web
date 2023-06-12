@@ -1,93 +1,75 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+
 import { useEffect, useState } from "react"
-import { useRecoilState, useRecoilTransaction_UNSTABLE } from "recoil";
+import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue } from "recoil";
 import { socketRequest } from "Service/Socket";
-import { postListData, virtualListStateFamily } from "State/Data";
-import { socketFlow } from "State/Flow";
+import { commentList, commentSync, resetAllAtoms } from "State/commentAtoms";
+import { commentFilter } from "State/filterAtoms";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import Comment from "Stories/Chunk/Comment/Comment";
 
-let end = false
+let end: boolean = false
 
-const usePullPosts = (post_id: any, filter: string) => {
+const useComments = (post_id: any) => {
 
-    const [socket, setSocket] = useRecoilState(socketFlow)
-    const [components, setComponents]: any = useRecoilState(postListData)
-
+    const [components, setComponents]: any = useRecoilState(commentList)
+    const [cursor, setCursor] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [isError, setIsError] = useState(false)
+    const [resetState, setResetState] = useRecoilState(resetAllAtoms);
+    const filter = useRecoilValue(commentFilter)
 
     useEffect(() => {
         end = false
+        setCursor(false)
         setComponents([])
+        setResetState({});
+
     }, [post_id, filter])
 
-    const fetch = async ({ pageParam = false }) => {
-        if (end) return
-        let req: any = await socketRequest('comments', { post_id, filter, cursor: pageParam })
-        setListItems(req.comments)
-        return req.comments
-    }
+    useEffect(() => {
+        (async () => {
+            if (end) return
+            let req: any = await socketRequest('comments', { post_id, filter, cursor: cursor })
+            console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.comments?.length}) Comments`);
+            if (req?.comments?.length < 25) end = true
+            setList(req.comments)
+        })()
+    }, [cursor])
 
-    const setListItems = useRecoilTransaction_UNSTABLE(
+    const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
-            if (!listItems) return
-            for (let i = 0; i < listItems.length; i++) {
-
+            for (let i = 0; i < listItems?.length; i++) {
                 try {
+
+                    let parts = listItems[i].path.split('.')
+                    listItems[i].id = parts[listItems[i].depth - 1]
+                    listItems[i].visibility = true
+                    listItems[i].active = false
                     if (2 === listItems[i + 1].depth) {
                         listItems[i].last = true
                     }
                 } catch (e) { listItems[i].last = true }
 
-                set(virtualListStateFamily(`subscribe:${listItems[i].public_id}`), listItems[i]);
+                try {
+                    listItems[i].hasChildren = listItems[i + 1].depth > listItems[i].depth
+                } catch (e) { listItems[i].hasChildren = false }
+
+
+                set(commentSync(listItems[i].public_id), listItems[i]);
+                set(commentList, (oldList: any) => [...oldList, <Comment {...listItems[i]} />])
             }
-        },
-        []
+        }, []
     );
 
+    const fetchNext = async () => {
+        if (components?.length === 0) return
+        setCursor(components[components.length - 1].props.sort_path)
+    }
 
-    const {
-        data,
-        isError,
-        isLoading,
-        fetchNextPage,
-        hasNextPage,
-        isFetching,
-        isFetchingNextPage,
-        status,
-    } = useInfiniteQuery({
-        enabled: socket === 'connected' || !end,
-        queryKey: ['comment-list', post_id, filter],
-
-        queryFn: fetch,
-        getNextPageParam: (lastPage, pages) => {
-            if (!lastPage) return undefined
-            if (lastPage.length < 25) {
-                end = true
-                return undefined
-            }
-            return pages[0][pages[0].length - 1].sort_path
-        },
-
-
-        onSuccess: (data) => {
-            if (!data.pages[0]) return
-            const temp = []
-            for (let i in data.pages) {
-                for (let j in data.pages[i]) {
-                    temp.push(<Comment
-                        post_id={post_id}
-                        page={i}
-                        page_index={j}
-                        public_id={data.pages[i][j].public_id} />)
-                }
-            }
-            setComponents(temp)
-
-        },
-    })
-
-    return [isLoading, isError, components.concat(<ChunkError variant={hasNextPage ? 'loading' : 'end'} onLoad={fetchNextPage} />)]
+    return [isLoading, isError, components.concat(<ChunkError variant={!end ? 'loading' : 'end'} onLoad={fetchNext} />)]
 }
 
 
-export default usePullPosts
+
+
+export default useComments

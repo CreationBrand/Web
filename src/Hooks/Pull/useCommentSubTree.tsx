@@ -14,7 +14,7 @@ let end: boolean = false
 
 
 
-const useComments = (post_id: any, filter: string) => {
+const useCommentSubTree = (comment_id: any) => {
 
     const [components, setComponents]: any = useRecoilState(commentList)
     const [cursor, setCursor] = useState(false)
@@ -28,12 +28,13 @@ const useComments = (post_id: any, filter: string) => {
         setComponents([])
         setResetState({});
 
-    }, [post_id, filter])
+    }, [comment_id])
 
     useEffect(() => {
         (async () => {
             if (end) return
-            let req: any = await socketRequest('comments', { post_id, filter, cursor: cursor })
+            let req: any = await socketRequest('comment-subtree', { comment_id, cursor: cursor })
+            console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.comments?.length}) Comments`);
             if (req?.comments?.length < 25) end = true
             setList(req.comments)
         })()
@@ -41,9 +42,10 @@ const useComments = (post_id: any, filter: string) => {
 
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
+            let crop = listItems?.[0]?.depth
             for (let i = 0; i < listItems?.length; i++) {
                 try {
-
+                    listItems[i].depth = listItems[i].depth + 2 - crop
                     let parts = listItems[i].path.split('.')
                     listItems[i].id = parts[listItems[i].depth - 1]
                     listItems[i].visibility = true
@@ -64,15 +66,11 @@ const useComments = (post_id: any, filter: string) => {
         }, []
     );
 
-    const fetchNext = async () => {
-        if (components?.length === 0) return
-        setCursor(components[components.length - 1].props.sort_path)
-    }
 
-    return [isLoading, isError, components.concat(<ChunkError variant={!end ? 'loading' : 'end'} onLoad={fetchNext} />)]
+    return [isLoading, isError, components.concat(<ChunkError variant={'end'} />)]
 }
 
 
 
 
-export default useComments
+export default useCommentSubTree

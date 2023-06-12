@@ -7,7 +7,7 @@ import Nav from 'Stories/Layout/Nav'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { triState } from 'State/atoms'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { personData } from 'State/Data'
+import { notificationStateFamily, personData } from 'State/Data'
 import Person from 'Stories/Objects/Person/Person'
 import { memo } from 'react'
 import Main from 'Stories/Layout/Main'
@@ -17,7 +17,7 @@ import VirtualTree from 'Stories/Chunk/VirtualTree/VirtualTree'
 import Right from 'Stories/Layout/Right'
 import useMessengerTree from 'Hooks/useMessengerTree'
 import { AnimatePresence } from 'framer-motion'
-import { IconButton } from '@mui/material'
+import { Badge, BadgeProps, IconButton, styled } from '@mui/material'
 
 // ICONS
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
@@ -33,6 +33,25 @@ import { faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import CommunityTree from 'Stories/Chunk/VirtualTree/CommunityTree'
 
 
+const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+    '& .MuiBadge-badge': {
+        right: 6,
+        top: 10,
+        lineHeight: '10px',
+        // height: '18px',
+        fontWeight: '600',
+        // minHeight: '12px',
+        fontSize: '10px',
+        fontFamily: 'noto sans',
+        border: `3px solid #272732`,
+        padding: '0px 2px',
+        color: '#fff',
+        zIndex: 200,
+        background: '#af4141',
+    },
+}));
+
+
 const Home = () => {
 
     const navigate = useNavigate()
@@ -40,12 +59,10 @@ const Home = () => {
     const [l, r] = useRecoilValue(triState)
     const setTri = useSetRecoilState(triState)
     const tree = useMessengerTree();
-
+    const noti = useRecoilValue(notificationStateFamily('noti'))
 
     // DATA SUPPLY
     const person = useRecoilValue(personData)
-
-
 
     function handleR(event: any): void {
 
@@ -68,7 +85,7 @@ const Home = () => {
                 <Nav>
                     <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
 
-                    <IconButton
+                        <IconButton
                             onClick={() => setTri([!l, r])}
                             disableRipple={true}
                             size="small"
@@ -104,7 +121,12 @@ const Home = () => {
                             />
                         </IconButton>
 
-                        <IconButton
+                       
+                    <StyledBadge
+                        badgeContent={noti} invisible={!Boolean(noti)}>
+                    
+                    <IconButton
+                            onClick={() => navigate(`/notifications`)}
                             disableRipple={true}
                             size="small"
                             color="secondary"
@@ -114,15 +136,12 @@ const Home = () => {
                                 width: '32px',
 
                             }}>
-                            <NotificationsRoundedIcon
-                                sx={{
-                                    fontSize: '26px'
-
-                                }}
-                            />
+                            <NotificationsRoundedIcon sx={{ fontSize: '26px' }} />
                         </IconButton>
+                    </StyledBadge>
+      
 
-            
+
                         <IconButton
                             onClick={() => setTri([l, !r])}
                             disableRipple={true}

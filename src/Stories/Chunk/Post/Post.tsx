@@ -22,6 +22,8 @@ import LiveTags from '../../Alive/LiveTags'
 import useLiveData from 'Hooks/useLiveData'
 import LiveRoles from 'Stories/Alive/LiveRoles'
 import { hasSeen } from 'State/seenAtom'
+import usePostList from 'Hooks/Pull/usePostList'
+import usePostLive from './usePostLive'
 
 const C = {
     container: css({
@@ -64,12 +66,12 @@ const C = {
 }
 
 
-const Post = ({ public_id }: any) => {
+const Post = (props: any) => {
 
     // proxing data
     const [visibility, setVisibility] = useState(false)
-    const data = useLiveData(visibility, `subscribe:${public_id}`)
-    const { title, content, created_at, author, community, vote, karma, views, comments, tags, type, community_roles, global_roles } = data
+    const data: any = usePostLive(visibility, props)
+    const { public_id, title, content, created_at, author, community, vote, karma, views, comments, tags, type, community_roles, global_roles } = data
 
     const filter = useRecoilValue(filterFlow)
     const authState = useRecoilValue(authFlow)

@@ -21,7 +21,6 @@ const C = {
     container: css({
         width: '100%',
         minHeight: '100px',
-        padding: '16px 2px 0px 0px',
     }),
     inner: css({
         margin: '0 auto',
@@ -118,36 +117,7 @@ const handleImgError = (e: any) => e.target.style.display = 'none'
 
 const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nickname, posts, public_id, username, }: any) => {
 
-
-    // const data = useLiveData(true, `community:${public_id}`)
-
     const authState = useRecoilValue(authFlow)
-    // const [isMember, setIsMember] = useState(false)
-    // const navigate = useNavigate()
-    // const [active, setActive] = useState(false)
-
-    // const community: any = useRecoilValue(communityFlow)
-    // const communityList = useRecoilValue(communityListData)
-
-    // const handleEdit = (e: any) => {
-    //     e.stopPropagation()
-    //     navigate(`/c/${data.public_id}/edit`)
-    // }
-
-    // const handleJoin = (e: any) => {
-    //     e.stopPropagation()
-    //     setIsMember(!isMember)
-    //     if (isMember) leaveCommunity(data.public_id)
-    //     else joinCommunity(data.public_id)
-    // }
-
-    // const openCommunity = () => setActive(!active)
-
-    // useEffect(() => {
-    //     const hasMatchingId = communityList.some((obj: any) => obj.public_id === data.public_id);
-    //     setIsMember(hasMatchingId)
-    // }, [communityList])
-
 
     return (
         <div css={C.container} key={'person'}>
@@ -171,7 +141,7 @@ const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nic
                     src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${public_id}`} />
                 <div css={C.float}>
                     <Avatar size='large' public_id={public_id} />
-                    <div css={{lineHeight:'25px !important'}}>
+                    <div css={{ lineHeight: '25px !important' }}>
                         <div css={textBold('x')}>{nickname}</div>
                         <div css={textLight('s')}>@{username}</div>
                     </div>

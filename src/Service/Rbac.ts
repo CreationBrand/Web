@@ -22,12 +22,19 @@ export const globalRoles = {
 
 export const canManageTags = (set: any) => {
 
+    //global
+    let gHex = getRecoil(globalHex)
+    if (Boolean(gHex.get(0) !== 0)) return true
 
     if (set === null) return false
-    let bs = new BitSet(set)
 
+    //community
+    for (var i = 0; i < set.length; i++) {
+        let bs = new BitSet(set[i])
+        if (Boolean(bs.get(0) !== 0)) return true
+    }
 
-    return Boolean(bs.get(0) !== 0)
+    return false
 };
 
 export const canManageRole = (set: any) => {

@@ -1617,6 +1617,11 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
+"@isaacs/ttlcache@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@isaacs/ttlcache/-/ttlcache-1.4.0.tgz#b993aeb3ee5015ae5dfc7b7960dd9b0fb5b1a7fc"
+  integrity sha512-2i5IL+VRvSOAhyqOI6lVrPzHiLhmC+gZEfG/4z8YA7/zRvQGs75SdF9qsZiNWPgKd1SK06NirpIU+Hd+XWDPfQ==
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"

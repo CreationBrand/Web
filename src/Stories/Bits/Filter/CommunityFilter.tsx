@@ -10,6 +10,8 @@ import { faChartLine, faFire, faNewspaper } from '@fortawesome/free-solid-svg-ic
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
 import TagFilter from 'Stories/Bits/Picker/TagFilter'
+import { useRecoilState } from 'recoil'
+import { postFilter } from 'State/filterAtoms'
 
 const C = {
     container: css({
@@ -32,8 +34,9 @@ const C = {
     }),
 }
 
-const FilterPane = ({ value, onChange }: any) => {
+const FilterPane = () => {
 
+    const [value, onChange] = useRecoilState(postFilter)
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl]: any = useState(null);
 

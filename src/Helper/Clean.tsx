@@ -7,6 +7,7 @@ import { faUserSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { personData } from "State/Data";
 import Avatar from "Stories/Bits/Avatar/Avatar";
+import BitSet from "bitset";
 import { getRecoil } from "recoil-nexus";
 
 interface tree {
@@ -154,6 +155,17 @@ export const messengerLTT = (list: any) => {
 
     return tree
 
+}
+
+export const buildHex = (roles: any) => {
+    let hex = new BitSet(0)
+
+    for (var i = 0; i < roles.length; i++) {
+        const temp = new BitSet(`0x${roles[i].permissions}`)
+        hex = hex.or(temp)
+    }
+
+    return hex
 }
 
 

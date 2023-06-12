@@ -43,7 +43,7 @@ const VirtuList = ({ list, public_id }: any) => {
             data={list}
             itemContent={(index, item) => {
                 return (
-                    <div key={index} style={{ minHeight: '10px' }}>
+                    <div key={index}>
                         {item}
                     </div>
                 )

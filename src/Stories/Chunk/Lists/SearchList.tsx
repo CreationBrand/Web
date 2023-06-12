@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import FilterPane from 'Stories/Pane/FilterPane';
+import FilterPane from 'Stories/Bits/Filter/CommunityFilter';
 import SearchPane from 'Stories/Pane/SearchPane';
 import { motion } from 'framer-motion';
 import { useState } from 'react';

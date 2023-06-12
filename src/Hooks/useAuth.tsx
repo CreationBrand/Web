@@ -10,6 +10,7 @@ import {
     communityData,
     communityListData,
     communityTreeData,
+    globalHex,
     globalRoleData,
     messengerData,
     messengerTreeData,
@@ -17,7 +18,7 @@ import {
     sessionData,
     tagData
 } from 'State/Data'
-import { communityLTL, communityLTT, messengerLTT } from 'Helper/Clean'
+import { buildHex, communityLTL, communityLTT, messengerLTT } from 'Helper/Clean'
 import { authFlow, socketFlow } from 'State/Flow'
 import { set } from 'date-fns'
 
@@ -44,6 +45,7 @@ var useAuth = () => {
     const setCLD = useSetRecoilState(communityListData)
     const setMTD = useSetRecoilState(messengerTreeData)
     const setAF = useSetRecoilState(authFlow)
+    const setHex = useSetRecoilState(globalHex)
 
     useEffect(() => {
         var trySession = async () => {
@@ -58,6 +60,7 @@ var useAuth = () => {
                     await connectSocket()
                     var request = await get('user')
 
+                    console.log(request)
 
                     if (request !== false) {
 
@@ -81,6 +84,7 @@ var useAuth = () => {
                         // console.groupEnd();
 
                         setR(request.globalRoles)
+                        setHex(buildHex(request.globalRoles))
                         // console.groupCollapsed('%c [DATA - globalRoles] ', 'background: #000; color: #5555da');
                         // console.log(treeify.asTree(request.globalRoles, true));
                         // console.groupEnd();

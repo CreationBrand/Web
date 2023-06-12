@@ -13,6 +13,8 @@ import { memo } from 'react'
 import Home from 'App/Pages/Home'
 import SearchList from 'Stories/Chunk/Lists/SearchList'
 import PersonList from 'Stories/Chunk/Lists/PersonList'
+import CommentList from 'Stories/Chunk/Lists/CommentList'
+import NotiList from 'Stories/Chunk/Lists/NotiList'
 
 var Private = () => {
 
@@ -23,62 +25,26 @@ var Private = () => {
             <Routes>
                 <Route path="/" element={<Home />}>
 
+                    <Route path="/settings" element={<EditPerson />} />
+                    <Route path="/submit" element={<Submit />} />
+                    <Route path="/notifications" element={<NotiList />} />
 
-                    <Route path="/settings" element={<EditPerson />}></Route>
+                    <Route path="/search/:query" element={<SearchList />} />
+                    <Route path="g/:group_id" element={<GroupList />} />
+                    <Route path="p/:person_id" element={<PersonList />} />
+                    <Route path="m/:messenger_id" element={<MessengerList />} />
 
+                    <Route path="/home" element={<GlobalList type="home" />} />
+                    <Route path="/trending" element={<GlobalList type="trending" />} />
 
-
-                    <Route
-                        path="/search/:query"
-                        element={<SearchList />} />
-
-
-                    <Route
-                        path="/submit"
-                        element={<Submit />} />
-
-                    <Route
-                        path="m/:messenger_id"
-                        element={<MessengerList />}
-                    />
-
-                    <Route
-                        path="/home"
-                        element={<GlobalList type="home" />}
-                    ></Route>
-                    <Route
-                        path="/trending"
-                        element={<GlobalList type="trending" />}></Route>
-
-                    <Route
-                        path="g/:group_id"
-                        element={<GroupList />}
-                    ></Route>
-                    <Route
-                        path="p/:person_id"
-                        element={<PersonList />}
-                    ></Route>
-
-
-                    <Route
-                        path="c/:community_id"
-                        element={<CommunityList />}
-                    ></Route>
-                    <Route
-                        path="c/:community_id/p/:post_id"
-                        element={<PostList />}
-                    ></Route>
-
-                    <Route
-                        path="c/:community_id/edit"
-                        element={<EditCommunity />}
-                    ></Route>
-
+                    <Route path="c/:community_id" element={<CommunityList />} />
+                    <Route path="c/:community_id/p/:post_id" element={<PostList />} />
+                    <Route path="c/:community_id/p/:post_id/c/:comment_id" element={<CommentList />} />
+                    <Route path="c/:community_id/edit" element={<EditCommunity />} />
 
                 </Route>
 
-
-                <Route path="/error" element={<div>404</div>}></Route>
+                <Route path="/error" element={<div>404</div>} />
                 <Route path="*" element={<Navigate to="/" replace={true} />} />
             </Routes>
         </>

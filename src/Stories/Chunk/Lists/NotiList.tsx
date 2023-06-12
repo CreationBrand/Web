@@ -7,6 +7,8 @@ import useCommunityFlow from 'Hooks/useCommunityFlow'
 import useContentFlow from 'Hooks/useContentFlow'
 import VirtuList from '../VirtualList/VirtuList'
 import usePostList from 'Hooks/Pull/usePostList'
+import useNotiList from 'Hooks/Pull/useNotiList'
+import useClearNotif from 'Hooks/useClearNotif'
 
 const C = {
     container: css({
@@ -15,14 +17,19 @@ const C = {
         overflow: 'hidden',
         display: 'flex',
         justifyContent: 'center',
-    })
+    }),
+
+
+
+
 }
 
-const GlobalList = ({ type }: any) => {
+const NotiList = ({ type }: any) => {
 
-    const [isLoading, isError, components] = usePostList(type, 'none')
+    const [isLoading, isError, components] = useNotiList()
 
-    useContentFlow('global')
+    useClearNotif('noti')
+    useContentFlow('noti')
     useCommunityFlow(null)
 
     return (
@@ -33,10 +40,25 @@ const GlobalList = ({ type }: any) => {
             initial={{ opacity: 0, }}
             animate={{ opacity: 1, }}
         >
-            <VirtuList list={components} public_id={type} />
+            <VirtuList list={components} public_id={'noti'} />
         </motion.div>
     )
 }
 
 
-export default memo(GlobalList)
+export default memo(NotiList)
+
+
+
+
+/*
+
+
+
+    {
+
+    TYPE
+    P
+    }
+
+ */
