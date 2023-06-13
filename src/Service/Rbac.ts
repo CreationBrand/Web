@@ -6,18 +6,18 @@ import { getRecoil } from "recoil-nexus";
 
 
 export const communityRoles = {
-    manage_tags: 1,
-    manage_roles: 2,
-    manage_community: 3,
-    admin: 4,
+    manage_tags: 0,
+    manage_roles: 1,
+    manage_community: 2,
+    admin: 3,
 }
 
 export const globalRoles = {
-    manage_tags: 1,
-    manage_communitys: 2,
-    manage_users: 3,
-    manage_roles: 4,
-    admin: 5,
+    manage_tags: 0,
+    manage_communitys: 1,
+    manage_users: 2,
+    manage_roles: 3,
+    admin: 4,
 }
 
 export const canManageTags = (set: any) => {
@@ -44,9 +44,17 @@ export const canManageRole = (set: any) => {
 };
 
 export const canManageCommunity = (set: any) => {
+    //global
+    let gHex = getRecoil(globalHex)
+    if (Boolean(gHex.get(1) !== 0)) return true
     if (set === null) return false
-    let bs = new BitSet(set)
-    return Boolean(bs.get(2) !== 0)
+    //community
+    for (var i = 0; i < set.length; i++) {
+        let bs = new BitSet(set[i])
+        if (Boolean(bs.get(1) !== 0)) return true
+    }
+
+    return false
 };
 
 export const canManageGlobalRole = () => {

@@ -60,8 +60,6 @@ var useAuth = () => {
                     await connectSocket()
                     var request = await get('user')
 
-                    console.log(request)
-
                     if (request !== false) {
 
                         setAF('user')

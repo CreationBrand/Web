@@ -37,8 +37,6 @@ const usePullGroups = (group_id: any, filter: string, varient: string) => {
                 page: page.data,
             })
 
-            console.log(req)
-
             if (req === false || req.status === 'error') setError(true)
 
             if (req.status === 'ok') {

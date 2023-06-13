@@ -5,6 +5,7 @@ import { getLinkPreview, } from "link-preview-js";
 import { memo } from 'react'
 import { useQuery } from '@tanstack/react-query';
 import Walk from 'Stories/Bits/ChunkError/Walk';
+import Player from './Player';
 
 
 const proxy = "https://cors.creationbrand.workers.dev"
@@ -48,6 +49,7 @@ const Link = ({ url }: any) => {
         },
     })
 
+
     const handleClick = (e: any) => {
         e.stopPropagation()
         //@ts-ignore
@@ -56,14 +58,13 @@ const Link = ({ url }: any) => {
 
     if (isLoading) return <div css={C.container}> <Walk /> </div>
 
-  
+
+    if (data.mediaType === "video.other" && data.siteName === 'Tenor') return <Player url={data.videos[0].url} />
+    if (data.mediaType === "video.other" && data.siteName === 'YouTube') return <Player url={data.url} />
+    if (data.mediaType === "video.other" && data.siteName === 'Twitch') return <Player url={data.url} />
+    if (data.mediaType === "video" && data.siteName === 'RedGIFs') return <Player url={`https://cors.creationbrand.workers.dev/${data.videos[0].url}`} />
 
     return <div css={C.container} onClick={handleClick}>
-
-
-
-
-
         {data.images && <img src={data.images[0]} css={C.image} />}
         <div>
             {data.title && <div css={C.title}>{data.title}</div>}

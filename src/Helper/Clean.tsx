@@ -20,7 +20,7 @@ interface tree {
 }
 
 
-export const communityLTT = (list: any) => {
+export const communityLTT = (list: any, offset: any = 0) => {
 
     let tree: any = [];
 
@@ -30,8 +30,9 @@ export const communityLTT = (list: any) => {
             group.children.forEach((item: any, iter2: number) => {
 
                 children.push({
-                    id: item.public_id,
-                    path: `${iter1}.${iter2}`,
+                    id: `${iter1 + offset}.${iter2}`,
+                    public_id: item.public_id,
+                    path: `${iter1 + offset}.${iter2}`,
                     link: `/c/${item.public_id}`,
                     type: 'leaf',
                     active: true,
@@ -46,7 +47,7 @@ export const communityLTT = (list: any) => {
 
         tree.push({
             id: group.public_id,
-            path: `${iter1}`,
+            path: `${iter1 + offset}`,
             type: 'group',
             active: true,
             link: children.length === 0 ? false : '/g/' + group.public_id,

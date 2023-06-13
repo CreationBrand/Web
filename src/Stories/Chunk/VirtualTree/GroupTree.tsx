@@ -23,17 +23,12 @@ const GroupTree = () => {
     const [search, setSearch] = useState('')
     const { width, height } = useWindow()
 
-
-
     const [edit, setEdit] = useState(null)
     const editOpen = (e: any) => setEdit(e.data.object)
     const editClose = () => setEdit(null)
 
 
     const handleSearch = (e: any) => setSearch(e.target.value)
-
-
-
 
     const Node = ({ node, style, dragHandle }: any) => {
 
@@ -61,10 +56,7 @@ const GroupTree = () => {
                 placeholder="Search..."
                 startAdornment={<ManageSearchRoundedIcon color="secondary" />}
                 sx={{
-                    input: {
-                        paddingLeft: '4px',
-
-                    },
+                    input: { paddingLeft: '4px' },
                     paddingLeft: '4px',
                     marginBottom: '8px',
                     height: '32px',
@@ -77,8 +69,8 @@ const GroupTree = () => {
             />
 
             <Tree
-                initialData={tree}
-                openByDefault={true}
+                data={tree}
+                openByDefault={false}
                 width={216}
                 height={height - 112}
                 indent={24}

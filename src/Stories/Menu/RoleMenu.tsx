@@ -15,14 +15,12 @@ import InputBase from '@mui/material/InputBase';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { Button, Checkbox, MenuItem, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { tagData } from 'State/Data';
 import { useRecoilValue } from 'recoil';
 import { socketRequest } from 'Service/Socket';
-import useSubscription from 'Hooks/useSubscription';
-
-import StyleRoundedIcon from '@mui/icons-material/StyleRounded';
-import { canManageTags } from 'Service/Rbac';
 import { communityFlow } from 'State/Flow';
+
+import EditAttributesIcon from '@mui/icons-material/EditAttributes';
+import { canManageCommunity } from 'Service/Rbac';
 
 const StyledPopper = styled(Popper)(({ theme }) => ({
     zIndex: '2000',
@@ -34,15 +32,17 @@ const StyledPopper = styled(Popper)(({ theme }) => ({
 }));
 
 
-export default function TagMenu({ current, public_id, type }: any) {
+export default function RoleMenu({ current, person_id, public_id }: any) {
+
+    const community: any = useRecoilValue(communityFlow)
+    const [value, setValue]: any = useState([]);
 
     const [anchorEl, setAnchorEl]: any = useState(null)
-    const [value, setValue]: any = useState([]);
-    const tags = useRecoilValue(tagData)
-    const community: any = useRecoilValue(communityFlow)
+
+
 
     useEffect(() => {
-        if (!current || current.length < 1) return
+        if (!current || current < 1) return
         let temp: any = []
         current.forEach((elem: any) => {
             temp.push(elem.public_id)
@@ -51,26 +51,30 @@ export default function TagMenu({ current, public_id, type }: any) {
     }, [public_id, current])
 
     const handleClose = () => {
-        if (anchorEl) anchorEl.focus();
+        if (anchorEl) {
+            anchorEl.focus();
+        }
         setAnchorEl(null);
     };
+
+    const handleClick = (e: any) => {
+        if (value.indexOf(e.currentTarget.dataset.test) > -1) {
+            socketRequest('roles-remove-person', { public_id: public_id, role_id: e.currentTarget.dataset.test, person_id: person_id, community_id: community.public_id })
+            handleClose()
+        } else {
+            socketRequest('roles-add-person', { public_id: public_id, role_id: e.currentTarget.dataset.test, person_id: person_id, community_id: community.public_id })
+            handleClose()
+        }
+    }
+
     const open = (e: any) => {
         e.preventDefault()
         e.stopPropagation()
         setAnchorEl(e.currentTarget)
     };
 
-    const handleTag = (e: any) => {
-        if (value.indexOf(e.currentTarget.dataset.test) > -1) {
-            socketRequest('tag-remove', { type: type, tag_id: e.currentTarget.dataset.test, entity_id: public_id })
-            handleClose()
-        } else {
-            socketRequest('tag-add', { type: type, tag_id: e.currentTarget.dataset.test, entity_id: public_id })
-            handleClose()
-        }
-    }
 
-    if (!community.allRoles || !canManageTags([community.roleHex])) return null
+    if (!community.allRoles || !canManageCommunity([community.roleHex])) return null
 
     return (
 
@@ -79,10 +83,11 @@ export default function TagMenu({ current, public_id, type }: any) {
             onMouseLeave={handleClose}
         >
 
+            {/* POPPER */}
             <StyledPopper
-                modifiers={[{ name: "offset", options: { offset: [-8, -2] } }]}
-                id={'tagsMenu'} placement={'left-start'}
-                open={Boolean(anchorEl)} anchorEl={anchorEl}>
+                placement={'left-start'}
+                modifiers={[{ name: "offset", options: { offset: [-6, -2] } }]}
+                id={'roleMenu'} open={Boolean(anchorEl)} anchorEl={anchorEl} >
 
                 <div
                     css={{
@@ -92,11 +97,12 @@ export default function TagMenu({ current, public_id, type }: any) {
                         backgroundColor: '#0f0e10',
                     }}
                 >
-                    {tags.map((tag: any) =>
+                    {community.allRoles.map((tag: any) =>
                         <MenuItem
+                            disabled={tag.base}
                             key={tag.public_id}
                             data-test={tag.public_id}
-                            onClick={handleTag}
+                            onClick={handleClick}
                         >
                             <div
                                 css={{
@@ -121,9 +127,13 @@ export default function TagMenu({ current, public_id, type }: any) {
                                 }} />
                         </MenuItem>)}
                 </div>
-            </StyledPopper>
 
-            Tags <StyleRoundedIcon />
+
+            </StyledPopper >
+
+
+            Community Roles <EditAttributesIcon />
         </MenuItem>
+
     );
 }

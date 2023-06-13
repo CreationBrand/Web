@@ -37,11 +37,15 @@ const RightMenu = ({ tags, public_id, person_id, type, community_roles, }: any) 
 
     return (
         <div css={{ marginLeft: 'auto' }} onClick={(e) => e.stopPropagation()}>
-            <PostMenu
-                tags={tags}
-                type={type}
-                public_id={public_id}
-                anchorEl={anchorEl} setAnchorEl={setAnchorEl} community_roles={community_roles} />
+            {Boolean(anchorEl) && (
+                <PostMenu
+                    person_id={person_id}
+                    tags={tags}
+                    type={type}
+                    public_id={public_id}
+                    anchorEl={anchorEl}
+                    setAnchorEl={setAnchorEl}
+                    community_roles={community_roles} />)}
             <IconButton
                 sx={{
                     color: '#d7dadc',

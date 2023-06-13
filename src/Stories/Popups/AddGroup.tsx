@@ -2,18 +2,18 @@
 
 import { useForm, Controller } from "react-hook-form";
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Dialog, Divider, Input, Button, Modal } from "@mui/material"
+import { Divider, Input, Button, Modal } from "@mui/material"
 import { css } from '@emotion/react';
 import { useState } from "react";
-import { textBold, textLabel, textLight, textNormal } from "Global/Mixins";
+import { textBold, textLabel, textLight } from "Global/Mixins";
 
-import { HexColorPicker } from "react-colorful";
 import { socketRequest } from "Service/Socket";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorPicker from "Stories/Forum/ColorPicker";
 import CommunitySelect from "Stories/Bits/CommunitySelect/CommunitySelect";
 import { communityTreeData } from "State/Data";
 import { useRecoilState } from "recoil";
+import { communityLTT } from "Helper/Clean";
 
 const C = {
     container: css({
@@ -76,16 +76,20 @@ const AddGroup = ({ open, handleClose }: Props) => {
 
     const { register, handleSubmit, watch, formState: { errors }, control } = useForm();
     const [loading, setLoading] = useState(false);
-    const [tree, setTree] = useRecoilState(communityTreeData)
+    const [tree, setTree]: any = useRecoilState(communityTreeData)
 
 
     const onSubmit = async (data: any) => {
         setLoading(true)
-        console.log(data)
         let req: any = await socketRequest('group-new', data)
-        console.log(req)
-        if (req.status === 'ok') handleClose()
-
+        let newTree = communityLTT([req.group], tree.length + 1)
+        if (req.status === 'ok') {
+            setTree((currentState: any) => [
+                ...currentState,
+                ...newTree
+            ]);
+            handleClose()
+        }
         setLoading(false)
     }
 

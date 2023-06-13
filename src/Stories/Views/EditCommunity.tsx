@@ -2,21 +2,25 @@
 import { css } from '@emotion/react';
 
 import { useForm, Controller } from "react-hook-form";
-import { Divider, Input, Button, TextareaAutosize, styled, } from "@mui/material"
+import { Divider, Input, Button, TextareaAutosize, styled, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, } from "@mui/material"
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { contentFlow } from "State/Flow";
-import { personData } from 'State/Data';
-import { textLabel } from 'Global/Mixins';
+import { communityListData, communityTreeData, personData } from 'State/Data';
+import { textBold, textLabel } from 'Global/Mixins';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import ImageEditor from 'Stories/Forum/ImageEditor/ImageEditor';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import usePullCommunity from 'Hooks/usePullCommunity';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import RoleEditor from 'Stories/Forum/RoleEditor';
 import useLiveData from 'Hooks/useLiveData';
+import Confirm from 'Stories/Popups/Confirm';
+import { socketRequest } from 'Service/Socket';
+import { setRecoil } from 'recoil-nexus';
+import { communityLTL, communityLTT } from 'Helper/Clean';
 
 
 // VALIDATION
@@ -52,6 +56,7 @@ const C = {
         width: '100%',
         maxWidth: '800px',
         margin: '0 auto',
+
 
     }),
     section: css({
@@ -99,8 +104,9 @@ const EditCommunity = () => {
 
 
     let params = useParams()
-    const [loadings, error, component, req] = usePullCommunity(params.community_id)
+    let navigate = useNavigate()
 
+    const [loadings, error, component, req] = usePullCommunity(params.community_id)
     const data = useLiveData(true, `community:${params.community_id}`)
 
 
@@ -116,6 +122,27 @@ const EditCommunity = () => {
         // console.log(data)
 
     };
+
+    const handleDelete = async () => {
+        let res: any = await socketRequest('community-delete', { community_id: params.community_id })
+        if (res.status === 'ok') {
+            setRecoil(communityListData, communityLTL(res.communitys))
+            setRecoil(communityTreeData, communityLTT(res.communitys))
+            navigate('/trending')
+        }
+    }
+
+
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
 
 
     if (!req) return <div>loading</div>
@@ -303,30 +330,27 @@ const EditCommunity = () => {
 
             <RoleEditor roles={data.community_roles} public_id={data.public_id}></RoleEditor>
 
-            {/* {(req?.community?.community_roles?.length > 0) &&
-                <Box sx={{ width: '100%', background: '#181820', borderRadius: '8px' }}>
-                    <DataGrid
-                        checkboxSelection={false}
-                        autoHeight
-                        hideFooter
-                        editMode='row'
-                        isCellEditable={() => false}
-                        css={{ borderRadius: '8px' }}
-                        rows={req?.community?.community_roles}
-                        columns={columns}
-                        initialState={{
-                            pagination: {
-                                paginationModel: {
-                                    pageSize: 5,
-                                },
-                            },
-                        }}
-                        pageSizeOptions={[5]}
-                    />
-                </Box>
 
-            } */}
+            <div css={{
+                margin: "6px 0px",
+                fontWeight: "bold",
+                fontSize: "18px",
+                lineHeight: "22px",
+                wordBreak: "normal",
+                textDecoration: "none",
+                color: '#fff',
+            }}>WARNING</div>
+            <div css={{
+                margin: "0px 0px 30px",
+                fontWeight: "400",
+                fontSize: "14px",
+                lineHeight: "20px",
+                wordBreak: "normal",
+                textDecoration: "none",
+                color: '#b9b6ba',
+            }}>Deletes are irreversible.</div>
 
+            <Confirm onDelete={handleDelete} />
 
         </div>
     </div >
@@ -335,6 +359,11 @@ const EditCommunity = () => {
 
 
 export default EditCommunity
+
+
+
+
+
 
 const columns: GridColDef[] = [
     {
@@ -358,12 +387,3 @@ const columns: GridColDef[] = [
         flex: 1,
     },
 ];
-
-// const rows = [
-//     { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-//     { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-//     { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-//     { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-// ];
-
-

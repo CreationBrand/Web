@@ -47,8 +47,7 @@ const useNotiList = () => {
             // if (cache.has(`posts:${community_id}:${filter}:${cursor}`)) return setList(cache.get(`posts:${community_id}:${filter}:${cursor}`))
 
             let req: any = await socketRequest('notis', { cursor: cursor })
-            console.log(req)
-            // console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.posts?.length}) Posts Cursor:${cursor}`);
+            console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.noti?.length}) Noti Cursor:${cursor}`);
 
             if (req?.noti?.length < 25) end = true
             setList(req.noti)
@@ -75,7 +74,6 @@ const useNotiList = () => {
         // else if (filter === 'TOP') return setCursor(components[components.length - 1].props.karma)
     }
 
-    console.log(components)
     return [isLoading, isError, components.concat(<ChunkError variant={!end ? 'loading' : 'end'} onLoad={fetchNext} />)]
 }
 
@@ -118,13 +116,11 @@ const C = {
 const Noti = (props: any) => {
     let content = JSON.parse(props.content)
 
-    console.log(content )
-
     const navigate = useNavigate()
 
     const handleClick = () => {
-        if(props.type === 'comment-reply') navigate(`/c/${props?.community?.public_id}/p/${props?.post?.public_id}/c/${props?.comment?.public_id}`)
-        if(props.type === 'post-reply') navigate(`/c/${props?.community?.public_id}/p/${props?.post?.public_id}/c/${content?.comment_id}`)
+        if (props.type === 'comment-reply') navigate(`/c/${props?.community?.public_id}/p/${props?.post?.public_id}/c/${props?.comment?.public_id}`)
+        if (props.type === 'post-reply') navigate(`/c/${props?.community?.public_id}/p/${props?.post?.public_id}/c/${content?.comment_id}`)
 
     }
 

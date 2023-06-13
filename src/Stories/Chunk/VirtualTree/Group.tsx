@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react"
 
-import { useState } from "react";
+import { memo, useState } from "react";
 
 import { motion } from "framer-motion"
 import { textBold, textNormal } from "Global/Mixins"
@@ -110,4 +110,4 @@ const Group = ({ node, onEdit }: any) => {
 
 
 
-export default Group
+export default memo(Group)

@@ -1,24 +1,53 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
+
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+
 import { useForm, Controller } from "react-hook-form";
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Dialog, Divider, Input, Button } from "@mui/material"
+import { Dialog, Divider, Input, Button, Modal } from "@mui/material"
 import { useEffect, useState } from "react";
-import { textLabel, textLight, textNormal } from "Global/Mixins";
+import { textBold, textLabel, textLight, textNormal } from "Global/Mixins";
 import { HexColorPicker } from "react-colorful";
 import CommunitySelect from "Stories/Bits/CommunitySelect/CommunitySelect";
 import { socketRequest } from 'Service/Socket';
+import ColorPicker from 'Stories/Forum/ColorPicker';
+import { useRecoilState } from 'recoil';
+import { communityListData, communityTreeData } from 'State/Data';
+import { setRecoil } from 'recoil-nexus';
+import { communityLTL, communityLTT } from 'Helper/Clean';
 
 const C = {
     container: css({
+        backgroundColor: 'rgba(15,14,16,0.90)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     }),
     popup: css({
+        overflow: "hidden",
+        color: '#fff',
         background: '#272732',
-        borderRadius: '12px',
-        width: '460px',
+        display: "flex",
+        flexDirection: "column",
+        height: "auto",
+        margin: "0 auto",
+        borderRadius: "8px",
+        boxShadow: "0px 8px 80px rgba(0,0,0,0.4)",
+
+        '@media only screen and (max-width: 800px)': {
+            // flex: '0 100%',
+            width: '100vw',
+            height: '100%',
+            borderRadius: '0px',
+            padding: '70px 0px 40px',
+
+        }
+
     }),
     title: css({
+        textAlign: 'center',
         padding: '16px',
     }),
     content: css({
@@ -30,9 +59,6 @@ const C = {
         alignItems: 'center',
         justifyContent: 'end',
         gap: '8px',
-        background: '#181820',
-        borderBottomLeftRadius: '12px',
-        borderBottomRightRadius: '12px',
     })
 
 }
@@ -42,59 +68,89 @@ const EditGroup = ({ group, handleClose }: any) => {
 
     const { register, handleSubmit, watch, formState: { errors }, control, setValue } = useForm();
     const [loading, setLoading] = useState(false);
+    const [tree, setTree]: any = useRecoilState(communityTreeData)
 
 
     const onSubmit = async (data: any) => {
 
-        // setLoading(true)
+        setLoading(true)
 
+        data.children = data.children.filter((item: string) => item !== '')
         data.public_id = group.public_id
-        data.color = parseInt(data.color.slice(1), 16)
-        let req: any = await socketRequest('group-update', data)
+        let res: any = await socketRequest('group-update', data)
 
-        // if(req.status === 'ok') handleClose()
+        if (res.status === 'ok') {
+            setRecoil(communityListData, communityLTL(res.communitys))
+            setRecoil(communityTreeData, communityLTT(res.communitys))
+            handleClose()
+        }
         setLoading(false)
 
     }
+    const handleDelete = async () => {
+        let req: any = await socketRequest('group-delete', { public_id: group.public_id })
+        setTree((prevItems: any) => prevItems.filter((item: any) => item.id !== group.public_id));
+        handleClose()
+        // console.log(group.public_id, tree)
 
-
+    }
 
     // setDefaultValues
     useEffect(() => {
+        console.log(group)
         let currentChildren = group?.children?.map((child: any) => child.public_id)
+        setValue('title', group?.title)
         setValue('children', currentChildren)
-        setValue('color', "#" + group?.color?.toString(16))
-    }, [])
+        setValue('color', group?.color)
+    }, [group])
 
     if (!group) return (<></>)
 
 
-
-
     return (
-        <Dialog open={JSON.stringify(group) !== '{}'} onClose={handleClose} css={C.container} sx={{
-            paper: { borderRadius: '12px' },
-            borderRadius: '12px'
-        }}>
-
-            <form css={C.popup}>
-
-                <div css={C.title}>
-                    <div css={textNormal('x')}>Edit {group.title}</div>
-                    <div css={textLight('t')}>Group communitys to create seperate feeds   </div>
+        <Modal open={JSON.stringify(group) !== '{}'} onClose={handleClose} css={C.container} >
+            <div css={C.popup}>
+                <div
+                    onClick={handleClose}
+                    css={{
+                        cursor: "pointer",
+                        position: "fixed",
+                        top: "40px",
+                        right: "56px",
+                        zIndex: 4,
+                        width: "44px",
+                        height: "44px",
+                        border: "2px solid #2C2C2C",
+                        borderRadius: "50%",
+                        fontSize: "0",
+                        WebkitTransition: "border-color .2s",
+                        transition: "border-color .2s",
+                        '&:hover': {
+                            borderColor: '#fff'
+                        },
+                    }}>
+                    <CloseRoundedIcon sx={{
+                        position: "relative",
+                        top: "6px",
+                        left: "6px",
+                        color: "#adb7be",
+                        fontSize: "28px",
+                    }} />
                 </div>
 
-
-                <Divider />
+                <div css={C.title}>
+                    <div css={textBold('x')}>Edit Group</div>
+                    <div css={textLight('t')}>Group communitys to create seperate feeds</div>
+                </div>
 
                 <div css={C.content}>
 
-                    <div css={textLabel('t')}>Group Name</div>
+                    <div css={textLabel('s')}>Group Name</div>
 
                     <Controller
                         name="title"
                         control={control}
-                        defaultValue={group.title}
+                        defaultValue=""
                         rules={{ required: true }}
                         render={({ field: { onChange, value } }) =>
                             <Input
@@ -110,57 +166,50 @@ const EditGroup = ({ group, handleClose }: any) => {
 
                 <Divider />
 
-
                 <div css={C.content}>
-                    <div css={textLabel('t')}>Group Color</div>
-
-                    <Controller
-                        name="color"
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field: { onChange, value } }: any) =>
-
-                            <HexColorPicker
-                                style={{ width: '140px', height: '140px' }}
-                                onChange={onChange}
-                                color={value}
-                            />
-
-
-
-                        }
-                    />
-
+                    <div css={textLabel('s')}>Group Color</div>
+                    <ColorPicker control={control} />
                 </div>
 
                 <Divider />
 
                 <div css={C.content}>
-
-                    <div css={textLabel('t')}>Communitys</div>
-{/* 
-                    <Controller
-                        name="children"
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field: { onChange, value } }) =>
-                            <CommunitySelect onChange={onChange}
-                                value={value} group={group} />
-                        }
-                    /> */}
+                    <div css={textLabel('s')}>Communitys</div>
+                    <CommunitySelect control={control} />
                 </div>
 
+                <Divider />
+
                 <div css={C.footer}>
+
+                    <LoadingButton
+                        sx={{
+                            borderRadius: '8px',
+                            backgroundColor: '#fc4747',
+                            marginRight: 'auto',
+                            ':hover': {
+                                backgroundColor: '#c43b39',
+                            }
+                        }}
+                        onClick={handleDelete}
+                        loading={loading}
+                        loadingIndicator="Running"
+                        variant="contained"
+                    >Delete</LoadingButton>
+
+
                     <Button onClick={handleClose} color='secondary'>Cancel</Button>
                     <LoadingButton
-                        onMouseDown={handleSubmit(onSubmit)}
+                        sx={{ borderRadius: '8px' }}
+                        onClick={handleSubmit(onSubmit)}
                         loading={loading}
                         loadingIndicator="Running"
                         variant="contained"
                     >Update</LoadingButton>
                 </div>
-            </form>
-        </Dialog >
+
+            </div>
+        </Modal >
     )
 
 }

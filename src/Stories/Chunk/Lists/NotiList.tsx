@@ -18,10 +18,6 @@ const C = {
         display: 'flex',
         justifyContent: 'center',
     }),
-
-
-
-
 }
 
 const NotiList = ({ type }: any) => {
