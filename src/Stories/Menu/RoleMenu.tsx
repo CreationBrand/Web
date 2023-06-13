@@ -74,7 +74,7 @@ export default function RoleMenu({ current, person_id, public_id }: any) {
     };
 
 
-    if (!community.allRoles || !canManageCommunity([community.roleHex])) return null
+    if (!community.allRoles || !canManageCommunity(community.roleHex)) return null
 
     return (
 

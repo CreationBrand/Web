@@ -2,7 +2,9 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { useState } from 'react';
+import { Block, block } from 'million';
+import { Suspense, useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import ReactPlayer from 'react-player'
 import VisibilitySensor from 'react-visibility-sensor';
 
@@ -35,15 +37,19 @@ const Player = ({ url }: any) => {
     const handleVisability = (visable: boolean) => setIsVisable(visable)
 
     return (<div css={C.player} onClick={(e) => e.stopPropagation()}>
-        <VisibilitySensor onChange={handleVisability}>
-            <ReactPlayer
-                controls
-                url={url}
-                playing={isVisable}
-                muted={true}
-                loop={true}
-            />
-        </VisibilitySensor>
+        <ErrorBoundary fallback={<div>Something went wrong</div>}>
+            <Suspense fallback={<div>Loading...</div>}>
+                <VisibilitySensor onChange={handleVisability}>
+                    <ReactPlayer
+                        controls
+                        url={url}
+
+                        muted={true}
+                        loop={true}
+                    />
+                </VisibilitySensor>
+            </Suspense>
+        </ErrorBoundary>
     </div>)
 }
 

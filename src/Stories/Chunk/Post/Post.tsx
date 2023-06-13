@@ -29,7 +29,7 @@ const C = {
     container: css({
         width: '100%',
         minHeight: '100px',
-        padding: '16px 2px 0px 0px',
+        padding: '16px 0px 0px 0px',
 
     }),
     inner: css({

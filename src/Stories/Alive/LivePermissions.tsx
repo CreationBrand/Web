@@ -59,7 +59,7 @@ const LivePermissions = () => {
                         }}>
                         <KeyRoundedIcon
                             sx={{
-                                fontSize: '26px',
+                                fontSize: '22px',
                                 transform: 'rotate(90deg)',
                             }}
                         />
@@ -71,35 +71,39 @@ const LivePermissions = () => {
                         {...bindPopover(popupState)}
 
                         anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
+                            vertical: 'top',
+                            horizontal: 'center',
                         }}
                         transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
+                            vertical: 'bottom',
+                            horizontal: 'center',
                         }}
                     >
                         {Boolean(anchorEl) && <>
 
                             <div css={{ fontSize: '10px', padding: '6px 8px', }}>
-                                <span css={textLabel('t')}>Global Perms</span>
+
+                                <span css={[{ margin: 8 }, textLabel('t')]}>Global Perms</span>
 
                                 <MenuItem css={{ paddingLeft: '2px', color: globalPerms.get(0) ? '#5ae334 !important' : '#eb4034 !important' }}>
-                                    <EditAttributesIcon css={{ fontSize: '22px', height: '20px' }} />
                                     <span css={{ fontSize: '12px' }}>Tags</span>
+                                    <EditAttributesIcon css={{ fontSize: '22px', height: '20px' }} />
+
                                 </MenuItem>
 
                                 <MenuItem css={{ paddingLeft: '2px', color: globalPerms.get(1) ? '#5ae334 !important' : '#eb4034 !important' }}>
-                                    <AdminPanelSettingsOutlinedIcon css={{ fontSize: '22px', height: '20px' }} />
                                     <span css={{ fontSize: '12px' }}>Roles</span>
+                                    <AdminPanelSettingsOutlinedIcon css={{ fontSize: '22px', height: '20px' }} />
+
                                 </MenuItem>
                                 <MenuItem css={{ paddingLeft: '2px', color: globalPerms.get(2) ? '#5ae334 !important' : '#eb4034 !important' }}>
-                                    <WeekendIcon css={{ fontSize: '22px', height: '20px' }} />
                                     <span css={{ fontSize: '12px' }}>Community</span>
+                                    <WeekendIcon css={{ fontSize: '22px', height: '20px' }} />
+
                                 </MenuItem>
                                 <MenuItem css={{ paddingLeft: '2px', color: globalPerms.get(3) ? '#5ae334 !important' : '#eb4034 !important' }}>
-                                    <GavelRoundedIcon css={{ fontSize: '22px', height: '20px' }} />
                                     <span css={{ fontSize: '12px' }}>Admin</span>
+                                    <GavelRoundedIcon css={{ fontSize: '22px', height: '20px' }} />
 
                                 </MenuItem>
                             </div>

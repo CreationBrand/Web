@@ -6,6 +6,7 @@ import { memo, useEffect, useRef, } from 'react'
 import useWindow from 'Hooks/useWindow'
 import { Virtuoso } from 'react-virtuoso'
 
+import { block } from "million/react";
 
 
 function debounce(func: any, timeout = 300) {

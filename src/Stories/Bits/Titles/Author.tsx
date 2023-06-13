@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
 import HoverPopover from 'material-ui-popup-state/HoverPopover'
 import { AnimatePresence, motion } from 'framer-motion'
-import MiniError from '../ChunkError/MiniError'
 import { socketRequest } from 'Service/Socket'
 import Avatar from '../Avatar/Avatar'
 import { textLabel } from 'Global/Mixins'
@@ -49,7 +48,7 @@ const Author = ({ title, public_id, community_id, global_roles }: any) => {
     const handleClick = () => {
         navigate(`/p/${public_id}`)
 
-     }
+    }
 
     const handleHover = (event: any) => setAnchorEl(event.target)
     const handleClose = () => setAnchorEl(null);
@@ -77,25 +76,28 @@ const Author = ({ title, public_id, community_id, global_roles }: any) => {
                         onClick={handleClick}
                         css={C.underline}>{title}</div>
 
+                    {Boolean(anchorEl) &&
+                        <HoverPopover
+                            sx={{
+                                '& .MuiPaper-root': {
+                                    borderRadius: '16px !important',
+                                }
+                            }}
+                            {...bindPopover(popupState)}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                        >
+                            {Boolean(anchorEl) && <Preview public_id={public_id} community_id={community_id} />}
+                        </HoverPopover>
+                    }
 
-                    <HoverPopover
-                        sx={{
-                            '& .MuiPaper-root': {
-                                borderRadius: '16px !important',
-                            }
-                        }}
-                        {...bindPopover(popupState)}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                    >
-                        {Boolean(anchorEl) && <Preview public_id={public_id} community_id={community_id} />}
-                    </HoverPopover>
+
                 </div>
             )}
         </PopupState>
@@ -138,114 +140,108 @@ let Preview = ({ public_id, community_id }: any) => {
         })()
     }, [public_id])
 
+    if (!data) return null
+
     return (<AnimatePresence mode='popLayout'>
 
-        {!data ? <motion.div
-            key={`error`}
+
+        <motion.div
+            key={`preview`}
             transition={{ duration: 0.4 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            css={D.container}><MiniError variant="loading" /></motion.div>
-            :
-            <motion.div
-                key={`preview`}
-                transition={{ duration: 0.4 }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                css={D.container}>
+            css={D.container}>
 
 
-                <img css={D.banner}
-                    onError={handleImgError}
-                    src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.public_id}`} />
+            <img css={D.banner}
+                onError={handleImgError}
+                src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.public_id}`} />
 
 
+            <div css={{
+                padding: '12px 12px 0px 12px',
+                display: 'flex',
+                gap: '8px',
+
+            }}>
+                <Avatar size='medium' public_id={public_id} />
                 <div css={{
-                    padding: '12px 12px 0px 12px',
-                    display: 'flex',
-                    gap: '8px',
-
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
                 }}>
-                    <Avatar size='medium' public_id={public_id} />
-                    <div css={{
-                        textOverflow: "ellipsis",
+                    <h4 css={{
+                        fontSize: '16px', textOverflow: "ellipsis",
                         overflow: "hidden",
                         whiteSpace: "nowrap",
-                    }}>
-                        <h4 css={{
-                            fontSize: '16px', textOverflow: "ellipsis",
-                            overflow: "hidden",
-                            whiteSpace: "nowrap",
-                        }}>{data.nickname}</h4>
-                        <h5 css={{
-                            fontSize: '14px', color: '#b9b6ba', textOverflow: "ellipsis",
-                            overflow: "hidden",
-                            whiteSpace: "nowrap",
-                            fontWeight: '400',
-                        }}>@{data.username}</h5>
+                    }}>{data.nickname}</h4>
+                    <h5 css={{
+                        fontSize: '14px', color: '#b9b6ba', textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        fontWeight: '400',
+                    }}>@{data.username}</h5>
 
-
-                    </div>
-
-
-                    {authState !== 'guest' && <MailOutlineRoundedIcon
-                        sx={{
-                            color: '#b9b6ba',
-                            fontSize: '24px',
-                            marginLeft: 'auto',
-                            cursor: 'pointer',
-                            '&:hover': {
-                                color: '#fff',
-                            }
-                        }}
-                    />
-                    }
 
                 </div>
-                {data.about_me &&
-                    <div css={{
-                        padding: '12px 16px 0px 16px',
-                        fontSize: '14px',
-                        color: '#dbdee1',
-                    }}>
-                        <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>About Me</div>
-                        {data.about_me}
-                    </div>
+
+
+                {authState !== 'guest' && <MailOutlineRoundedIcon
+                    sx={{
+                        color: '#b9b6ba',
+                        fontSize: '24px',
+                        marginLeft: 'auto',
+                        cursor: 'pointer',
+                        '&:hover': {
+                            color: '#fff',
+                        }
+                    }}
+                />
                 }
 
-
+            </div>
+            {data.about_me &&
                 <div css={{
-                    padding: '16px 16px 0px 16px',
+                    padding: '12px 16px 0px 16px',
                     fontSize: '14px',
-                    display: 'flex',
-                    gap: '18px',
+                    color: '#dbdee1',
                 }}>
-                    <div>
-                        <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Karma</div>
-                        <div> {data.karma}</div>
-                    </div>
-                    <div>
-                        <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Posts</div>
-                        <div> {data.posts}</div>
-                    </div>
-                    <div>
-                        <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Comments</div>
-                        <div> {data.comments}</div>
-                    </div>
-
-                    <div>
-                        <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Global Role</div>
-                        <LiveRoles value={data.global_roles} />
-                    </div>
+                    <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>About Me</div>
+                    {data.about_me}
+                </div>
+            }
 
 
+            <div css={{
+                padding: '16px 16px 0px 16px',
+                fontSize: '14px',
+                display: 'flex',
+                gap: '18px',
+            }}>
+                <div>
+                    <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Karma</div>
+                    <div> {data.karma}</div>
+                </div>
+                <div>
+                    <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Posts</div>
+                    <div> {data.posts}</div>
+                </div>
+                <div>
+                    <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Comments</div>
+                    <div> {data.comments}</div>
+                </div>
+
+                <div>
+                    <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Global Role</div>
+                    <LiveRoles value={data.global_roles} />
                 </div>
 
 
-            </motion.div>
-        }
+            </div>
+
+
+        </motion.div>
 
 
 

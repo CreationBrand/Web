@@ -7,6 +7,7 @@ import useCommunityFlow from 'Hooks/useCommunityFlow'
 import useContentFlow from 'Hooks/useContentFlow'
 import VirtuList from '../VirtualList/VirtuList'
 import usePostList from 'Hooks/Pull/usePostList'
+import VirtualList from '../VirtualList/VirtualList'
 
 const C = {
     container: css({
@@ -33,7 +34,7 @@ const GlobalList = ({ type }: any) => {
             initial={{ opacity: 0, }}
             animate={{ opacity: 1, }}
         >
-            <VirtuList list={components} public_id={type} />
+            <VirtualList list={components} public_id={type} />
         </motion.div>
     )
 }

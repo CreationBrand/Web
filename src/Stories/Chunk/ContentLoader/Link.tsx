@@ -6,10 +6,10 @@ import { memo } from 'react'
 import { useQuery } from '@tanstack/react-query';
 import Walk from 'Stories/Bits/ChunkError/Walk';
 import Player from './Player';
+import { ErrorBoundary } from "react-error-boundary";
 
 
 const proxy = "https://cors.creationbrand.workers.dev"
-
 
 const C = {
     container: css({
@@ -20,15 +20,37 @@ const C = {
         padding: "8px",
         borderRadius: "8px",
         height: "96px",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
+        "overflow": "hidden",
+        "textOverflow": "ellipsis",
+        "fallbacks": [
+            {
+                "display": "inline-block"
+            }
+        ],
+        "webkitLineClamp": "2",
+        "webkitBoxOrient": "vertical"
+
     }),
     title: css({
+        minWidth: "0px",
         color: "#f2f2f2",
+        "display": "-webkit-box",
+        "overflow": "hidden",
+        "textOverflow": "ellipsis",
+        "webkitLineClamp": "2",
+        "webkitBoxOrient": "vertical"
     }),
     desc: css({
+        minWidth: "0px",
         fontSize: "12px",
         color: "#a8a5ab",
+
+        "display": "-webkit-box",
+        "overflow": "hidden",
+        "textOverflow": "ellipsis",
+        "webkitLineClamp": "2",
+        "webkitBoxOrient": "vertical"
+
     }),
     image: css({
         width: "100px",
@@ -60,17 +82,21 @@ const Link = ({ url }: any) => {
 
 
     if (data.mediaType === "video.other" && data.siteName === 'Tenor') return <Player url={data.videos[0].url} />
-    if (data.mediaType === "video.other" && data.siteName === 'YouTube') return <Player url={data.url} />
-    if (data.mediaType === "video.other" && data.siteName === 'Twitch') return <Player url={data.url} />
-    if (data.mediaType === "video" && data.siteName === 'RedGIFs') return <Player url={`https://cors.creationbrand.workers.dev/${data.videos[0].url}`} />
+    else if (data.mediaType === "video.other" && data.siteName === 'YouTube') return <Player url={data.url} />
+    else if (data.mediaType === "video.other" && data.siteName === 'Twitch') return <Player url={data.url} />
+    else if (data.mediaType === "video.other" && data.siteName === 'Imgur') return <Player url={`https://cors.creationbrand.workers.dev/${data.videos[0].url}`} />
+    else if (data.mediaType === "video" && data.siteName === 'RedGIFs') return <Player url={`https://cors.creationbrand.workers.dev/${data.videos[0].url}`} />
+    else if (data?.videos[0]?.url) return <Player url={data?.videos[0]?.url} />
 
-    return <div css={C.container} onClick={handleClick}>
-        {data.images && <img src={data.images[0]} css={C.image} />}
-        <div>
-            {data.title && <div css={C.title}>{data.title}</div>}
-            {data.description && <div css={C.desc}>{data.description}</div>}
+    return <ErrorBoundary fallback={<div>Something went wrong</div>}>
+        <div css={C.container} onClick={handleClick}>
+            {data.images && <img src={data.images[0]} css={C.image} />}
+            <div css={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+                {data.title && <div css={C.title}>{data.title}</div>}
+                {data.description && <div css={C.desc}>{data.description}</div>}
+            </div>
         </div>
-    </div>
+    </ErrorBoundary>
 };
 
 

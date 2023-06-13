@@ -13,6 +13,9 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import CreateCommunity from "Stories/Popups/CreateCommunity";
 
 import AddGroup from "Stories/Popups/AddGroup";
+import { Filter } from "@mui/icons-material";
+import FilterMenu from "Stories/Menu/FilterMenu";
+import LivePermissions from "Stories/Alive/LivePermissions";
 
 const C = {
     container: css({
@@ -40,8 +43,10 @@ const CommunityControls = () => {
     return <div css={C.container}>
 
 
-        <CreateCommunity open={open1} onClose={ handleClose1} />
+        <CreateCommunity open={open1} onClose={handleClose1} />
         <AddGroup open={group} handleClose={groupClose} />
+
+        <FilterMenu />
 
 
 
@@ -54,38 +59,11 @@ const CommunityControls = () => {
                     height: '32px',
                     width: '32px',
                 }}>
-                <AddIcon sx={{ fontSize: '20px' }} />
+                <AddIcon sx={{ fontSize: '28px' }} />
             </IconButton>
         </Tooltip>
 
 
-
-        <Tooltip title="Unfold" arrow>
-            <IconButton
-                size="small"
-                color="secondary" sx={{
-                    borderRadius: '4px',
-                    height: '32px',
-                    width: '32px',
-                }}>
-                <UnfoldLessIcon sx={{ fontSize: '20px' }} />
-            </IconButton>
-        </Tooltip>
-
-
-
-        <Tooltip title="Fold" arrow>
-            <IconButton
-                size="small"
-                color="secondary" sx={{
-                    borderRadius: '4px',
-                    height: '32px',
-                    width: '32px',
-                }}>
-                <UnfoldMoreIcon sx={{ fontSize: '20px' }} />
-            </IconButton>
-        </Tooltip>
-        
         <Tooltip title="Add Group" arrow>
             <IconButton
                 onClick={() => setGroup(true)}
@@ -99,6 +77,8 @@ const CommunityControls = () => {
             </IconButton>
         </Tooltip>
 
+
+        <LivePermissions />
 
     </div>
 }

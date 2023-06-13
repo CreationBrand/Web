@@ -44,15 +44,16 @@ export const canManageRole = (set: any) => {
 };
 
 export const canManageCommunity = (set: any) => {
+
     //global
     let gHex = getRecoil(globalHex)
     if (Boolean(gHex.get(1) !== 0)) return true
     if (set === null) return false
     //community
-    for (var i = 0; i < set.length; i++) {
-        let bs = new BitSet(set[i])
-        if (Boolean(bs.get(1) !== 0)) return true
-    }
+
+    let bs = new BitSet(set)
+    if (Boolean(bs.get(1) !== 0)) return true
+
 
     return false
 };

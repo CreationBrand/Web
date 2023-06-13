@@ -93,7 +93,7 @@ const ChunkError = ({ variant, onLoad, end }: any) => {
         <div css={C.container} key={'chunckerror'}>
             <div css={C.inner}>
 
-                {/* <div css={C.float}>
+                <div css={C.float}>
                     <svg className="gegga" >
                         <defs>
                             <filter id="gegga">
@@ -138,7 +138,7 @@ const ChunkError = ({ variant, onLoad, end }: any) => {
                         />
                         <circle className="strecken" cx="100" cy="100" r="64" />
                     </svg>
-                </div> */}
+                </div>
 
                 <div css={[textNormal('t'), { fontWeight: '400', letterSpacing: '1px', }]}>
                     {variant === 'error' && 'Something went wrong...'}
