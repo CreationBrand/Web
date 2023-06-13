@@ -28,7 +28,7 @@ export function loginCognito(username: string, password: string) {
         var userData = {
             Username: username,
             Pool: userPool,
-            Storage: new AmazonCognitoIdentity.CookieStorage({ domain: "localhost" }),
+            Storage: new AmazonCognitoIdentity.CookieStorage({ domain: "artram.app" }),
         };
         cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
         cognitoUser.authenticateUser(authenticationDetails, {
