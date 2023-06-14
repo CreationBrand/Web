@@ -10,6 +10,7 @@ import { memo } from 'react'
 import SearchList from 'Stories/Chunk/Lists/SearchList'
 import Contact from 'Stories/Views/Contact'
 import PersonList from 'Stories/Chunk/Lists/PersonList'
+import SearchCommunityList from 'Stories/Chunk/Lists/SearchCommunityList'
 
 var Public = () => {
 
@@ -28,6 +29,7 @@ var Public = () => {
                         path="/search/:query"
                         element={<SearchList />} />
 
+                    <Route path="c/:community_id/search/:query" element={<SearchCommunityList />} />
 
                     <Route
                         path="c/:community_id"

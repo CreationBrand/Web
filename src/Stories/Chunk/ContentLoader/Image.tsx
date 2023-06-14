@@ -22,6 +22,7 @@ const C = {
 
 const Image = ({ url }: any) => {
 
+
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => {

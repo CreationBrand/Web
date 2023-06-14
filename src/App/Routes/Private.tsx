@@ -15,6 +15,7 @@ import SearchList from 'Stories/Chunk/Lists/SearchList'
 import PersonList from 'Stories/Chunk/Lists/PersonList'
 import CommentList from 'Stories/Chunk/Lists/CommentList'
 import NotiList from 'Stories/Chunk/Lists/NotiList'
+import SearchCommunityList from 'Stories/Chunk/Lists/SearchCommunityList'
 
 var Private = () => {
 
@@ -30,6 +31,8 @@ var Private = () => {
                     <Route path="/notifications" element={<NotiList />} />
 
                     <Route path="/search/:query" element={<SearchList />} />
+                    <Route path="c/:community_id/search/:query" element={<SearchCommunityList />} />
+
                     <Route path="g/:group_id" element={<GroupList />} />
                     <Route path="p/:person_id" element={<PersonList />} />
                     <Route path="m/:messenger_id" element={<MessengerList />} />

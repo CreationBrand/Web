@@ -32,6 +32,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import CommunityTree from 'Stories/Chunk/VirtualTree/CommunityTree'
 import GroupTree from 'Stories/Chunk/VirtualTree/GroupTree'
+import Search2 from 'Stories/Chunk/Search/Search2'
 
 
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
@@ -105,6 +106,9 @@ const Home = () => {
                     </div>
                     {/* <NavLabel /> */}
                     <Search />
+
+                    {/* <Search2 /> */}
+
                     <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
 
                         <IconButton

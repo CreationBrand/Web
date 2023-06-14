@@ -40,6 +40,8 @@ const AddComment = ({ parent_id, post_id, onClose }: any) => {
 
 
 
+
+
     const sync = useRecoilTransaction_UNSTABLE(
         ({ set }) => (item: any) => {
             set(commentSync(item.public_id), item);
@@ -59,26 +61,31 @@ const AddComment = ({ parent_id, post_id, onClose }: any) => {
 
         if (req.status === 'ok') {
             setComment('')
+            sync(req.comments)
 
-            try {
+            const clone2 = [...list]
+            var insertIndex = 0
 
-                req.comments.visibility = true
-                const clone2 = [...list]
-          
-                var insertIndex = clone2.findIndex((obj: any) => obj.props.public_id === parent_id);
-                
-                sync(req.comments)
-                clone2.splice(insertIndex + 1, 0, <Comment {...req.comments} />);
-
-                setList(clone2)
-
-                onClose()
+            if (parent_id === post_id) {
+                req.comments.last = true
+                insertIndex = -1
             }
-            catch (e) {
-                console.log(e)
+
+            else {
+                insertIndex = clone2.findIndex((obj: any) => {
+
+                    return obj.props.public_id === parent_id
+                });
             }
+            req.comments.visibility = true
+            clone2.splice(insertIndex + 1, 0, <Comment {...req.comments} />);
+            setList(clone2)
+
+            if (onClose) onClose()
         }
+
     }
+
 
     return <div css={C.container}>
 
