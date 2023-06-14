@@ -44,14 +44,10 @@ const useNotiList = () => {
     useEffect(() => {
         (async () => {
             if (end) return
-            // if (cache.has(`posts:${community_id}:${filter}:${cursor}`)) return setList(cache.get(`posts:${community_id}:${filter}:${cursor}`))
-
             let req: any = await socketRequest('notis', { cursor: cursor })
             console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.noti?.length}) Noti Cursor:${cursor}`);
-
             if (req?.noti?.length < 25) end = true
             setList(req.noti)
-            // cache.set(`posts:${community_id}:${filter}:${cursor}`, req.posts)
         })()
     }, [cursor])
 

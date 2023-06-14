@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import Walk from 'Stories/Bits/ChunkError/Walk';
 import Player from './Player';
 import { ErrorBoundary } from "react-error-boundary";
-
+import Image from './Image';
 
 const proxy = "https://cors.creationbrand.workers.dev"
 
@@ -77,24 +77,38 @@ const Link = ({ url }: any) => {
         //@ts-ignore
         if (url) window.open(url, '_blank').focus();
     }
+    // console.log(data)
 
-    if (isLoading) return <div css={C.container}> <Walk /> </div>
+    try {
+
+        if (isLoading) return <div css={C.container}><Walk /></div>
+        else if (data?.mediaType === "article") { }
+        else if (url.slice(-4) === ".mp4") return <Player url={`${proxy}/${url}`} />
+        else if (url.slice(-4) === ".gif") return <Image url={`${proxy}/${url}`} />
+        else if (data?.mediaType === "video.other" && data?.siteName === 'Tenor') return <Player url={`${proxy}/${data?.videos[0]?.url}`} />
+        else if (data?.mediaType === "video.other" && data?.siteName === 'YouTube') return <Player url={data?.url} />
+        else if (data?.mediaType === "video.other" && data?.siteName === 'Twitch') return <Player url={`${proxy}/${data?.url}`} />
+        else if (data?.mediaType === "video.other" && data?.siteName === 'Imgur') return <Player url={`${proxy}/${data?.videos[0]?.url}`} />
+        else if (data?.mediaType === "video" && data.siteName === 'RedGIFs') return <Player url={`${proxy}/${data?.videos[0]?.url}`} />
+        else if (data?.videos.length && data?.videos[0]?.url) return <Player url={`${proxy}/${data?.videos[0]?.url}`} />
+        else if (data?.images?.length && data?.images[0]) return <Image url={`${proxy}/${data?.images[0]}`} />
 
 
-    if (data?.mediaType === "video.other" && data?.siteName === 'Tenor') return <Player url={data?.videos[0]?.url} />
-    // else if (data?.mediaType === "video.other" && data?.siteName === 'YouTube') return <Player url={data?.url} />
-    else if (data?.mediaType === "video.other" && data?.siteName === 'Twitch') return <Player url={data?.url} />
-    else if (data?.mediaType === "video.other" && data?.siteName === 'Imgur') return <Player url={`https://cors.creationbrand.workers.dev/${data?.videos[0]?.url}`} />
-    else if (data?.mediaType === "video" && data?.siteName === 'RedGIFs') return <Player url={`https://cors.creationbrand.workers.dev/${data?.videos[0]?.url}`} />
-    else if (data?.videos[0]?.url) return <Player url={data?.videos[0]?.url} />
 
-    return <div css={C.container} onClick={handleClick}>
-        {data?.images && <img src={data?.images[0]} css={C.image} />}
-        <div css={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-            {data?.title && <div css={C.title}>{data?.title}</div>}
-            {data?.description && <div css={C.desc}>{data?.description}</div>}
-        </div>
-    </div>
+        return (<div css={C.container} onClick={handleClick}>
+            {data?.images?.length && <img src={data?.images[0]} css={C.image} />}
+            <div css={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+                {data?.title && <div css={C.title}>{data?.title}</div>}
+                {data?.description && <div css={C.desc}>{data?.description}</div>}
+            </div>
+        </div>)
+
+    } catch (e) {
+        console.log(e)
+        return <div css={C.container}> <Walk /> </div>
+    }
+
+
 };
 
 

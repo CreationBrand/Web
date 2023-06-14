@@ -51,7 +51,7 @@ const CommentList = () => {
             initial={{ opacity: 0, }}
             animate={{ opacity: 1, }}
         >
-            <VirtuList
+            <VirtualList
                 list={[
                     component,
                     ...components

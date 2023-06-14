@@ -63,7 +63,6 @@ const PostList = () => {
 
         >
             <VirtualList
-
                 list={[
                     component,
                     <div css={{ maxWidth: '800px', margin: 'auto', marginTop: '0px', display: 'flex', flexDirection: 'column' }}>

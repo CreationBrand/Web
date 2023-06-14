@@ -7,6 +7,7 @@ import { Button } from '@mui/material';
 
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react"
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue } from "recoil";
 import { openDM } from 'Service/Action';
 import { socketRequest } from "Service/Socket";
@@ -25,6 +26,7 @@ const C = {
         width: '100%',
         padding: '16px 2px 0px 0px',
 
+
     }),
     inner: css({
         margin: '0 auto',
@@ -39,6 +41,7 @@ const C = {
         display: 'flex',
         fontFamily: 'noto sans',
         color: '#fff',
+        cursor: 'pointer',
     }),
 }
 
@@ -48,6 +51,7 @@ const useSearch = (type: string, query: string) => {
     const [components, setComponents]: any = useRecoilState(postListData)
     const [socket, setSocket] = useRecoilState(socketFlow)
     const authData = useRecoilValue(authFlow)
+    const navigate = useNavigate()
 
     const setPosts = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
@@ -81,6 +85,7 @@ const useSearch = (type: string, query: string) => {
                 for (let i in req.persons) {
                     temp.push(<div css={C.container}>
                         <div
+                            onClick={() => { navigate(`/p/${req.persons[i].public_id}`) }}
                             data-value={req.persons[i].public_id}
                             css={C.inner}>
 
@@ -91,7 +96,7 @@ const useSearch = (type: string, query: string) => {
                                 <div css={{ fontSize: '12px', color: '#d7dadc', fontWeight: '300' }}>@{req.persons[i].username}</div>
                             </div>
 
-                            <Button
+                            {/* <Button
                                 disabled={authData === "guest"}
                                 data-value={req.persons[i].public_id}
                                 onClick={(e) => {
@@ -108,7 +113,7 @@ const useSearch = (type: string, query: string) => {
 
                                 variant="contained">
                                 <FontAwesomeIcon icon={faPaperPlane} />
-                                Open DM</Button>
+                                Open DM</Button> */}
 
 
                         </div>
@@ -124,7 +129,7 @@ const useSearch = (type: string, query: string) => {
                 let temp = []
                 for (let i in req.communitys) {
                     temp.push(<div css={C.container}>
-                        <div css={C.inner}>
+                        <div css={C.inner} onClick={() => { navigate(`/c/${req.communitys[i].public_id}`) }}>
 
                             <Avatar public_id={req.communitys[i].public_id} size={'medium'} />
 

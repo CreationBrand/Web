@@ -36,7 +36,6 @@ const Player = ({ url }: any) => {
     const [isVisable, setIsVisable] = useState(false)
     const handleVisability = (visable: boolean) => setIsVisable(visable)
 
-
     useEffect(() => {
         document.querySelectorAll('iframe').forEach((iframe: any) => {
             iframe.setAttribute('sandbox', '');
@@ -48,7 +47,7 @@ const Player = ({ url }: any) => {
             <Suspense fallback={<div>Loading...</div>}>
                 <VisibilitySensor onChange={handleVisability}>
                     <ReactPlayer
-                        autoPlay={isVisable}
+                        playing={isVisable}
                         controls
                         url={url}
                         muted={true}

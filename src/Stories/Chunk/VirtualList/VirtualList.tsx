@@ -44,6 +44,8 @@ const VirtualList = ({ list, offset, overscan, public_id }: any) => {
     };
 
     useEffect(() => {
+        if (!public_id) return
+
         try {
             if (pool[public_id]) {
                 scrollToIndex(pool[public_id], { align: "start" })

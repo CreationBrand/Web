@@ -14,7 +14,8 @@ import VisibilitySensor from 'react-visibility-sensor';
 import Link from './Link';
 import Carousel from './Carousel';
 import Text from './Text';
-
+import Image from './Image';
+import Player from './Player';
 
 
 const C = {
@@ -94,25 +95,6 @@ const C = {
             borderRadius: '8px',
         }
     }),
-    player: css({
-        width: '100%',
-        // width: 'min-content',
-        overflow: 'hidden',
-        position: 'relative',
-        '& > div': {
-            width: '100% !important',
-            background: '#272732',
-        },
-        '& > div > video': {
-            backgroundColor: '#fff',
-            background: '#181820 !important',
-            objectFit: 'contain',
-            width: '100% !important',
-            height: 'auto',
-            borderRadius: '8px',
-
-        }
-    })
 }
 
 
@@ -139,80 +121,10 @@ const ContentLoader = ({ type, content, public_id }: any) => {
     } catch (error) { }
 
 
-    if (type === 'upload' && content.type === 'video') return (
-        <div css={C.player} onClick={(e) => e.stopPropagation()}>
-            <VisibilitySensor onChange={handleVisability}>
-                <ReactPlayer controls url={content.source}
-                    playing={isVisable}
-                    muted={true}
-                    loop={true}
-                />
-            </VisibilitySensor>
-        </div>
-    )
+    if (type === 'upload' && content.type === 'video') return <Player url={content.source} />
 
-    else if (type === 'upload' && content.type === 'image' && content?.source?.length > 1) return (
-        <Carousel images={content.source} />
-    )
-
-    else if (type === 'upload' && content.type === 'image' && content?.source?.length === 1) return (
-
-        <div onClick={(e) => e.stopPropagation()}>
-            <Viewer src={content.source[0]} open={open} onClose={handleClose} />
-
-            <div
-                onClick={(e) => { handleOpen() }}
-                css={{
-                    width: '100%',
-                    height: '1000px',
-                    maxHeight: '400px',
-                    minHeight: '200px',
-                    position: 'relative',
-                    borderRadius: "12px",
-                    overflow: 'hidden',
-
-                }}>
-
-
-                <div css={{
-                    position: 'absolute',
-                    border: '1px solid #272732',
-                    display: "block",
-                    minWidth: '100%',
-                    minHeight: '100%',
-                    aspectRatio: 'auto 1 / 1',
-                    zIndex: 50,
-
-                    filter: 'blur(4px) brightness(50%)',
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                    backgroundImage: `url(${content.source[0]})`
-                }} />
-                <div css={{
-                    position: 'absolute',
-                    zIndex: 100,
-                    aspectRatio: 'auto 1 / 1',
-                    border: '1px solid #272732',
-                    display: "block",
-                    width: '100%',
-                    height: '1000px',
-                    maxHeight: '400px',
-                    minHeight: '200px',
-                    borderRadius: "12px",
-                    backgroundSize: 'contain',
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                    backgroundImage: `url(${content.source[0]})`,
-
-                }} />
-            </div>
-        </div>
-
-    )
-
-
-
+    else if (type === 'upload' && content.type === 'image' && content?.source?.length > 1) return (<Carousel images={content.source} />)
+    else if (type === 'upload' && content.type === 'image' && content?.source?.length === 1) return (<Image url={content.source[0]} />)
     else if (type === 'link') return (<Link url={content} />)
 
     return <div> error </div>
@@ -227,60 +139,5 @@ export default memo(ContentLoader)
 
 
 
-const Viewer = ({ src, open, onClose }: any) => {
-
-    const [scale, setScale] = useState(1)
-
-    const handleScroll = (e: any) => {
-        setScale(scale + e.deltaY * -0.0005)
-    }
-
-    function onPanEnd(event: any, info: { point: { x: any; y: any; }; }) {
-        console.log(info.point.x, info.point.y)
-    }
-
-
-    return (
-
-        <Dialog
-            open={open}
-            onClose={onClose}
-
-            sx={{
-                borderRadius: '0px',
-                backgroundColor: 'transparent',
-                '& .MuiDialog-paper': {
-                    backgroundColor: 'transparent !important',
-                    boxShadow: 'none !important',
-                    width: '100%',
-                    height: 'auto',
-
-                },
-                Backdrop: {
-                    background: 'rgba(14,16,15,0.80)',
-                }
-            }}
-        >
-            <motion.img
-                onWheel={handleScroll}
-                src={src}
-                onPanEnd={onPanEnd}
-                // animate={{ scale: scale }}
-                style={{
-                    width: '100%',
-                }}
-                css={{
-
-                    zIndex: 10000,
-                    maxWidth: '100%',
-                    maxHeight: '100%',
-                    width: 'auto',
-                    height: 'auto',
-                }}
-            />
-        </Dialog>
-
-    );
-}
 
 

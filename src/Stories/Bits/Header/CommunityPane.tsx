@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { joinCommunity, leaveCommunity } from 'Helper/Action'
 import Online from 'Stories/Bits/Online/Online'
 import LiveRoles from 'Stories/Alive/LiveRoles'
-import { canManageCommunity } from 'Service/Rbac'
+import { canManageCommunity, isAdmin } from 'Service/Rbac'
 import useLiveData from 'Hooks/useLiveData'
 
 const C = {
@@ -130,6 +130,9 @@ const CommunityPane = ({ public_id }: any) => {
     const community: any = useRecoilValue(communityFlow)
     const communityList = useRecoilValue(communityListData)
 
+
+    console.log('community', community)
+
     const handleEdit = (e: any) => {
         e.stopPropagation()
         navigate(`/c/${data.public_id}/edit`)
@@ -194,7 +197,8 @@ const CommunityPane = ({ public_id }: any) => {
                 <div css={C.action}>
 
                     <Button
-                        disabled={authState === 'guest'}
+
+                        disabled={authState === 'guest' || isAdmin(community?.roleHex)}
                         onClick={handleJoin}
                         disableElevation
                         sx={{
@@ -213,15 +217,16 @@ const CommunityPane = ({ public_id }: any) => {
                             }
                         }}
 
-                        variant="contained">{isMember ? 'LEAVE' : 'JOIN'}</Button>
+                        variant="contained">
+                        {isMember ? 'LEAVE' : 'JOIN'}
+                    </Button>
                 </div>
 
             </div>
+
             {active && <div css={C.more} key='more'>
 
                 <div css={C.inner2}>
-
-
                     {data.description && <>
                         <div css={textLabel('t')}>About Community</div>
                         <p>{data.description}</p>
@@ -241,6 +246,7 @@ const CommunityPane = ({ public_id }: any) => {
                 </div>
 
             </div>}
+
         </div>
     )
 }

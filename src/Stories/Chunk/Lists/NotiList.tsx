@@ -9,6 +9,7 @@ import VirtuList from '../VirtualList/VirtuList'
 import usePostList from 'Hooks/Pull/usePostList'
 import useNotiList from 'Hooks/Pull/useNotiList'
 import useClearNotif from 'Hooks/useClearNotif'
+import VirtualList from '../VirtualList/VirtualList'
 
 const C = {
     container: css({
@@ -36,7 +37,7 @@ const NotiList = ({ type }: any) => {
             initial={{ opacity: 0, }}
             animate={{ opacity: 1, }}
         >
-            <VirtuList list={components} public_id={'noti'} />
+            <VirtualList list={components} />
         </motion.div>
     )
 }

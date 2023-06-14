@@ -48,7 +48,7 @@ const GroupList = () => {
             initial={{ opacity: 0, }}
             animate={{ opacity: 1, }}
 >
-            <VirtuList public_id={params.group_id} list={[group, ...list]} />
+            <VirtualList public_id={params.group_id} list={[group, ...list]} />
         </motion.div>
     )
 }

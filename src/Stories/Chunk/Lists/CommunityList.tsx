@@ -15,6 +15,7 @@ import useContentFlow from 'Hooks/useContentFlow'
 import VirtuList from '../VirtualList/VirtuList'
 import { postFilter } from 'State/filterAtoms'
 import usePostList from 'Hooks/Pull/usePostList'
+import VirtualList from '../VirtualList/VirtualList'
 
 
 const C = {
@@ -50,7 +51,7 @@ const CommunityList = () => {
             transition={{ duration: 0.5 }}
             initial={{ opacity: 0, }}
             animate={{ opacity: 1, }}
-        > <VirtuList
+        > <VirtualList
                 public_id={params.community_id}
                 list={[
                     component,
