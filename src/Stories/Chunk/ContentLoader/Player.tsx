@@ -48,7 +48,7 @@ const Player = ({ url }: any) => {
             <Suspense fallback={<div>Loading...</div>}>
                 <VisibilitySensor onChange={handleVisability}>
                     <ReactPlayer
-                        autoplay={isVisable}
+                        autoPlay={isVisable}
                         controls
                         url={url}
                         muted={true}
