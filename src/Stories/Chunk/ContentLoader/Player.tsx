@@ -3,7 +3,7 @@
 
 import { css } from '@emotion/react'
 import { Block, block } from 'million';
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import ReactPlayer from 'react-player'
 import VisibilitySensor from 'react-visibility-sensor';
@@ -36,14 +36,21 @@ const Player = ({ url }: any) => {
     const [isVisable, setIsVisable] = useState(false)
     const handleVisability = (visable: boolean) => setIsVisable(visable)
 
+
+    useEffect(() => {
+        document.querySelectorAll('iframe').forEach((iframe: any) => {
+            iframe.setAttribute('sandbox', '');
+        })
+    }, [])
+
     return (<div css={C.player} onClick={(e) => e.stopPropagation()}>
         <ErrorBoundary fallback={<div>Something went wrong</div>}>
             <Suspense fallback={<div>Loading...</div>}>
                 <VisibilitySensor onChange={handleVisability}>
                     <ReactPlayer
+                        autoplay={isVisable}
                         controls
                         url={url}
-
                         muted={true}
                         loop={true}
                     />
