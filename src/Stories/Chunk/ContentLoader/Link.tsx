@@ -82,6 +82,8 @@ const Link = ({ url }: any) => {
     try {
 
         if (isLoading) return <div css={C.container}><Walk /></div>
+
+        else if (data?.siteName === 'EPORNER.COM' && data?.images?.length) return <Image url={`${proxy}/${data?.images[0]}`} />
         else if (data?.mediaType === "article") { }
         else if (url.slice(-4) === ".mp4") return <Player url={`${proxy}/${url}`} />
         else if (url.slice(-4) === ".gif") return <Image url={`${proxy}/${url}`} />
