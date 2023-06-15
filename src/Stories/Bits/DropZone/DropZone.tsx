@@ -49,27 +49,47 @@ const DropZone = ({ value, onChange }: any
 ) => {
 
     let [files, setFiles]: any = useState([])
+    let [error, setError] = useState(false)
 
     const onDrop = useCallback(async (acceptedFiles: any) => {
 
+
         if (acceptedFiles.length === 1 && acceptedFiles[0].type === 'video/mp4') {
-            console.log(acceptedFiles[0])
+            if (acceptedFiles[0].size > 10000000) {
+                setFiles([])
+                setError(true)
+                return
+            }
+
             onChange({
                 type: 'video',
                 source: URL.createObjectURL(acceptedFiles[0]),
                 file: await get_file_array(acceptedFiles[0]),
             })
             files.push(...acceptedFiles)
+            setError(false)
+            return
+
         }
 
-        else {
+        else if (acceptedFiles[0].type === 'image/jpeg') {
             let temp: any = []
             let buffers: any = []
             acceptedFiles.forEach(async (file: any) => {
-                console.log(file)
+
                 if (file.type === 'image/jpeg') {
+
+                    if (acceptedFiles[0].size > 10000000) {
+                        setFiles([])
+                        setError(true)
+                        return
+                    }
                     temp.push(URL.createObjectURL(file))
                     buffers.push(await toBase64(file))
+                } else {
+                    setFiles([])
+                    setError(true)
+                    return
                 }
             })
             onChange({
@@ -80,16 +100,13 @@ const DropZone = ({ value, onChange }: any
 
 
             files.push(...acceptedFiles)
+            setError(false)
+            return
         }
 
-
-
-
-        // console.log(URL.createObjectURL(acceptedFiles[0]))
-
-
-        // console.log(acceptedFiles)
-        // files.push(...acceptedFiles)
+        setFiles([])
+        setError(true)
+        return
     }, [])
 
 
@@ -98,9 +115,14 @@ const DropZone = ({ value, onChange }: any
     return (
 
         <div css={C.container}>
-            <div css={textLabel('s')}>Upload</div>
+            <div css={[textLabel('s'), {
+                display: 'flex',
+                justifyContent: 'space-between',
+            }]}>Upload {error && <div css={{ color: 'red' }}>Invalid file</div>}</div>
 
-            <div css={C.dropzone} {...getRootProps()}>
+            <div
+                style={{ border: error ? '2px solid red' : 'none' }}
+                css={C.dropzone} {...getRootProps()}>
                 <input {...getInputProps()} />
                 {
                     isDragActive ?

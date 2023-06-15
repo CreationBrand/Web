@@ -19,6 +19,8 @@ const C = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        touchAction:'none',
+
     }),
     inner: css({
         display: 'flex',
@@ -84,6 +86,7 @@ const ChunkError = ({ variant, onLoad, end }: any) => {
         end: '#fbb24b',
         connected: '#51fb4b',
         disconnected: '#fb8c4b',
+        
     }
 
     if (socket === 'error') variant = 'error'

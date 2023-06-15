@@ -108,14 +108,11 @@ const Submit = () => {
     const navigate = useNavigate()
 
     const onSubmit = async () => {
-        console.log(data)
         let req: any = await socketRequest('post-new', data)
         if (req.status === 'ok') {
             navigate(`/c/${data.community_id}`)
         }
     };
-
-
 
     return <div css={C.container}>
         <div css={C.inner}>

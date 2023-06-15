@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { motion } from 'framer-motion';
 
-//@ts-ignore
-import { ReactTinyLink } from 'react-tiny-link'
+import { bindState } from 'State/atoms';
+import { motion } from 'framer-motion';
+import { useRecoilValue } from 'recoil';
 
 
 const C = {
@@ -13,11 +13,10 @@ const C = {
         padding: '22px',
         scrollbarGutter: 'stable both-edges',
         overflow: 'auto',
-        // background: '#272732',
         marginTop: '8px',
         borderRadius: '8px',
         color: "#fff",
-
+        touchAction: 'none',
     }),
     inner: css({
         display: 'flex',
@@ -25,18 +24,19 @@ const C = {
         width: '100%',
         maxWidth: '800px',
         margin: '0 auto',
-
     }),
 
 }
 
 const Announcements = () => {
 
+    const bind: any = useRecoilValue(bindState)
+    let condictionalBind = bind !== null ? bind : {}
+
 
     return (
-
-
         <motion.div
+            {...condictionalBind}
             css={C.container}
             key={`announcements`}
             transition={{ duration: 0.4 }}
@@ -47,8 +47,6 @@ const Announcements = () => {
 
 
             <div css={C.inner}>
-
-
                 <div css={{
                     marginBottom: "16px",
                     fontSize: "44px",

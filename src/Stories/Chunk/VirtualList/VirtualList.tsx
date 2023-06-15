@@ -5,6 +5,8 @@ import { useCallback, useEffect, useRef } from 'react'
 import { defaultRangeExtractor, useVirtualizer } from '@tanstack/react-virtual'
 import useWindow from 'Hooks/useWindow'
 import throttle from 'Util/throttle';
+import { useRecoilValue } from 'recoil';
+import { bindState } from 'State/atoms';
 
 const pool: any = {}
 
@@ -12,9 +14,7 @@ const VirtualList = ({ list, offset, overscan, public_id }: any) => {
 
     const { height } = useWindow()
     const parentRef: any = useRef()
-
     const rangeRef = useRef(null);
-
 
     const throttled = useCallback(
         throttle((value: any) => {
@@ -69,6 +69,7 @@ const VirtualList = ({ list, offset, overscan, public_id }: any) => {
                 width: '100%',
                 overflowY: 'auto',
                 contain: 'strict',
+                touchAction:'none',
             }}
         >
             <div
@@ -84,6 +85,8 @@ const VirtualList = ({ list, offset, overscan, public_id }: any) => {
                         top: 0,
                         left: 0,
                         width: '100%',
+                        touchAction:'none',
+
                         transform: `translateY(${items[0].start}px)`,
                     }}
                 >

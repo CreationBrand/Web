@@ -55,3 +55,7 @@ if (window.top !== window.self) {
   delete window.sessionStorage;
   delete window.indexedDB;
 }
+
+window.addEventListener('drag', ev => {
+
+}, { passive: false });

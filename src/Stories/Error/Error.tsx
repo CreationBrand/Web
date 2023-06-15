@@ -23,7 +23,7 @@ const Error = () => {
     }, [error])
 
     return <div>
-        <Snackbar open={active}
+        {/* <Snackbar open={active}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             sx={{
                 width: '100%', maxWidth: '350px',
@@ -43,7 +43,7 @@ const Error = () => {
 
                 <div css={textBold('s')}> {error.message} </div>
             </Alert>
-        </Snackbar>
+        </Snackbar> */}
 
     </div >
 }

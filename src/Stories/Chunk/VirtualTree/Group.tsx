@@ -1,8 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react"
 
-import { memo, useState } from "react";
-
+import { memo } from "react";
 import { motion } from "framer-motion"
 import { textBold, textNormal } from "Global/Mixins"
 import EditGroup from "Stories/Popups/EditGroup"
@@ -16,6 +15,8 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
 const C = {
     inner: css([textBold('s'), {
+        touchAction: 'none',
+        userSelect: 'none',
         flexGrow: 1,
         display: 'flex',
         alignItems: 'center',

@@ -1,9 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { bindState } from 'State/atoms';
 import { motion } from 'framer-motion';
-
-//@ts-ignore
-import { ReactTinyLink } from 'react-tiny-link'
+import { useRecoilValue } from 'recoil';
 
 
 const C = {
@@ -13,11 +12,10 @@ const C = {
         padding: '22px',
         scrollbarGutter: 'stable both-edges',
         overflow: 'auto',
-        // background: '#272732',
         marginTop: '8px',
         borderRadius: '8px',
         color: "#fff",
-
+        touchAction: 'none',
     }),
     inner: css({
         display: 'flex',
@@ -25,12 +23,12 @@ const C = {
         width: '100%',
         maxWidth: '800px',
         margin: '0 auto',
-
     }),
 
 }
 
 const Contact = () => {
+
 
 
     return (
@@ -48,7 +46,6 @@ const Contact = () => {
 
             <div css={C.inner}>
 
-
                 <div css={{
                     marginBottom: "16px",
                     fontSize: "44px",
@@ -64,17 +61,12 @@ const Contact = () => {
                     color: "#ADB7BE"
                 }}>
                     We understand that you may have questions, and we're here to provide the answers you need. Our team is dedicated to ensuring your inquiries are addressed and that you have a seamless experience with our services.                </div>
-
-
                 <div css={{
                     fontSize: "14px",
                     fontWeight: 450,
                     lineHeight: "20px",
                     color: "#a298f7"
                 }}>Last updated June 3, 2023</div>
-
-
-
 
                 <div css={{
                     marginTop: "32px",
@@ -90,7 +82,6 @@ const Contact = () => {
                     color: "#ADB7BE",
                     whiteSpace: "pre-wrap"
                 }}>artramhelp@gmail.com</div>
-
 
             </div>
         </motion.div>

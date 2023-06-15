@@ -147,7 +147,7 @@ const Search = () => {
                         setQuery('')
                         //@ts-ignore
                         navigate(e.currentTarget.dataset.test)
-                        
+
                         e.stopPropagation()
                         handleClose()
 
@@ -200,7 +200,9 @@ const Search = () => {
 
 
     useEffect(() => {
-        if (content === 'community') setShowTag(true)
+        if (content === 'community') {
+            setShowTag(true)
+        }
         else setShowTag(false)
     }, [current, content])
 
@@ -208,7 +210,7 @@ const Search = () => {
         <Input
             startAdornment={
                 <div css={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <FontAwesomeIcon css={{ marginLeft: '8px', color: '#bcbdbe' }} icon={faMagnifyingGlass} />
+                    <FontAwesomeIcon css={{ marginLeft: '14px', color: '#bcbdbe', fontSize:'16px' }} icon={faMagnifyingGlass} />
                     {showTag && <div
                         onClick={removeTag}
                         css={C.tag}>{current?.title}
@@ -231,7 +233,7 @@ const Search = () => {
             placeholder="Search Artram"
             fullWidth
             sx={{
-                borderRadius: '14px',
+                borderRadius: '20px',
                 fontFamily: 'Noto Sans',
                 fontSize: '14px',
                 background: '#0f0e10',

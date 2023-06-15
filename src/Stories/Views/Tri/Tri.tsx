@@ -1,17 +1,19 @@
 //@ts-nocheck
 
+
 /** @jsxImportSource @emotion/react */
 
 import { Global, css } from '@emotion/react'
-import { useDrag } from '@use-gesture/react'
 import { useRef, useEffect, useState, useLayoutEffect } from 'react'
-import { animated, useSpring } from 'react-spring'
 import theme from 'Global/Theme'
 import { layoutSizeData } from 'State/Data'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import useWindow from 'Hooks/useWindow'
+import { motion, useDragControls } from 'framer-motion'
 
-
+import { useSpring, animated } from '@react-spring/web'
+import { useDrag } from '@use-gesture/react'
+import { bindState } from 'State/atoms'
 
 const Tri = (props: Props) => {
 
@@ -28,12 +30,14 @@ const Tri = (props: Props) => {
     }, [width])
 
 
-    //@ts-ignore
-    const { x } = useSpring({ x: position * (240) })
-    const bind = useDrag(({ swipe: [swipeX] }) => {
+    if (layoutSize === 'mobile') return <Mobile {...props} />
 
-        setPosition((p) => Math.min(Math.max(-1, p + swipeX), 1))
-    })
+    //@ts-ignore
+    // const { x } = useSpring({ x: position * (240) })
+    // const bind = useDrag(({ swipe: [swipeX] }) => {
+
+    //     setPosition((p) => Math.min(Math.max(-1, p + swipeX), 1))
+    // })
 
     const c = {
         left: css({
@@ -82,18 +86,11 @@ const Tri = (props: Props) => {
         })
     }
 
-    let condictionalBind = layoutSize === 'mobile' ? bind() : {}
     return (
-        <div id="layout" ref={ref} css={c.layout} {...condictionalBind}>
-            <Global styles={{
-                scrollbarGutter: layoutSize === 'mobile' ? 'unset' : 'stable both-edges',
-                '::-webkit-scrollbar': {
-                    width: layoutSize === 'mobile' ? '0px' : '14px',
-                }
-            }
-            } />
+        <div id="layout" ref={ref} css={c.layout}>
+
             <animated.div css={c.left}>{props.children[0]}</animated.div>
-            <animated.div css={c.center} style={layoutSize === 'mobile' ? { x } : {}}>
+            <animated.div css={c.center}>
                 {props.children[1]}
             </animated.div>
             <animated.div css={c.right}>{props.children[2]}</animated.div>
@@ -107,4 +104,95 @@ export interface Props {
     children?: any
     left?: boolean
     right?: boolean
+}
+
+
+
+const C = {
+    container: css({
+        minHeight: '100vh',
+        display: 'flex',
+        position: 'fixed',
+        top: 0,
+        touchAction: 'none',
+        userSelect: ' none',
+    }),
+    left: css({
+        width: '240px',
+        height: '100%',
+        touchAction: 'none',
+        userSelect: ' none',
+        padding: 8,
+        paddingRight: 0,
+    }),
+    right: css({
+
+        width: '240px',
+        height: '100%',
+        touchAction: 'none',
+        userSelect: ' none',
+        padding: 8,
+
+    }),
+    center: css({
+        width: '100%',
+        height: '100%',
+        touchAction: 'none',
+        userSelect: ' none',
+
+        padding: 8,
+
+    }),
+}
+
+
+const Mobile = (props: Props) => {
+
+
+
+    const { width, height } = useWindow()
+
+    let offset = props.children.length === 2 ? 1 : 0
+
+    let map: any = {
+        0: -240,
+        1: 0,
+        2: 240
+    }
+
+    const [xPos, setXPos] = useState(1)
+    const { x } = useSpring({ x: map[xPos] })
+    const bind = useDrag(({ last, direction: [dx] }) => {
+
+        if (last) {
+            if (dx < 0) {
+                if (xPos > 0 + offset) setXPos(xp => xp - 1)
+
+
+            }
+
+            else if (dx > 0) {
+                console.log('right')
+                if (xPos < 2) setXPos(xp => xp + 1)
+
+            }
+        }
+    }, {
+        target: window,
+        eventOptions: { capture: true },
+        axis: 'x',
+        threshold: 160,
+    })
+
+    return (<div css={C.container} style={{ height: height, width: 480 + width, left: -240 }} >
+
+        <animated.div css={C.left} style={{ x: x, height: height }}>{props.children[0]}</animated.div>
+        <animated.div css={C.center} style={{
+            width: width, height: height, x: x,
+            transition: 'filter 0.3s ease-in-out',
+            filter: xPos !== 1 ? 'brightness(50%)' : '',
+        }}>{props.children[1]}</animated.div>
+        <animated.div css={C.right} style={{ x: x, height: height }}>{props.children[2]}</animated.div>
+
+    </div>)
 }

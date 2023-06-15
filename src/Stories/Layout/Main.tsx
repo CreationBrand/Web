@@ -12,7 +12,7 @@ const Main = ({ children }: any) => {
         overflow: 'hidden',
     })
 
-    return <div css={s} id="MAIN">
+    return <div css={s} id="MAIN" onClick={(e) => e.stopPropagation()}>
         {children}
     </div >
 }

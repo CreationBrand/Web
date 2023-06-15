@@ -149,7 +149,7 @@ const Preview = () => {
                     </Nav>
                     <Outlet />
                 </Main>
-                <></>
+             
             </Tri >
         </>
     )

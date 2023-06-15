@@ -8,6 +8,8 @@ import useContentFlow from 'Hooks/useContentFlow'
 import VirtuList from '../VirtualList/VirtuList'
 import usePostList from 'Hooks/Pull/usePostList'
 import VirtualList from '../VirtualList/VirtualList'
+import { useRecoilValue } from 'recoil'
+import { bindState } from 'State/atoms'
 
 const C = {
     container: css({
@@ -21,21 +23,19 @@ const C = {
 
 const GlobalList = ({ type }: any) => {
 
+
+
     const [isLoading, isError, components] = usePostList(type, 'none')
 
     useContentFlow('global')
     useCommunityFlow(null)
 
     return (
-        <motion.div
-            key={type}
-            css={C.container}
-            transition={{ duration: 0.5 }}
-            initial={{ opacity: 0, }}
-            animate={{ opacity: 1, }}
+        <div
+
         >
             <VirtualList list={components} public_id={type} />
-        </motion.div>
+        </div>
     )
 }
 

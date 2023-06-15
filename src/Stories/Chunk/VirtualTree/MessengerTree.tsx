@@ -2,20 +2,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react"
 
-
-import { Avatar } from "@mui/material";
-import { textBold, textLabel, textNormal } from "Global/Mixins";
+import { textLabel,} from "Global/Mixins";
 import useMessengerTree from "Hooks/useMessengerTree";
-import { motion } from "framer-motion";
 import { Tree } from "react-arborist";
-import { useLocation } from "react-router-dom";
 import Leaf from "./Leaf";
 import MessengerFilter from "Stories/Bits/MessengerFilter/MessengerFilter";
 import { useState } from "react";
-import { faFire, faHouse, faHouseUser, faStopwatch, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faFire,  faHouseUser,  faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useWindow from "Hooks/useWindow";
-import MessengerControl from "Stories/Bits/MessengerFilter/MessengerControl";
 import { useRecoilValue } from "recoil";
 import { personData } from "State/Data";
 

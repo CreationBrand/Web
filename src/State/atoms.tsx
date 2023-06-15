@@ -96,3 +96,11 @@ export const triState = atom({
     localStorageEffect('triState'),
   ]
 });
+
+
+
+export const bindState = atom({
+  key: "bindState",
+  default: null as any,
+});
+

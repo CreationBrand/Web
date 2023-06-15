@@ -77,10 +77,11 @@ const Link = ({ url }: any) => {
         //@ts-ignore
         if (url) window.open(url, '_blank').focus();
     }
-    // console.log(data)
+    console.log(data)
 
 
     try {
+
 
         if (isLoading) return <div css={C.container}><Walk /></div>
 
