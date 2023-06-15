@@ -18,13 +18,14 @@ const C = {
 
     }),
     group: css({
-        padding: '4px 8px 4px 8px',
+        padding: '8px 8px 8px 8px',
         width:'min-content',
         background: '#272732',
         borderRadius: '16px',
         gap: '8px',
         alignItems: 'center',
         display: 'flex',
+        whiteSpace: 'nowrap',
     }),
 
     icon: css({

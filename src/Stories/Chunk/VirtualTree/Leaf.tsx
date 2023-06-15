@@ -35,7 +35,7 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 const C = {
 
     leaf: css([textNormal('s'), {
-        touchAction: 'none',
+        touchAction:'pan-y',
         userSelect: 'none',
         height: '40px',
         display: 'flex',

@@ -69,7 +69,6 @@ const VirtualList = ({ list, offset, overscan, public_id }: any) => {
                 width: '100%',
                 overflowY: 'auto',
                 contain: 'strict',
-                touchAction:'none',
             }}
         >
             <div
@@ -85,7 +84,7 @@ const VirtualList = ({ list, offset, overscan, public_id }: any) => {
                         top: 0,
                         left: 0,
                         width: '100%',
-                        touchAction:'none',
+                        touchAction:'pan-y',
 
                         transform: `translateY(${items[0].start}px)`,
                     }}

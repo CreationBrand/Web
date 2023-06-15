@@ -16,7 +16,7 @@ const C = {
         marginTop: '8px',
         borderRadius: '8px',
         color: "#fff",
-        touchAction: 'none',
+        touchAction:'pan-y',
     }),
     inner: css({
         display: 'flex',
