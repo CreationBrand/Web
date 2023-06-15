@@ -13,7 +13,7 @@ import { faMagnifyingGlass, faYinYang } from '@fortawesome/free-solid-svg-icons'
 import { textLabel, textLight } from 'Global/Mixins';
 import { useNavigate } from 'react-router-dom';
 import { boolean } from 'joi';
-import { communityData } from 'State/Data';
+import { communityData, layoutSizeData } from 'State/Data';
 import { useRecoilValue } from 'recoil';
 import { communityFlow, contentFlow } from 'State/Flow';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
@@ -23,8 +23,9 @@ import { set } from 'date-fns';
 const s = css({
     width: '100%',
     height: '100%',
-    // maxWidth: '750px',
     position: 'relative',
+    zIndex: 100,
+    textOverflow: 'ellipsis',
 })
 
 const C = {
@@ -65,7 +66,7 @@ const Search = () => {
 
     const [showTag, setShowTag] = useState(false)
 
-
+    let layoutSize = useRecoilValue(layoutSizeData)
     const current = useRecoilValue(communityFlow)
     const content = useRecoilValue(contentFlow)
 
@@ -206,11 +207,16 @@ const Search = () => {
         else setShowTag(false)
     }, [current, content])
 
-    return <div css={s} id="SEARCH">
+    return <div css={s} id="SEARCH"
+        onClick={(e: any) => e.stopPropagation()}
+        style={{
+            width: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'calc(100vw - 38px)' : '',
+            position: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'absolute' : 'relative',
+        }}>
         <Input
             startAdornment={
                 <div css={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <FontAwesomeIcon css={{ marginLeft: '14px', color: '#bcbdbe', fontSize:'16px' }} icon={faMagnifyingGlass} />
+                    <FontAwesomeIcon css={{ marginLeft: '14px', color: '#bcbdbe', fontSize: '16px' }} icon={faMagnifyingGlass} />
                     {showTag && <div
                         onClick={removeTag}
                         css={C.tag}>{current?.title}
@@ -241,6 +247,7 @@ const Search = () => {
                 marginTop: '8px',
                 color: '#d7dadc',
                 zIndex: 110,
+              
                 border: Boolean(anchorEl) ? '2px solid #9147ff' : null,
             }}
             disableUnderline

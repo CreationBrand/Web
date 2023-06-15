@@ -116,6 +116,7 @@ const C = {
         top: 0,
         touchAction: 'none',
         userSelect: ' none',
+        background: '#0f0e10',
     }),
     left: css({
         width: '240px',
@@ -124,6 +125,8 @@ const C = {
         userSelect: ' none',
         padding: 8,
         paddingRight: 0,
+        background: '#0f0e10',
+
     }),
     right: css({
 
@@ -132,6 +135,8 @@ const C = {
         touchAction: 'none',
         userSelect: ' none',
         padding: 8,
+        background: '#0f0e10',
+
 
     }),
     center: css({
@@ -139,6 +144,7 @@ const C = {
         height: '100%',
         touchAction: 'none',
         userSelect: ' none',
+        background: '#0f0e10',
 
         padding: 8,
 

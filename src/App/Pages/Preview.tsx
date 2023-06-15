@@ -16,12 +16,11 @@ import { textNormal } from 'Global/Mixins'
 import Search from 'Stories/Chunk/Search/Search'
 import { Button, IconButton } from '@mui/material'
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
-import VirtualTree from 'Stories/Chunk/VirtualTree/VirtualTree'
 import { layoutSizeData } from 'State/Data'
-import DragIndicatorRoundedIcon from '@mui/icons-material/DragIndicatorRounded';
 import LoginSignup from 'Stories/Popups/LoginSignup'
 import Leaf from 'Stories/Chunk/VirtualTree/Leaf'
 import { textLabel } from 'Global/Mixins'
+import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
 
 const Preview = () => {
 
@@ -54,7 +53,7 @@ const Preview = () => {
                         title='Read Me'
                         link='/announcements' />
                     <Leaf
-                        icon={<FontAwesomeIcon css={{ fontSize: '18px' }}  icon={faAddressCard} />}
+                        icon={<FontAwesomeIcon css={{ fontSize: '18px' }} icon={faAddressCard} />}
                         title='Contact Us'
                         link='/contact' />
 
@@ -90,47 +89,55 @@ const Preview = () => {
                 <Main>
                     <Nav>
 
-                        {layoutSize === 'mobile' ?
+                        {layoutSize === 'desktop' && <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+
                             <IconButton
-                                disableRipple
+                                onClick={() => setTri([!l, r])}
+                                disableRipple={true}
+                                size="small"
+                                color="secondary"
                                 sx={{
-                                    color: '#d7dadc', borderRadius: '12px !important',
-                                    width: '24px',
-                                }}
-                                aria-haspopup="true"
-                            >
-                                <DragIndicatorRoundedIcon />
-                            </IconButton> : <div />}
+                                    ':hover': { color: '#fff' },
+                                    height: '32px',
+                                    width: '32px',
+
+                                }}>
+                                <LibraryBooksRoundedIcon
+                                    fontSize='medium'
+                                />
+                            </IconButton>
+
+                        </div>}
 
                         <Search />
                         <div css={{ display: 'flex' }}>
 
-                            {layoutSize === 'desktop' && <Button
+                            <Button
+                                onMouseDown={() => setShowLogin(true)}
                                 sx={{
-                                    borderRadius: '14px',
+                                    borderRadius: '20px',
                                     background: '#0f0e10',
                                     height: '40px',
-                                    marginRight: '8px',
                                     fontFamily: 'Noto Sans',
-                                    fontSize: '12px',
+                                    fontSize: '13px',
                                     lineHeight: '12px !important',
                                     fontWeight: '700',
                                     gap: '4px',
 
                                 }}
-                                disabled
+
                                 variant="contained" disableElevation>
-                                <DeveloperBoardIcon /> Get App
-                            </Button>}
+                                <DeveloperBoardIcon /> Login
+                            </Button>
 
 
 
-                            <Button
+                            {/* <Button
                                 onMouseDown={() => setShowLogin(true)}
                                 sx={{
                                     display: 'inline-flex',
                                     whiteSpace: ' nowrap',
-                                    borderRadius: '14px',
+                                    borderRadius: '20px',
                                     background: '#6858f2',
                                     height: '40px',
                                     marginRight: '8px',
@@ -138,10 +145,11 @@ const Preview = () => {
                                     fontSize: '12px',
                                     lineHeight: '12px !important',
                                     fontWeight: '700',
+                                    padding: '0 8px',
                                 }}
                                 variant="contained" disableElevation>
-                                Join
-                            </Button>
+                                Login
+                            </Button> */}
 
 
                         </div>
@@ -149,7 +157,7 @@ const Preview = () => {
                     </Nav>
                     <Outlet />
                 </Main>
-             
+
             </Tri >
         </>
     )
