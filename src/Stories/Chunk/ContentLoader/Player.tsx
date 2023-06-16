@@ -108,13 +108,8 @@ const Player = ({ url }: any) => {
                         }}>
 
                         {isPlaying ?
-                            <PauseRoundedIcon css={{ fontSize: 34 }} onClick={(e) => {
-                                setIsPlaying(true)
-                            }} /> :
-                            <PlayArrowRoundedIcon css={{ fontSize: 34 }} onClick={(e) => {
-                                setIsPlaying(false)
-
-                            }} />}
+                            <PauseRoundedIcon css={{ fontSize: 34 }} /> :
+                            <PlayArrowRoundedIcon css={{ fontSize: 34 }} />}
                     </IconButton>
                 </span>
             </div>
@@ -160,7 +155,7 @@ const Viewer = ({ url, open, onClose }: any) => {
                     maxHeight: '800px',
                 },
                 Backdrop: {
-                    background: 'rgba(14,16,15,0.80)',
+                    background: 'rgba(14,16,15,0.85)',
                 }
             }}
         >

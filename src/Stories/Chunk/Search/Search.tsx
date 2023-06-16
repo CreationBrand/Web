@@ -72,7 +72,7 @@ const Search = () => {
 
     const removeTag = () => setShowTag(false)
     const handleSearch = (e: any) => {
-
+        console.log(e.key)
 
         if (e.key === 'Backspace') {
             if (query.length === 0) setShowTag(false)
@@ -214,6 +214,7 @@ const Search = () => {
             position: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'absolute' : 'relative',
         }}>
         <Input
+            type="text"
             startAdornment={
                 <div css={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <FontAwesomeIcon css={{ marginLeft: '14px', color: '#bcbdbe', fontSize: '16px' }} icon={faMagnifyingGlass} />
@@ -247,7 +248,7 @@ const Search = () => {
                 marginTop: '8px',
                 color: '#d7dadc',
                 zIndex: 110,
-              
+
                 border: Boolean(anchorEl) ? '2px solid #9147ff' : null,
             }}
             disableUnderline

@@ -79,17 +79,14 @@ const Link = ({ url }: any) => {
     }
 
 
-    // console.log(data)
-    
     try {
 
 
         if (isLoading) return <div css={C.container}><Walk /></div>
-        else if (url.slice(-5) === ".jpeg") return <Image url={`${proxy}/${url}`} />
-
-        else if (url.slice(-4) === ".jpg") return <Image url={`${proxy}/${url}`} />
-        else if (url.slice(-4) === ".mp4") return <Player url={`${proxy}/${url}`} />
-        else if (url.slice(-4) === ".gif") return <Image url={`${proxy}/${url}`} />
+        else if (url.slice(-5) === ".jpeg") return <Image url={`${url}`} />
+        else if (url.slice(-4) === ".jpg") return <Image url={`${url}`} />
+        else if (url.slice(-4) === ".mp4") return <Player url={`${url}`} />
+        else if (url.slice(-4) === ".gif") return <Image url={`${url}`} />
         else if (data?.contentType === "application/x-mpegurl") return <Player url={`${proxy}/${url}`} />
         else if (data?.siteName === 'EPORNER.COM' && data?.images?.length) return <Image url={`${proxy}/${data?.images[0]}`} />
         else if (data?.mediaType === "article") { }

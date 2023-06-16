@@ -186,6 +186,7 @@ let Preview = ({ public_id, community_id }: any) => {
 
                 </div>
 
+
             </div>
             {data.about_me &&
                 <div css={{

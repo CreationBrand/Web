@@ -1,19 +1,22 @@
+
 /** @jsxImportSource @emotion/react */
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Divider, Input, Button, Modal } from "@mui/material"
+import { Modal } from "@mui/material"
 import { css } from '@emotion/react';
-import { useState } from "react";
-import { textBold, textLabel, textLight } from "Global/Mixins";
-
-import { socketRequest } from "Service/Socket";
+import { useEffect, useState } from "react";
+import { textBold, textLabel, textLight, } from "Global/Mixins";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import ColorPicker from "Stories/Forum/ColorPicker";
-import CommunitySelect from "Stories/Bits/CommunitySelect/CommunitySelect";
-import { communityTreeData } from "State/Data";
-import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { socketRequest } from "Service/Socket";
 import { communityLTT } from "Helper/Clean";
+import { communityTreeData } from "State/Data";
+import FlatInput from "Stories/Forum/FlatInput";
+import Joi from "joi";
+import { joiResolver } from "@hookform/resolvers/joi";
+import ColorPicker from "Stories/Forum/ColorPicker";
+import { useRecoilState } from "recoil";
 
 const C = {
     container: css({
@@ -21,42 +24,29 @@ const C = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+
     }),
     popup: css({
+        width: "424px",
         overflow: "hidden",
         color: '#fff',
         background: '#272732',
-        display: "flex",
-        flexDirection: "column",
         height: "auto",
+        maxHeight: "100vh",
+        overflowY: "scroll",
         margin: "0 auto",
         borderRadius: "8px",
         boxShadow: "0px 8px 80px rgba(0,0,0,0.4)",
 
         '@media only screen and (max-width: 800px)': {
-            // flex: '0 100%',
             width: '100vw',
             height: '100%',
             borderRadius: '0px',
-            padding: '110px 24px 40px',
+            padding: '80px 0px 0px',
+            overflowY: 'scroll',
 
         }
 
-    }),
-
-    title: css({
-        padding: '16px',
-        textAlign: 'center',
-    }),
-    content: css({
-        padding: ' 16px',
-    }),
-    footer: css({
-        padding: '16px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'end',
-        gap: '8px',
     }),
     close: css({
         position: 'absolute',
@@ -66,42 +56,63 @@ const C = {
         cursor: 'pointer',
         '&:hover': {
             color: '#fff'
-        }
+        },
+
+
+    }),
+    title: css({
+        padding: '16px',
+        textAlign: 'center',
+    }),
+    content: css({
+        padding: ' 16px 16px 16px 16px',
     }),
 }
 
 
-const AddGroup = ({ open, handleClose }: Props) => {
+
+const schema = Joi.object({
+    title: Joi.string().min(5).max(30).required(),
+    color: Joi.number().required(),
+})
 
 
-    const { register, handleSubmit, watch, formState: { errors }, control } = useForm();
+const AddGroup = ({ open, onClose }: any) => {
+
     const [loading, setLoading] = useState(false);
     const [tree, setTree]: any = useRecoilState(communityTreeData)
 
+    const { handleSubmit, control, formState: { errors }, reset, watch } = useForm({
+        mode: 'onChange',
+        resolver: joiResolver(schema)
+    });
 
-    const onSubmit = async (data: any) => {
+    const data = watch()
+    usePreventBackNavigation(onClose)
+
+    const onSubmit = handleSubmit(async (data) => {
         setLoading(true)
         let req: any = await socketRequest('group-new', data)
+
         let newTree = communityLTT([req.group], tree.length + 1)
         if (req.status === 'ok') {
             setTree((currentState: any) => [
                 ...currentState,
                 ...newTree
             ]);
-            handleClose()
+            onClose()
         }
         setLoading(false)
-    }
-
+    })
 
 
 
     return (
-        <Modal open={open} onClose={handleClose} css={C.container} >
+        <Modal open={open} onClose={onClose} css={C.container} >
             <div css={C.popup}>
 
                 <div
-                    onClick={handleClose}
+                    onClick={onClose}
                     css={{
                         cursor: "pointer",
                         position: "fixed",
@@ -131,71 +142,66 @@ const AddGroup = ({ open, handleClose }: Props) => {
 
                 <div css={C.title}>
                     <div css={textBold('x')}>Create Group</div>
-                    <div css={textLight('t')}>Group communitys to create seperate feeds   </div>
+                    <div css={textLight('t')}>Group communitys to create seperate feeds.</div>
                 </div>
 
                 <div css={C.content}>
-
-                    <div css={textLabel('s')}>Group Name</div>
-
-                    <Controller
-                        name="title"
-                        control={control}
-                        defaultValue=""
-                        rules={{ required: true }}
-                        render={({ field: { onChange, value } }) =>
-                            <Input
-                                autoComplete="off"
-                                onChange={onChange}
-                                value={value}
-                                disableUnderline
-                                fullWidth
-                            />}
-                    />
-
+                    <h3 css={textLabel('s')}>Title</h3>
+                    <FlatInput name='title' control={control} maxLength={30} />
                 </div>
 
-                <Divider />
-
-
                 <div css={C.content}>
-                    <div css={textLabel('s')}>Group Color</div>
+                    <h3 css={textLabel('s')}>Color</h3>
                     <ColorPicker control={control} />
                 </div>
 
-                <Divider />
-                {/* 
                 <div css={C.content}>
-                    <div css={textLabel('s')}>Communitys</div>
-                    <CommunitySelect control={control} />
-                </div> */}
-
-                <Divider />
-
-                <div css={C.footer}>
-                    <Button onClick={handleClose} color='secondary'>Cancel</Button>
                     <LoadingButton
-                        sx={{ borderRadius: '8px' }}
-                        onClick={handleSubmit(onSubmit)}
+                        disabled={Boolean(Object.keys(errors).length) || data.title === '' || !data.color}
+                        loadingIndicator="Loading…"
                         loading={loading}
-                        loadingIndicator="Running"
-                        variant="contained"
-                    >Create</LoadingButton>
-                </div>
+                        onClick={onSubmit}
+                        variant='contained'
+                        fullWidth
+                        disableElevation
+                        sx={{
+                            display: "flex",
+                            width: "100%",
+                            height: "42px",
+                            borderRadius: "8px",
+                            fontSize: "17px",
+                            fontWeight: 600,
+                            lineHeight: "24px",
 
+                        }}
+
+
+                    >
+                        Create Group
+                    </LoadingButton>
+                </div>
 
             </div>
         </Modal >
     )
 
-
 }
-
-interface Props {
-    open: boolean,
-    handleClose: () => void,
-}
-
 
 
 export default AddGroup
+
+const usePreventBackNavigation = (onClose: any) => {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const handleBeforeUnload = (event: any) => {
+            onClose()
+            event.preventDefault();
+            navigate('/trending');
+        };
+        window.onpopstate = handleBeforeUnload;
+        return () => {
+            window.onpopstate = handleBeforeUnload;
+        };
+    }, [navigate]);
+
+};

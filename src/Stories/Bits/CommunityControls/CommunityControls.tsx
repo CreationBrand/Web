@@ -44,7 +44,7 @@ const CommunityControls = () => {
 
 
         <CreateCommunity open={open1} onClose={handleClose1} />
-        <AddGroup open={group} handleClose={groupClose} />
+        <AddGroup open={group} onClose={groupClose} />
 
         <FilterMenu />
 

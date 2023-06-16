@@ -1,11 +1,11 @@
 #text {
     font-family: 'Noto Sans';
-    font-size: 16px;
+    font-size: 14px;
     color: #ecedef;
     margin: 0;
     padding: 0;
     text-wrap: wrap;
-
+    background:transparent !important;
     max-width: 800px;
     width: 100%;
     word-wrap: break-word;
@@ -33,7 +33,7 @@ h2 {
     font-family: 'noto sans';
 }
 p {
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'noto sans';
 }
 .ql-syntax {

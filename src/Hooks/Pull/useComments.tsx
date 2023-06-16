@@ -21,6 +21,8 @@ const useComments = (post_id: any) => {
     useEffect(() => {
         end = false
         setCursor(false)
+        setIsError(false)
+        setIsLoading(false)
         setComponents([])
         setResetState({});
 
@@ -28,11 +30,13 @@ const useComments = (post_id: any) => {
 
     useEffect(() => {
         (async () => {
-            if (end) return
-            let req: any = await socketRequest('comments', { post_id, filter, cursor: cursor })
-            console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.comments?.length}) Comments`);
-            if (req?.comments?.length < 25) end = true
-            setList(req.comments)
+            if (end || isError) return
+            try {
+                let req: any = await socketRequest('comments', { post_id, filter, cursor: cursor })
+                console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.comments?.length}) Comments`);
+                if (req?.comments?.length < 25) end = true
+                setList(req.comments)
+            } catch (e) { setIsError(true) }
         })()
     }, [cursor])
 

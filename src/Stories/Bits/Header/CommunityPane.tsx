@@ -15,6 +15,9 @@ import Online from 'Stories/Bits/Online/Online'
 import LiveRoles from 'Stories/Alive/LiveRoles'
 import { canManageCommunity, isAdmin } from 'Service/Rbac'
 import useLiveData from 'Hooks/useLiveData'
+import ContentLoader from 'Stories/Chunk/ContentLoader/ContentLoader'
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 
 const C = {
 
@@ -227,9 +230,10 @@ const CommunityPane = ({ public_id }: any) => {
             {active && <div css={C.more} key='more'>
 
                 <div css={C.inner2}>
+
                     {data.description && <>
                         <div css={textLabel('t')}>About Community</div>
-                        <p>{data.description}</p>
+                        <ReactMarkdown children={data.description} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
                     </>}
 
                     <div css={C.roles}>

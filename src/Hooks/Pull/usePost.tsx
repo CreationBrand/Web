@@ -1,15 +1,12 @@
 
 import { useEffect, useState } from "react"
-import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilTransaction_UNSTABLE, } from "recoil";
 import { socketRequest } from "Service/Socket";
-import { postFilter } from "State/filterAtoms";
-import { postList, postSync, resetAllAtoms } from "State/postAtoms";
-import ChunkError from "Stories/Bits/ChunkError/ChunkError";
+import { postSync, resetAllAtoms } from "State/postAtoms";
 import Post from "Stories/Chunk/Post/Post";
-
 import TTLCache from '@isaacs/ttlcache';
-const cache = new TTLCache({ max: 10000, ttl: 60000 })
 
+const cache = new TTLCache({ max: 10000, ttl: 60000 })
 let end: boolean = false
 
 const usePost = (post_id: any) => {
@@ -21,24 +18,27 @@ const usePost = (post_id: any) => {
 
     useEffect(() => {
         end = false
+        setIsLoading(false)
+        setIsError(false)
         setComponents([])
     }, [post_id])
 
     useEffect(() => {
         (async () => {
+            try {
+                if (end || isError) return
+                if (cache.has(`post:${post_id}`)) {
+                    setComponents(<Post  {...cache.get(`post:${post_id}`)} />)
+                    setList(cache.get(`post:${post_id}`))
+                    return
+                }
 
-            if (end) return
-            if (cache.has(`post:${post_id}`)) {
-                setComponents(<Post  {...cache.get(`post:${post_id}`)} />)
-                setList(cache.get(`post:${post_id}`))
-                return
-            }
-
-            let req: any = await socketRequest('post', { post_id: post_id })
-            console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `Post: ${post_id}`);
-            setComponents(<Post  {...req?.post} />)
-            setList(req?.post)
-            cache.set(`post:${post_id}`, req.post)
+                let req: any = await socketRequest('post', { post_id: post_id })
+                console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `Post: ${post_id}`);
+                setComponents(<Post  {...req?.post} />)
+                setList(req?.post)
+                cache.set(`post:${post_id}`, req.post)
+            } catch (e) { setIsError(true) }
         })()
     }, [post_id])
 

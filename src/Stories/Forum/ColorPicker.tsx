@@ -8,6 +8,8 @@ import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRou
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import { useState } from 'react';
 import ColorMenu from 'Stories/Menu/ColorMenu';
+import { useRecoilValue } from 'recoil';
+import { layoutSizeData } from 'State/Data';
 
 
 const C = {
@@ -62,7 +64,7 @@ const C = {
 const ColorPicker = ({ control }: any) => {
 
     const [anchorEl, setAnchorEl] = useState(null);
-
+    const layout = useRecoilValue(layoutSizeData)
     const handleClick = (event: any) => setAnchorEl(event.currentTarget);
     const handleClose = () => setAnchorEl(null);
 
@@ -72,8 +74,10 @@ const ColorPicker = ({ control }: any) => {
             control={control}
             render={({ field: { onChange, value } }: any) =>
 
-                <div css={{ display: 'flex', gap: '8px' }}>
-                    <ColorMenu anchorEl={anchorEl} onClose={handleClose} onChange={onChange}/>
+                <div css={{ display: 'flex', gap: '8px', flexWrap:'wrap' }}>
+                    <ColorMenu anchorEl={anchorEl} onClose={handleClose} onChange={onChange} />
+
+
 
                     <Tooltip title="Remove Color" arrow placement='bottom'>
 

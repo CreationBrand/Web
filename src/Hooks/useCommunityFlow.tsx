@@ -16,8 +16,9 @@ const useCommunityFlow = (community_id: any) => {
             let req: any = await socketRequest('community', {
                 community_id: community_id,
             })
-
+            console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `Community: ${community_id}`);
             if (req === false || req.status === 'error') throw new Error('Network response was not ok')
+
 
             setCommunityFlow({
                 public_id: req.community.public_id,

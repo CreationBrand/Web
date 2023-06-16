@@ -113,7 +113,7 @@ const Viewer = ({ src, open, onClose }: any) => {
                     maxHeight: '800px',
                 },
                 Backdrop: {
-                    background: 'rgba(14,16,15,0.80)',
+                    background: 'rgba(14,16,15,0.85)',
                 }
             }}
         >

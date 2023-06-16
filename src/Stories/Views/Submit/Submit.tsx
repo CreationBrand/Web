@@ -2,18 +2,14 @@
 import { css } from '@emotion/react';
 
 import { useForm, Controller } from "react-hook-form";
-import { Divider, Input, Button, Box, Tab, } from "@mui/material"
+import { Divider, Input, Button, Tab } from "@mui/material"
 import { useState } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 
-import Editor from 'Stories/Bits/Editor/Editor';
 
 import { personData } from 'State/Data';
 import { socketRequest } from 'Service/Socket';
-
-
-import CommunitySelect from 'Stories/Bits/Select/CommunitySelect';
 import { textBold, textLabel } from 'Global/Mixins';
 
 // ICONS
@@ -21,18 +17,18 @@ import FeedRoundedIcon from '@mui/icons-material/FeedRounded';
 import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
 import BackupRoundedIcon from '@mui/icons-material/BackupRounded';
 
-
-
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import DropZone from 'Stories/Bits/DropZone/DropZone';
-import MainPost from 'Stories/Chunk/Post/Post';
 import { useNavigate } from 'react-router-dom';
-import { postFilterFlow } from 'State/Flow';
 import ContentLoader from 'Stories/Chunk/ContentLoader/ContentLoader';
+import RichInput from 'Stories/Forum/RichInput';
+import CommunityPicker from 'Stories/Forum/CommunityPicker';
+import FlatInput from 'Stories/Forum/FlatInput';
+
+
 
 // VALIDATION
-
 const schema = Joi.object({
     title: Joi.string().min(5).max(300).required(),
     community_id: Joi.string().min(10).required(),
@@ -45,14 +41,11 @@ const schema = Joi.object({
 })
 
 
-
-
-
 const C = {
     container: css({
         width: '100%',
         height: 'calc(100% - 56px)',
-        padding: '22px',
+        padding: '22px 0px',
         scrollbarGutter: 'stable both-edges',
         overflow: 'auto',
         background: '#272732',
@@ -69,8 +62,9 @@ const C = {
 
     }),
     section: css({
-        width: '100%',
-        background: '#343442',
+        width: 'min-content',
+        background: '#181820',
+
         borderRadius: '8px',
     }),
     wrapper: css({
@@ -117,39 +111,41 @@ const Submit = () => {
     return <div css={C.container}>
         <div css={C.inner}>
 
-            <div css={C.row}>
-                <div css={textBold('x')}>Create a Post</div>
-                <div>
-                    <Button color='secondary'>Cancel</Button>
-                    <Button
-                        disabled={!(Object.keys(errors).length === 0 && errors.constructor === Object)}
-                        disableElevation
-                        sx={{
-                            marginLeft: '8px',
-                            borderRadius: '8px',
-                        }}
-                        onMouseDown={onSubmit} variant='contained'>Submit</Button>
+
+            <section css={{ padding: 16 }}>
+                <div css={C.row}>
+                    <div css={textBold('x')}>Create a Post</div>
+                    <div>
+                        <Button color='secondary' onClick={() => navigate(-1)}>Cancel</Button>
+                        <Button
+                            disabled={!(Object.keys(errors).length === 0 && errors.constructor === Object)}
+                            disableElevation
+                            sx={{
+                                marginLeft: '8px',
+                                borderRadius: '8px',
+                            }}
+                            onMouseDown={onSubmit} variant='contained'>Submit</Button>
+                    </div>
                 </div>
-            </div>
-
-            <Divider sx={{ margin: '12px' }} />
-
-            <div css={textLabel('t')}>Select a Community </div>
-
-            <Controller
-                name="community_id"
-                control={control}
-                defaultValue={'0'}
-                render={({ field: { onChange, value } }) => (
-                    <CommunitySelect onChange={onChange} value={value} />
-                )} />
-
-            <Divider sx={{ margin: '12px' }} />
 
 
-            <form>
+            </section>
+
+            <Divider />
+
+            <section css={{ padding: '16px 16px 0 16px' }}>
+                <div css={textLabel('s')}>select a community </div>
+                <CommunityPicker name="community_id" control={control} />
+            </section>
+
+            <section css={{ padding: '16px 16px 0 16px' }}>
+                <div css={textLabel('s')}>title</div>
+                <FlatInput name='title' maxLength={300} control={control}></FlatInput>
+            </section>
 
 
+            <section css={{ padding: '16px 16px 0 16px' }}>
+                <div css={textLabel('s')}>type</div>
 
                 <Controller
                     name="type"
@@ -175,67 +171,33 @@ const Submit = () => {
                                         icon={<OpenInNewRoundedIcon />}
                                         iconPosition="start"
                                     />
-                                    <Tab label="Image/Video" value="upload"
+                                    <Tab label="Upload" value="upload"
                                         icon={<BackupRoundedIcon />}
                                         iconPosition="start"
 
                                     />
                                 </TabList>
-
-
-                                <div css={C.wrapper}>
-
-                                    <Controller
-                                        name="title"
-                                        control={control}
-                                        defaultValue={''}
-
-
-                                        render={({ field: { onChange, value } }) =>
-                                            <Input
-                                                error={errors?.title ? true : false}
-                                                sx={{
-                                                    height: '40px',
-                                                    fontSize: '14px',
-                                                    background: '#272732'
-                                                }}
-                                                inputProps={{ maxLength: 300 }}
-                                                autoComplete="off"
-                                                placeholder="Enter a Title"
-                                                onChange={onChange}
-                                                value={value}
-                                                disableUnderline
-                                                fullWidth
-                                                multiline
-                                            />}
-                                    />
-                                </div>
                             </div>
 
 
-                            <Divider css={{ margin: '16px 0 16px' }} />
-
-
-                            <div css={C.section}>
+                            <section css={{ marginTop: 16 }}>
                                 <TabPanel
                                     sx={{ padding: '0' }}
                                     value="text" >
-                                    <Controller
-                                        name="content"
+                                    <div css={textLabel('s')}>Content</div>
+                                    <RichInput
+                                        name='content'
                                         control={control}
-                                        defaultValue=""
-                                        rules={{ required: true }}
-                                        render={({ field: { onChange, value } }) =>
-                                            <Editor placeholder={'Type your Post here!'} value={value} onChange={onChange} />
-                                        }
-                                    />
+                                        maxLength={10000} />
+
                                 </TabPanel>
+                            </section>
 
 
+                            <section css={{ marginTop: 16 }}>
                                 <TabPanel
                                     sx={{ padding: '0' }}
                                     value="upload">
-
                                     <Controller
                                         name="content"
                                         control={control}
@@ -247,53 +209,42 @@ const Submit = () => {
 
                                         }
                                     />
-
                                 </TabPanel>
+                            </section>
 
-                                {/* LINK */}
-                                <TabPanel
-                                    sx={{ padding: '0' }}
-                                    value="link">
 
-                                    <div css={C.link}>
-                                        <Controller
-                                            name="content"
-                                            control={control}
-                                            defaultValue=""
-                                            rules={{ required: true, minLength: 5 }}
-                                            render={({ field: { onChange, value } }) =>
-                                                <Input
-                                                    error={!!errors.content}
-
-                                                    placeholder="Enter a Link"
-                                                    sx={{
-                                                        height: '40px',
-                                                        fontSize: '14px',
-                                                        background: '#272732'
-                                                    }}
-                                                    autoComplete="off"
-                                                    onChange={onChange}
-                                                    value={value}
-                                                    disableUnderline
-                                                    fullWidth
-
-                                                />}
-                                        />
-                                    </div>
+                            <section css={{ marginTop: 16 }}>
+                                <TabPanel value="link" sx={{ padding: 0 }}>
+                                    <div css={textLabel('s')}>link</div>
+                                    <FlatInput name='content' maxLength={300} control={control}></FlatInput>
                                 </TabPanel>
-                            </div>
+                            </section>
 
                         </TabContext>
                     } />
-            </form >
+            </section>
 
-            <Divider sx={{ margin: '12px' }} />
-            <div css={textLabel('s')}>POST PREVIEW</div>
-            <div css={textBold('x')}>{data.title && data.title}</div>
-            <ContentLoader type={data.type} content={data.content} />
 
-        </div >
+
+
+
+            <section css={{ padding: 16 }}>
+                <div css={textLabel('s')}>POST PREVIEW</div>
+                <div css={{
+                    maxWidth: '800px', width: '100%', overflow: 'hidden',
+                    whiteSpace: 'normal',
+                    wordBreak: 'break-word',
+                }}>
+                    <div css={textBold('x')}>{data.title && data.title}</div>
+                    <ContentLoader type={data.type} content={data.content} />
+                </div>
+            </section>
+
+
+
+        </div>
     </div >
+
 
 }
 

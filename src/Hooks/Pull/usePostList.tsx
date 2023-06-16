@@ -31,15 +31,19 @@ const usePostList = (community_id: any, filter: any) => {
 
     useEffect(() => {
         (async () => {
-            if (end) return
-            if (cache.has(`posts:${community_id}:${filter}:${cursor}`)) return setList(cache.get(`posts:${community_id}:${filter}:${cursor}`))
+            try {
+                if (end || isError) return
+                if (cache.has(`posts:${community_id}:${filter}:${cursor}`)) return setList(cache.get(`posts:${community_id}:${filter}:${cursor}`))
 
-            let req: any = await socketRequest('posts', { community_id, filter, cursor: cursor })
-            console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.posts?.length}) Posts Cursor:${cursor}`);
+                let req: any = await socketRequest('posts', { community_id, filter, cursor: cursor })
+                console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.posts?.length}) Posts Cursor:${cursor}`);
 
-            if (req?.posts?.length < 25) end = true
-            setList(req.posts)
-            cache.set(`posts:${community_id}:${filter}:${cursor}`, req.posts)
+                if (req?.posts?.length < 25) end = true
+                setList(req.posts)
+                cache.set(`posts:${community_id}:${filter}:${cursor}`, req.posts)
+            } catch (e) {
+                setIsError(true)
+            }
         })()
     }, [community_id, cursor])
 

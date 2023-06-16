@@ -3,6 +3,11 @@
 
 @import './editor.css';
 
+
+html {
+    -webkit-tap-highlight-color: transparent;
+ }
+
 body {
     background-color: #0f0e10;
     font-family: 'Noto Sans';
@@ -94,7 +99,14 @@ body {
 
 .MuiTabs-flexContainer {
     max-height: 40px;
+    min-height: 0px !important;
 }
+
+
+.MuiTabs-root{
+    min-height: 0px !important;
+}
+
 .MuiTab-root {
     max-height: 40px !important;
     padding: 0px 12px !important;
@@ -105,12 +117,18 @@ body {
     font-family: 'Noto Sans', sans-serif !important;
     font-size: 14px !important;
     font-weight: 700;
-    border-right: rgba(255, 255, 255, 0.12) 1px solid !important;
+    /* border-right: rgba(255, 255, 255, 0.12) 1px solid !important; */
     text-transform: none !important;
 }
 .MuiTabs-scroller {
     height: 40px;
-    border-bottom: rgba(255, 255, 255, 0.12) 1px solid !important;
+    /* border-bottom: rgba(255, 255, 255, 0.12) 1px solid !important; */
+}
+
+
+.MuiTabs-indicator{
+    background-color: #996ccc !important;
+    
 }
 
 /* total width */
@@ -292,4 +310,11 @@ body {
     border-radius: 4px !important;
     /* width: calc(100% - 16px) !important;
     margin: 0px 8px; */
+}
+
+
+.MuiFormControlLabel-label{
+    font-family: noto sans !important;
+    font-size: 14px !important;
+    color:inherit !important;
 }

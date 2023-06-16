@@ -25,7 +25,7 @@ const C = {
         whiteSpace: 'nowrap',
     }),
     underline: css({
-        fontSize: '14px',
+        fontSize: '12px',
         fontWeight: 500,
         lineHeight: '20px',
         color: '#b9b6ba',

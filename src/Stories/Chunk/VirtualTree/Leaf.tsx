@@ -35,7 +35,7 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 const C = {
 
     leaf: css([textNormal('s'), {
-        touchAction:'pan-y',
+        touchAction: 'pan-y',
         userSelect: 'none',
         height: '40px',
         display: 'flex',
@@ -91,7 +91,7 @@ const innerMotion = {
     hover: {
         background: '#272732',
         ease: "easeIn",
-    }
+    },
 };
 
 const Leaf = ({ link, title, icon, public_id, atom }: any) => {
@@ -106,7 +106,7 @@ const Leaf = ({ link, title, icon, public_id, atom }: any) => {
         if (link) navigate(link)
     }
 
-    if(!state) return null
+    if (!state) return null
 
     return (
         <motion.div

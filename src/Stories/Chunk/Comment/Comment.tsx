@@ -53,7 +53,7 @@ const C = {
     }),
 
     header: css({
-        marginTop: '8px',
+        marginTop: '12px',
         
         display: 'flex',
         gap: '8px',
@@ -82,10 +82,10 @@ const C = {
 
     }),
     spacerMobile: css({
-        height: 'calc(100%)',
-        width: '3px !important',
-        minWidth: '3px !important',
-        maxWidth: '3px !important',
+        height: '100%',
+        width: '2px !important',
+        minWidth: '2px !important',
+        maxWidth: '2px !important',
         borderRadius: '8px',
         marginRight: '4px',
         marginLeft: '0px',
@@ -106,9 +106,9 @@ const C = {
 
     }),
     float: css({
-        marginTop: '8px',
+        marginTop: '12px',
         marginBottom: '8px',
-        background: '#353544',
+        background: '#3b3b4b',
         borderRadius: '8px',
         width: 'min-content',
         height: '28px',
@@ -189,7 +189,7 @@ const Comment = (props: any) => {
         active,
         id,
         hasChildren,
-    ] = useCommentLive(true, props)
+    ] = useCommentLive(false, props)
 
     const params = useParams()
     const [showReply, setShowReply] = useState(false)
