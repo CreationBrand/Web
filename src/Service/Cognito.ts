@@ -14,11 +14,13 @@ let cognitoUser = userPool.getCurrentUser()
 
 
 
-export function loginCognito(username: string, password: string) {
+export async function loginCognito(username: string, password: string) {
 
     deleteAllCookies()
 
     return new Promise((resolve) => {
+
+        deleteAllCookies()
         var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
             {
                 Username: username,

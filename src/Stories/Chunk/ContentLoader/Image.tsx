@@ -4,18 +4,40 @@ import { css } from '@emotion/react'
 import { useState, memo } from "react";
 import { motion } from "framer-motion";
 import { Dialog } from '@mui/material';
+import { ErrorBoundary } from 'react-error-boundary';
+import Walk from 'Stories/Bits/ChunkError/Walk';
 
 
 const C = {
     container: css({
-        width: '100%',
-        borderRadius: '8px',
-        // padding: '8px',
+        border: '1px solid #0f0e10',
+        position: 'relative',
+        borderRadius: "12px",
         display: 'flex',
-        'white-space': 'normal !important',
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflow: 'hidden',
     }),
-
-
+    blur: css({
+        width: '100%',
+        height: '100%',
+        background: 'red',
+        position: 'absolute',
+        filter: 'blur(4px) brightness(45%)',
+    }),
+    img: css({
+        zIndex: 100,
+        objectFit: 'contain',
+        maxHeight: '400px',
+        width: '100%',
+    }),
+    error: css({
+        width: '100%',
+        height: '80px',
+        borderRadius: '12px',
+        background: '#181820',
+        overflow: 'hidden',
+    }),
 }
 
 
@@ -25,11 +47,15 @@ const Image = ({ url }: any) => {
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => {
-        setOpen(false);
-    }
+    const handleClose = () => setOpen(false);
+    const [error, setError] = useState(false);
+    const handleImgError = (e: any) => setError(true)
 
 
+
+    if (error) return <div css={C.error}>
+        <Walk variant='error' />
+    </div>
 
     return (
         <div onClick={(e) => e.stopPropagation()}>
@@ -37,50 +63,16 @@ const Image = ({ url }: any) => {
 
             <div
                 onClick={(e) => { handleOpen() }}
-                css={{
-                    width: '100%',
-                    height: '1000px',
-                    maxHeight: '400px',
-                    minHeight: '200px',
-                    position: 'relative',
-                    borderRadius: "12px",
-                    overflow: 'hidden',
+                css={C.container}>
 
-                }}>
+                <img
+                    onError={handleImgError}
+                    src={url} css={C.blur} />
 
+                <img
+                    onError={handleImgError}
+                    css={C.img} src={url} />
 
-                <div css={{
-                    position: 'absolute',
-                    border: '1px solid #272732',
-                    display: "block",
-                    minWidth: '100%',
-                    minHeight: '100%',
-                    aspectRatio: 'auto 1 / 1',
-                    zIndex: 50,
-
-                    filter: 'blur(4px) brightness(50%)',
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                    backgroundImage: `url(${url})`
-                }} />
-                <div css={{
-                    position: 'absolute',
-                    zIndex: 100,
-                    aspectRatio: 'auto 1 / 1',
-                    border: '1px solid #272732',
-                    display: "block",
-                    width: '100%',
-                    height: '1000px',
-                    maxHeight: '400px',
-                    minHeight: '200px',
-                    borderRadius: "12px",
-                    backgroundSize: 'contain',
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                    backgroundImage: `url(${url})`,
-
-                }} />
             </div>
         </div>
     )
@@ -97,6 +89,7 @@ const Viewer = ({ src, open, onClose }: any) => {
 
     function onPanEnd(event: any, info: { point: { x: any; y: any; }; }) {
         console.log(info.point.x, info.point.y)
+        onClose()
     }
 
 
@@ -112,9 +105,12 @@ const Viewer = ({ src, open, onClose }: any) => {
                 '& .MuiDialog-paper': {
                     backgroundColor: 'transparent !important',
                     boxShadow: 'none !important',
-                    width: '100%',
+                    padding: '0px !important',
+                    margin: '0px !important',
+                    width: 'auto',
                     height: 'auto',
-
+                    maxWidth: '800px',
+                    maxHeight: '800px',
                 },
                 Backdrop: {
                     background: 'rgba(14,16,15,0.80)',
@@ -124,18 +120,15 @@ const Viewer = ({ src, open, onClose }: any) => {
             <motion.img
                 onWheel={handleScroll}
                 src={src}
-                onPanEnd={onPanEnd}
-                // animate={{ scale: scale }}
-                style={{
-                    width: '100%',
-                }}
+                onPan={onPanEnd}
+                // style={{
+                //     width: '100%',
+                // }}
                 css={{
-
                     zIndex: 10000,
-                    maxWidth: '100%',
-                    maxHeight: '100%',
-                    width: 'auto',
-                    height: 'auto',
+                    width: '100%',
+                    maxWidth: 'calc(100vw - 32px)',
+                    maxHeight: '80vh',
                 }}
             />
         </Dialog>
@@ -144,4 +137,4 @@ const Viewer = ({ src, open, onClose }: any) => {
 }
 
 
-export default Image;
+export default memo(Image);

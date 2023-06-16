@@ -2,23 +2,10 @@
 import { css } from '@emotion/react'
 
 import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { memo, useState } from 'react';
-import Picker from '../../Menu/TagMenu';
-import Drawer from '../Drawer/Drawer';
 
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import EditAttributesIcon from '@mui/icons-material/EditAttributes';
-import ReportGmailerrorredRoundedIcon from '@mui/icons-material/ReportGmailerrorredRounded';
-import { globalHex, layoutSizeData } from 'State/Data';
-import { useRecoilValue } from 'recoil';
-
-import StyleRoundedIcon from '@mui/icons-material/StyleRounded';
-import { communityFlow, contentFlow } from 'State/Flow';
-import { canManageGlobalRole, canManageRole, canManageTags } from 'Service/Rbac';
-import CommunityRolePicker from '../Picker/CommunityRolePicker';
 import PostMenu from 'Stories/Menu/PostMenu';
 
 const RightMenu = ({ tags, public_id, person_id, type, community_roles, }: any) => {

@@ -45,7 +45,10 @@ const usePostList = (community_id: any, filter: any) => {
 
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
+
+
             for (let i = 0; i < listItems?.length; i++) {
+                listItems[i].visibility = true
                 set(postSync(listItems[i].public_id), listItems[i]);
                 set(postList, (oldList: any) => [...oldList, <Post {...listItems[i]} />])
             }

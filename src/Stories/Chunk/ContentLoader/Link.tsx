@@ -78,10 +78,15 @@ const Link = ({ url }: any) => {
         if (url) window.open(url, '_blank').focus();
     }
 
+
+    console.log(data)
+    
     try {
 
 
         if (isLoading) return <div css={C.container}><Walk /></div>
+        else if (url.slice(-5) === ".jpeg") return <Image url={`${proxy}/${url}`} />
+
         else if (url.slice(-4) === ".jpg") return <Image url={`${proxy}/${url}`} />
         else if (url.slice(-4) === ".mp4") return <Player url={`${proxy}/${url}`} />
         else if (url.slice(-4) === ".gif") return <Image url={`${proxy}/${url}`} />

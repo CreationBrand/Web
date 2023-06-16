@@ -8,7 +8,6 @@ const usePostLive = (active: boolean, props: any) => {
 
     const [data, setData] = useRecoilState(postSync(props.public_id))
 
-
     useEffect(() => {
         if (!props.public_id || !active) return
 

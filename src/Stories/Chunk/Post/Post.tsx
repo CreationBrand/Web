@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { motion } from "framer-motion"
 import Avatar from 'Stories/Bits/Avatar/Avatar'
 import ContentLoader from '../ContentLoader/ContentLoader'
 import Author from "Stories/Bits/Titles/Author"
@@ -69,9 +68,11 @@ const C = {
 const Post = (props: any) => {
 
     // proxing data
-    const [visibility, setVisibility] = useState(false)
-    const data: any = usePostLive(visibility, props)
-    const { public_id, title, content, created_at, author, community, vote, karma, views, comments, tags, type, community_roles, global_roles } = data
+    const [inView, setVisibility] = useState(false)
+    const data: any = usePostLive(inView, props)
+    const {visibility, public_id, title, content, created_at, author, community, vote, karma, views, comments, tags, type, community_roles, global_roles } = data
+
+
 
     const filter = useRecoilValue(filterFlow)
     const authState = useRecoilValue(authFlow)
@@ -91,18 +92,14 @@ const Post = (props: any) => {
 
 
 
-
-    // filtering || null if not found
-    if (!data || data === undefined || !created_at) return null
+    if (!data || data === undefined || !visibility || !created_at) return null
     if (tags && tags.some((obj: any) => filter.includes(obj?.public_id))) return null
-
-
 
     return (
         <VisibilitySensor onChange={handleVisibility}>
+
             <div css={C.container} key={`/c/${community.public_id}/p/${public_id}`}>
                 <div css={C.inner} onClick={bodyClick}>
-
 
                     <div css={C.header}>
 

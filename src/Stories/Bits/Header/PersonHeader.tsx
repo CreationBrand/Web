@@ -119,6 +119,8 @@ const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nic
 
     const authState = useRecoilValue(authFlow)
 
+    const openDm = () => {}
+
     return (
         <div css={C.container} key={'person'}>
             asdfasdf
@@ -147,10 +149,10 @@ const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nic
                     </div>
                 </div>
                 <div css={C.action}>
-                    {/* 
+                    
                     <Button
                         disabled={authState === 'guest'}
-                        onClick={handleJoin}
+                        onClick={openDm}
                         disableElevation
                         sx={{
                             marginLeft: 'auto !important',
@@ -168,7 +170,7 @@ const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nic
                             }
                         }}
 
-                        variant="contained">{isMember ? 'LEAVE' : 'JOIN'}</Button> */}
+                        variant="contained">Chat</Button>
                 </div>
             </div>
 

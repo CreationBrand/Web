@@ -7,7 +7,7 @@ import Nav from 'Stories/Layout/Nav'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { triState } from 'State/atoms'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { notificationStateFamily, personData } from 'State/Data'
+import { layoutSizeData, notificationStateFamily, personData } from 'State/Data'
 import Person from 'Stories/Objects/Person/Person'
 import { memo } from 'react'
 import Main from 'Stories/Layout/Main'
@@ -56,6 +56,7 @@ const Home = () => {
     const setTri = useSetRecoilState(triState)
     const tree = useMessengerTree();
     const noti = useRecoilValue(notificationStateFamily('noti'))
+    const layoutSize = useRecoilValue(layoutSizeData)
 
     // DATA SUPPLY
     const person = useRecoilValue(personData)
@@ -79,32 +80,7 @@ const Home = () => {
 
             <Main>
                 <Nav>
-                    <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-
-                        <IconButton
-                            onClick={() => setTri([!l, r])}
-                            disableRipple={true}
-                            size="small"
-                            color="secondary"
-                            sx={{
-                                ':hover': { color: '#fff' },
-                                height: '32px',
-                                width: '32px',
-
-                            }}>
-                            <LibraryBooksRoundedIcon
-                                fontSize='medium'
-                            />
-                        </IconButton>
-
-                    </div>
-                    {/* <NavLabel /> */}
-                    <Search />
-
-                    {/* <Search2 /> */}
-
-                    <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-
+                    {layoutSize === 'mobile' ? <>
                         <IconButton
                             onMouseDown={() => navigate(`/submit`)}
                             disableRipple={true}
@@ -120,7 +96,7 @@ const Home = () => {
                             />
                         </IconButton>
 
-
+                        <Search />
                         <StyledBadge
                             badgeContent={noti} invisible={!Boolean(noti)}>
 
@@ -137,25 +113,82 @@ const Home = () => {
                                 }}>
                                 <NotificationsRoundedIcon sx={{ fontSize: '26px' }} />
                             </IconButton>
+
                         </StyledBadge>
+                    </>
+                        :
+                        <>
+                            <IconButton
+                                onClick={() => setTri([!l, r])}
+                                disableRipple={true}
+                                size="small"
+                                color="secondary"
+                                sx={{
+                                    ':hover': { color: '#fff' },
+                                    height: '32px',
+                                    width: '32px',
+
+                                }}>
+                                <LibraryBooksRoundedIcon
+                                    fontSize='medium'
+                                />
+                            </IconButton>
+                            <Search />
+                            <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+
+                                <IconButton
+                                    onMouseDown={() => navigate(`/submit`)}
+                                    disableRipple={true}
+                                    size="small"
+                                    color="secondary"
+                                    sx={{
+                                        ':hover': { color: '#fff' },
+                                        height: '32px',
+                                        width: '32px',
+                                    }}>
+                                    <AddRoundedIcon
+                                        sx={{ fontSize: '34px' }}
+                                    />
+                                </IconButton>
+
+
+                                <StyledBadge
+                                    badgeContent={noti} invisible={!Boolean(noti)}>
+
+                                    <IconButton
+                                        onClick={() => navigate(`/notifications`)}
+                                        disableRipple={true}
+                                        size="small"
+                                        color="secondary"
+                                        sx={{
+                                            ':hover': { color: '#fff' },
+                                            height: '32px',
+                                            width: '32px',
+
+                                        }}>
+                                        <NotificationsRoundedIcon sx={{ fontSize: '26px' }} />
+                                    </IconButton>
+                                </StyledBadge>
 
 
 
-                        <IconButton
-                            onClick={() => setTri([l, !r])}
-                            disableRipple={true}
-                            size="small"
-                            color="secondary"
-                            sx={{
-                                ':hover': { color: '#fff' },
-                                height: '32px',
-                                width: '32px',
+                                <IconButton
+                                    onClick={() => setTri([l, !r])}
+                                    disableRipple={true}
+                                    size="small"
+                                    color="secondary"
+                                    sx={{
+                                        ':hover': { color: '#fff' },
+                                        height: '32px',
+                                        width: '32px',
 
-                            }}>
-                            <FontAwesomeIcon icon={faLayerGroup} />
-                        </IconButton>
+                                    }}>
+                                    <FontAwesomeIcon icon={faLayerGroup} />
+                                </IconButton>
 
-                    </div>
+                            </div>
+                        </>
+                    }
                 </Nav>
                 <AnimatePresence>
                     <Outlet />

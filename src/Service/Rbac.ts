@@ -72,3 +72,19 @@ export const isAdmin = (set: any) => {
 
     return false
 };
+
+
+export const canMovePost = (set: any) => {
+
+    //global
+    let gHex = getRecoil(globalHex)
+    if (Boolean(gHex.get(1) !== 0)) return true
+    if (set === null) return false
+    //community
+
+    let bs = new BitSet(set)
+    if (Boolean(bs.get(2) !== 0)) return true
+
+
+    return false
+};

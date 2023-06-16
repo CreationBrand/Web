@@ -19,6 +19,7 @@ import { canManageTags } from 'Service/Rbac';
 import { memo, useEffect, useState } from 'react';
 import TagMenu from './TagMenu';
 import RoleMenu from './RoleMenu';
+import MovePostMenu from './MovePostMenu';
 
 const StyledPopper = styled(Popper)(({ theme }) => ({
     zIndex: 1000,
@@ -90,10 +91,10 @@ const PostMenu = ({ anchorEl, setAnchorEl, person_id,
         open={Boolean(anchorEl)} anchorEl={anchorEl} placement='left-start'>
 
         <ClickAwayListener onClickAway={handleClose}>
-            <div>
+            <div onMouseLeave={handleClose}>
                 {(content === 'comment' || content === 'community' || content === 'post') && <TagMenu current={tags} public_id={public_id} type={type} />}
                 {(content === 'comment' || content === 'community' || content === 'post') && <RoleMenu current={community_roles} person_id={person_id} public_id={public_id} />}
-
+                {(content === 'comment' || content === 'community' || content === 'post') && <MovePostMenu post_id={public_id} />}
                 <MenuItem disabled={true}>Global Roles <AdminPanelSettingsOutlinedIcon /></MenuItem>
                 <MenuItem disabled={true}>Moderate <GavelRoundedIcon /></MenuItem>
                 <MenuItem>Report <ReportGmailerrorredRoundedIcon /></MenuItem>

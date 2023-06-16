@@ -186,20 +186,6 @@ let Preview = ({ public_id, community_id }: any) => {
 
                 </div>
 
-
-                {authState !== 'guest' && <MailOutlineRoundedIcon
-                    sx={{
-                        color: '#b9b6ba',
-                        fontSize: '24px',
-                        marginLeft: 'auto',
-                        cursor: 'pointer',
-                        '&:hover': {
-                            color: '#fff',
-                        }
-                    }}
-                />
-                }
-
             </div>
             {data.about_me &&
                 <div css={{

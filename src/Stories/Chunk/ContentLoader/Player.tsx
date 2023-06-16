@@ -2,6 +2,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
+import Walk from 'Stories/Bits/ChunkError/Walk';
 import { Block, block } from 'million';
 import { Suspense, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -28,13 +29,21 @@ const C = {
             borderRadius: '8px',
 
         }
-    })
+    }), error: css({
+        width: '100%',
+        height: '80px',
+        borderRadius: '12px',
+        background: '#181820',
+        overflow: 'hidden',
+    }),
 }
 
 const Player = ({ url }: any) => {
 
     const [isVisable, setIsVisable] = useState(false)
     const handleVisability = (visable: boolean) => setIsVisable(visable)
+    const [error, setError] = useState(false)
+    const handleError = () => setError(true)
 
     useEffect(() => {
         document.querySelectorAll('iframe').forEach((iframe: any) => {
@@ -42,20 +51,24 @@ const Player = ({ url }: any) => {
         })
     }, [])
 
+    if (error) return <div css={C.error}>
+        <Walk variant='error' />
+    </div>
+
+
     return (<div css={C.player} onClick={(e) => e.stopPropagation()}>
-        <ErrorBoundary fallback={<div>Something went wrong</div>}>
-            <Suspense fallback={<div>Loading...</div>}>
-                <VisibilitySensor onChange={handleVisability}>
-                    <ReactPlayer
-                        playing={isVisable}
-                        controls
-                        url={url}
-                        muted={true}
-                        loop={true}
-                    />
-                </VisibilitySensor>
-            </Suspense>
-        </ErrorBoundary>
+
+        <VisibilitySensor onChange={handleVisability}>
+            <ReactPlayer
+                onError={handleError}
+                playing={isVisable}
+                controls
+                url={url}
+                muted={true}
+                loop={true}
+            />
+        </VisibilitySensor>
+
     </div>)
 }
 
