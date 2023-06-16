@@ -97,6 +97,13 @@ export const triState = atom({
   ]
 });
 
+export const soundState = atom({
+  key: "soundState",
+  default: 0.5,
+  effects: [
+    localStorageEffect('soundState'),
+  ]
+});
 
 
 export const bindState = atom({

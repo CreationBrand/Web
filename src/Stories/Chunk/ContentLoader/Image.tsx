@@ -88,8 +88,8 @@ const Viewer = ({ src, open, onClose }: any) => {
     }
 
     function onPanEnd(event: any, info: { point: { x: any; y: any; }; }) {
-        console.log(info.point.x, info.point.y)
-        onClose()
+        // console.log(info.point.x, info.point.y)
+        // onClose()
     }
 
 

@@ -79,7 +79,7 @@ const Link = ({ url }: any) => {
     }
 
 
-    console.log(data)
+    // console.log(data)
     
     try {
 
