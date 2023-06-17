@@ -81,17 +81,20 @@ const Link = ({ url }: any) => {
 
     try {
 
+        // console.log(data)
 
         if (isLoading) return <div css={C.container}><Walk /></div>
+        else if (data?.mediaType === "video.other" && data?.siteName === 'YouTube') { }
         else if (url.slice(-5) === ".jpeg") return <Image url={`${url}`} />
         else if (url.slice(-4) === ".jpg") return <Image url={`${url}`} />
+        else if (url.slice(-4) === ".png") return <Image url={`${url}`} />
         else if (url.slice(-4) === ".mp4") return <Player url={`${url}`} />
         else if (url.slice(-4) === ".gif") return <Image url={`${url}`} />
-        else if (data?.contentType === "application/x-mpegurl") return <Player url={`${proxy}/${url}`} />
+        else if (data?.contentType === "application/x-mpegurl") return <Player url={url} />
         else if (data?.siteName === 'EPORNER.COM' && data?.images?.length) return <Image url={`${proxy}/${data?.images[0]}`} />
         else if (data?.mediaType === "article") { }
         else if (data?.mediaType === "video.other" && data?.siteName === 'Tenor') return <Player url={`${proxy}/${data?.videos[0]?.url}`} />
-        else if (data?.mediaType === "video.other" && data?.siteName === 'YouTube') return <Player url={data?.url} />
+        // else if (data?.mediaType === "video.other" && data?.siteName === 'YouTube') return <Player url={data?.url} />
         else if (data?.mediaType === "video.other" && data?.siteName === 'Twitch') return <Player url={`${proxy}/${data?.url}`} />
         else if (data?.mediaType === "video.other" && data?.siteName === 'Imgur') return <Player url={`${proxy}/${data?.videos[0]?.url}`} />
         else if (data?.mediaType === "video" && data.siteName === 'RedGIFs') return <Player url={`${proxy}/${data?.videos[0]?.url}`} />

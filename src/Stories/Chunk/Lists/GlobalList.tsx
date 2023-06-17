@@ -31,11 +31,15 @@ const GlobalList = ({ type }: any) => {
     useCommunityFlow(null)
 
     return (
-        <div
-
+        <motion.div
+            key={type}
+            css={C.container}
+            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, }}
+            animate={{ opacity: 1, }}
         >
             <VirtualList list={components} public_id={type} />
-        </div>
+        </motion.div>
     )
 }
 

@@ -5,7 +5,7 @@ import { localStorageEffect } from "./Effects";
 
 export const personFilter = atom({
     key: "personFilter",
-    default: 'POSTS',
+    default: 'POST',
     effects: [
         localStorageEffect('personFilter'),
     ]

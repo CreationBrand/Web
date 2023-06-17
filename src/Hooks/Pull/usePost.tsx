@@ -35,6 +35,7 @@ const usePost = (post_id: any) => {
 
                 let req: any = await socketRequest('post', { post_id: post_id })
                 console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `Post: ${post_id}`);
+                req.post.visibility = true
                 setComponents(<Post  {...req?.post} />)
                 setList(req?.post)
                 cache.set(`post:${post_id}`, req.post)
@@ -49,8 +50,6 @@ const usePost = (post_id: any) => {
         },
         []
     );
-
-
 
     return [isLoading, isError, components]
 }

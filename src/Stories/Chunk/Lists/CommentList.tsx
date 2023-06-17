@@ -17,6 +17,7 @@ import { postFilter } from 'State/filterAtoms'
 import usePersonList from 'Hooks/Pull/usePersonList'
 import useCommentSubTree from 'Hooks/Pull/useCommentSubTree'
 import usePullPost from 'Hooks/usePullPost'
+import usePost from 'Hooks/Pull/usePost'
 
 const C = {
     container: css({
@@ -32,11 +33,11 @@ const CommentList = () => {
 
     const params = useParams()
 
-    const [isLoading, isError, component, data] = usePullPost(params.post_id)
+    const [isLoading, isError, component, data] = usePost(params.post_id)
     const [isLoading2, isError2, components] = useCommentSubTree(params.comment_id)
 
-
-    useContentFlow('person')
+    useCommunityFlow(params.community_id)
+    useContentFlow('comment')
     useCommunityFlow(null)
 
 
@@ -56,7 +57,7 @@ const CommentList = () => {
                     component,
                     ...components
                 ]}
-                public_id={params.person_id} />
+            />
         </motion.div>
     )
 }

@@ -7,14 +7,14 @@ import { ErrorMessage } from '@hookform/error-message';
 
 
 
-const FlatInput = ({ control, maxLength, name }: any) => {
+const FlatInput = ({ control, maxLength, name,defaultValue }: any) => {
 
     if (!control) return null
 
     return (<Controller
         name={name}
         control={control}
-        defaultValue={''}
+        defaultValue={defaultValue ? defaultValue : ''}
         render={({ field: { onChange, value }, formState: { errors } }) => {
             return (
                 <>
@@ -28,7 +28,7 @@ const FlatInput = ({ control, maxLength, name }: any) => {
                             '&:hover': {
                                 border: '2px solid #181820'
                             },
-                            
+
                             '&:focus-within': {
                                 border: '2px solid #996ccc'
                             },

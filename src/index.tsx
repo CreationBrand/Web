@@ -10,8 +10,11 @@ import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en.json'
+TimeAgo.addDefaultLocale(en)
 
-
+// {formatDistanceStrict(parseISO(created_at), new Date(), { addSuffix: true })}
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

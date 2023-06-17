@@ -71,7 +71,7 @@ const C = {
 
 
 const schema = Joi.object({
-    title: Joi.string().min(5).max(30).required(),
+    title: Joi.string().min(5).max(22).required(),
     description: Joi.string().min(30).max(800).required(),
     visability: Joi.boolean().required()
 })
@@ -148,7 +148,7 @@ const CreateCommunity = ({ open, onClose }: any) => {
 
                 <div css={C.content}>
                     <h3 css={textLabel('s')}>Title</h3>
-                    <FlatInput name='title' control={control} maxLength={30} />
+                    <FlatInput name='title' control={control} maxLength={22} />
                 </div>
 
                 <div css={C.content}>

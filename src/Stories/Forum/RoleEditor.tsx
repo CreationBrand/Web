@@ -72,8 +72,9 @@ const RoleEditor = ({ roles, public_id, }: any) => {
 
     const handleUpdate = (e: any) => {
 
-        let role = roles[e.target.dataset.value]
 
+        let role = roles[e.target.dataset.value]
+        if (role.base) return
         // console.log(role)
         setShow('update')
         setValue('title', role.title)
@@ -88,6 +89,7 @@ const RoleEditor = ({ roles, public_id, }: any) => {
         let temp = []
         for (var i = 0; i < roles.length; i++) {
             temp.push(<div
+                style={{ color: roles[i].base ? '#ffbf00' : '' }}
                 onClick={handleUpdate}
                 data-value={i}
                 key={roles[i].public_id} css={C.role} >

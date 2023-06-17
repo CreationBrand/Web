@@ -10,18 +10,20 @@ import { personData } from 'State/Data';
 import { textLabel } from 'Global/Mixins';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
-import ImageEditor from 'Stories/Forum/ImageEditor/ImageEditor';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { socketRequest } from 'Service/Socket';
+import ImageEditor from 'Stories/Forum/ImageEditor';
+import FlatInput from 'Stories/Forum/FlatInput';
+import RichInput from 'Stories/Forum/RichInput';
 
 
 // VALIDATION
 
 const schema = Joi.object({
     nickname: Joi.string().min(4).max(30).required(),
-    about_me: Joi.string().min(0).max(200).optional().default(null),
+    about_me: Joi.string().min(0).max(800).optional().default(null),
 })
 
 
@@ -36,6 +38,7 @@ const C = {
         marginTop: '8px',
         borderRadius: '8px',
         position: 'relative',
+        touchAction: 'pan-y'
 
     }),
     inner: css({
@@ -58,6 +61,7 @@ const C = {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'baseline',
+        padding: '16px 16px 0px 16px',
     }),
     upload: css({
         width: '100%',
@@ -92,19 +96,22 @@ const EditPerson = () => {
     // state
     const person = useRecoilValue(personData);
 
+
+    const navigate = useNavigate();
     // form
     const { register, handleSubmit, watch, formState: { errors }, control } = useForm({ mode: 'onChange', resolver: joiResolver(schema) });
     const [loading, setLoading] = useState(false);
-    const data = watch()
+    const changed = watch()
 
     const onSubmit = async () => {
-        console.log(data)
-        let req:any = await socketRequest('person-update-display', data)
-        if(req.status === 'ok') console.log('ok')
-        else console.log('error')
+        console.log('submit', changed)
+        let req: any = await socketRequest('person-update', { ...changed })
+        if (req.status === 'ok') {
+            navigate(`/p/${person.username}`)
+        }
+        // else console.log('error')
 
     };
-
 
     if (!person) return <div>loading</div>
 
@@ -122,7 +129,10 @@ const EditPerson = () => {
                 <div>
                     <Button color='secondary'>Cancel</Button>
                     <Button
-                        disabled={!(Object.keys(errors).length === 0 && errors.constructor === Object)}
+                        disabled={!(Object.keys(errors)?.length === 0 && errors.constructor === Object) ||
+                            (person.nickname === changed.nickname &&
+                                person.about_me === changed.about_me || Object.keys(changed).length === 0)
+                        }
                         disableElevation
                         sx={{
                             marginLeft: '8px',
@@ -135,11 +145,8 @@ const EditPerson = () => {
             <Divider sx={{ margin: '12px' }} />
 
 
-            <form
-                css={C.form}>
 
-
-
+            <section css={{ padding: '16px 16px 0px 16px' }}>
                 <div css={{
                     margin: "6px 0px",
                     fontWeight: "bold",
@@ -158,9 +165,9 @@ const EditPerson = () => {
                     textDecoration: "none",
                     color: '#b9b6ba',
                 }}>This is how users will see your account.</div>
+            </section>
 
-
-
+            <section css={{ padding: '16px 16px 0px 16px' }}>
                 <h3 css={textLabel('s')}>Username</h3>
                 <Input
                     value={`@${person.username}`}
@@ -170,172 +177,62 @@ const EditPerson = () => {
                     fullWidth
                     sx={{
                         height: "42px",
-                        marginBottom: "26px",
-                    }}
-                />
+                    }} />
+            </section>
 
-
+            <section css={{ padding: '16px 16px 0px 16px' }}>
                 <h3 css={textLabel('s')}>Nickname</h3>
-
-                <Controller
-                    name="nickname"
-                    control={control}
-                    defaultValue={person.nickname}
-                    rules={{ required: true, maxLength: 30 }}
-                    render={({ field: { onChange, value } }) => (
-                        <Input
-                            error={errors.nickname ? true : false}
-                            autoComplete="off"
-                            onChange={onChange}
-                            value={value}
-                            disableUnderline
-                            fullWidth
-                            endAdornment={<div css={{
-                                color: '#b9b6ba',
-                                marginRight: '8px',
-                                fontSize: '12px'
-                            }}>{value.length}/30</div>}
-                            sx={{
-                                height: "42px",
-                                marginBottom: "26px",
-                            }}
-                        />
-                    )}
-                />
+                <FlatInput control={control} name="nickname" defaultValue={person.nickname} maxLength={22} />
+            </section>
 
 
+            <section css={{ padding: '16px 16px 0px 16px' }}>
                 <h3 css={textLabel('s')}>about me</h3>
-                <div>
-                    <Controller
-                        name="about_me"
-
-                        control={control}
-                        defaultValue=''
-                        rules={{ maxLength: 200 }}
-                        render={({ field: { onChange, value } }) => (
-                            <Input
-                                error={errors.about_me ? true : false}
-                                disableUnderline
-                                multiline
-                                fullWidth
-                                minRows={3}
-                                placeholder="Type a description..."
-                                onChange={onChange}
-                                value={value}
-
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        e.preventDefault();
-                                    }
-                                }}
+                <RichInput control={control} name="about_me" defaultValue={person.about_me} maxLength={800} />
+            </section>
 
 
-                                //@ts-ignore
-                                endAdornment={<div css={{
-                                    top: '8px',
-                                    right: '8px',
-                                    color: '#b9b6ba',
-                                    marginRight: '8px',
-                                    fontSize: '12px'
-                                }}>{value.length}/200</div>}
+            <section css={{ padding: '16px 16px 0px 16px' }}>
+                <div css={{
+                    margin: "6px 0px",
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                    lineHeight: "22px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#fff',
+                }}>Images</div>
+                <div css={{
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    lineHeight: "20px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#b9b6ba',
+                }}>Avatars are 80px by 80px. Community Banners need a min height of 140px. JPEG / JPG ONLY </div>
 
-                            />
-                        )}
-                    />
+            </section>
+
+            <section css={{ padding: '16px 16px 0px 16px' }}>
+                <div css={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+
+                    <div>
+                        <h3 css={textLabel('s')}>Avatar</h3>
+                        <ImageEditor type='avatar' api='person-avatar' id={person.public_id} />
+                        <div css={{ marginBottom: "26px" }} />
+                    </div>
+
+                    <div>
+                        <div css={textLabel('s')}>Banner</div>
+                        <ImageEditor
+                            width='800'
+                            height='140'
+                            type='banner' api='community-banner' id={person.public_id} />
+                        <div css={{ marginBottom: "26px" }} />
+                    </div>
+
                 </div>
-            </form>
-
-            <Divider sx={{ margin: '12px' }} />
-
-
-            <div css={{
-                margin: "6px 0px",
-                fontWeight: "bold",
-                fontSize: "18px",
-                lineHeight: "22px",
-                wordBreak: "normal",
-                textDecoration: "none",
-                color: '#fff',
-            }}>Images</div>
-            <div css={{
-                margin: "0px 0px 30px",
-                fontWeight: "400",
-                fontSize: "14px",
-                lineHeight: "20px",
-                wordBreak: "normal",
-                textDecoration: "none",
-                color: '#b9b6ba',
-            }}>Avatars are 80px by 80px. Community Banners need a min height of 140px. </div>
-
-
-
-            <div css={{ display: 'flex', gap: '12px' }}>
-
-                <div>
-                    <h3 css={textLabel('s')}>Avatar</h3>
-
-                    <ImageEditor type='avatar' api='person-avatar' id={person.public_id} />
-                    <div css={{ marginBottom: "26px" }} />
-                </div>
-                <div>
-                    <div css={textLabel('s')}>Banner</div>
-                    <ImageEditor
-                        width='800'
-                        height='140'
-                        type='banner' api='person-banner' id={person.public_id} />
-                    <div css={{ marginBottom: "26px" }} />
-                </div>
-
-            </div>
-
-            <Divider sx={{ margin: '12px' }} />
-
-
-
-            <div css={{
-                margin: "6px 0px",
-                fontWeight: "bold",
-                fontSize: "18px",
-                lineHeight: "22px",
-                wordBreak: "normal",
-                textDecoration: "none",
-                color: '#fff',
-            }}>Roles and Flairs</div>
-            <div css={{
-                margin: "0px 0px 30px",
-                fontWeight: "400",
-                fontSize: "14px",
-                lineHeight: "20px",
-                wordBreak: "normal",
-                textDecoration: "none",
-                color: '#b9b6ba',
-            }}>Base Roles can not be edited or deleted.</div>
-
-
-
-            <Box sx={{ width: '100%', background: '#181820', borderRadius: '8px' }}>
-                {/* <DataGrid
-                    checkboxSelection={false}
-                    autoHeight
-                    hideFooter
-                    editMode='row'
-                    isCellEditable={() => false}
-                    css={{ borderRadius: '8px' }}
-                    rows={req?.community?.community_roles}
-                    columns={columns}
-                    initialState={{
-                        pagination: {
-                            paginationModel: {
-                                pageSize: 5,
-                            },
-                        },
-                    }}
-                    pageSizeOptions={[5]}
-                /> */}
-            </Box>
-
-
-
+            </section>
 
         </div>
     </div >

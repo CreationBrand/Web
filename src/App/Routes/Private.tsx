@@ -4,7 +4,6 @@ import Error from 'Stories/Error/Error'
 import GlobalList from 'Stories/Chunk/Lists/GlobalList'
 import PostList from 'Stories/Chunk/Lists/PostList'
 import CommunityList from 'Stories/Chunk/Lists/CommunityList'
-import Submit from 'Stories/Views/Submit/Submit'
 import MessengerList from 'Stories/Chunk/Lists/MessengerList'
 import GroupList from 'Stories/Chunk/Lists/GroupList'
 import EditCommunity from 'Stories/Views/EditCommunity'
@@ -16,6 +15,7 @@ import PersonList from 'Stories/Chunk/Lists/PersonList'
 import CommentList from 'Stories/Chunk/Lists/CommentList'
 import NotiList from 'Stories/Chunk/Lists/NotiList'
 import SearchCommunityList from 'Stories/Chunk/Lists/SearchCommunityList'
+import Submit from 'Stories/Views/Submit'
 
 var Private = () => {
 

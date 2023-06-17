@@ -16,6 +16,8 @@ import LogoDevSharpIcon from '@mui/icons-material/LogoDevSharp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGhost } from '@fortawesome/free-solid-svg-icons'
 import LiveRoles from 'Stories/Alive/LiveRoles'
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 
 const C = {
     container: css({
@@ -195,7 +197,8 @@ let Preview = ({ public_id, community_id }: any) => {
                     color: '#dbdee1',
                 }}>
                     <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>About Me</div>
-                    {data.about_me}
+                    <ReactMarkdown children={data.about_me} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
+   
                 </div>
             }
 

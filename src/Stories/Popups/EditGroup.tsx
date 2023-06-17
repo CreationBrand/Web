@@ -6,15 +6,14 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 import { useForm, Controller } from "react-hook-form";
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Dialog, Divider, Input, Button, Modal } from "@mui/material"
+import { Divider, Input, Button, Modal } from "@mui/material"
 import { useEffect, useState } from "react";
-import { textBold, textLabel, textLight, textNormal } from "Global/Mixins";
-import { HexColorPicker } from "react-colorful";
+import { textBold, textLabel, textLight, } from "Global/Mixins";
 import CommunitySelect from "Stories/Bits/CommunitySelect/CommunitySelect";
 import { socketRequest } from 'Service/Socket';
 import ColorPicker from 'Stories/Forum/ColorPicker';
-import { useRecoilState } from 'recoil';
-import { communityListData, communityTreeData } from 'State/Data';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { communityListData, communityTreeData, layoutSizeData } from 'State/Data';
 import { setRecoil } from 'recoil-nexus';
 import { communityLTL, communityLTT } from 'Helper/Clean';
 
@@ -26,6 +25,7 @@ const C = {
         justifyContent: 'center',
     }),
     popup: css({
+        position: "relative",
         overflow: "hidden",
         color: '#fff',
         background: '#272732',
@@ -41,7 +41,7 @@ const C = {
             width: '100vw',
             height: '100%',
             borderRadius: '0px',
-            padding: '70px 0px 40px',
+            padding: '40px 0px 0px',
 
         }
 
@@ -70,6 +70,7 @@ const EditGroup = ({ group, handleClose }: any) => {
     const [loading, setLoading] = useState(false);
     const [tree, setTree]: any = useRecoilState(communityTreeData)
 
+    const layoutSize = useRecoilValue(layoutSizeData)
 
     const onSubmit = async (data: any) => {
 
@@ -114,9 +115,9 @@ const EditGroup = ({ group, handleClose }: any) => {
                     onClick={handleClose}
                     css={{
                         cursor: "pointer",
-                        position: "fixed",
-                        top: "40px",
-                        right: "56px",
+                        position: layoutSize === 'mobile' ? "absolute" : "fixed",
+                        top: layoutSize === 'mobile' ? "8px" : "40px",
+                        right: layoutSize === 'mobile' ? "8px" : "56px",
                         zIndex: 4,
                         width: "44px",
                         height: "44px",
@@ -137,6 +138,8 @@ const EditGroup = ({ group, handleClose }: any) => {
                         fontSize: "28px",
                     }} />
                 </div>
+
+
 
                 <div css={C.title}>
                     <div css={textBold('x')}>Edit Group</div>

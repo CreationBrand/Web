@@ -6,7 +6,10 @@
         "dockerfile",
         "yarn-error.log",
         "README.md",
-        ".storybook"
+        ".storybook",
+        "craco.config.js",
+        "package.json",
+        "tsconfig.json"
     ],
     "files.exclude": {
         "**/.git": true,
@@ -23,6 +26,9 @@
         "dockerfile": true,
         "yarn-error.log": true,
         "README.md": true,
-        ".storybook": true
+        ".storybook": true,
+        "craco.config.js": true,
+        "package.json": true,
+        "tsconfig.json": true
     }
 }

@@ -4,7 +4,6 @@
 import { css } from '@emotion/react'
 import { Button, } from '@mui/material'
 import LiveRoles from 'Stories/Alive/LiveRoles'
-import { formatDistanceStrict, parseISO } from 'date-fns'
 import ReplyAllRoundedIcon from '@mui/icons-material/ReplyAllRounded'
 import { useRecoilState, useRecoilValue, useSetRecoilState, } from 'recoil'
 import { commentTreeData, layoutSizeData } from 'State/Data'
@@ -30,8 +29,9 @@ import useCommentLive from './useCommentLive'
 import { pathExistsSelector, pathSelector } from 'State/commentAtoms'
 import ContentLoader from '../ContentLoader/ContentLoader'
 
-
-
+// @ts-ignore
+import TimeAgo from 'react-timeago'
+import { formatTime } from 'Util/formatTime'
 
 const C = {
     container: css({
@@ -54,7 +54,7 @@ const C = {
 
     header: css({
         marginTop: '12px',
-        
+
         display: 'flex',
         gap: '8px',
         height: '36px',
@@ -262,7 +262,8 @@ const Comment = (props: any) => {
                                     global_roles={global_roles}
                                 />
 
-                                {created_at && <div css={[textLight('t'),{lineHeight:'20px'}]}> • {formatDistanceStrict(parseISO(created_at), new Date(), { addSuffix: true })}</div>}
+                                {created_at && <div css={[textLight('t'), { lineHeight: '20px' }]}><TimeAgo date={created_at} formatter={formatTime} /></div>}
+
                             </div>
                             <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                                 {community_roles && <LiveRoles value={community_roles} />}

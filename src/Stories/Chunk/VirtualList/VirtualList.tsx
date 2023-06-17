@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { useCallback, useEffect, useRef } from 'react'
+import { memo, useCallback, useEffect, useRef } from 'react'
 import { defaultRangeExtractor, useVirtualizer } from '@tanstack/react-virtual'
 import useWindow from 'Hooks/useWindow'
 import throttle from 'Util/throttle';
@@ -69,6 +69,7 @@ const VirtualList = ({ list, offset, overscan, public_id }: any) => {
                 width: '100%',
                 overflowY: 'auto',
                 contain: 'strict',
+                transform: `translate3d(0,0,0)`,
             }}
         >
             <div
@@ -76,6 +77,8 @@ const VirtualList = ({ list, offset, overscan, public_id }: any) => {
                     height: virtualizer.getTotalSize(),
                     width: '100%',
                     position: 'relative',
+                    transform: `translate3d(0,0,0)`,
+
                 }}
             >
                 <div
@@ -84,9 +87,9 @@ const VirtualList = ({ list, offset, overscan, public_id }: any) => {
                         top: 0,
                         left: 0,
                         width: '100%',
-                        touchAction:'pan-y',
-
-                        transform: `translateY(${items[0].start}px)`,
+                        touchAction: 'pan-y',
+                        // transform:`translateY(${virtualizer.scrollTop}px)`
+                        transform: `translate3d(0,${items[0].start}px,0)`,
                     }}
                 >
 
@@ -111,4 +114,4 @@ const VirtualList = ({ list, offset, overscan, public_id }: any) => {
 
 
 
-export default VirtualList
+export default memo(VirtualList)

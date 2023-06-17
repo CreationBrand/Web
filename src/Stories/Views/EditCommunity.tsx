@@ -2,15 +2,14 @@
 import { css } from '@emotion/react';
 
 import { useForm, Controller } from "react-hook-form";
-import { Divider, Input, Button, TextareaAutosize, styled } from "@mui/material"
+import { Divider, Input, Button, TextareaAutosize, styled, FormControlLabel, Radio, RadioGroup } from "@mui/material"
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { contentFlow } from "State/Flow";
 import { communityListData, communityTreeData, personData } from 'State/Data';
-import {  textLabel } from 'Global/Mixins';
+import { textLabel } from 'Global/Mixins';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
-import ImageEditor from 'Stories/Forum/ImageEditor/ImageEditor';
 import { useNavigate, useParams } from 'react-router-dom';
 import usePullCommunity from 'Hooks/usePullCommunity';
 import { GridColDef } from '@mui/x-data-grid';
@@ -20,19 +19,16 @@ import Confirm from 'Stories/Popups/Confirm';
 import { socketRequest } from 'Service/Socket';
 import { setRecoil } from 'recoil-nexus';
 import { communityLTL, communityLTT } from 'Helper/Clean';
+import FlatInput from 'Stories/Forum/FlatInput';
+import RichInput from 'Stories/Forum/RichInput';
+import ImageEditor from 'Stories/Forum/ImageEditor';
 
 
 // VALIDATION
-
 const schema = Joi.object({
-    title: Joi.string().min(5).max(300).required(),
-    community_id: Joi.string().min(10).required(),
-    type: Joi.string().required().valid('text', 'link', 'upload'),
-    content: Joi.alternatives()
-        .conditional('type', [
-            { is: 'text', then: Joi.string() },
-            { is: 'link', then: Joi.string().uri().required() },
-            { is: 'upload', then: Joi.any() }])
+    title: Joi.string().min(5).max(22).required(),
+    description: Joi.string().min(5).max(800).required(),
+    public: Joi.boolean().required(),
 })
 
 
@@ -40,7 +36,7 @@ const C = {
     container: css({
         width: '100%',
         height: 'calc(100% - 56px)',
-        padding: '22px',
+        padding: '22px 0px',
         scrollbarGutter: 'stable both-edges',
         overflow: 'auto',
         background: '#272732',
@@ -67,6 +63,7 @@ const C = {
         padding: '8px',
     }),
     row: css({
+        padding: '16px 16px 0 16px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'baseline',
@@ -97,7 +94,7 @@ const C = {
 
 
 }
-const StyledTextarea = styled(TextareaAutosize)(() => ``)
+
 
 const EditCommunity = () => {
 
@@ -108,6 +105,7 @@ const EditCommunity = () => {
     const [loadings, error, component, req] = usePullCommunity(params.community_id)
     const data = useLiveData(true, `community:${params.community_id}`)
 
+    console.log(req)
 
     // state
     const person = useRecoilValue(personData);
@@ -117,8 +115,14 @@ const EditCommunity = () => {
     const { register, handleSubmit, watch, formState: { errors }, control } = useForm({ mode: 'onChange', resolver: joiResolver(schema) });
     const [loading, setLoading] = useState(false);
 
+    const changed = watch();
+
+
     const onSubmit = async () => {
-        // console.log(data)
+        let req: any = await socketRequest('community-update', { community_id: params.community_id, ...changed })
+        if (req.status === 'ok') {
+            navigate(`/c/${params.community_id}`)
+        }
 
     };
 
@@ -151,33 +155,48 @@ const EditCommunity = () => {
 
         <div css={C.inner}>
 
+
             <div css={C.row}>
                 <div css={{
+
                     color: '#fff',
                     fontSize: "20px",
                     fontWeight: 450,
-                }}>Edit {req?.community?.title}</div>
-                <div>
-                    <Button color='secondary'>Cancel</Button>
+                }}>Edit {req?.community?.title}
+                </div>
+
+                <div css={{ display: 'flex' }}>
+
+                    <div css={{
+                        cursor: 'pointer', fontWeight: 600,
+                        color: '#d7dadc', fontSize: '16px', lineHeight: '36px', marginRight: '8px',
+                        '&:hover': {
+                            color: '#fff',
+                            textDecoration: 'underline',
+                        }
+                    }}>Reset</div>
+
                     <Button
-                        disabled={!(Object.keys(errors)?.length === 0 && errors.constructor === Object)}
+                        disabled={!(Object.keys(errors)?.length === 0 && errors.constructor === Object) ||
+                            (req.community?.title === changed.title &&
+                                req.community?.description === changed.description &&
+                                req.community?.public === changed.public) || Object.keys(changed).length === 0
+
+                        }
                         disableElevation
                         sx={{
                             marginLeft: '8px',
                             borderRadius: '8px',
                         }}
-                        onMouseDown={onSubmit} variant='contained'>Submit</Button>
+                        onMouseDown={onSubmit} variant='contained'>Update</Button>
                 </div>
             </div>
 
-            <Divider sx={{ margin: '12px' }} />
+
+            <Divider sx={{ margin: '16px' }} />
 
 
-            <form
-                css={C.form}>
-
-
-
+            <section css={{ padding: '16px 16px 0px 16px' }}>
                 <div css={{
                     margin: "6px 0px",
                     fontWeight: "bold",
@@ -188,7 +207,6 @@ const EditCommunity = () => {
                     color: '#fff',
                 }}>Display</div>
                 <div css={{
-                    margin: "0px 0px 30px",
                     fontWeight: "400",
                     fontSize: "14px",
                     lineHeight: "20px",
@@ -197,159 +215,155 @@ const EditCommunity = () => {
                     color: '#b9b6ba',
                 }}>This is how users will see your community.</div>
 
+            </section>
+
+            <section css={{ padding: '16px 16px 0px 16px' }}>
 
                 <h3 css={textLabel('s')}>Title</h3>
+                <FlatInput control={control} name="title" defaultValue={req?.community?.title} maxLength={22} />
+            </section>
 
-                <Controller
-                    name="title"
-                    control={control}
-                    defaultValue={req?.community?.title}
-                    rules={{ required: true, maxLength: 30 }}
-                    render={({ field: { onChange, value } }) => (
-                        <Input
-
-                            error={errors.title ? true : false}
-                            autoComplete="off"
-                            onChange={onChange}
-                            value={value}
-                            disableUnderline
-                            fullWidth
-                            endAdornment={<div css={{
-                                color: '#b9b6ba',
-                                marginRight: '8px',
-                                fontSize: '12px'
-                            }}>{value?.length}/30</div>}
-                            sx={{
-                                height: "42px",
-                                marginBottom: "26px",
-                            }}
-                        />
-                    )}
-                />
-
-
+            <section css={{ padding: '16px 16px 0px 16px' }}>
                 <h3 css={textLabel('s')}>description</h3>
-                <div>
-                    <Controller
-                        name="description"
+                <RichInput control={control} name="description" defaultValue={req?.community?.description} maxLength={800} />
+            </section>
 
-                        control={control}
-                        defaultValue=""
-                        rules={{ required: true, maxLength: 200 }}
-                        render={({ field: { onChange, value } }) => (
-                            <Input
-                                disableUnderline
-                                multiline
-                                fullWidth
-                                minRows={3}
-                                placeholder="Type a description..."
-                                onChange={onChange}
+            <section css={{ padding: '16px 16px 0px 16px' }}>
+                <h3 css={textLabel('s')}>Visibility</h3>
+                <Controller
+                    name='public'
+                    control={control}
+                    defaultValue={req?.community?.public}
+                    render={({ field: { onChange, value }, formState: { errors } }) => (
+                        <>
+                            <RadioGroup
                                 value={value}
+                                onChange={onChange}
+                            >
+                                <FormControlLabel
+                                    sx={{
+                                        margin: '0px',
+                                        borderRadius: '8px',
+                                        width: '100%',
+                                        background: '#181820',
+                                        color: '#f2f3f5 !important',
+                                    }}
+                                    value={false} control={<Radio />} label="Not Safe For Work" />
+                                <FormControlLabel
+                                    sx={{
+                                        margin: '0px',
+                                        marginTop: '4px',
+                                        borderRadius: '8px',
+                                        width: '100%',
+                                        color: '#f2f3f5 !important',
+                                        background: '#181820',
+                                        fontFamily: 'noto sans !important',
 
-                                //@ts-ignore
-                                endAdornment={<div css={{
-                                    top: '8px',
-                                    right: '8px',
-                                    color: '#b9b6ba',
-                                    marginRight: '8px',
-                                    fontSize: '12px'
-                                }}>{value?.length}/200</div>}
+                                    }}
 
-                            />
-                        )}
-                    />
-                </div>
-            </form>
+                                    value={true} control={<Radio />} label="Safe For Work" />
+                            </RadioGroup>
+                        </>
+                    )} />
+            </section>
+
 
             <Divider sx={{ margin: '12px' }} />
 
+            <section css={{ padding: '16px 16px 0px 16px' }}>
+                <div css={{
+                    margin: "6px 0px",
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                    lineHeight: "22px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#fff',
+                }}>Images</div>
+                <div css={{
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    lineHeight: "20px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#b9b6ba',
+                }}>Avatars are 80px by 80px. Community Banners need a min height of 140px. JPEG / JPG ONLY </div>
 
-            <div css={{
-                margin: "6px 0px",
-                fontWeight: "bold",
-                fontSize: "18px",
-                lineHeight: "22px",
-                wordBreak: "normal",
-                textDecoration: "none",
-                color: '#fff',
-            }}>Images</div>
-            <div css={{
-                margin: "0px 0px 30px",
-                fontWeight: "400",
-                fontSize: "14px",
-                lineHeight: "20px",
-                wordBreak: "normal",
-                textDecoration: "none",
-                color: '#b9b6ba',
-            }}>Avatars are 80px by 80px. Community Banners need a min height of 140px. </div>
+            </section>
 
+            <section css={{ padding: '16px 16px 0px 16px' }}>
+                <div css={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
 
+                    <div>
+                        <h3 css={textLabel('s')}>Avatar</h3>
+                        <ImageEditor type='avatar' api='community-avatar' id={req?.community?.public_id} />
+                        <div css={{ marginBottom: "26px" }} />
+                    </div>
 
-            <div css={{ display: 'flex', gap: '12px' }}>
+                    <div>
+                        <div css={textLabel('s')}>Banner</div>
+                        <ImageEditor
+                            width='800'
+                            height='140'
+                            type='banner' api='community-banner' id={req?.community?.public_id} />
+                        <div css={{ marginBottom: "26px" }} />
+                    </div>
 
-                <div>
-                    <h3 css={textLabel('s')}>Avatar</h3>
-
-                    <ImageEditor type='avatar' api='community-avatar' id={req?.community?.public_id} />
-                    <div css={{ marginBottom: "26px" }} />
                 </div>
-                <div>
-                    <div css={textLabel('s')}>Banner</div>
-                    <ImageEditor
-                        width='800'
-                        height='140'
-                        type='banner' api='community-banner' id={req?.community?.public_id} />
-                    <div css={{ marginBottom: "26px" }} />
-                </div>
+            </section>
 
-            </div>
 
             <Divider sx={{ margin: '12px' }} />
 
+            <section css={{ padding: '16px 16px 0px 16px' }}>
 
+                <div css={{
+                    margin: "6px 0px",
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                    lineHeight: "22px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#fff',
+                }}>Roles and Flairs</div>
+                <div css={{
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    lineHeight: "20px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#b9b6ba',
+                }}>Base Roles can not be edited or deleted.</div>
+            </section>
 
-            <div css={{
-                margin: "6px 0px",
-                fontWeight: "bold",
-                fontSize: "18px",
-                lineHeight: "22px",
-                wordBreak: "normal",
-                textDecoration: "none",
-                color: '#fff',
-            }}>Roles and Flairs</div>
-            <div css={{
-                margin: "0px 0px 30px",
-                fontWeight: "400",
-                fontSize: "14px",
-                lineHeight: "20px",
-                wordBreak: "normal",
-                textDecoration: "none",
-                color: '#b9b6ba',
-            }}>Base Roles can not be edited or deleted.</div>
+            <section css={{ padding: '16px 16px 0px 16px' }}>
+                <RoleEditor roles={data.community_roles} public_id={data.public_id}></RoleEditor>
+            </section>
 
-            <RoleEditor roles={data.community_roles} public_id={data.public_id}></RoleEditor>
+            <section css={{ padding: '16px 16px 0px 16px' }}>
 
+                <div css={{
+                    margin: "6px 0px",
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                    lineHeight: "22px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#fff',
+                }}>WARNING</div>
+                <div css={{
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    lineHeight: "20px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#b9b6ba',
+                }}>Deletes are irreversible.</div>
+            </section>
 
-            <div css={{
-                margin: "6px 0px",
-                fontWeight: "bold",
-                fontSize: "18px",
-                lineHeight: "22px",
-                wordBreak: "normal",
-                textDecoration: "none",
-                color: '#fff',
-            }}>WARNING</div>
-            <div css={{
-                margin: "0px 0px 30px",
-                fontWeight: "400",
-                fontSize: "14px",
-                lineHeight: "20px",
-                wordBreak: "normal",
-                textDecoration: "none",
-                color: '#b9b6ba',
-            }}>Deletes are irreversible.</div>
-
-            <Confirm onDelete={handleDelete} />
+            <section css={{ padding: '16px 16px 0px 16px' }}>
+                <Confirm onDelete={handleDelete} />
+            </section>
 
         </div>
     </div >

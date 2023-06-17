@@ -12,7 +12,6 @@ import { useRecoilValue } from 'recoil'
 import { authFlow, contentFlow, filterFlow } from 'State/Flow'
 import { textBold, textLight } from 'Global/Mixins'
 import RightMenu from 'Stories/Bits/RightMenu/RightMenu'
-import { formatDistanceStrict, parseISO } from 'date-fns'
 import VisibilitySensor from 'react-visibility-sensor';
 import LiveComments from 'Stories/Alive/LiveComments'
 import LiveViews from 'Stories/Alive/LiveViews'
@@ -23,6 +22,11 @@ import LiveRoles from 'Stories/Alive/LiveRoles'
 import { hasSeen } from 'State/seenAtom'
 import usePostList from 'Hooks/Pull/usePostList'
 import usePostLive from './usePostLive'
+
+// @ts-ignore
+import TimeAgo from 'react-timeago'
+import { formatTime } from 'Util/formatTime'
+
 
 const C = {
     container: css({
@@ -70,7 +74,7 @@ const Post = (props: any) => {
     // proxing data
     const [inView, setVisibility] = useState(false)
     const data: any = usePostLive(inView, props)
-    const {visibility, public_id, title, content, created_at, author, community, vote, karma, views, comments, tags, type, community_roles, global_roles } = data
+    const { visibility, public_id, title, content, created_at, author, community, vote, karma, views, comments, tags, type, community_roles, global_roles } = data
 
 
 
@@ -115,7 +119,8 @@ const Post = (props: any) => {
                                     community_id={community?.public_id}
                                     global_roles={global_roles}
                                 />
-                                <span css={textLight('t')}> • {formatDistanceStrict(parseISO(created_at), new Date(), { addSuffix: true })}</span>
+                                <span css={textLight('s')}><TimeAgo date={created_at} formatter={formatTime} /></span>
+
                             </div>
 
                             <div css={{ display: 'flex', alignItems: 'center', gap: '4px', height: '20px' }}>
@@ -130,9 +135,8 @@ const Post = (props: any) => {
                                 <div css={{ display: 'flex', gap: '4px', alignItems: 'baseline' }}>
                                     <CommunityTitle title={community?.title} public_id={community?.public_id} />
 
-                                    <div css={textLight('t')}> • {formatDistanceStrict(parseISO(created_at), new Date(), {
-                                        addSuffix: true
-                                    })}</div>
+                                    <span css={textLight('s')}><TimeAgo date={created_at} formatter={formatTime} /></span>
+
                                 </div>
                                 <div css={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                                     <Nickname title={author?.nickname} public_id={author?.public_id} global_roles={global_roles} />

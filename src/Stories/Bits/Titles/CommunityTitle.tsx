@@ -17,6 +17,15 @@ import { useRecoilValue } from 'recoil'
 import { communityListData } from 'State/Data'
 import { authFlow } from 'State/Flow'
 import Online from '../Online/Online'
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
+import { isAdmin } from 'Service/Rbac'
+
+
+
+import TTLCache from '@isaacs/ttlcache';
+
+const cache = new TTLCache({ max: 10000, ttl: 60000 })
 
 const C = {
     container: css({
@@ -140,8 +149,14 @@ let Preview = ({ public_id }: any) => {
     // get community data
     useEffect(() => {
         (async () => {
-            let temp: any = await socketRequest('community', { community_id: public_id })
-            setData(temp.community)
+            if (cache.has(`community:${public_id}`)) {
+                setData(cache.get(`community:${public_id}`))
+                return
+            } else {
+                let temp: any = await socketRequest('community', { community_id: public_id })
+                setData(temp.community)
+                cache.set(`community:${public_id}`, temp.community)
+            }
         })()
     }, [public_id])
 
@@ -200,6 +215,7 @@ let Preview = ({ public_id }: any) => {
 
                     {authState !== 'guest' && <div css={D.action}>
                         <Button
+                            disabled={!isAdmin(data?.roleHex)}
                             onClick={handleJoin}
                             disableElevation
                             sx={{
@@ -221,7 +237,8 @@ let Preview = ({ public_id }: any) => {
                         fontSize: '14px',
                         color: '#dbdee1',
                     }}>
-                        {data.description}
+                        <ReactMarkdown children={data.description} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
+
                     </div>
                 }
 

@@ -30,7 +30,7 @@ import FlatInput from 'Stories/Forum/FlatInput';
 
 // VALIDATION
 const schema = Joi.object({
-    title: Joi.string().min(5).max(300).required(),
+    title: Joi.string().min(5).max(150).required(),
     community_id: Joi.string().min(10).required(),
     type: Joi.string().required().valid('text', 'link', 'upload'),
     content: Joi.alternatives()
@@ -51,6 +51,7 @@ const C = {
         background: '#272732',
         marginTop: '8px',
         borderRadius: '8px',
+        touchAction: 'pan-y',
 
     }),
     inner: css({
@@ -140,7 +141,7 @@ const Submit = () => {
 
             <section css={{ padding: '16px 16px 0 16px' }}>
                 <div css={textLabel('s')}>title</div>
-                <FlatInput name='title' maxLength={300} control={control}></FlatInput>
+                <FlatInput name='title' maxLength={150} control={control}></FlatInput>
             </section>
 
 

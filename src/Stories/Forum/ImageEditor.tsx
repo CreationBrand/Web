@@ -25,8 +25,8 @@ const C = {
         background: '#272732',
         height: "auto",
         margin: "0 auto",
-        borderRadius: "24px",
-        boxShadow: "0px 8px 80px rgba(0,0,0,0.4)",
+        borderRadius: "8px",
+        // boxShadow: "0px 8px 80px rgba(0,0,0,0.8)",
     }),
     dropzone: css({
         width: '120px',
@@ -77,8 +77,8 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
         const canvas = editor.current.getImage()
         const canvasScaled = editor.current.getImageScaledToCanvas()
 
-        let req = await socketRequest(api, { community_id: id, file: canvasScaled.toDataURL() })
-
+        let req:any = await socketRequest(api, { community_id: id, file: canvasScaled.toDataURL() })
+        if(req.status === 'ok') handleClose()
     }
 
 
@@ -106,29 +106,6 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
         </div>
 
 
-        {/* <div css={C.buttons}>
-
-            <Button
-                disableElevation
-                sx={{
-                    display: "flex",
-                    height: "42px",
-                    borderRadius: "8px",
-                    fontSize: "14px",
-                    fontWeight: 600,
-                    lineHeight: "24px",
-                }}
-                onClick={handleOpen}
-                variant="contained" size='small' component="label">
-                Upload
-                <input
-                    onChange={handleImage}
-                    hidden accept="image/*" multiple type="file" />
-            </Button>
-
-
-        </div> */}
-
         <Modal open={open} onClose={handleClose} css={C.container} >
 
             <div css={C.popup}>
@@ -139,7 +116,7 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
                         width={type === 'banner' ? 800 : 80}
                         height={type === 'banner' ? 140 : 80}
                         border={30}
-                        color={[0, 0, 0, 0.3]}
+                        color={[0, 0, 0, 0.5]}
                         scale={scale}
                         rotate={0}
                     />

@@ -133,9 +133,6 @@ const CommunityPane = ({ public_id }: any) => {
     const community: any = useRecoilValue(communityFlow)
     const communityList = useRecoilValue(communityListData)
 
-
-    console.log('community', community)
-
     const handleEdit = (e: any) => {
         e.stopPropagation()
         navigate(`/c/${data.public_id}/edit`)

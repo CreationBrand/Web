@@ -4,7 +4,6 @@
 import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded';
 import { bold, heading3, smMuted, xsMuted } from "Stories/Bits/Text/Text";
 import { Link } from "react-router-dom";
-import ImageEditor from "Stories/Forum/ImageEditor/ImageEditor";
 import { useRecoilValue } from "recoil";
 import { sessionData } from "State/Data";
 import Grid from "@mui/system/Unstable_Grid";
@@ -14,6 +13,7 @@ import { Button, Divider, IconButton, Tab, Tabs } from "@mui/material";
 import { memo, useState } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import theme from 'Global/Theme';
+import ImageEditor from 'Stories/Forum/ImageEditor';
 
 
 

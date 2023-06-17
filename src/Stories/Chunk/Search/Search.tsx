@@ -1,23 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { Autocomplete, ClickAwayListener, Input, Popover, Popper, styled } from '@mui/material'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { ClickAwayListener, Input, Popper, } from '@mui/material'
+import { useCallback, useEffect, useState } from 'react'
 import { socketRequest } from 'Service/Socket'
-
-import { Menu } from '@mui/material';
-import { mBold, mMuted, sBold, sMuted, sNormal } from 'Stories/Bits/Text/Text';
 import Avatar from 'Stories/Bits/Avatar/Avatar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faYinYang } from '@fortawesome/free-solid-svg-icons';
 import { textLabel, textLight } from 'Global/Mixins';
 import { useNavigate } from 'react-router-dom';
-import { boolean } from 'joi';
-import { communityData, layoutSizeData } from 'State/Data';
+import { layoutSizeData } from 'State/Data';
 import { useRecoilValue } from 'recoil';
 import { communityFlow, contentFlow } from 'State/Flow';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { set } from 'date-fns';
 
 
 const s = css({
@@ -72,12 +67,11 @@ const Search = () => {
 
     const removeTag = () => setShowTag(false)
     const handleSearch = (e: any) => {
-        console.log(e.key)
 
         if (e.key === 'Backspace') {
             if (query.length === 0) setShowTag(false)
         }
-        else if (e.key === 'Enter') {
+        else if (e.key === 'Enter' || e.key === 'Tab') {
             setAnchorEl(null)
 
             if (showTag && current) navigate(`/c/${current?.public_id}/search/${query}`)
@@ -201,7 +195,7 @@ const Search = () => {
 
 
     useEffect(() => {
-        if (content === 'community') {
+        if (content === 'community' || content === 'post' || content === 'comment') {
             setShowTag(true)
         }
         else setShowTag(false)
@@ -214,7 +208,7 @@ const Search = () => {
             position: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'absolute' : 'relative',
         }}>
         <Input
-            type="text"
+            type="search"
             startAdornment={
                 <div css={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <FontAwesomeIcon css={{ marginLeft: '14px', color: '#bcbdbe', fontSize: '16px' }} icon={faMagnifyingGlass} />

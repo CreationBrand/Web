@@ -11,12 +11,12 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useNavigate } from "react-router-dom";
 import { socketRequest } from "Service/Socket";
 import { communityLTT } from "Helper/Clean";
-import { communityTreeData } from "State/Data";
+import { communityTreeData, layoutSizeData } from "State/Data";
 import FlatInput from "Stories/Forum/FlatInput";
 import Joi from "joi";
 import { joiResolver } from "@hookform/resolvers/joi";
 import ColorPicker from "Stories/Forum/ColorPicker";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 const C = {
     container: css({
@@ -86,6 +86,8 @@ const AddGroup = ({ open, onClose }: any) => {
         mode: 'onChange',
         resolver: joiResolver(schema)
     });
+    
+    const layoutSize = useRecoilValue(layoutSizeData)
 
     const data = watch()
     usePreventBackNavigation(onClose)
@@ -111,13 +113,13 @@ const AddGroup = ({ open, onClose }: any) => {
         <Modal open={open} onClose={onClose} css={C.container} >
             <div css={C.popup}>
 
-                <div
+            <div
                     onClick={onClose}
                     css={{
                         cursor: "pointer",
-                        position: "fixed",
-                        top: "40px",
-                        right: "56px",
+                        position: layoutSize === 'mobile' ? "absolute" : "fixed",
+                        top: layoutSize === 'mobile' ? "8px" : "40px",
+                        right: layoutSize === 'mobile' ? "8px" : "56px",
                         zIndex: 4,
                         width: "44px",
                         height: "44px",
@@ -126,7 +128,6 @@ const AddGroup = ({ open, onClose }: any) => {
                         fontSize: "0",
                         WebkitTransition: "border-color .2s",
                         transition: "border-color .2s",
-
                         '&:hover': {
                             borderColor: '#fff'
                         },
@@ -139,7 +140,6 @@ const AddGroup = ({ open, onClose }: any) => {
                         fontSize: "28px",
                     }} />
                 </div>
-
                 <div css={C.title}>
                     <div css={textBold('x')}>Create Group</div>
                     <div css={textLight('t')}>Group communitys to create seperate feeds.</div>

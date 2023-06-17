@@ -15,6 +15,8 @@ import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 import { useRecoilValue } from 'recoil'
 import { authFlow } from 'State/Flow'
 import LiveRoles from 'Stories/Alive/LiveRoles'
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 
 const C = {
     container: css({
@@ -41,7 +43,7 @@ const Nickname = ({ title, public_id, community_id, global_roles }: any) => {
 
     const [anchorEl, setAnchorEl] = useState(null)
     const navigate = useNavigate()
-    const handleClick = () => { 
+    const handleClick = () => {
         navigate(`/p/${public_id}`)
     }
 
@@ -190,7 +192,7 @@ let Preview = ({ public_id, community_id }: any) => {
                         color: '#dbdee1',
                     }}>
                         <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>About Me</div>
-                        {data.about_me}
+                        <ReactMarkdown children={data.about_me} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
                     </div>
                 }
 
