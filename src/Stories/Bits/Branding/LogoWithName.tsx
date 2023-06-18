@@ -47,13 +47,15 @@ const LogoWithName = () => {
             <div css={C.column}>
                 <div css={{
                     color: '#fff',
-                    fontFamily: 'Sigmar',
+                    fontFamily: 'Noto Sans',
                     fontSize: '20px',
                     letterSpacing: '1px',
                     lineHeight: '20px',
+                    fontWeight: '800',
                 }}>ARTRAM
                     <div
                         css={{
+                            fontWeight: 'normal',
                             fontFamily: 'Noto Sans',
                             fontSize: '12px',
                             lineHeight: '12px',

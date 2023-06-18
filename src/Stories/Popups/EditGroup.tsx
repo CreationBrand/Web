@@ -98,7 +98,6 @@ const EditGroup = ({ group, handleClose }: any) => {
 
     // setDefaultValues
     useEffect(() => {
-        console.log(group)
         let currentChildren = group?.children?.map((child: any) => child.public_id)
         setValue('title', group?.title)
         setValue('children', currentChildren)

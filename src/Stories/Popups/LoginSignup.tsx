@@ -143,9 +143,6 @@ const LoginSignup = ({ open, handleClose }: any) => {
         }
     }
 
-
-
-    console.log(errors)
     return (
         <Modal open={open} onClose={handleClose} css={C.container} >
             <div css={C.popup}>

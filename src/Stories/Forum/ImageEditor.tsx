@@ -76,9 +76,16 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
 
         const canvas = editor.current.getImage()
         const canvasScaled = editor.current.getImageScaledToCanvas()
+        let req: any = null
 
-        let req:any = await socketRequest(api, { community_id: id, file: canvasScaled.toDataURL() })
-        if(req.status === 'ok') handleClose()
+        if (api === 'community-banner' || api === 'community-avatar') {
+            req = await socketRequest(api, { community_id: id, file: canvasScaled.toDataURL() })
+        }
+        else if (api === 'person-avatar' || api === 'person-banner') {
+            req = await socketRequest(api, { file: canvasScaled.toDataURL() })
+        }
+
+        if (req?.status === 'ok') handleClose()
     }
 
 

@@ -1,23 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from '@mui/material';
 
 
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react"
-import { Navigate, useNavigate } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue } from "recoil";
-import { openDM } from 'Service/Action';
+import rehypeRaw from 'rehype-raw';
 import { socketRequest } from "Service/Socket";
 import { postListData, virtualListStateFamily } from "State/Data";
 import { authFlow, socketFlow } from "State/Flow";
 import Avatar from 'Stories/Bits/Avatar/Avatar';
-import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import MainPost from "Stories/Chunk/Post/Post";
 
-var treeify = require('treeify');
 
 
 
@@ -31,7 +26,8 @@ const C = {
     inner: css({
         margin: '0 auto',
         width: '100%',
-        height: '56px',
+        // height: '56px',
+        height: 'auto',
         background: '#272732',
         borderRadius: '8px',
         padding: '8px',
@@ -135,7 +131,10 @@ const useSearch = (type: string, query: string) => {
 
                             <div>
                                 <div css={{ fontSize: '16px', fontWeight: '600' }}>{req.communitys[i].title}</div>
-                                <div css={{ fontSize: '12px', color: '#d7dadc', fontWeight: '300' }}>{req.communitys[i].description}</div>
+
+                                <ReactMarkdown children={req.communitys[i].description} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
+
+                                {/* <div css={{ fontSize: '12px', color: '#d7dadc', fontWeight: '300' }}>{req.communitys[i].description}</div> */}
                             </div>
 
                         </div>

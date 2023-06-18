@@ -15,7 +15,6 @@ const usePostLive = (active: boolean, props: any) => {
 
         function subscribe(value: any) {
 
-            console.log('subscribe', value)
 
             if (!value || value === undefined) return null
 

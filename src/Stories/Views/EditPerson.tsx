@@ -31,7 +31,7 @@ const C = {
     container: css({
         width: '100%',
         height: 'calc(100% - 56px)',
-        padding: '22px',
+        padding: '22px 0px',
         scrollbarGutter: 'stable both-edges',
         overflow: 'auto',
         background: '#272732',
@@ -104,10 +104,9 @@ const EditPerson = () => {
     const changed = watch()
 
     const onSubmit = async () => {
-        console.log('submit', changed)
         let req: any = await socketRequest('person-update', { ...changed })
         if (req.status === 'ok') {
-            navigate(`/p/${person.username}`)
+            navigate(`/p/${person.public_id}`)
         }
         // else console.log('error')
 
@@ -158,7 +157,7 @@ const EditPerson = () => {
                 }}>Display</div>
                 <div css={{
                     margin: "0px 0px 30px",
-                    fontWeight: "400",
+                    fontWeight: "400",  
                     fontSize: "14px",
                     lineHeight: "20px",
                     wordBreak: "normal",
@@ -209,7 +208,7 @@ const EditPerson = () => {
                     wordBreak: "normal",
                     textDecoration: "none",
                     color: '#b9b6ba',
-                }}>Avatars are 80px by 80px. Community Banners need a min height of 140px. JPEG / JPG ONLY </div>
+                }}>Notice only accepts JPG/JPEG files. Also will take a few minutes to update. </div>
 
             </section>
 
@@ -227,7 +226,7 @@ const EditPerson = () => {
                         <ImageEditor
                             width='800'
                             height='140'
-                            type='banner' api='community-banner' id={person.public_id} />
+                            type='banner' api='person-banner' id={person.public_id} />
                         <div css={{ marginBottom: "26px" }} />
                     </div>
 
