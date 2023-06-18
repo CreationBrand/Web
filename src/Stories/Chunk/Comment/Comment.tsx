@@ -5,9 +5,9 @@ import { css } from '@emotion/react'
 import { Button, } from '@mui/material'
 import LiveRoles from 'Stories/Alive/LiveRoles'
 import ReplyAllRoundedIcon from '@mui/icons-material/ReplyAllRounded'
-import { useRecoilState, useRecoilValue, useSetRecoilState, } from 'recoil'
-import { commentTreeData, layoutSizeData } from 'State/Data'
-import { useEffect, useState } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { layoutSizeData } from 'State/Data'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
 import AddComment from './AddComment'
@@ -20,7 +20,6 @@ import { textBold, textLight } from 'Global/Mixins'
 import LiveTags from '../../Alive/LiveTags'
 import Nickname from 'Stories/Bits/Titles/Nickname'
 import LiveVotes from 'Stories/Alive/LiveVotes'
-import Right from 'Stories/Layout/Right'
 import RightMenu from 'Stories/Bits/RightMenu/RightMenu'
 import { authFlow, filterFlow } from 'State/Flow'
 import useLiveData from 'Hooks/useLiveData'
@@ -32,6 +31,7 @@ import ContentLoader from '../ContentLoader/ContentLoader'
 // @ts-ignore
 import TimeAgo from 'react-timeago'
 import { formatTime } from 'Util/formatTime'
+import CommentMenu from 'Stories/Menu/CommentMenu'
 
 const C = {
     container: css({
@@ -51,16 +51,12 @@ const C = {
         display: 'flex',
 
     }),
-
     header: css({
         marginTop: '12px',
-
         display: 'flex',
         gap: '8px',
         height: '36px',
     }),
-
-
     comment: css({
         width: '100%',
     }),
@@ -106,16 +102,16 @@ const C = {
 
     }),
     float: css({
-        marginTop: '12px',
+        overflow: 'hidden',
+        marginTop: '16px',
         marginBottom: '8px',
         background: '#3b3b4b',
         borderRadius: '8px',
         width: 'min-content',
-        height: '28px',
+        height: '30px',
         display: 'flex',
         alignItems: 'center',
     }),
-
     left: css({
         display: 'flex',
         flexDirection: 'column',
@@ -126,9 +122,7 @@ const C = {
         borderTopLeftRadius: '8px',
         borderTopRightRadius: '8px',
         marginTop: '8px',
-        paddingTop: '8px',
         boxShadow: '0 1px 2px rgba(0,0,0,0.9), 0 0px 2px',
-
     }),
     tailComment: css({
         borderBottomLeftRadius: '8px',
@@ -160,8 +154,6 @@ const colors: any = {
     3: '#a6be28',
     4: '#be8428',
     5: '#be3d28',
-
-
     6: '#6f38be',
     7: '#4c5ad0',
     8: '#63be28',
@@ -171,25 +163,11 @@ const colors: any = {
 
 const Comment = (props: any) => {
 
-    const [vote,
-        tags,
-        community_roles,
-        global_roles,
-        visibility,
-        author,
-        content,
-        created_at,
-        depth,
-        karma,
-        last,
-        path,
-        public_id,
-        sort_path,
-        updated_at,
-        active,
-        id,
-        hasChildren,
-    ] = useCommentLive(false, props)
+    const [inView, setVisibility] = useState(false)
+
+    const [vote, tags, community_roles, global_roles, visibility, author, content, created_at,
+        depth, karma, last, path, public_id, sort_path, updated_at, active, id, hasChildren,
+    ] = useCommentLive(true, props)
 
     const params = useParams()
     const [showReply, setShowReply] = useState(false)
@@ -201,8 +179,8 @@ const Comment = (props: any) => {
     const doesPathExist = useRecoilValue(pathExistsSelector);
     const status = doesPathExist(path);
 
+    const handleVisibility = (isVisible: boolean) => setVisibility(isVisible)
     const handleReply = () => setShowReply(!showReply)
-
     const handleSpacer = (e: any) => {
         let parts = path.split('.')
         if (!hasChildren && (parts.length === Number(e.currentTarget.dataset.key) + 2)) return
@@ -225,15 +203,14 @@ const Comment = (props: any) => {
         else spacers.push(<div css={C.spacerMobile} key={i} style={{ background: colors[i] }} />)
     }
 
-
     return (
-
+        // <VisibilitySensor onChange={handleVisibility}>
         <div css={C.container}>
 
             <div css={[C.inner, depth == 2 && C.headComment, last && C.tailComment]}>
                 <div css={C.spacers}>{spacers}</div>
 
-                <div css={C.comment}>
+                <div css={[C.comment, { marginLeft: layoutState === 'mobile' ? '4px' : '0px' }]}>
 
                     <div style={{ marginBottom: layoutState === 'mobile' ? '8px' : '0px' }} css={C.header}>
 
@@ -270,7 +247,7 @@ const Comment = (props: any) => {
                                 {tags && <LiveTags value={tags} />}
                             </div>
                         </div>
-                        {authState !== 'guest' && <RightMenu tags={tags} type={'comment'} public_id={public_id} global_roles={global_roles} community_roles={community_roles} />}
+                        {authState !== 'guest' && <CommentMenu person_id={author.public_id} tags={tags} comment_id={public_id} global_roles={global_roles} community_roles={community_roles} />}
 
                     </div>
 
@@ -319,41 +296,11 @@ const Comment = (props: any) => {
             </div>
         </div>
 
-
+        // </VisibilitySensor>
     )
 }
 
 export default Comment
 
-
-
-function goDeep(obj: any, path: any) {
-    var parts = path.split('.'),
-        rv,
-        index;
-
-    for (rv = obj, index = 1; rv && index < parts.length; ++index) {
-
-        if (index === 1) { rv = rv[parts[index]] }
-        else {
-            rv = rv.children[parts[index]];
-
-        }
-
-    }
-    return rv;
-}
-
-function traverseTree(tree: any, callback: any) {
-    callback(tree);
-
-    for (const key in tree) {
-        if (typeof tree[key] === 'object') {
-            traverseTree(tree[key], callback);
-        }
-    }
-
-
-}
 
 

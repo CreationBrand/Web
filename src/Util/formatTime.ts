@@ -11,6 +11,5 @@ let times: any = {
 
 
 export const formatTime = (a: any, b: any, c: any, d: any) => {
-
     return ` • ${a}${times[b]}`
 };

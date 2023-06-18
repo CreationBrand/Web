@@ -3,8 +3,6 @@
 import { css } from "@emotion/react"
 
 
-import { faUserSlash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { personData } from "State/Data";
 import Avatar from "Stories/Bits/Avatar/Avatar";
 import BitSet from "bitset";

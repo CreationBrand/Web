@@ -52,6 +52,7 @@ const Avatar = ({ public_id, size, onClick }: Props) => {
     return (
         <motion.div whileTap={{ scale: 0.9 }} css={C.icon} onClick={handleClick}>
             <img
+                loading="lazy"
                 css={C.image}
                 onError={handleImgError}
                 src={`${process.env.REACT_APP_CLOUDFRONT}/avatar/${public_id}`}

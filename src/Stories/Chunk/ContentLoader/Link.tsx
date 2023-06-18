@@ -6,7 +6,6 @@ import { memo } from 'react'
 import { useQuery } from '@tanstack/react-query';
 import Walk from 'Stories/Bits/ChunkError/Walk';
 import Player from './Player';
-import { ErrorBoundary } from "react-error-boundary";
 import Image from './Image';
 
 const proxy = "https://cors.creationbrand.workers.dev"
@@ -79,29 +78,35 @@ const Link = ({ url }: any) => {
     }
 
 
+    // console.log('DATA', data)
+
     try {
 
-        // console.log(data)
 
         if (isLoading) return <div css={C.container}><Walk /></div>
-        else if (data?.mediaType === "video.other" && data?.siteName === 'YouTube') { }
-        else if (url.slice(-5) === ".jpeg") return <Image url={`${url}`} />
-        else if (url.slice(-4) === ".jpg") return <Image url={`${url}`} />
-        else if (url.slice(-4) === ".png") return <Image url={`${url}`} />
-        else if (url.slice(-4) === ".mp4") return <Player url={`${url}`} />
-        else if (url.slice(-4) === ".gif") return <Image url={`${url}`} />
+
+        // IMGUR TYPES
+        else if (data?.siteName === "Imgur") {
+            if (data?.videos?.length) {
+                let video = data.videos[0].url
+                if (video.includes('.gif')) return <Image url={`${proxy}/${video}`} />
+                else return <Player url={`${proxy}/${video}`} />
+            }
+            else if (data?.images?.length) return <Image url={`${proxy}/${data?.images[0]}`} />
+        }
+
+
+
+        else if (data.contentType === 'text/html' && data?.title === 'YouTube') { }
         else if (data?.contentType === "application/x-mpegurl") return <Player url={url} />
         else if (data?.siteName === 'EPORNER.COM' && data?.images?.length) return <Image url={`${proxy}/${data?.images[0]}`} />
         else if (data?.mediaType === "article") { }
         else if (data?.mediaType === "video.other" && data?.siteName === 'Tenor') return <Player url={`${proxy}/${data?.videos[0]?.url}`} />
-        // else if (data?.mediaType === "video.other" && data?.siteName === 'YouTube') return <Player url={data?.url} />
         else if (data?.mediaType === "video.other" && data?.siteName === 'Twitch') return <Player url={`${proxy}/${data?.url}`} />
         else if (data?.mediaType === "video.other" && data?.siteName === 'Imgur') return <Player url={`${proxy}/${data?.videos[0]?.url}`} />
         else if (data?.mediaType === "video" && data.siteName === 'RedGIFs') return <Player url={`${proxy}/${data?.videos[0]?.url}`} />
         else if (data?.videos.length && data?.videos[0]?.url) return <Player url={`${proxy}/${data?.videos[0]?.url}`} />
         else if (data?.images?.length && data?.images[0]) return <Image url={`${proxy}/${data?.images[0]}`} />
-
-
 
         return (<div css={C.container} onClick={handleClick}>
             {data?.images?.length && <img src={data?.images[0]} css={C.image} />}
@@ -112,7 +117,6 @@ const Link = ({ url }: any) => {
         </div>)
 
     } catch (e) {
-        console.log(e)
         return <div css={C.container}> <Walk /> </div>
     }
 

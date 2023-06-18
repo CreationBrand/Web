@@ -9,14 +9,11 @@ import { useRecoilValue } from 'recoil';
 import { communityFlow, contentFlow } from 'State/Flow';
 
 // ICONS
-import StyleRoundedIcon from '@mui/icons-material/StyleRounded';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import EditAttributesIcon from '@mui/icons-material/EditAttributes';
 import ReportGmailerrorredRoundedIcon from '@mui/icons-material/ReportGmailerrorredRounded';
 import GavelRoundedIcon from '@mui/icons-material/GavelRounded';
 import { layoutSizeData } from 'State/Data';
-import { canManageTags } from 'Service/Rbac';
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 import TagMenu from './TagMenu';
 import RoleMenu from './RoleMenu';
 import MovePostMenu from './MovePostMenu';
@@ -37,39 +34,18 @@ const StyledPopper = styled(Popper)(({ theme }) => ({
 const PostMenu = ({ anchorEl, setAnchorEl, person_id,
     community_roles, tags, public_id, type }: any) => {
 
-    let layout = useRecoilValue(layoutSizeData)
     let content = useRecoilValue(contentFlow)
-    let community = useRecoilValue(communityFlow)
 
 
-
-    // console.log(community_roles, )
-
-    const [aTags, setATags] = useState(null)
-    const [rTags, setRTags] = useState(null)
 
 
     const handleClose = () => {
         if (anchorEl) anchorEl.focus();
         setAnchorEl(null);
-        setATags(null)
-        setRTags(null)
-    };
 
-    const openTag = (e: any) => {
-        e.preventDefault()
-        e.stopPropagation()
-        setATags(e.currentTarget);
-        setRTags(null)
     };
 
 
-    const openRole = (e: any) => {
-        e.preventDefault()
-        e.stopPropagation()
-        setATags(null);
-        setRTags(e.currentTarget)
-    };
     if (!anchorEl) return null
 
 
@@ -92,16 +68,19 @@ const PostMenu = ({ anchorEl, setAnchorEl, person_id,
 
         <ClickAwayListener onClickAway={handleClose}>
             <div onMouseLeave={handleClose}>
-                {(content === 'comment' || content === 'community' || content === 'post') && <TagMenu current={tags} public_id={public_id} type={type} />}
-                {(content === 'comment' || content === 'community' || content === 'post') && <RoleMenu current={community_roles} person_id={person_id} public_id={public_id} />}
-                {(content === 'comment' || content === 'community' || content === 'post') && <MovePostMenu post_id={public_id} />}
+                {(content === 'comment' || content === 'community' || content === 'post') &&
+                    <>
+                        <TagMenu current={tags} public_id={public_id} type={type} />
+                        <RoleMenu current={community_roles} person_id={person_id} public_id={public_id} type={'post'} />
+                        <MovePostMenu post_id={public_id} />
+                    </>}
                 <MenuItem disabled={true}>Global Roles <AdminPanelSettingsOutlinedIcon /></MenuItem>
                 <MenuItem disabled={true}>Moderate <GavelRoundedIcon /></MenuItem>
                 <MenuItem>Report <ReportGmailerrorredRoundedIcon /></MenuItem>
             </div>
 
         </ClickAwayListener>
-    </StyledPopper>
+    </StyledPopper >
 }
 
 

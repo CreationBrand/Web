@@ -15,12 +15,15 @@ import InputBase from '@mui/material/InputBase';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { Button, Checkbox, MenuItem, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { socketRequest } from 'Service/Socket';
 import { communityFlow } from 'State/Flow';
 
 import EditAttributesIcon from '@mui/icons-material/EditAttributes';
 import { canManageCommunity } from 'Service/Rbac';
+import { commentSync } from 'State/commentAtoms';
+import { postSync } from 'State/postAtoms';
+import { type } from 'os';
 
 const StyledPopper = styled(Popper)(({ theme }) => ({
     zIndex: '2000',
@@ -32,7 +35,9 @@ const StyledPopper = styled(Popper)(({ theme }) => ({
 }));
 
 
-export default function RoleMenu({ current, person_id, public_id }: any) {
+export default function RoleMenu({ current, person_id, public_id, type }: any) {
+
+    const updater = useSetRecoilState(type === 'post' ? postSync(public_id) : commentSync(public_id))
 
     const community: any = useRecoilValue(communityFlow)
     const [value, setValue]: any = useState([]);
@@ -40,6 +45,7 @@ export default function RoleMenu({ current, person_id, public_id }: any) {
     const [anchorEl, setAnchorEl]: any = useState(null)
 
 
+    console.log(community.allRoles)
 
     useEffect(() => {
         if (!current || current < 1) return
@@ -59,9 +65,24 @@ export default function RoleMenu({ current, person_id, public_id }: any) {
 
     const handleClick = (e: any) => {
         if (value.indexOf(e.currentTarget.dataset.test) > -1) {
+            console.log(e.currentTarget.dataset.test)
+            updater((old: any) => {
+                console.log(old)
+                return {
+                    ...old,
+                    community_roles: old.community_roles.filter((elem: any) => elem.public_id !== e.currentTarget.dataset.test)
+                }
+            })
             socketRequest('roles-remove-person', { public_id: public_id, role_id: e.currentTarget.dataset.test, person_id: person_id, community_id: community.public_id })
             handleClose()
         } else {
+            updater((old: any) => {
+                let temp = old?.community_roles?.length > 0 ? old.community_roles : []
+                return {
+                    ...old,
+                    community_roles: [...temp, community.allRoles.find((elem: any) => elem.public_id === e.currentTarget.dataset.test)]
+                }
+            })
             socketRequest('roles-add-person', { public_id: public_id, role_id: e.currentTarget.dataset.test, person_id: person_id, community_id: community.public_id })
             handleClose()
         }

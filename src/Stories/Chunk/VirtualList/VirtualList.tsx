@@ -1,12 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
 
 import { memo, useCallback, useEffect, useRef } from 'react'
-import { defaultRangeExtractor, useVirtualizer } from '@tanstack/react-virtual'
+import {  useVirtualizer } from '@tanstack/react-virtual'
 import useWindow from 'Hooks/useWindow'
 import throttle from 'Util/throttle';
-import { useRecoilValue } from 'recoil';
-import { bindState } from 'State/atoms';
+
 
 const pool: any = {}
 
@@ -14,30 +12,22 @@ const VirtualList = ({ list, offset, overscan, public_id }: any) => {
 
     const { height } = useWindow()
     const parentRef: any = useRef()
-    const rangeRef = useRef(null);
 
     const throttled = useCallback(
         throttle((value: any) => {
             let temp = value.calculateRange()
             if (temp.startIndex === 0) return
             pool[public_id] = temp.startIndex
-        }, 600), [],
+        }, 1000), [],
     );
 
     let virtualizer = useVirtualizer({
-
-        rangeExtractor: useCallback((range: any) => {
-            rangeRef.current = range;
-            return defaultRangeExtractor(range);
-        }, []),
-
         count: list?.length,
         onChange: (virtualItems: any) => throttled(virtualItems),
         getScrollElement: () => parentRef.current,
         estimateSize: () => 516,
-        overscan: overscan ? overscan : 10,
+        overscan: overscan ? overscan : 8,
     })
-
 
     const scrollToIndex = (index: any, ...args: any) => {
         virtualizer.scrollToIndex(index, ...args);
@@ -88,7 +78,7 @@ const VirtualList = ({ list, offset, overscan, public_id }: any) => {
                         left: 0,
                         width: '100%',
                         touchAction: 'pan-y',
-                        // transform:`translateY(${virtualizer.scrollTop}px)`
+                        // transform:`translateY(${items[0].start}px)`
                         transform: `translate3d(0,${items[0].start}px,0)`,
                     }}
                 >

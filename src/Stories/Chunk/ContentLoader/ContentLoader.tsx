@@ -1,21 +1,15 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import ReactMarkdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw';
+import { memo } from "react"; import rehypeRaw from 'rehype-raw';
 import 'react-quill/dist/quill.snow.css'
-import ReactPlayer from 'react-player'
-import { useState, memo } from "react";
-import { motion } from "framer-motion";
-import { Dialog } from '@mui/material';
-import VisibilitySensor from 'react-visibility-sensor';
-//@ts-ignore
 
 import Link from './Link';
 import Carousel from './Carousel';
 import Text from './Text';
 import Image from './Image';
 import Player from './Player';
+import Walk from 'Stories/Bits/ChunkError/Walk';
 
 
 const C = {
@@ -25,25 +19,40 @@ const C = {
         display: 'flex',
         'white-space': 'normal !important',
     }),
+    error: css({
+        width: '100%',
+        height: '80px',
+        borderRadius: '12px',
+        background: '#181820',
+        overflow: 'hidden',
+
+    }),
 }
 
 
 const ContentLoader = ({ type, content, public_id }: any) => {
 
-    if (type === 'text') return <Text content={content} public_id={public_id} />
+    if (type === 'link') {
+        let t1 = content.slice(-4)
+        if (t1 === '.mp4') return <Player url={content} />
+        else if (t1 === ".jpg") return <Image url={content} />
+        else if (t1 === ".png") return <Image url={content} />
+        else if (t1 === ".gif") return <Image url={content} />
+        let t2 = content.slice(-5)
+        if (t2 === ".jpeg") return <Image url={content} />
+        else if (t2 === ".webp") return <Image url={content} />
+        return <Link url={content} />
+    }
 
-    try {
-        if (typeof content === 'string') content = JSON.parse(content)
-    } catch (error) { }
+    else if (type === 'text') return <Text content={content} public_id={public_id} />
 
+    try { content = JSON.parse(content) } catch (e) { return <div css={C.error}><Walk variant='end' /></div> }
 
     if (type === 'upload' && content.type === 'video') return <Player url={content.source} />
-
     else if (type === 'upload' && content.type === 'image' && content?.source?.length > 1) return (<Carousel images={content.source} />)
     else if (type === 'upload' && content.type === 'image' && content?.source?.length === 1) return (<Image url={content.source[0]} />)
-    else if (type === 'link') return (<Link url={content} />)
 
-    return <div> error </div>
+    return <div css={C.error}><Walk variant='error' /></div> 
 
 }
 

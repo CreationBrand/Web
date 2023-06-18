@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { formatDistance, parseISO } from 'date-fns'
 
 import { lBold, lNormal, sMuted, sNormal } from 'Stories/Bits/Text/Text'
 import Avatar from '../../Bits/Avatar/Avatar'
@@ -66,7 +65,7 @@ const Message = ({ props }: any) => {
 
                 <div css={C.header}>
                     <div css={C.name}>{props.author.nickname}</div>
-                    <div css={C.time}> {formatDistance(parseISO(props.created_at), new Date(), { addSuffix: true })}</div>
+                    {/* <div css={C.time}> {formatDistance(parseISO(props.created_at), new Date(), { addSuffix: true })}</div> */}
                 </div>
 
                 <div>{props.content}</div>

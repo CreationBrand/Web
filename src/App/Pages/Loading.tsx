@@ -2,7 +2,7 @@
 
 import { css } from '@emotion/react'
 import useWindow from 'Hooks/useWindow'
-import { useState, useEffect, memo } from 'react'
+import { useEffect, memo } from 'react'
 import { useRecoilState } from 'recoil'
 import { layoutSizeData } from 'State/Data'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'

@@ -3,20 +3,17 @@
 import { css } from '@emotion/react'
 
 
-import { faEnvelope, faInbox } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope,} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { ConnectingAirportsOutlined } from "@mui/icons-material";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { set } from "date-fns";
-import { useEffect, useState } from "react"
+import { useInfiniteQuery,  } from "@tanstack/react-query";
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue } from "recoil";
 import { socketRequest } from "Service/Socket";
 import { postListData, virtualListStateFamily } from "State/Data";
-import { personFilter, postFilter } from "State/filterAtoms";
+import { personFilter} from "State/filterAtoms";
 import { socketFlow } from "State/Flow";
-import LiveVotes from 'Stories/Alive/LiveVotes';
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import ContentLoader from 'Stories/Chunk/ContentLoader/ContentLoader';
 import MainPost from "Stories/Chunk/Post/Post";

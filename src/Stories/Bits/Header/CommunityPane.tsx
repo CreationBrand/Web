@@ -170,6 +170,8 @@ const CommunityPane = ({ public_id }: any) => {
                 </IconButton>
 
                 <img css={C.banner}
+                    loading="lazy"
+
                     onError={handleImgError}
                     src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.public_id}`} />
                 <div css={C.float}>

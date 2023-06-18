@@ -1,4 +1,3 @@
-import Settings from 'App/Pages/PersonSettings'
 import { Routes, Route, Navigate, } from 'react-router-dom'
 import Error from 'Stories/Error/Error'
 import GlobalList from 'Stories/Chunk/Lists/GlobalList'
@@ -18,6 +17,7 @@ import SearchCommunityList from 'Stories/Chunk/Lists/SearchCommunityList'
 import Submit from 'Stories/Views/Submit'
 
 var Private = () => {
+    console.log('%c [Route] ', 'background: #000; color: #55daae', 'Loading Private Routes');
 
     return (
         <>
@@ -48,7 +48,7 @@ var Private = () => {
                 </Route>
 
                 <Route path="/error" element={<div>404</div>} />
-                <Route path="*" element={<Navigate to="/" replace={true} />} />
+                <Route path="*" element={<Navigate to="/trending" replace={true} />} />
             </Routes>
         </>
     )

@@ -24,15 +24,9 @@ import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
 
 const Preview = () => {
 
-    const navigate = useNavigate()
     const layoutSize = useRecoilValue(layoutSizeData)
-
-
     const [l, r] = useRecoilValue(triState)
     const setTri: any = useSetRecoilState(triState)
-    const goAuth = () => navigate(`/auth`)
-
-
     const [showLogin, setShowLogin] = useState(false)
 
     return (

@@ -56,7 +56,7 @@ const ChunkError = ({ variant }: any) => {
         height: 150px;
       }
       svg g {
-        animation: slide 2s linear infinite;
+        // animation: slide 2s linear infinite;
       }
       svg g:nth-of-type(2) {
         animation-delay: 0.5s;
@@ -73,7 +73,7 @@ const ChunkError = ({ variant }: any) => {
         fill: none;
         stroke-dasharray: 0 157px;
         stroke-dashoffset: 0;
-        animation: escalade 2s cubic-bezier(0.8, 0, 0.2, 1) infinite;
+        // animation: escalade 2s cubic-bezier(0.8, 0, 0.2, 1) infinite;
       }
       
       @keyframes slide {
@@ -105,8 +105,15 @@ const ChunkError = ({ variant }: any) => {
     <div css={C.container} key={'chunckerror'}>
       <div css={C.inner}>
 
+        <div css={[textNormal('t'), { fontWeight: '400', letterSpacing: '1px', }]}>
+          {variant === 'error' && 'Something went wrong...'}
+          {variant === 'loading' && 'Loading...'}
+          {variant === 'end' && 'Nothing else to load...'}
+          {variant === 'connected' && 'Connected!'}
+          {variant === 'disconnected' && 'Disconnected...'}
+        </div>
 
-
+        {/* 
         <div css={wrap}>
           <svg>
             <g>
@@ -122,7 +129,7 @@ const ChunkError = ({ variant }: any) => {
               </linearGradient>
             </defs>
           </svg>
-        </div>
+        </div> */}
 
 
       </div>

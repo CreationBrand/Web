@@ -1,28 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Popper from '@mui/material/Popper';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import CloseIcon from '@mui/icons-material/Close';
-import DoneIcon from '@mui/icons-material/Done';
-import Autocomplete, {
-    AutocompleteCloseReason,
-    autocompleteClasses,
-} from '@mui/material/Autocomplete';
-import InputBase from '@mui/material/InputBase';
-import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
-import { Button, Checkbox, MenuItem, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Checkbox, MenuItem } from '@mui/material';
 import { tagData } from 'State/Data';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { socketRequest } from 'Service/Socket';
-import useSubscription from 'Hooks/useSubscription';
-
 import StyleRoundedIcon from '@mui/icons-material/StyleRounded';
 import { canManageTags } from 'Service/Rbac';
 import { communityFlow } from 'State/Flow';
+import { commentSync } from 'State/commentAtoms';
+import { postSync } from 'State/postAtoms';
+
 
 const StyledPopper = styled(Popper)(({ theme }) => ({
     zIndex: '2000',
@@ -40,6 +31,9 @@ export default function TagMenu({ current, public_id, type }: any) {
     const [value, setValue]: any = useState([]);
     const tags = useRecoilValue(tagData)
     const community: any = useRecoilValue(communityFlow)
+
+    const updater = useSetRecoilState(type === 'post' ? postSync(public_id) : commentSync(public_id))
+
 
     useEffect(() => {
         if (!current || current.length < 1) return
@@ -63,8 +57,22 @@ export default function TagMenu({ current, public_id, type }: any) {
     const handleTag = (e: any) => {
         if (value.indexOf(e.currentTarget.dataset.test) > -1) {
             socketRequest('tag-remove', { type: type, tag_id: e.currentTarget.dataset.test, entity_id: public_id })
+            updater((old: any) => {
+                return {
+                    ...old,
+                    tags: old.tags.filter((elem: any) => elem.public_id !== e.currentTarget.dataset.test)
+                }
+            })
             handleClose()
         } else {
+            updater((old: any) => {
+                let temp = old?.tags?.length > 0 ? old.tags : []
+                return {
+                    ...old,
+                    tags: [...temp, tags.find((elem: any) => elem.public_id === e.currentTarget.dataset.test)]
+
+                }
+            })
             socketRequest('tag-add', { type: type, tag_id: e.currentTarget.dataset.test, entity_id: public_id })
             handleClose()
         }

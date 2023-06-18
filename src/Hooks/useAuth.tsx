@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
-import { refreshSession } from "Service/Cognito";
 import { verifyCognito } from 'Service/Cognito'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { useNavigate } from 'react-router-dom'
+import { useSetRecoilState } from 'recoil'
 import { get } from 'Service/Request'
 
 import { connectSocket } from 'Service/Socket'
@@ -19,15 +17,10 @@ import {
     tagData
 } from 'State/Data'
 import { buildHex, communityLTL, communityLTT, messengerLTT } from 'Helper/Clean'
-import { authFlow, socketFlow } from 'State/Flow'
-import { set } from 'date-fns'
+import { authFlow } from 'State/Flow'
 
-var treeify = require('treeify');
-
-// import { socketAuth } from "Services/socket";
 
 var useAuth = () => {
-    let navigate = useNavigate()
 
     const [isAuth, setAuth] = useState(false)
     const [loading, setLoading] = useState(true)

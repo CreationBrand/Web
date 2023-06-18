@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { contentFlow } from 'State/Flow';
-import { hasSeen, see } from 'State/seenAtom';
+import { hasSeen } from 'State/seenAtom';
 
 import { memo, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown"

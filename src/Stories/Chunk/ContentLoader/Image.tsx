@@ -4,7 +4,6 @@ import { css } from '@emotion/react'
 import { useState, memo } from "react";
 import { motion } from "framer-motion";
 import { Dialog } from '@mui/material';
-import { ErrorBoundary } from 'react-error-boundary';
 import Walk from 'Stories/Bits/ChunkError/Walk';
 
 
@@ -21,7 +20,7 @@ const C = {
     blur: css({
         width: '100%',
         height: '100%',
-        background: 'red',
+        background: '#181820',
         position: 'absolute',
         filter: 'blur(4px) brightness(45%)',
     }),

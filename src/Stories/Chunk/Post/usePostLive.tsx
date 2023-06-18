@@ -15,12 +15,13 @@ const usePostLive = (active: boolean, props: any) => {
 
         function subscribe(value: any) {
 
+            console.log('subscribe', value)
 
             if (!value || value === undefined) return null
 
             const clone = { ...data };
 
-            if (value.view > 0) {
+            if (value?.view) {
 
                 setData((prevState: any) => ({
                     ...prevState,
@@ -28,7 +29,7 @@ const usePostLive = (active: boolean, props: any) => {
                 }));
 
             }
-            else if (value.vote) {
+            else if (value?.vote) {
                 clone.vote = Number(clone.vote) + Number(value.vote)
                 setData(clone)
 
@@ -39,11 +40,13 @@ const usePostLive = (active: boolean, props: any) => {
 
 
             }
-            else if (value.comment) {
+            else if (value?.comment) {
                 clone.comment = Number(clone.comment) + Number(value.comment)
                 setData(clone)
             }
-            else if (value.tags !== undefined) {
+            else if (value?.tags) {
+                console.log('tags', value.tags)
+
                 clone.tags = value.tags
                 setData(clone)
             }

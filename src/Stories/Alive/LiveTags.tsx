@@ -22,7 +22,7 @@ const LiveTags = ({ value }: any) => {
     const [components, setComponents] = useState([])
 
     useEffect(() => {
-        if (value.length < 1) return
+        if (!value) return
         let list: any = []
         for (let i = 0; i < value.length; i++) {
             if(!value[i]) continue

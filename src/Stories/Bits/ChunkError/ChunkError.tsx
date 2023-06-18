@@ -43,7 +43,7 @@ const C = {
     ".stopp2": { stopColor: "#8e58f2", transition: "all 2s ease-in" },
     ".halvan": {
         transition: "all 2s ease-in",
-        animation: "Snurra1 10s infinite linear",
+        // animation: "Snurra1 10s infinite linear",
         strokeDasharray: "180 800",
         fill: "none",
         stroke: "url(#gradient)",
@@ -51,7 +51,7 @@ const C = {
         strokeLinecap: "round"
     },
     ".strecken": {
-        animation: "Snurra1 3s infinite linear",
+        // animation: "Snurra1 3s infinite linear",
         strokeDasharray: "26 54",
         fill: "none",
         stroke: "url(#gradient)",
@@ -96,7 +96,7 @@ const ChunkError = ({ variant, onLoad, end }: any) => {
         <div css={C.container} key={'chunckerror'}>
             <div css={C.inner}>
 
-                <div css={C.float}>
+                {/* <div css={C.float}>
                     <svg className="gegga" >
                         <defs>
                             <filter id="gegga">
@@ -141,7 +141,7 @@ const ChunkError = ({ variant, onLoad, end }: any) => {
                         />
                         <circle className="strecken" cx="100" cy="100" r="64" />
                     </svg>
-                </div>
+                </div> */}
 
                 <div css={[textNormal('t'), { fontWeight: '400', letterSpacing: '1px', }]}>
                     {variant === 'error' && 'Something went wrong...'}

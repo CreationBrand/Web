@@ -119,7 +119,7 @@ const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nic
 
     const authState = useRecoilValue(authFlow)
 
-    const openDm = () => {}
+    const openDm = () => { }
 
     return (
         <div css={C.container} key={'person'}>
@@ -139,6 +139,8 @@ const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nic
                 </IconButton> */}
 
                 <img css={C.banner}
+                    loading="lazy"
+
                     onError={handleImgError}
                     src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${public_id}`} />
                 <div css={C.float}>
@@ -149,7 +151,7 @@ const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nic
                     </div>
                 </div>
                 <div css={C.action}>
-                    
+
                     <Button
                         disabled={authState === 'guest'}
                         onClick={openDm}

@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "noto sans"; 
+  font-style: normal;
+  font-weight: normal; 
+  font-display: swap;
+  src: url("./NotoSans-Regular.ttf") format("truetype");
+}
+
+

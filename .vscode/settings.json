@@ -8,7 +8,6 @@
         "README.md",
         ".storybook",
         "craco.config.js",
-        "package.json",
         "tsconfig.json"
     ],
     "files.exclude": {
@@ -28,7 +27,6 @@
         "README.md": true,
         ".storybook": true,
         "craco.config.js": true,
-        "package.json": true,
         "tsconfig.json": true
     }
 }

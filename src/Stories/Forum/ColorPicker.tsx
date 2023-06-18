@@ -4,7 +4,6 @@ import { Tooltip } from '@mui/material';
 import { Controller } from 'react-hook-form';
 
 // ICONS
-import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import { useState } from 'react';
 import ColorMenu from 'Stories/Menu/ColorMenu';

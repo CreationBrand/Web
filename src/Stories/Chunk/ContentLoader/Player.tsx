@@ -6,12 +6,12 @@ import { css } from '@emotion/react'
 import { Dialog, IconButton } from '@mui/material';
 import Walk from 'Stories/Bits/ChunkError/Walk';
 import { memo, useEffect, useState } from 'react';
-import ReactPlayer from 'react-player';
+import ReactPlayer from 'react-player/lazy';
 import VisibilitySensor from 'react-visibility-sensor';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import useWindow from 'Hooks/useWindow';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState} from 'recoil';
 import { soundState } from 'State/atoms';
 
 
@@ -123,17 +123,12 @@ export default memo(Player)
 
 const Viewer = ({ url, open, onClose }: any) => {
 
-    const { width, height } = useWindow()
-    let scale = width * 0.8 < 800 ? width * 0.8 : 800
-
-    const [sound, setSound] = useRecoilState(soundState)
+    const [sound, _setSound] = useRecoilState(soundState)
 
     const handleClose = (e: any) => {
         e.stopPropagation()
         onClose()
     }
-
-
 
     return (
 
