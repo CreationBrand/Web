@@ -65,7 +65,7 @@ const Link = ({ url }: any) => {
     const { isLoading, isError, data }: any = useQuery({
         queryKey: [url],
         queryFn: async () => {
-            let res = await getLinkPreview(`${url}`)
+            let res = await getLinkPreview(`${proxy}/${url}`)
             return res
         },
     })
@@ -106,7 +106,7 @@ const Link = ({ url }: any) => {
             else if (data?.images?.length) return <Image url={`${proxy}/${data?.images[0]}`} />
         }
 
-        else if (data?.contentType === "application/x-mpegurl") return <Player url={url} />
+        else if (data?.contentType === "application/x-mpegurl") return <Player url={`${proxy}/${url}`} />
         else if (data?.videos.length && data?.videos[0]?.url) return <Player url={`${proxy}/${data?.videos[0]?.url}`} />
 
 
