@@ -27,20 +27,21 @@ const C = {
 
     }),
 }
+const proxy = "https://cors.creationbrand.workers.dev"
 
 
 const ContentLoader = ({ type, content, public_id }: any) => {
 
     if (type === 'link') {
         let t1 = content.slice(-4)
-        if (t1 === '.mp4') return <Player url={content} />
-        else if (t1 === ".jpg") return <Image url={content} />
-        else if (t1 === ".png") return <Image url={content} />
-        else if (t1 === ".gif") return <Image url={content} />
+        if (t1 === '.mp4') return <Player url={`${proxy}/${content}`} />
+        else if (t1 === ".jpg") return <Image url={`${proxy}/${content}`} />
+        else if (t1 === ".png") return <Image url={`${proxy}/${content}`} />
+        else if (t1 === ".gif") return <Image url={`${proxy}/${content}`} />
         let t2 = content.slice(-5)
-        if (t2 === ".jpeg") return <Image url={content} />
-        else if (t2 === ".webp") return <Image url={content} />
-        else if (t2 === ".webm") return <Player url={content} />
+        if (t2 === ".jpeg") return <Image url={`${proxy}/${content}`} />
+        else if (t2 === ".webp") return <Image url={`${proxy}/${content}`} />
+        else if (t2 === ".webm") return <Player url={`${proxy}/${content}`} />
 
         return <Link url={content} />
     }
