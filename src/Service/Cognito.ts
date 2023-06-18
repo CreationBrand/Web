@@ -4,9 +4,6 @@ const CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool
 const poolData = {
     UserPoolId: process.env.REACT_APP_COGNITO_POOL_ID,
     ClientId: process.env.REACT_APP_COGNITO_CLIENT_ID,
-    Storage: new AmazonCognitoIdentity.CookieStorage({
-        domain: process.env.REACT_APP_DOMAIN
-    })
 }
 const pool_region = process.env.REACT_APP_POOL_REGION
 const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
@@ -16,11 +13,18 @@ let cognitoUser = userPool.getCurrentUser()
 
 export async function loginCognito(username: string, password: string) {
 
+    // Clear all cookies and indexedDB
+    window.indexedDB.databases().then((r: any) => {
+        for (var i = 0; i < r.length; i++) window.indexedDB.deleteDatabase(r[i].name);
+    })
+    sessionStorage.clear();
+    localStorage.clear();
     deleteAllCookies()
 
     return new Promise((resolve) => {
 
-        deleteAllCookies()
+        // deleteAllCookies()
+
         var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
             {
                 Username: username,
@@ -30,7 +34,7 @@ export async function loginCognito(username: string, password: string) {
         var userData = {
             Username: username,
             Pool: userPool,
-            Storage: new AmazonCognitoIdentity.CookieStorage({ domain: "artram.app" }),
+            Storage: new AmazonCognitoIdentity.CookieStorage({ domain: window.location.hostname }),
         };
         cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
         cognitoUser.authenticateUser(authenticationDetails, {
@@ -50,6 +54,9 @@ export async function loginCognito(username: string, password: string) {
             },
 
             onSuccess: function (result: any) {
+
+                console.groupCollapsed('%c [LOGIN] ', 'background: #000; color: #5555da', 'SUCCESS', result);
+
                 resolve('sucess');
             },
             onFailure: function (err: any) {
@@ -135,7 +142,7 @@ export const verifyCognito = async () => {
 
             const userData = {
                 Username: cookies.LastAuthUser,
-                Pool: userPool
+                Pool: userPool,
             }
 
             const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
@@ -221,8 +228,17 @@ export const refreshSession = () => {
 };
 
 export const logoutCognito = () => {
-    cognitoUser?.signOut();
+    cognitoUser.signOut();
+
+
+    window.indexedDB.databases().then((r: any) => {
+        for (var i = 0; i < r.length; i++) window.indexedDB.deleteDatabase(r[i].name);
+    })
+    sessionStorage.clear();
+    localStorage.clear();
     deleteAllCookies()
+
+
     window.location.reload()
     return true
 }

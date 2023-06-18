@@ -6,17 +6,13 @@ import { Input, Button, Modal, IconButton, InputAdornment } from "@mui/material"
 import { css } from '@emotion/react';
 import { useState } from "react";
 import { textLabel, } from "Global/Mixins";
-
-
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { authFlow } from "State/Flow";
 import { loginCognito, reSendCode, signUpCognito, verifyEmail } from "Service/Cognito";
-import { get } from "Service/Request";
 
 const C = {
     container: css({
@@ -118,12 +114,8 @@ const LoginSignup = ({ open, handleClose }: any) => {
             try {
                 let status = await verifyEmail(data.code)
                 if (status) {
-                    console.log(data)
                     var request = await loginCognito(data.username, data.password)
-                    console.log(request)
                     window.location.reload()
-
-                    // window.location.reload()
                 }
                 else setError('code', { type: 'custom', message: 'Invalid code' });
             } catch (e) {

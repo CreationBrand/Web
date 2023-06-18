@@ -21,6 +21,7 @@ const C = {
     container: css({
         width: '100%',
         minHeight: '100px',
+        marginTop: '16px',
     }),
     inner: css({
         margin: '0 auto',
@@ -123,7 +124,7 @@ const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nic
 
     return (
         <div css={C.container} key={'person'}>
-            asdfasdf
+
             <div css={C.inner}>
                 {/* 
                 <IconButton

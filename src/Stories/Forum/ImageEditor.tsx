@@ -13,6 +13,7 @@ import { useDropzone } from 'react-dropzone'
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded';
 import { textLight } from 'Global/Mixins';
+import { set } from 'react-hook-form';
 
 const C = {
     container: css({
@@ -53,7 +54,7 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
     const [open, setOpen] = useState(false);
     const [image, setImage] = useState(null);
     const [scale, setScale] = useState(0.5)
-
+    const [error, setError] = useState(false)
     //dialog
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
@@ -63,9 +64,16 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
     const handleImage = (e: any) => setImage(e.target.files[0])
 
     const onDrop = useCallback(async (acceptedFiles: any) => {
+
         console.log(acceptedFiles)
-        setImage(acceptedFiles[0])
-        setOpen(true)
+        if (acceptedFiles[0].size > 10000000 || acceptedFiles[0].type !== 'image/jpeg') {
+            setImage(null)
+            setError(true)
+            return
+        } else {
+            setImage(acceptedFiles[0])
+            setOpen(true)
+        }
     }, [])
 
 
@@ -73,7 +81,7 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
 
     const handleSave = async () => {
 
-
+        setError(false)
         const canvas = editor.current.getImage()
         const canvasScaled = editor.current.getImageScaledToCanvas()
         let req: any = null
@@ -94,7 +102,10 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
 
 
         <div
-            style={{ width: type === 'banner' ? '240px' : '120px' }}
+            style={{
+                width: type === 'banner' ? '240px' : '120px',
+                border: error ? '2px solid red' : '2px solid #181820'
+            }}
             css={C.dropzone} {...getRootProps()}>
             <input {...getInputProps()} />
             {

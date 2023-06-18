@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { memo } from "react"; import rehypeRaw from 'rehype-raw';
+import { memo } from "react";
 import 'react-quill/dist/quill.snow.css'
 
 import Link from './Link';
@@ -10,7 +10,6 @@ import Text from './Text';
 import Image from './Image';
 import Player from './Player';
 import Walk from 'Stories/Bits/ChunkError/Walk';
-
 
 const C = {
     container: css({
@@ -41,18 +40,22 @@ const ContentLoader = ({ type, content, public_id }: any) => {
         let t2 = content.slice(-5)
         if (t2 === ".jpeg") return <Image url={content} />
         else if (t2 === ".webp") return <Image url={content} />
+        else if (t2 === ".webm") return <Player url={content} />
+
         return <Link url={content} />
     }
 
     else if (type === 'text') return <Text content={content} public_id={public_id} />
 
-    try { content = JSON.parse(content) } catch (e) { return <div css={C.error}><Walk variant='end' /></div> }
+    try {
+        if (typeof content === 'string') content = JSON.parse(content)
+    } catch (e) { return <div css={C.error}><Walk variant='error' /></div> }
 
     if (type === 'upload' && content.type === 'video') return <Player url={content.source} />
     else if (type === 'upload' && content.type === 'image' && content?.source?.length > 1) return (<Carousel images={content.source} />)
     else if (type === 'upload' && content.type === 'image' && content?.source?.length === 1) return (<Image url={content.source[0]} />)
 
-    return <div css={C.error}><Walk variant='error' /></div> 
+    return <div css={C.error}><Walk variant='error' /></div>
 
 }
 

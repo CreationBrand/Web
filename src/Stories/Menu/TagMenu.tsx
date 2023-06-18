@@ -20,7 +20,7 @@ const StyledPopper = styled(Popper)(({ theme }) => ({
     fontSize: 13,
     color: '#f2f3f5',
     paddingRight: '12px',
-    width: '200px',
+    width: '160px',
     backgroundColor: 'transparent',
 }));
 

@@ -3,8 +3,6 @@ import { css } from '@emotion/react'
 
 import { ClickAwayListener, IconButton, MenuItem, Popper, styled } from '@mui/material';
 import { memo, useState } from 'react';
-import { type } from 'os';
-import MovePostMenu from './MovePostMenu';
 import RoleMenu from './RoleMenu';
 import TagMenu from './TagMenu';
 
@@ -13,6 +11,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import ReportGmailerrorredRoundedIcon from '@mui/icons-material/ReportGmailerrorredRounded';
 import GavelRoundedIcon from '@mui/icons-material/GavelRounded';
+
 import { useRecoilValue } from 'recoil';
 import { contentFlow } from 'State/Flow';
 
@@ -21,8 +20,8 @@ const StyledPopper = styled(Popper)(() => ({
     zIndex: '2000',
     fontSize: 13,
     color: '#f2f3f5',
-    paddingRight: '12px',
-    width: '200px',
+    paddingTop: '12px',
+    width: '150px',
     backgroundColor: 'transparent',
 }));
 
@@ -59,8 +58,8 @@ const CommentMenu = ({ person_id, comment_id, tags, global_roles, community_role
 
                 <StyledPopper
                     id='postMenu'
-                    modifiers={[{ name: "offset", options: { offset: [-0, -8] } }]}
-                    open={Boolean(anchorEl)} anchorEl={anchorEl} placement='left-start'>
+                    modifiers={[{ name: "offset", options: { offset: [0, -8] } }]}
+                    open={Boolean(anchorEl)} anchorEl={anchorEl} placement='bottom-end'>
 
                     <ClickAwayListener onClickAway={handleClose}>
                         <div

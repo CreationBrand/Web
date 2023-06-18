@@ -24,6 +24,7 @@ import usePostLive from './usePostLive'
 import TimeAgo from 'react-timeago'
 import { formatTime } from 'Util/formatTime'
 import LiveRoles from 'Stories/Alive/LiveRoles'
+import PostMenu from 'Stories/Menu/PostMenu'
 
 
 const C = {
@@ -141,11 +142,10 @@ const Post = (props: any) => {
 
                         </div>}
 
-                        {authState !== 'guest' && <RightMenu
+                        {authState !== 'guest' && <PostMenu
                             tags={tags}
-                            type={'post'}
                             person_id={author?.public_id}
-                            public_id={public_id}
+                            post_id={public_id}
                             global_roles={global_roles}
                             community_roles={community_roles} />}
 

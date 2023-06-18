@@ -26,12 +26,14 @@ const usePostList = (community_id: any, filter: any) => {
         setCursor(false)
         setComponents([])
         setResetState({});
-
+        console.log('%c [RESET] ', 'font-weight: bold; color: #0F0', 'PostList');
+        
     }, [community_id, filter])
 
     useEffect(() => {
         (async () => {
             try {
+                console.log('%c [RESET] ', 'font-weight: bold; color: #0F0', 'PostList');
                 if (end || isError) return
                 if (cache.has(`posts:${community_id}:${filter}:${cursor}`)) return setList(cache.get(`posts:${community_id}:${filter}:${cursor}`))
 

@@ -1,20 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import * as React from 'react';
+
 import { styled } from '@mui/material/styles';
 import Popper from '@mui/material/Popper';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import CloseIcon from '@mui/icons-material/Close';
-import DoneIcon from '@mui/icons-material/Done';
-import Autocomplete, {
-    AutocompleteCloseReason,
-    autocompleteClasses,
-} from '@mui/material/Autocomplete';
-import InputBase from '@mui/material/InputBase';
-import Box from '@mui/material/Box';
+
 import { useEffect, useState } from 'react';
-import { Button, Checkbox, MenuItem, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Checkbox, MenuItem, } from '@mui/material';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { socketRequest } from 'Service/Socket';
 import { communityFlow } from 'State/Flow';
@@ -23,14 +15,13 @@ import EditAttributesIcon from '@mui/icons-material/EditAttributes';
 import { canManageCommunity } from 'Service/Rbac';
 import { commentSync } from 'State/commentAtoms';
 import { postSync } from 'State/postAtoms';
-import { type } from 'os';
 
 const StyledPopper = styled(Popper)(({ theme }) => ({
     zIndex: '2000',
     fontSize: 13,
     color: '#f2f3f5',
     paddingRight: '12px',
-    width: '200px',
+    width: '160px',
     backgroundColor: 'transparent',
 }));
 
@@ -41,11 +32,7 @@ export default function RoleMenu({ current, person_id, public_id, type }: any) {
 
     const community: any = useRecoilValue(communityFlow)
     const [value, setValue]: any = useState([]);
-
     const [anchorEl, setAnchorEl]: any = useState(null)
-
-
-    console.log(community.allRoles)
 
     useEffect(() => {
         if (!current || current < 1) return
@@ -153,7 +140,7 @@ export default function RoleMenu({ current, person_id, public_id, type }: any) {
             </StyledPopper >
 
 
-            Community Roles <EditAttributesIcon />
+            Roles <EditAttributesIcon />
         </MenuItem>
 
     );
