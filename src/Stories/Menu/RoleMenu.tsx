@@ -15,6 +15,7 @@ import EditAttributesIcon from '@mui/icons-material/EditAttributes';
 import { canManageCommunity } from 'Service/Rbac';
 import { commentSync } from 'State/commentAtoms';
 import { postSync } from 'State/postAtoms';
+import useCommunityData from 'Hooks/Pull/useCommunityData';
 
 const StyledPopper = styled(Popper)(({ theme }) => ({
     zIndex: '2000',
@@ -26,11 +27,11 @@ const StyledPopper = styled(Popper)(({ theme }) => ({
 }));
 
 
-export default function RoleMenu({ current, person_id, public_id, type }: any) {
+export default function RoleMenu({ current, person_id, public_id, type, community_id }: any) {
 
     const updater = useSetRecoilState(type === 'post' ? postSync(public_id) : commentSync(public_id))
 
-    const community: any = useRecoilValue(communityFlow)
+    const community: any = useCommunityData(community_id)
     const [value, setValue]: any = useState([]);
     const [anchorEl, setAnchorEl]: any = useState(null)
 
@@ -60,17 +61,17 @@ export default function RoleMenu({ current, person_id, public_id, type }: any) {
                     community_roles: old.community_roles.filter((elem: any) => elem.public_id !== e.currentTarget.dataset.test)
                 }
             })
-            socketRequest('roles-remove-person', { public_id: public_id, role_id: e.currentTarget.dataset.test, person_id: person_id, community_id: community.public_id })
+            socketRequest('roles-remove-person', { public_id: public_id, role_id: e.currentTarget.dataset.test, person_id: person_id, community_id: community.community.public_id })
             handleClose()
         } else {
             updater((old: any) => {
                 let temp = old?.community_roles?.length > 0 ? old.community_roles : []
                 return {
                     ...old,
-                    community_roles: [...temp, community.allRoles.find((elem: any) => elem.public_id === e.currentTarget.dataset.test)]
+                    community_roles: [...temp, community.community.community_roles.allRoles.find((elem: any) => elem.public_id === e.currentTarget.dataset.test)]
                 }
             })
-            socketRequest('roles-add-person', { public_id: public_id, role_id: e.currentTarget.dataset.test, person_id: person_id, community_id: community.public_id })
+            socketRequest('roles-add-person', { public_id: public_id, role_id: e.currentTarget.dataset.test, person_id: person_id, community_id: community.community.public_id })
             handleClose()
         }
     }
@@ -80,9 +81,9 @@ export default function RoleMenu({ current, person_id, public_id, type }: any) {
         e.stopPropagation()
         setAnchorEl(e.currentTarget)
     };
+    console.log(community)
 
-
-    if (!community.allRoles || !canManageCommunity(community.roleHex)) return null
+    if (!community || !canManageCommunity(community.communityHex)) return null
 
     return (
 
@@ -105,7 +106,7 @@ export default function RoleMenu({ current, person_id, public_id, type }: any) {
                         backgroundColor: '#0f0e10',
                     }}
                 >
-                    {community.allRoles.map((tag: any) =>
+                    {community.community.community_roles.map((tag: any) =>
                         <MenuItem
                             disabled={tag.base}
                             key={tag.public_id}

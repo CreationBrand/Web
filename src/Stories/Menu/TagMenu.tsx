@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 
 import { styled } from '@mui/material/styles';
 import Popper from '@mui/material/Popper';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Checkbox, MenuItem } from '@mui/material';
 import { tagData } from 'State/Data';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -13,6 +13,7 @@ import { canManageTags } from 'Service/Rbac';
 import { communityFlow } from 'State/Flow';
 import { commentSync } from 'State/commentAtoms';
 import { postSync } from 'State/postAtoms';
+import useCommunityData from 'Hooks/Pull/useCommunityData';
 
 
 const StyledPopper = styled(Popper)(({ theme }) => ({
@@ -25,12 +26,13 @@ const StyledPopper = styled(Popper)(({ theme }) => ({
 }));
 
 
-export default function TagMenu({ current, public_id, type }: any) {
+const TagMenu = ({ current, public_id, type, community_id }: any) => {
 
     const [anchorEl, setAnchorEl]: any = useState(null)
     const [value, setValue]: any = useState([]);
     const tags = useRecoilValue(tagData)
-    const community: any = useRecoilValue(communityFlow)
+
+    const community: any = useCommunityData(community_id)
 
     const updater = useSetRecoilState(type === 'post' ? postSync(public_id) : commentSync(public_id))
 
@@ -78,7 +80,7 @@ export default function TagMenu({ current, public_id, type }: any) {
         }
     }
 
-    if (!community.allRoles || !canManageTags([community.roleHex])) return null
+    if (!community || !canManageTags([community.communityHex])) return null
 
     return (
 
@@ -135,3 +137,7 @@ export default function TagMenu({ current, public_id, type }: any) {
         </MenuItem>
     );
 }
+
+
+
+export default memo(TagMenu)

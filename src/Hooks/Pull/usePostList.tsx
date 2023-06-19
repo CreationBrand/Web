@@ -42,7 +42,7 @@ const usePostList = (community_id: any, filter: any) => {
                 let req: any = await socketRequest('posts', { community_id, filter, cursor: cursor })
                 console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.posts?.length}) Posts Cursor:${cursor}`);
 
-                if (req?.posts?.length < 20) end = true
+                if (req?.posts?.length < 10) end = true
                 setList(req.posts)
                 cache.set(`posts:${community_id}:${filter}:${cursor}`, req.posts)
             } catch (e) {

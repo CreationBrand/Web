@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { memo } from 'react'
 import usePostList from 'Hooks/Pull/usePostList'
 import VirtualList from '../VirtualList/VirtualList'
-
+import VirtuList from '../VirtualList/VirtuList'
 const C = {
     container: css({
         height: '100%',
@@ -30,7 +30,7 @@ const GlobalList = ({ type }: any) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
         >
-            <VirtualList list={components} public_id={type} />
+            <VirtuList list={components} public_id={type} />
         </motion.div>
     )
 }

@@ -64,9 +64,10 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
     const handleImage = (e: any) => setImage(e.target.files[0])
 
     const onDrop = useCallback(async (acceptedFiles: any) => {
+        console.log('%c[FILE] ', 'font-weight:bold; color: #fcb358', `Type: ${acceptedFiles[0].type} Bytes:${acceptedFiles[0].size}`);
 
-        console.log(acceptedFiles)
-        if (acceptedFiles[0].size > 10000000 || acceptedFiles[0].type !== 'image/jpeg') {
+        console.log(acceptedFiles[0].type)
+        if (acceptedFiles[0].size > 10000000 || (acceptedFiles[0].type !== 'image/jpeg' && acceptedFiles[0].type !== 'image/png' && acceptedFiles[0].type !== 'image/jpg')) {
             setImage(null)
             setError(true)
             return

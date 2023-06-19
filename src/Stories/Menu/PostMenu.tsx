@@ -32,9 +32,10 @@ const StyledPopper = styled(Popper)(({ theme }) => ({
 }));
 
 
-const PostMenu = ({ person_id, community_roles, tags, post_id }: any) => {
+const PostMenu = ({ person_id, community_roles, tags, post_id, community_id }: any) => {
 
-    let content = useRecoilValue(contentFlow)
+    const flow = useRecoilValue(contentFlow)
+
     const [anchorEl, setAnchorEl]: any = useState(null);
 
     const handleClick = (e: any) => {
@@ -81,12 +82,12 @@ const PostMenu = ({ person_id, community_roles, tags, post_id }: any) => {
                                 backgroundColor: '#0f0e10',
                             }}
                         >
-                            {(content === 'comment' || content === 'community' || content === 'post') &&
-                                <>
-                                    <TagMenu current={tags} public_id={post_id} type={'post'} />
-                                    <RoleMenu current={community_roles} person_id={person_id} public_id={post_id} type={'post'} />
-                                    <MovePostMenu post_id={post_id} />
-                                </>}
+
+                            <TagMenu community_id={community_id} current={tags} public_id={post_id} type={'post'} />
+                            <RoleMenu community_id={community_id} current={community_roles} person_id={person_id} public_id={post_id} type={'post'} />
+                            {/* <RoleMenu current={community_roles} person_id={person_id} public_id={post_id} type={'post'} />
+                                    <MovePostMenu post_id={post_id} /> */}
+                            {/* </>} */}
                             <MenuItem disabled={true}>Global Roles <AdminPanelSettingsOutlinedIcon /></MenuItem>
                             <MenuItem disabled={true}>Moderate <GavelRoundedIcon /></MenuItem>
                             <MenuItem>Report <ReportGmailerrorredRoundedIcon /></MenuItem>

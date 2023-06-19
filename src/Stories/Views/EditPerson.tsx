@@ -28,6 +28,16 @@ const schema = Joi.object({
 
 
 const C = {
+    pane: css({
+        width: '100%',
+        height: '100%',
+        background: '#0f0e10',
+        touchAction: 'pan-y',
+        zIndex: 200,
+        position: 'relative',
+        paddingTop: '8px',
+
+    }),
     container: css({
         width: '100%',
         height: 'calc(100% - 56px)',
@@ -115,7 +125,7 @@ const EditPerson = () => {
     if (!person) return <div>loading</div>
 
 
-    return <div css={C.container}>
+    return <div css={C.pane}><div css={C.container}>
 
         <div css={C.inner}>
 
@@ -157,7 +167,7 @@ const EditPerson = () => {
                 }}>Display</div>
                 <div css={{
                     margin: "0px 0px 30px",
-                    fontWeight: "400",  
+                    fontWeight: "400",
                     fontSize: "14px",
                     lineHeight: "20px",
                     wordBreak: "normal",
@@ -235,7 +245,7 @@ const EditPerson = () => {
 
         </div>
     </div >
-
+    </div>
 }
 
 

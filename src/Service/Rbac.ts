@@ -68,7 +68,7 @@ export const isAdmin = (set: any) => {
     if (set === null) return false
 
     let bs = new BitSet(set)
-    if (Boolean(bs.get(0) !== 0)) return true
+    if (Boolean(bs.get(3) !== 0)) return true
 
     return false
 };

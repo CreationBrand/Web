@@ -17,6 +17,8 @@ const C = {
         alignItems: 'center',
         overflow: 'hidden',
         height: '400px',
+        background: '#181820',
+
     }),
     blur: css({
         width: '100%',
@@ -33,7 +35,7 @@ const C = {
     }),
     error: css({
         width: '100%',
-        height: '80px',
+        height: '400px',
         borderRadius: '12px',
         background: '#181820',
         overflow: 'hidden',
@@ -60,18 +62,17 @@ const Image = ({ url }: any) => {
     return (
         <div onClick={(e) => e.stopPropagation()}>
             <Viewer src={url} open={open} onClose={handleClose} />
-
                 <div
                     onClick={(e) => { handleOpen() }}
                     css={C.container}>
 
-                    {/* <img
-                        loading="lazy"
+                    <img
+                        // loading="lazy"
                         onError={handleImgError}
-                        src={url} css={C.blur} /> */}
+                        src={url} css={C.blur} />
 
                     <img
-                        loading="lazy"
+                        // loading="lazy"
                         onError={handleImgError}
                         css={C.img} src={url} />
                 </div>
@@ -100,22 +101,20 @@ const Viewer = ({ src, open, onClose }: any) => {
         <Dialog
             open={open}
             onClose={onClose}
-
             sx={{
                 borderRadius: '0px',
                 backgroundColor: 'transparent',
                 '& .MuiDialog-paper': {
-                    display: 'block',
                     backgroundColor: 'transparent !important',
                     boxShadow: 'none !important',
                     padding: '0px !important',
                     margin: '0px !important',
-                    width: '100%',
-                    height: 'auto',
-                    objectFit: 'contain',
+
+                    overflow: 'hidden',
                     maxWidth: '800px',
                     maxHeight: '800px',
-                    
+                    height: '80vh',
+                    width: '80vw',
                 },
                 Backdrop: {
                     background: 'rgba(14,16,15,0.85)',
@@ -123,16 +122,15 @@ const Viewer = ({ src, open, onClose }: any) => {
             }}
         >
             <motion.img
-                onWheel={handleScroll}
+                onClick={onClose}
                 src={src}
                 onPan={onPanEnd}
-   
+
                 css={{
-                    zIndex: 10000,
-                    width: '100%',
-                    maxWidth: '800px',
-                    borderRadius: '8px',
-                    maxHeight: '80vh',
+                    objectFit: 'contain',
+                    maxHeight: '100%',
+                    maxWidth: '100%',
+
                 }}
             />
         </Dialog>

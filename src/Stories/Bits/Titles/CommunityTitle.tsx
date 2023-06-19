@@ -20,12 +20,9 @@ import Online from '../Online/Online'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import { isAdmin } from 'Service/Rbac'
+import useCommunityData from 'Hooks/Pull/useCommunityData'
 
 
-
-import TTLCache from '@isaacs/ttlcache';
-
-const cache = new TTLCache({ max: 10000, ttl: 60000 })
 
 const C = {
     container: css({
@@ -39,6 +36,7 @@ const C = {
         fontSize: '16px',
         lineHeight: '20px',
         fontWeight: 600,
+        textDecorationThickness: '2px !important',
 
         color: '#fff',
         ':hover': {
@@ -134,8 +132,11 @@ const D = {
 
 let Preview = ({ public_id }: any) => {
 
+
+
+    const data = useCommunityData(public_id)
+
     const authState = useRecoilValue(authFlow)
-    let [data, setData]: any = useState(null)
     const [isMember, setIsMember] = useState(false)
     const communityList = useRecoilValue(communityListData)
 
@@ -146,27 +147,12 @@ let Preview = ({ public_id }: any) => {
         else joinCommunity(public_id)
     }
 
-    // get community data
-    useEffect(() => {
-        (async () => {
-            if (cache.has(`community:${public_id}`)) {
-                setData(cache.get(`community:${public_id}`))
-                return
-            } else {
-                let temp: any = await socketRequest('community', { community_id: public_id })
-                setData(temp.community)
-                cache.set(`community:${public_id}`, temp.community)
-            }
-        })()
-    }, [public_id])
 
     // find out if your a member
     useEffect(() => {
         const hasMatchingId = communityList.some((obj: any) => obj.public_id === public_id);
         setIsMember(hasMatchingId)
     }, [public_id])
-
-
 
 
     return (<AnimatePresence mode='popLayout'>
@@ -190,7 +176,7 @@ let Preview = ({ public_id }: any) => {
 
                 <img css={D.banner}
                     onError={handleImgError}
-                    src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.public_id}`} />
+                    src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.community.public_id}`} />
 
 
                 <div css={{
@@ -210,12 +196,12 @@ let Preview = ({ public_id }: any) => {
                             fontSize: '16px', textOverflow: "ellipsis",
                             overflow: "hidden",
                             whiteSpace: "nowrap",
-                        }}>{data.title}</h4>
+                        }}>{data.community.title}</h4>
                     </div>
 
                     {authState !== 'guest' && <div css={D.action}>
                         <Button
-                            disabled={!isAdmin(data?.roleHex)}
+                            disabled={isAdmin(data?.communityHex)}
                             onClick={handleJoin}
                             disableElevation
                             sx={{
@@ -231,13 +217,13 @@ let Preview = ({ public_id }: any) => {
                     }
 
                 </div>
-                {data.description !== "undefined" &&
+                {data.community.description !== "undefined" &&
                     <div css={{
                         padding: '12px 16px 0px 16px',
                         fontSize: '14px',
                         color: '#dbdee1',
                     }}>
-                        <ReactMarkdown children={data.description} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
+                        <ReactMarkdown children={data.community.description} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
 
                     </div>
                 }
@@ -262,11 +248,11 @@ let Preview = ({ public_id }: any) => {
                                 borderRadius: '50%',
                                 background: '#c4c9ce',
                                 marginRight: '4px',
-                            }} />{data.subscribers}</div>
+                            }} />{data.community.subscribers}</div>
                     </div>
                     <div>
                         <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Online</div>
-                        <Online public_id={data.public_id} />
+                        <Online public_id={data.community.public_id} />
 
                     </div>
 

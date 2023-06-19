@@ -88,7 +88,7 @@ export default function FilterMenu() {
 
             <ClickAwayListener onClickAway={close}>
                 <StyledPopper
-
+                    onMouseLeave={close}
                     modifiers={[
                         {
                             name: "offset",
@@ -99,7 +99,7 @@ export default function FilterMenu() {
                     ]}
                     id={'filter'} open={Boolean(anchorEl)} anchorEl={anchorEl} >
 
-                    <div>
+                    <div >
                         <div css={[textLabel('s'), {
                             textAlign: 'center',
                             margin: '8px'

@@ -31,8 +31,9 @@ const C = {
         fontWeight: 500,
         lineHeight: '20px',
         color: '#b9b6ba',
-        ':hover': {
+        textDecorationThickness: '2px !important',
 
+        ':hover': {
             textDecoration: 'underline',
             cursor: 'pointer',
         },

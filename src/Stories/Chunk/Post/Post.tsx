@@ -69,6 +69,7 @@ const C = {
 
 const Post = ({ view, ...props }: any) => {
 
+
     // proxing data
     const [inView, setVisibility] = useState(false)
     const data: any = usePostLive(false, props)
@@ -88,11 +89,8 @@ const Post = ({ view, ...props }: any) => {
 
 
     const seen = useRecoilValue(hasSeen);
-    let [grayed, setGrayed] = useState(false)
 
-    useEffect(() => {
-        setGrayed(seen(public_id))
-    }, [])
+
 
     if (!data || data === undefined || !visibility || !created_at) return null
     if (tags && tags.some((obj: any) => filter.includes(obj?.public_id))) return null
@@ -105,7 +103,7 @@ const Post = ({ view, ...props }: any) => {
             <VisibilitySensor onChange={handleVisibility}>
 
                 <div css={C.inner}
-                    style={{ border: view === 'post' ? '2px solid #343442' : 'none' }}
+                    style={{ border: view === 'post' ? '2px solid #343442' : '2px solid #272732' }}
                     onClick={bodyClick}>
                     <div css={C.header}>
                         <Avatar size="medium" public_id={flow === 'global' ? community?.public_id : author?.public_id} />
@@ -150,11 +148,12 @@ const Post = ({ view, ...props }: any) => {
                             tags={tags}
                             person_id={author?.public_id}
                             post_id={public_id}
+                            community_id={community?.public_id}
                             global_roles={global_roles}
                             community_roles={community_roles} />}
                     </div>
 
-                    <div css={[textBold('x'), (flow !== 'post' && grayed) && { color: '#b9b6ba !important' }]}>{title && title}</div>
+                    <div css={[textBold('x'), (view === 'list' && seen(public_id)) && { color: '#b9b6ba !important' }]}>{title && title}</div>
 
                     <ContentLoader type={type} content={content} public_id={public_id} />
 

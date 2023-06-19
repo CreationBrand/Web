@@ -35,6 +35,8 @@ const C = {
         gap: '4px',
         fontWeight: 600,
         color: '#f2f3f5',
+        textDecorationThickness: '2px !important',
+
         ':hover': {
 
             textDecoration: 'underline',

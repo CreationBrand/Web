@@ -30,7 +30,7 @@ const C = {
 const proxy = "https://cors.creationbrand.workers.dev"
 
 
-const ContentLoader = ({ type, content, public_id }: any) => {
+const ContentLoader = ({ type, content, public_id, view }: any) => {
 
     
 
@@ -48,7 +48,7 @@ const ContentLoader = ({ type, content, public_id }: any) => {
         return <Link url={content} />
     }
 
-    else if (type === 'text') return <Text content={content} public_id={public_id} />
+    else if (type === 'text') return <Text view={view} content={content} public_id={public_id} />
 
     try {
         if (typeof content === 'string') content = JSON.parse(content)

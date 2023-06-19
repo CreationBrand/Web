@@ -226,12 +226,12 @@ const Comment = (props: any) => {
                         </div>
 
                         <div css={{
-                            height: '34px',
+                            height: '36px',
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'center',
                         }}>
-                            <div css={{ display: 'flex', alignItems: 'center', gap: '4px', height: '12px', lineHeight: '10px', marginBottom: '4px' }}>
+                            <div css={{ display: 'flex', alignItems: 'center', gap: '4px', height: '12px', lineHeight: '10px' }}>
 
                                 <Nickname
                                     title={author?.nickname}
@@ -242,10 +242,15 @@ const Comment = (props: any) => {
                                 {created_at && <div css={[textLight('t'), { lineHeight: '20px' }]}><TimeAgo date={created_at} formatter={formatTime} /></div>}
 
                             </div>
-                            <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                {community_roles && <LiveRoles value={community_roles} />}
-                                {tags && <LiveTags value={tags} />}
-                            </div>
+
+                            {(community_roles || tags) &&
+                                <div css={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop:'4px' }}>
+                                    {community_roles && <LiveRoles value={community_roles} />}
+                                    {tags && <LiveTags value={tags} />}
+                                </div>
+                            }
+
+
                         </div>
                         {authState !== 'guest' && <CommentMenu person_id={author.public_id} tags={tags} comment_id={public_id} global_roles={global_roles} community_roles={community_roles} />}
 

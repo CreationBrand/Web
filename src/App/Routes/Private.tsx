@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation, } from 'react-router-dom'
+import { Routes, Route, useLocation, Navigate, } from 'react-router-dom'
 import Error from 'Stories/Chunk/Error/Error'
 import PostList from 'Stories/Chunk/Lists/PostList'
 import MessengerList from 'Stories/Chunk/Lists/MessengerList'
@@ -85,7 +85,7 @@ var Private = () => {
                 </Route>
 
                 <Route path="/error" element={<div>404</div>} />
-                {/* <Route path="*" element={<Navigate to="/trending" replace={true} />} /> */}
+                <Route path="*" element={<Navigate to="/trending" replace={true} />} />
             </Routes>
         </>
     )

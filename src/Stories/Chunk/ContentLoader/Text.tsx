@@ -26,31 +26,16 @@ const C = {
         zIndex: 500,
     }),
 
-    grayed: css({
-        color: '#b9b6ba !important',
-    }),
 }
 
-const Text = ({ content, public_id }: any) => {
-
-    const flow = useRecoilValue(contentFlow)
-    const seen = useRecoilValue(hasSeen);
-    let [grayed, setGrayed] = useState(false)
-
-    useEffect(() => {
-        setGrayed(seen(public_id))
-    }, [])
+const Text = ({ content, public_id, view }: any) => {
 
     return (
         <div
             id={'text'}
-            css={[
-                (flow === 'community' || flow === 'global') && C.tailed,
-                (flow === 'post' && grayed) && C.grayed
-                , C.container]}>
+            css={[view === 'list' && C.tailed, C.container]}>
 
-            <ReactMarkdown
-                children={content} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
+            <ReactMarkdown children={content} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
         </div>
 
     )

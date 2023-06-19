@@ -17,7 +17,7 @@ var Public = () => {
 
     const location = useLocation()
     const [value, setContentFlow] = useRecoilState(contentFlow)
-    
+
     useEffect(() => {
         let parts: any = location.pathname.split('/')
         switch (true) {
@@ -53,7 +53,19 @@ var Public = () => {
 
             <Routes>
 
+
                 <Route path="/" element={<Preview />}>
+
+                    <Route path="/" element={<Navigate to="/trending" replace={true} />} />
+
+
+                    {/* fake */}
+                    <Route path="/trending" element={<div />} />
+                    <Route path="/home" element={<div />} />
+                    <Route path="/c/:community_id" element={<div />} />
+                    <Route path="/g/:group_id" element={<div />} />
+
+
 
                     {/* layover lists */}
                     <Route path="search/:query" element={<SearchList />} />
@@ -66,17 +78,12 @@ var Public = () => {
                     <Route path="announcements" element={<Announcements />} />
                     <Route path="contact" element={<Contact />} />
 
-                    {/* fake */}
-                    <Route path="/trending" element={<div />} />
-                    <Route path="/home" element={<div />} />
-                    <Route path="/c/:community_id" element={<div />} />
-                    <Route path="/g/:group_id" element={<div />} />
 
                 </Route>
 
 
 
-                {/* <Route path="*" element={<Navigate to="/trending" replace={true} />} /> */}
+                <Route path="*" element={<Navigate to="/trending" replace={true} />} />
 
             </Routes>
         </>

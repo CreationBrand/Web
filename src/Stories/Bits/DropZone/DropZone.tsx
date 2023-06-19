@@ -72,12 +72,14 @@ const DropZone = ({ value, onChange }: any
 
         }
 
-        else if (acceptedFiles[0].type === 'image/jpeg') {
+        else if (acceptedFiles.length > 0) {
             let temp: any = []
             let buffers: any = []
             acceptedFiles.forEach(async (file: any) => {
 
-                if (file.type === 'image/jpeg') {
+                console.log('%c[FILE] ', 'font-weight:bold; color: #fcb358', `Type: ${file.type} Bytes:${file.size}`);
+
+                if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png') {
 
                     if (acceptedFiles[0].size > 10000000) {
                         setFiles([])
