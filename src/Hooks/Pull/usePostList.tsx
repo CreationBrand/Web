@@ -70,7 +70,8 @@ const usePostList = (community_id: any, filter: any) => {
         if (components?.length === 0) return
         let last: any = components[components.length - 1]
 
-        if(last.length === 0) return
+        if(!last[last.length - 1]) return
+        if (last.length === 0) return
         if (filter === 'none') return setCursor(last[last.length - 1].props.hot)
         if (filter === 'group') return setCursor(last[last.length - 1].props.hot)
         else if (filter === 'HOT') return setCursor(last[last.length - 1].props.hot)

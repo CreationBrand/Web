@@ -10,7 +10,8 @@ const C = {
     container: css({
         height: '100%',
         position: 'relative',
-        overflow: 'hidden',
+        // overflow: 'hidden',
+        overflowY: 'scroll',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',

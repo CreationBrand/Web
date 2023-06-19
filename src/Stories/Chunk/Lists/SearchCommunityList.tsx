@@ -31,8 +31,10 @@ const SearchCommunityList = () => {
     const [isLoading, isError, components] = useCommunitySearch(params.community_id, params.query)
     const [isLoading1, isError1, component, data] = usePullCommunity(params.community_id)
 
+
     if (isError1 || isError) return <ChunkError variant='error' />
     if (isLoading1 || isLoading) return <ChunkError variant='loading' />
+
 
     return (
         <motion.div

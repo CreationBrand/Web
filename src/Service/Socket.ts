@@ -76,7 +76,7 @@ var cookies = parseCookies()
 
 
 // SOCKET.IO CONNECTION
-console.log('%c [Socket] ', 'background: #000; color: #da55cd', 'Initializing Socket');
+console.log('%c [Socket] ', 'font-weight:bold; color: #da55cd', 'Initializing Socket');
 //@ts-ignore
 socket = io(process.env.REACT_APP_SOCKET, {
     reconnectionDelayMax: 5000,
@@ -105,12 +105,9 @@ socket.on("error", (error: any) => {
 
 // SOCKET connection established
 socket.on("connect", () => {
-    console.log('%c [Socket] ', 'background: #052900; color: #da55cd', 'connection');
+    console.log('%c [Socket] ', 'font-weight:bold; color: #da55cd', 'Connectied to Socket');
     setRecoil(socketFlow, 'connected')
-
-
     socketRequest('notifs', {}).then((data: any) => {
-
         for (const property in data.notifs) {
             setRecoil(notificationStateFamily(property), data.notifs[property])
 

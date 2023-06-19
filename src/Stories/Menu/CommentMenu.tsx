@@ -27,7 +27,7 @@ const StyledPopper = styled(Popper)(() => ({
 
 
 
-const CommentMenu = ({ person_id, comment_id, tags, global_roles, community_roles }: any) => {
+const CommentMenu = ({ person_id, comment_id, community_id, tags, global_roles, community_roles }: any) => {
 
     const [anchorEl, setAnchorEl]: any = useState(null);
     let content = useRecoilValue(contentFlow)
@@ -70,11 +70,10 @@ const CommentMenu = ({ person_id, comment_id, tags, global_roles, community_role
                                 backgroundColor: '#0f0e10',
                             }}
                         >
-                            {(content === 'comment' || content === 'community' || content === 'post') &&
-                                <>
-                                    <TagMenu current={tags} public_id={comment_id} type={'comment'} />
-                                    <RoleMenu current={community_roles} person_id={person_id} public_id={comment_id} type={'comment'} />
-                                </>}
+
+                            <TagMenu community_id={community_id} current={tags} public_id={comment_id} type={'comment'} />
+                            <RoleMenu community_id={community_id} current={community_roles} person_id={person_id} public_id={comment_id} type={'comment'} />
+
                             <MenuItem disabled={true}>Global Roles <AdminPanelSettingsOutlinedIcon /></MenuItem>
                             <MenuItem disabled={true}>Moderate <GavelRoundedIcon /></MenuItem>
                             <MenuItem>Report <ReportGmailerrorredRoundedIcon /></MenuItem>

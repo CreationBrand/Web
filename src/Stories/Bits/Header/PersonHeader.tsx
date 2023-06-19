@@ -1,20 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { Button, IconButton } from '@mui/material'
-import { textBold, textLabel, textLight, textNormal } from 'Global/Mixins'
-import { memo, useEffect, useState } from 'react'
+import { Button } from '@mui/material'
+import { textBold, textLabel, textLight } from 'Global/Mixins'
+import { memo } from 'react'
 
 import { useRecoilValue, } from 'recoil'
-import { communityListData, } from 'State/Data'
-import { authFlow, communityFlow, } from 'State/Flow'
+import { authFlow } from 'State/Flow'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useNavigate } from 'react-router-dom'
-import { joinCommunity, leaveCommunity } from 'Helper/Action'
-import Online from 'Stories/Bits/Online/Online'
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 import LiveRoles from 'Stories/Alive/LiveRoles'
-import { canManageCommunity } from 'Service/Rbac'
-import useLiveData from 'Hooks/useLiveData'
 
 const C = {
 
@@ -35,14 +30,15 @@ const C = {
 
     }),
     inner2: css({
+
         padding: '8px',
         margin: '0 auto',
+        marginTop: '16px',
         width: '100%',
         maxWidth: '800px',
         borderRadius: '8px',
         overflow: 'hidden',
         position: 'relative',
-        background: '#272732',
         color: '#f2f2f2',
         fontSize: '16px',
     }),
@@ -122,22 +118,12 @@ const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nic
 
     const openDm = () => { }
 
+
+    console.log('about_me', global_roles)
     return (
         <div css={C.container} key={'person'}>
 
             <div css={C.inner}>
-                {/* 
-                <IconButton
-                    disabled={authState === 'guest' || !canManageCommunity(community?.roleHex)}
-                    sx={{
-                        zIndex: 100,
-                        color: '#d7dadc', borderRadius: '12px', position: 'absolute', top: '8px', right: '8px'
-                    }}
-                    aria-haspopup="true"
-                    onClick={handleEdit}
-                >
-                    <MoreVertIcon />
-                </IconButton> */}
 
                 <img css={C.banner}
                     loading="lazy"
@@ -174,6 +160,34 @@ const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nic
                         }}
 
                         variant="contained">Chat</Button>
+                </div>
+            </div>
+
+
+            <div css={C.inner2}>
+
+                {about_me && <>
+                    <div css={textLabel('t')}>About Me</div>
+                    <ReactMarkdown children={about_me} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
+                </>}
+
+                <div css={C.roles}>
+                    <div>
+                        <div css={textLabel('t')}>Karma</div>
+                        {karma}
+                    </div>
+                    <div>
+                        <div css={textLabel('t')}>Posts</div>
+                        {posts}
+                    </div>
+                    <div>
+                        <div css={textLabel('t')}>Comments</div>
+                        {comments}
+                    </div>
+                    <div>
+                        <div css={textLabel('t')}>global Roles</div>
+                        <LiveRoles value={global_roles} />
+                    </div>
                 </div>
             </div>
 

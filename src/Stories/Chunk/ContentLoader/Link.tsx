@@ -106,6 +106,9 @@ const Link = ({ url }: any) => {
 
         if (isLoading) return <div css={C.loading}><Walk variant='loading' /></div>
 
+        else if (data?.siteName === 'YouTube') { }
+        else if (data?.siteName === 'Twitch') { }
+        else if (data?.siteName === 'Twitter') { }
         // IMAGE FIRST (FOR GIFS)
         else if (["GIPHY", "Tenor"].includes(data?.siteName)) {
             if (data?.images?.length) return <Image url={`${proxy}/${data?.images[0]}`} />

@@ -5,11 +5,10 @@ import { css } from '@emotion/react'
 import { styled } from '@mui/material/styles';
 import Popper from '@mui/material/Popper';
 
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Checkbox, MenuItem, } from '@mui/material';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { socketRequest } from 'Service/Socket';
-import { communityFlow } from 'State/Flow';
 
 import EditAttributesIcon from '@mui/icons-material/EditAttributes';
 import { canManageCommunity } from 'Service/Rbac';
@@ -27,7 +26,8 @@ const StyledPopper = styled(Popper)(({ theme }) => ({
 }));
 
 
-export default function RoleMenu({ current, person_id, public_id, type, community_id }: any) {
+const RoleMenu = ({ current, person_id, public_id, type, community_id }: any) => {
+
 
     const updater = useSetRecoilState(type === 'post' ? postSync(public_id) : commentSync(public_id))
 
@@ -68,7 +68,7 @@ export default function RoleMenu({ current, person_id, public_id, type, communit
                 let temp = old?.community_roles?.length > 0 ? old.community_roles : []
                 return {
                     ...old,
-                    community_roles: [...temp, community.community.community_roles.allRoles.find((elem: any) => elem.public_id === e.currentTarget.dataset.test)]
+                    community_roles: [...temp, community.community.community_roles.find((elem: any) => elem.public_id === e.currentTarget.dataset.test)]
                 }
             })
             socketRequest('roles-add-person', { public_id: public_id, role_id: e.currentTarget.dataset.test, person_id: person_id, community_id: community.community.public_id })
@@ -81,9 +81,9 @@ export default function RoleMenu({ current, person_id, public_id, type, communit
         e.stopPropagation()
         setAnchorEl(e.currentTarget)
     };
-    console.log(community)
 
-    if (!community || !canManageCommunity(community.communityHex)) return null
+
+    if (!community || !canManageCommunity(community.communityHex) || !community.community) return null
 
     return (
 
@@ -104,6 +104,7 @@ export default function RoleMenu({ current, person_id, public_id, type, communit
                         boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)',
                         padding: '6px 8px',
                         backgroundColor: '#0f0e10',
+
                     }}
                 >
                     {community.community.community_roles.map((tag: any) =>
@@ -121,7 +122,11 @@ export default function RoleMenu({ current, person_id, public_id, type, communit
                                     borderRadius: '3px',
                                     backgroundColor: "#" + tag?.color?.toString(16),
                                 }} />
-                            {tag.title}
+                            <span css={{
+                                textOverflow: 'ellipsis',
+                                overflow: 'hidden',
+                            }}>{tag.title}</span>
+
 
                             <Checkbox
                                 checked={value.indexOf(tag.public_id) > -1}
@@ -146,3 +151,6 @@ export default function RoleMenu({ current, person_id, public_id, type, communit
 
     );
 }
+
+
+export default memo(RoleMenu)

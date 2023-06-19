@@ -12,8 +12,6 @@ const App = () => {
     const [isAuth, loading] = useAuth()
     const socket = useRecoilValue(socketFlow)
 
-    console.log('%c [App] ', 'background: #000; color: #55daae', 'Loading App')
-
     if (loading || socket === 'loading') return <div style={{ height: '100vh' }}><ChunkError variant={'loading'} /></div>
     if (isAuth) return <Private />
 

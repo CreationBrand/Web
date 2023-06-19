@@ -163,6 +163,7 @@ const colors: any = {
 
 const Comment = (props: any) => {
 
+
     const [inView, setVisibility] = useState(false)
 
     const [vote, tags, community_roles, global_roles, visibility, author, content, created_at,
@@ -204,7 +205,6 @@ const Comment = (props: any) => {
     }
 
     return (
-        // <VisibilitySensor onChange={handleVisibility}>
         <div css={C.container}>
 
             <div css={[C.inner, depth == 2 && C.headComment, last && C.tailComment]}>
@@ -244,7 +244,7 @@ const Comment = (props: any) => {
                             </div>
 
                             {(community_roles || tags) &&
-                                <div css={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop:'4px' }}>
+                                <div css={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
                                     {community_roles && <LiveRoles value={community_roles} />}
                                     {tags && <LiveTags value={tags} />}
                                 </div>
@@ -252,7 +252,13 @@ const Comment = (props: any) => {
 
 
                         </div>
-                        {authState !== 'guest' && <CommentMenu person_id={author.public_id} tags={tags} comment_id={public_id} global_roles={global_roles} community_roles={community_roles} />}
+                        {authState !== 'guest' && <CommentMenu
+                            community_id={props.community.public_id}
+                            person_id={author.public_id}
+                            tags={tags}
+                            comment_id={public_id}
+                            global_roles={global_roles} c
+                            community_roles={community_roles} />}
 
                     </div>
 
@@ -301,7 +307,6 @@ const Comment = (props: any) => {
             </div>
         </div>
 
-        // </VisibilitySensor>
     )
 }
 

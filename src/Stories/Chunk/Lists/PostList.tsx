@@ -57,8 +57,8 @@ const PostList = () => {
             key={`Post:${params.post_id}`}
             css={C.container}
             transition={{ duration: 0.1 }}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
 
         >
             <VirtualList

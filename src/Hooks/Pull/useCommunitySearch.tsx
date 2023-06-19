@@ -13,7 +13,7 @@ const cache = new TTLCache({ max: 10000, ttl: 60000 })
 
 let end: boolean = false
 
-const usePostList = (community_id: any, query: any) => {
+const useCommunitySearch = (community_id: any, query: any) => {
 
     const [components, setComponents]: any = useRecoilState(postList)
 
@@ -37,7 +37,6 @@ const usePostList = (community_id: any, query: any) => {
 
             let req: any = await socketRequest('search-community', { community_id, query, cursor: cursor })
             console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.posts?.length}) Posts Cursor:${cursor}`);
-
             if (req?.posts?.length < 25) end = true
             setList(req.posts)
             cache.set(`posts:${community_id}:${query}:${cursor}`, req.posts)
@@ -47,21 +46,22 @@ const usePostList = (community_id: any, query: any) => {
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
             for (let i = 0; i < listItems?.length; i++) {
+                listItems[i].visibility = true
                 set(postSync(listItems[i].public_id), listItems[i]);
-                set(postList, (oldList: any) => [...oldList, <Post {...listItems[i]} />])
+                set(postList, (oldList: any) => [...oldList, <Post view='list' {...listItems[i]} />])
             }
         },
         []
     );
 
     const fetchNext = async () => {
-        if (components?.length === 0) return
-        return setCursor(components[components.length - 1].props.created_at)
+        // if (components?.length === 0) return
+        // return setCursor(components[components.length - 1].props.created_at)
     }
 
-    return [isLoading, isError, components.concat(<ChunkError variant={!end ? 'loading' : 'end'} onLoad={fetchNext} />)]
+    return [isLoading, isError, components.concat(<ChunkError variant={!end ? 'loading' : 'end'} />)]
 }
 
 
 
-export default usePostList
+export default useCommunitySearch

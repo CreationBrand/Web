@@ -40,7 +40,6 @@ const C = {
         touchAction: 'pan-y',
         zIndex: 200,
         position: 'relative',
-        paddingTop: '8px',
 
     }),
     container: css({

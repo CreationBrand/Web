@@ -87,14 +87,10 @@ const Post = ({ view, ...props }: any) => {
         navigate(`/c/${community.public_id}/p/${public_id}`)
     }
 
-
     const seen = useRecoilValue(hasSeen);
-
-
 
     if (!data || data === undefined || !visibility || !created_at) return null
     if (tags && tags.some((obj: any) => filter.includes(obj?.public_id))) return null
-
 
 
     return (

@@ -129,7 +129,7 @@ export const verifyEmail = (code: string) => {
 export const verifyCognito = async () => {
 
 
-    console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'VERIFY COGNITO');
+    console.log('%c [LOGIN] ', 'font-weight:bold; color: #5555da', 'VERIFY COGNITO');
 
     return new Promise((resolve) => {
         try {
@@ -146,7 +146,7 @@ export const verifyCognito = async () => {
                 return
             }
 
-            console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'COOKIES FOUND', cookies);
+            console.log('%c [LOGIN] ', 'font-weight:bold; color: #5555da', 'COOKIES FOUND', cookies);
 
 
             const userData = {
@@ -154,7 +154,7 @@ export const verifyCognito = async () => {
                 Pool: userPool,
             }
 
-            console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'TOKEN', userData);
+            console.log('%c [LOGIN] ', 'font-weight:bold; color: #5555da', 'TOKEN', userData);
 
 
             const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
@@ -162,7 +162,7 @@ export const verifyCognito = async () => {
                 RefreshToken: cookies.refreshToken
             })
 
-            console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'TOKEN', token);
+            console.log('%c [LOGIN] ', 'font-weight:bold; color: #5555da', 'TOKEN', token);
 
 
             cognitoUser.refreshSession(
