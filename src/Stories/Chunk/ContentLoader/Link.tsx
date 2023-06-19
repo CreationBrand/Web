@@ -86,15 +86,15 @@ const Link = ({ url }: any) => {
 
         if (isLoading) return <div css={C.container}><Walk variant='loading' /></div>
 
-        //IMAGE FIRST (FOR GIFS)
-        // else if (["GIPHY", "Tenor"].includes(data?.siteName)) {
-        //     if (data?.images?.length) return <Image url={`${proxy}/${data?.images[0]}`} />
-        //     else if (data?.videos?.length) {
-        //         let video = data.videos[0].url
-        //         if (video.includes('.gif')) return <Image url={`${proxy}/${video}`} />
-        //         else return <Player url={`${proxy}/${video}`} />
-        //     }
-        // }
+        // IMAGE FIRST (FOR GIFS)
+        else if (["GIPHY", "Tenor"].includes(data?.siteName)) {
+            if (data?.images?.length) return <Image url={`${proxy}/${data?.images[0]}`} />
+            else if (data?.videos?.length) {
+                let video = data.videos[0].url
+                if (video.includes('.gif')) return <Image url={`${proxy}/${video}`} />
+                else return <Player url={`${proxy}/${video}`} />
+            }
+        }
 
         //VIDEO FIRST (FOR VIDEOS)
         else if (["GIPHY", "Tenor", "HARDGIF.COM", "EPORNER.COM", "RedGIFs", "Imgur", "Porn Giphy"].includes(data?.siteName)) {

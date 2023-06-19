@@ -46,7 +46,7 @@ const StyledBadge = styled(Badge)<BadgeProps>({
 });
 
 
-const Home = ({ children }: any) => {
+const Home = () => {
 
     const navigate = useNavigate()
     const [l, r] = useRecoilValue(triState)
@@ -193,7 +193,6 @@ const Home = ({ children }: any) => {
                     }
                 </Nav>
                 <>
-                    {children}
                     {last === 'trending' && <GlobalList type="trending" />}
                     {last === 'home' && <GlobalList type="home" />}
                     {last === 'community' && <CommunityList />}

@@ -23,6 +23,7 @@ import { textLabel } from 'Global/Mixins'
 import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
 import CommunityList from 'Stories/Chunk/Lists/CommunityList'
 import GlobalList from 'Stories/Chunk/Lists/GlobalList'
+import GroupList from 'Stories/Chunk/Lists/GroupList'
 
 const Preview = () => {
 
@@ -165,12 +166,13 @@ const Preview = () => {
                         </div>
 
                     </Nav>
-
-                    {/* {last === 'trending' && <GlobalList type="trending" />}
+                    <>
+                    {last === 'trending' && <GlobalList type="trending" />}
                     {last === 'home' && <GlobalList type="home" />}
-                    {last === 'community' && <CommunityList />} */}
-
+                    {last === 'community' && <CommunityList />}
+                    {last === 'group' && <GroupList />}
                     <Outlet />
+                </>
 
 
                 </Main>
