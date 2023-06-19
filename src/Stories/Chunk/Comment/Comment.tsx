@@ -193,7 +193,7 @@ const Comment = (props: any) => {
 
 
     // NO RENDERS
-    if (status === 'invisible') return null
+    if (status === 'invisible' || !public_id) return null
     else if (!visibility) return null
     else if (tags && tags.some((obj: any) => filter.includes(obj.public_id))) return null
 
@@ -252,13 +252,16 @@ const Comment = (props: any) => {
 
 
                         </div>
-                        {authState !== 'guest' && <CommentMenu
-                            community_id={props.community.public_id}
-                            person_id={author.public_id}
-                            tags={tags}
-                            comment_id={public_id}
-                            global_roles={global_roles} c
-                            community_roles={community_roles} />}
+                        {(authState !== 'guest' &&
+                            props?.community?.public_id &&
+                            author?.public_id
+                        ) && <CommentMenu
+                                community_id={props.community.public_id}
+                                person_id={author.public_id}
+                                tags={tags}
+                                comment_id={public_id}
+                                global_roles={global_roles} c
+                                community_roles={community_roles} />}
 
                     </div>
 
