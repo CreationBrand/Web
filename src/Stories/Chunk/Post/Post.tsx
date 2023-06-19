@@ -68,7 +68,7 @@ const C = {
 }
 
 
-const Post = (props: any) => {
+const Post = ({ view, ...props }: any) => {
 
     // proxing data
     const [inView, setVisibility] = useState(false)
@@ -77,11 +77,15 @@ const Post = (props: any) => {
 
     const filter = useRecoilValue(filterFlow)
     const authState = useRecoilValue(authFlow)
-    const contentState = useRecoilValue(contentFlow)
+    const flow = useRecoilValue(contentFlow)
 
     const navigate = useNavigate()
     const handleVisibility = (isVisible: boolean) => setVisibility(isVisible)
-    const bodyClick = () => navigate(`/c/${community.public_id}/p/${public_id}`)
+
+    const bodyClick = (e:any) => {
+        if (view === 'post') return
+        navigate(`/c/${community.public_id}/p/${public_id}`)
+    }
 
 
     const seen = useRecoilValue(hasSeen);
@@ -95,18 +99,25 @@ const Post = (props: any) => {
     if (!data || data === undefined || !visibility || !created_at) return null
     if (tags && tags.some((obj: any) => filter.includes(obj?.public_id))) return null
 
+
+
     return (
         <VisibilitySensor onChange={handleVisibility}>
 
-            <div css={C.container} key={`/c/${community.public_id}/p/${public_id}`}>
-                <div css={C.inner} onClick={bodyClick}>
+            <div
+                css={C.container}
+                key={`${view}/${public_id}`}>
+
+                <div css={C.inner}
+                    style={{ border: view === 'post' ? '2px solid #343442' : 'none' }}
+                    onClick={bodyClick}>
                     <div css={C.header}>
 
-                        {contentState === 'global' ?
-                            <Avatar size="medium" public_id={community?.public_id} /> :
-                            <Avatar size="medium" public_id={author?.public_id} />}
+                        <Avatar size="medium" public_id={flow === 'global' ? community?.public_id : author?.public_id} />
 
-                        {contentState === 'community' && <div>
+
+                        {/* HEADER */}
+                        {flow === 'community' && <div>
                             <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                                 <Author
                                     title={author?.nickname}
@@ -115,7 +126,6 @@ const Post = (props: any) => {
                                     global_roles={global_roles}
                                 />
                                 <span css={textLight('s')}><TimeAgo date={created_at} formatter={formatTime} /></span>
-
                             </div>
 
                             <div css={{ display: 'flex', alignItems: 'center', gap: '4px', height: '20px' }}>
@@ -125,7 +135,7 @@ const Post = (props: any) => {
                         </div>}
 
 
-                        {contentState !== 'community' && <div>
+                        {flow !== 'community' && <div>
                             <div>
                                 <div css={{ display: 'flex', gap: '4px', alignItems: 'baseline' }}>
                                     <CommunityTitle title={community?.title} public_id={community?.public_id} />
@@ -151,7 +161,7 @@ const Post = (props: any) => {
 
                     </div>
 
-                    <div css={[textBold('x'), (contentState !== 'post' && grayed) && { color: '#b9b6ba !important' }]}>{title && title}</div>
+                    <div css={[textBold('x'), (flow !== 'post' && grayed) && { color: '#b9b6ba !important' }]}>{title && title}</div>
 
                     <ContentLoader type={type} content={content} public_id={public_id} />
 

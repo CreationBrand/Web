@@ -13,22 +13,17 @@ import NotiList from 'Stories/Chunk/Lists/NotiList'
 import SearchCommunityList from 'Stories/Chunk/Lists/SearchCommunityList'
 import Submit from 'Stories/Views/Submit'
 import { contentFlow } from 'State/Flow'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { set } from 'react-hook-form'
 
 var Private = () => {
 
-    console.log('%c [Route] ', 'background: #000; color: #55daae', 'Loading Private Routes');
-
     const location = useLocation()
-    const setContentFlow: any = useSetRecoilState(contentFlow)
-
+    const [value, setContentFlow] = useRecoilState(contentFlow)
+    
     useEffect(() => {
-
-        console.log(location.pathname)
         let parts: any = location.pathname.split('/')
-
-        switch (parts) {
+        switch (true) {
             case parts[1] === 'trending':
                 return setContentFlow('global')
             case parts[1] === 'home':
@@ -54,7 +49,6 @@ var Private = () => {
         }
 
     }, [location.pathname]);
-
 
 
 

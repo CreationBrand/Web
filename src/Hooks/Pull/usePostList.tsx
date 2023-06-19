@@ -58,7 +58,7 @@ const usePostList = (community_id: any, filter: any) => {
             for (let i = 0; i < listItems?.length; i++) {
                 listItems[i].visibility = true
                 set(postSync(listItems[i].public_id), listItems[i]);
-                batch.push(<Post {...listItems[i]} />)
+                batch.push(<Post view='list' {...listItems[i]} />)
             }
             set(postList, (oldList: any) => [...oldList, batch])
 

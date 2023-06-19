@@ -20,6 +20,9 @@ body {
 }
 
 
+.TREE{
+    touch-action: pan-y;
+}
 
 /* STOLEN LOADER THO ITS MIT */
 

@@ -57,6 +57,7 @@ const MessengerTree = () => {
 
 
             <Tree
+                className="TREE"
                 initialData={tree}
                 openByDefault={false}
                 width={216}

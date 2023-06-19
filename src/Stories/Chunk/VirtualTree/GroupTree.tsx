@@ -49,6 +49,7 @@ const GroupTree = () => {
             <EditGroup group={edit} handleClose={editClose} />
 
             <Input
+                className="TREE"
                 onChange={handleSearch}
                 value={search}
                 fullWidth

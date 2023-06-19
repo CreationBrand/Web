@@ -13,7 +13,7 @@ export const contentFlow = atom({
     default: null as contentFlow | null,
 })
 
-type contentFlow = 'post' | 'comment' | 'community' | 'global' | 'group'
+type contentFlow = 'post' | 'comment' | 'community' | 'global' | 'group' | 'person' | 'messenger' | 'settings' | 'submit' | 'notifications' | 'search' | 'searchCommunity' | 'editCommunity' | 'editPerson' | 'editPost' | 'editComment' | 'editGroup' | 'editMessenger' | 'editSettings' | 'editSubmit' | 'editNotifications' | 'editSearch' | 'editSearchCommunity' | 'editGlobal' | 'editGroup' | 'editPerson' | 'editMessenger' | 'editSettings' | 'editSubmit' | 'editNotifications' | 'editSearch' | 'editSearchCommunity' | 'editGlobal'
 
 export const errorFlow = atom({
     key: 'errorFlow',

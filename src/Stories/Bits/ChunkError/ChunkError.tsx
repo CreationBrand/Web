@@ -17,7 +17,7 @@ const C = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        touchAction: 'none',
+        touchAction: 'pan-y',
 
     }),
     inner: css({
