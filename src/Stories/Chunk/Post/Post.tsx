@@ -11,7 +11,6 @@ import { memo, useEffect, useState, } from 'react'
 import { useRecoilValue } from 'recoil'
 import { authFlow, contentFlow, filterFlow } from 'State/Flow'
 import { textBold, textLight } from 'Global/Mixins'
-import RightMenu from 'Stories/Bits/RightMenu/RightMenu'
 import LiveComments from 'Stories/Alive/LiveComments'
 import LiveViews from 'Stories/Alive/LiveViews'
 import LiveVotes from 'Stories/Alive/LiveVotes'
@@ -82,7 +81,7 @@ const Post = ({ view, ...props }: any) => {
     const navigate = useNavigate()
     const handleVisibility = (isVisible: boolean) => setVisibility(isVisible)
 
-    const bodyClick = (e:any) => {
+    const bodyClick = (e: any) => {
         if (view === 'post') return
         navigate(`/c/${community.public_id}/p/${public_id}`)
     }
@@ -95,26 +94,21 @@ const Post = ({ view, ...props }: any) => {
         setGrayed(seen(public_id))
     }, [])
 
-
     if (!data || data === undefined || !visibility || !created_at) return null
     if (tags && tags.some((obj: any) => filter.includes(obj?.public_id))) return null
 
 
 
     return (
-        <VisibilitySensor onChange={handleVisibility}>
 
-            <div
-                css={C.container}
-                key={`${view}/${public_id}`}>
+        <div css={C.container}>
+            <VisibilitySensor onChange={handleVisibility}>
 
                 <div css={C.inner}
                     style={{ border: view === 'post' ? '2px solid #343442' : 'none' }}
                     onClick={bodyClick}>
                     <div css={C.header}>
-
                         <Avatar size="medium" public_id={flow === 'global' ? community?.public_id : author?.public_id} />
-
 
                         {/* HEADER */}
                         {flow === 'community' && <div>
@@ -158,7 +152,6 @@ const Post = ({ view, ...props }: any) => {
                             post_id={public_id}
                             global_roles={global_roles}
                             community_roles={community_roles} />}
-
                     </div>
 
                     <div css={[textBold('x'), (flow !== 'post' && grayed) && { color: '#b9b6ba !important' }]}>{title && title}</div>
@@ -172,8 +165,9 @@ const Post = ({ view, ...props }: any) => {
                     </div>
 
                 </div>
-            </div>
-        </VisibilitySensor>
+            </VisibilitySensor>
+        </div>
+
     )
 }
 

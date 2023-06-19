@@ -3,12 +3,8 @@
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
 import { memo } from 'react'
-import useCommunityFlow from 'Hooks/useCommunityFlow'
-import VirtuList from '../VirtualList/VirtuList'
 import usePostList from 'Hooks/Pull/usePostList'
 import VirtualList from '../VirtualList/VirtualList'
-import { useRecoilValue } from 'recoil'
-import { bindState } from 'State/atoms'
 
 const C = {
     container: css({
@@ -24,11 +20,7 @@ const C = {
 
 const GlobalList = ({ type }: any) => {
 
-
-
     const [isLoading, isError, components] = usePostList(type, 'none')
-
-    useCommunityFlow(null)
 
     return (
         <motion.div

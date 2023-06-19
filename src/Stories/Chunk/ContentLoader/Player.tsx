@@ -103,11 +103,10 @@ const Player = ({ url, fallback }: any) => {
                 {open && <Viewer url={url} open={open} onClose={handleClose} />}
 
                 <ReactPlayer
-                    onError={handleError}
                     playing={isPlaying}
                     url={url}
-                    // muted={mute}
-                    // autoPlay={autoPlay}
+                    muted={true}
+                    autoPlay={autoPlay}
                     loop={true}
                 />
 

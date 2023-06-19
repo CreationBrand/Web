@@ -31,20 +31,16 @@ const Preview = () => {
     const [l, r] = useRecoilValue(triState)
     const setTri: any = useSetRecoilState(triState)
     const [showLogin, setShowLogin] = useState(false)
-
-
-    const [last, setLast] = useState('trending')
-
+    const [last, setLast]: any = useState(false)
     const location = useLocation()
 
     useEffect(() => {
         let parts = location.pathname.split('/')
         if (location.pathname === '/trending') setLast('trending')
         else if (location.pathname === '/home') setLast('home')
-        if (parts[1] === 'c' && parts.length === 3) setLast('community')
-
+        else if (parts[1] === 'c' && parts.length === 3) setLast('community')
+        else if (parts[1] === 'g' && parts.length === 3) setLast('group')
     }, [location])
-
 
     return (
         <>
@@ -167,12 +163,12 @@ const Preview = () => {
 
                     </Nav>
                     <>
-                    {last === 'trending' && <GlobalList type="trending" />}
-                    {last === 'home' && <GlobalList type="home" />}
-                    {last === 'community' && <CommunityList />}
-                    {last === 'group' && <GroupList />}
-                    <Outlet />
-                </>
+                        {last === 'trending' && <GlobalList type="trending" />}
+                        {last === 'home' && <GlobalList type="home" />}
+                        {last === 'community' && <CommunityList />}
+                        {last === 'group' && <GroupList />}
+                        <Outlet />
+                    </>
 
 
                 </Main>
@@ -182,5 +178,5 @@ const Preview = () => {
     )
 }
 
-export default memo(Preview)
+export default Preview
 

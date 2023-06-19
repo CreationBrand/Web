@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom'
 import usePullGroups from 'Hooks/usePullGroups'
 import useCommunityFlow from 'Hooks/useCommunityFlow'
 import usePullGroup from 'Hooks/usePullGroup'
+import usePostList from 'Hooks/Pull/usePostList'
 
 const C = {
     container: css({
@@ -21,26 +22,35 @@ const C = {
     })
 }
 
-const GroupList = () => {
-
-    const params = useParams()
-    const [error1, group, data] = usePullGroup(params.group_id)
-    // const [error, list] = usePullGroups(params.group_id, 'none', 'global')
+const GroupList = ({ group_id }:any) => {
 
 
 
 
+    // const params = useParams()
 
+
+    // const [isError1, group, data] = usePullGroup(params.group_id)
+    const [isLoading, isError, components]: any = usePostList(group_id, 'group')
+
+
+    // if (isError1 || isError) return <ChunkError variant='error' />
+    // if (isLoading) return <ChunkError variant='loading' />
+
+    // console.log('GroupList')
+    // console.log(params)
+
+    console.log('GroupList')
 
     return (
         <motion.div
-            key={params.group_id}
+            // key={params.group_id}
             css={C.container}
             transition={{ duration: 0.5 }}
             initial={{ opacity: 0, }}
             animate={{ opacity: 1, }}
->
-            <VirtualList public_id={params.group_id} list={[group]} />
+        >
+            <VirtualList list={components} overscan={0} />
         </motion.div>
     )
 }

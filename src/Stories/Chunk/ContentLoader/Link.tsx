@@ -30,14 +30,34 @@ const C = {
         "webkitBoxOrient": "vertical"
 
     }),
+    loading: css({
+        width: "100%",
+        height: '400px',
+        display: "flex",
+        gap: "8px",
+        background: '#181820 !important',
+        padding: "8px",
+        borderRadius: "8px",
+        "overflow": "hidden",
+        "textOverflow": "ellipsis",
+        "fallbacks": [
+            {
+                "display": "inline-block"
+            }
+        ],
+        "webkitLineClamp": "2",
+        "webkitBoxOrient": "vertical"
+
+    }),
     title: css({
         minWidth: "0px",
         color: "#f2f2f2",
-        "display": "-webkit-box",
-        "overflow": "hidden",
+        flexGrow: 1,
+        // "display": "-webkit-box",
+        // "overflow": "hidden",
         "textOverflow": "ellipsis",
-        "webkitLineClamp": "2",
-        "webkitBoxOrient": "vertical"
+        // "webkitLineClamp": "2",
+        // "webkitBoxOrient": "vertical"
     }),
     desc: css({
         minWidth: "0px",
@@ -84,7 +104,7 @@ const Link = ({ url }: any) => {
 
 
 
-        if (isLoading) return <div css={C.container}><Walk variant='loading' /></div>
+        if (isLoading) return <div css={C.loading}><Walk variant='loading' /></div>
 
         // IMAGE FIRST (FOR GIFS)
         else if (["GIPHY", "Tenor"].includes(data?.siteName)) {
@@ -107,8 +127,10 @@ const Link = ({ url }: any) => {
             else if (data?.images?.length) return <Image url={`${proxy}/${data?.images[0]}`} />
         }
 
-        // else if (data?.contentType === "application/x-mpegurl") return <Player url={`${proxy}/${url}`} />
-        // else if (data?.videos.length && data?.videos[0]?.url) return <Player url={`${proxy}/${data?.videos[0]?.url}`} />
+        else if (data?.contentType === "application/x-mpegurl") return <Player url={`${proxy}/${url}`} />
+        else if (data?.videos.length && data?.videos[0]?.url) return <Player url={`${proxy}/${data?.videos[0]?.url}`} />
+
+        if (!data.siteName || data?.title === 'title') return <div css={C.container}><Walk variant='error' /></div>
 
 
         return (<div css={C.container} onClick={handleClick}>

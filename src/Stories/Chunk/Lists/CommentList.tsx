@@ -40,9 +40,9 @@ const CommentList = () => {
         <motion.div
             key={params.person_id}
             css={C.container}
-            transition={{ duration: 0.5 }}
-            initial={{ opacity: 0, }}
-            animate={{ opacity: 1, }}
+            transition={{ duration: 0.1 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
         >
             <VirtualList
                 list={[

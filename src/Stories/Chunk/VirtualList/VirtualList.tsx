@@ -13,7 +13,7 @@ const VirtualList = ({ list, offset, overscan, public_id }: any) => {
         count: list?.length,
         getScrollElement: () => parentRef.current,
         estimateSize: () => 516,
-        overscan: 1,
+        overscan: overscan ? overscan : 1,
     })
 
 
@@ -51,19 +51,16 @@ const VirtualList = ({ list, offset, overscan, public_id }: any) => {
                         left: 0,
                         width: '100%',
                         touchAction: 'pan-y',
-                        // transform:`translateY(${items[0].start}px)`
                         transform: `translate3d(0,${items[0].start}px,0)`,
                     }}
                 >
 
                     {items.map((virtualRow: any) => (
                         <div
-                            key={virtualRow.key}
+                            key={`${public_id}|${virtualRow.index}`}
                             data-index={virtualRow.index}
-                            ref={virtualizer.measureElement}
-                        >
+                            ref={virtualizer.measureElement}>
                             {list[virtualRow.index]}
-
                         </div>
                     ))}
                 </div>

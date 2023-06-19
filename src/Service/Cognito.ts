@@ -55,7 +55,7 @@ export async function loginCognito(username: string, password: string) {
 
             onSuccess: function (result: any) {
 
-                console.groupCollapsed('%c [LOGIN] ', 'background: #000; color: #5555da', 'SUCCESS', result);
+                console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'SUCCESS', result);
 
                 resolve('sucess');
             },
@@ -129,7 +129,7 @@ export const verifyEmail = (code: string) => {
 export const verifyCognito = async () => {
 
 
-    console.groupCollapsed('%c [LOGIN] ', 'background: #000; color: #5555da', 'VERIFY COGNITO');
+    console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'VERIFY COGNITO');
 
     return new Promise((resolve) => {
         try {

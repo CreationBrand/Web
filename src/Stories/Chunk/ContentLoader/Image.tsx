@@ -16,6 +16,7 @@ const C = {
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
+        height: '400px',
     }),
     blur: css({
         width: '100%',
@@ -64,13 +65,13 @@ const Image = ({ url }: any) => {
                     onClick={(e) => { handleOpen() }}
                     css={C.container}>
 
-                    <img
-                        // loading="lazy"
+                    {/* <img
+                        loading="lazy"
                         onError={handleImgError}
-                        src={url} css={C.blur} />
+                        src={url} css={C.blur} /> */}
 
                     <img
-                        // loading="lazy"
+                        loading="lazy"
                         onError={handleImgError}
                         css={C.img} src={url} />
                 </div>
@@ -104,14 +105,17 @@ const Viewer = ({ src, open, onClose }: any) => {
                 borderRadius: '0px',
                 backgroundColor: 'transparent',
                 '& .MuiDialog-paper': {
+                    display: 'block',
                     backgroundColor: 'transparent !important',
                     boxShadow: 'none !important',
                     padding: '0px !important',
                     margin: '0px !important',
-                    width: 'auto',
+                    width: '100%',
                     height: 'auto',
+                    objectFit: 'contain',
                     maxWidth: '800px',
                     maxHeight: '800px',
+                    
                 },
                 Backdrop: {
                     background: 'rgba(14,16,15,0.85)',
@@ -122,13 +126,12 @@ const Viewer = ({ src, open, onClose }: any) => {
                 onWheel={handleScroll}
                 src={src}
                 onPan={onPanEnd}
-                // style={{
-                //     width: '100%',
-                // }}
+   
                 css={{
                     zIndex: 10000,
                     width: '100%',
-                    maxWidth: 'calc(100vw - 32px)',
+                    maxWidth: '800px',
+                    borderRadius: '8px',
                     maxHeight: '80vh',
                 }}
             />

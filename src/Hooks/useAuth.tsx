@@ -43,7 +43,7 @@ var useAuth = () => {
 
     useEffect(() => {
         var trySession = async () => {
-            console.groupCollapsed('%c[SESSION] ', 'font-weight:bold; color: #bada55', 'Checking Session');
+            console.log('%c[SESSION] ', 'font-weight:bold; color: #bada55', 'Checking Session');
 
             try {
                 let session = await verifyCognito()
@@ -75,16 +75,13 @@ var useAuth = () => {
 
                         setAuth(true)
                         setLoading(false)
-                        console.groupEnd();
 
                     } else {
-                        console.groupEnd();
                         setLoading(false)
                     }
                 }
             } catch (e) {
                 console.log('%c [SESSION] ', 'background: #000; color: #bada55', e);
-                console.groupEnd();
                 setLoading(false)
             }
         }

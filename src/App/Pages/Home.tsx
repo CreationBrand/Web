@@ -57,18 +57,21 @@ const Home = () => {
     const submit = () => navigate(`/submit`)
     const notif = () => navigate(`/notifications`)
 
-    const [last, setLast] = useState('trending')
+    const [last, setLast]: any = useState(false)
+    const [id, setId]: any = useState(false)
+
     const location = useLocation()
 
     useEffect(() => {
         let parts = location.pathname.split('/')
-        if (location.pathname === '/trending' && last !== 'trending') setLast('trending')
+        if (location.pathname === '/trending') setLast('trending')
         else if (location.pathname === '/home') setLast('home')
         else if (parts[1] === 'c' && parts.length === 3) setLast('community')
-        else if (parts[1] === 'g') setLast('group')
-
+        else if (parts[1] === 'g' && parts.length === 3) {
+            setLast('group')
+            setId(parts[2])
+        }
     }, [location])
-
 
 
     return (
@@ -196,7 +199,7 @@ const Home = () => {
                     {last === 'trending' && <GlobalList type="trending" />}
                     {last === 'home' && <GlobalList type="home" />}
                     {last === 'community' && <CommunityList />}
-                    {last === 'group' && <GroupList />}
+                    {last === 'group' && <GroupList group_id={id} />}
                     <Outlet />
                 </>
             </Main>

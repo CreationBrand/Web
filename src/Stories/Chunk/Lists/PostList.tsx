@@ -49,7 +49,6 @@ const PostList = () => {
         see((o: any) => [...o, params.post_id])
     }, [params.post_id])
 
-
     if (isError || isError2) return <ChunkError variant='error' />
     if (isLoading || isLoading2) return <ChunkError variant='loading' />
 
@@ -66,7 +65,6 @@ const PostList = () => {
                 list={[
                     component,
                     <div css={{ maxWidth: '800px', margin: 'auto', marginTop: '0px', display: 'flex', flexDirection: 'column' }}>
-                        {/* <CommunityFilter  /> */}
                         <AddComment post_id={params.post_id} parent_id={params.post_id} />
                     </div>,
                     ...components
@@ -78,4 +76,4 @@ const PostList = () => {
 }
 
 
-export default memo(PostList)
+export default PostList

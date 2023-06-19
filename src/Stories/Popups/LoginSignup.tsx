@@ -13,6 +13,9 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { authFlow } from "State/Flow";
 import { loginCognito, reSendCode, signUpCognito, verifyEmail } from "Service/Cognito";
+import Joi from "joi";
+import { joiResolver } from "@hookform/resolvers/joi";
+import FlatInput from "Stories/Forum/FlatInput";
 
 const C = {
     container: css({
@@ -75,15 +78,46 @@ const C = {
     }),
 }
 
+const signupSchema = Joi.object({
+    username: Joi.string().min(5).max(22).trim().strict().required().messages({
+            'string.empty': 'Username is not allowed to be empty',
+            'string.max': 'Username length must be less than or equal to {{#limit}} characters long',
+            'string.min': 'Username length must be at least {{#limit}} characters long.',
+            'string.trim': 'Username must not have leading or trailing whitespace',
+    }),
+    password: Joi.string()
+        .regex(/[ -~]*[a-z][ -~]*/) // at least 1 lower-case
+        .regex(/[ -~]*[A-Z][ -~]*/) // at least 1 upper-case
+        .regex(/[ -~]*(?=[ -~])[^0-9a-zA-Z][ -~]*/) // basically: [ -~] && [^0-9a-zA-Z], at least 1 special character
+        .regex(/[ -~]*[0-9][ -~]*/) // at least 1 number
+        .min(8)
+        .required()
+        .messages({
+            'string.min': 'Password must be at least {{#limit}} characters long.',
+            'string.empty': 'Password is not allowed to be empty',
+            'string.pattern.base': 'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character',
+        }),
+    email: Joi.string().email({ tlds: { allow: false } }).trim().strict().required().messages({
+        'string.email': 'Email must be valid and verifiable',
+    }),
+})
+
+const loginSchema = Joi.object({
+    username: Joi.string(),
+    password: Joi.string(),
+})
 
 const LoginSignup = ({ open, handleClose }: any) => {
 
-    const { register, handleSubmit, watch, formState: { errors }, control, setError } = useForm();
     const [loading, setLoading] = useState(false);
-
+    const [view, setView] = useState('login')
     const [auth, setAuth] = useRecoilState(authFlow)
 
-    const [view, setView] = useState('login')
+    const { handleSubmit, control, formState: { errors }, reset, watch, setError } = useForm({
+        mode: 'onChange',
+        resolver: joiResolver(view === 'login' ? loginSchema : signupSchema)
+    });
+
 
     //PASSWORD 
     const [showPassword, setShowPassword] = useState(false);
@@ -97,9 +131,8 @@ const LoginSignup = ({ open, handleClose }: any) => {
 
         if (view === 'login') {
             let status = await loginCognito(data.username, data.password)
-            console.log(status)
             if (status === 'error') setError('username', { type: 'custom', message: 'Invalid username or password' });
-            // if (status === 'sucess') window.location.reload();
+            if (status === 'sucess') window.location.reload();
             if (status === 'verify') setView('verify')
         }
 
@@ -212,6 +245,13 @@ const LoginSignup = ({ open, handleClose }: any) => {
                                         sx={{
                                             height: "42px",
                                             marginBottom: "26px",
+                                            '&:hover': {
+                                                border: '2px solid #181820'
+                                            },
+
+                                            '&:focus-within': {
+                                                border: '2px solid #996ccc'
+                                            },
                                         }}
                                     />
 
@@ -239,6 +279,13 @@ const LoginSignup = ({ open, handleClose }: any) => {
                                             height: "42px",
                                             marginBottom: "26px",
                                             fontSize: "14px",
+                                            '&:hover': {
+                                                border: '2px solid #181820'
+                                            },
+
+                                            '&:focus-within': {
+                                                border: '2px solid #996ccc'
+                                            },
                                         }}
                                         endAdornment={
                                             <InputAdornment position="end">
@@ -322,101 +369,18 @@ const LoginSignup = ({ open, handleClose }: any) => {
                             }}>Create Your Account
                             </div>
 
-                            <h3 css={[textLabel('s'), { display: 'flex' }]}>Username
-                                {/*@ts-ignore */}
 
-                                {errors?.username?.message ? <span css={{ textAlign: 'right', marginLeft: 'auto', color: 'red', fontSize: '12px' }}> {errors?.username?.message}</span> : ''}
-
-                            </h3>
-                            <Controller
-                                name="username"
-                                control={control}
-                                defaultValue=""
-                                rules={{ required: true }}
-                                render={({ field: { onChange, value } }) => (
-                                    <div>
-                                        <Input
-                                            error={errors.username ? true : false}
-                                            autoComplete="off"
-                                            onChange={onChange}
-                                            value={value}
-                                            disableUnderline
-                                            fullWidth
-                                            sx={{
-                                                height: "42px",
-                                                marginBottom: "26px",
-                                            }}
-                                        />
-                                    </div>
-                                )}
-                            />
+                            <h3 style={{ marginTop: '16px' }} css={textLabel('s')}>Username</h3>
+                            <FlatInput control={control} name="username" />
 
 
-                            <h3 css={textLabel('s')}>Email</h3>
-                            <Controller
-                                name="email"
-                                control={control}
-                                defaultValue=""
-                                rules={{
-                                    required: true,
-                                    pattern:
-                                        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-                                }}
-                                render={({ field: { onChange, value } }) => (
-                                    <Input
-                                        error={errors.email ? true : false}
-                                        autoComplete="off"
-                                        onChange={onChange}
-                                        value={value}
-                                        disableUnderline
-                                        fullWidth
-                                        sx={{
-                                            height: "42px",
-                                            marginBottom: "26px",
-                                        }}
-                                    />
-                                )}
-                            />
+                            <h3 style={{ marginTop: '16px' }} css={textLabel('s')}>Email</h3>
+                            <FlatInput control={control} name="email" />
 
-                            <h3 css={textLabel('s')}>Password</h3>
 
-                            <Controller
-                                name="password"
-                                control={control}
-                                defaultValue=""
-                                rules={{ required: true }}
-                                render={({ field: { onChange, value } }) => (
-                                    <Input
-                                        type={showPassword ? 'text' : 'password'}
-                                        error={errors.password ? true : false}
-                                        autoComplete="off"
-                                        onChange={onChange}
-                                        value={value}
-                                        disableUnderline
-                                        fullWidth
-                                        sx={{
-                                            height: "42px",
-                                            marginBottom: "26px",
-                                            fontSize: "14px",
-                                        }}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    sx={{ marginRight: "2px", color: '#dbdee1' }}
-                                                    disableRipple
-                                                    disableFocusRipple
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                    edge="end"
-                                                >
-                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                    />
-                                )}
-                            />
+                            <h3 style={{ marginTop: '16px' }} css={textLabel('s')}>Password</h3>
+                            <FlatInput control={control} name="password" type={showPassword ? 'text' : 'password'} />
+
                             <LoadingButton
                                 loadingIndicator="Loading…"
                                 loading={loading}

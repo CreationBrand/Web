@@ -7,7 +7,7 @@ import { ErrorMessage } from '@hookform/error-message';
 
 
 
-const FlatInput = ({ control, maxLength, name,defaultValue }: any) => {
+const FlatInput = ({ control, maxLength, name, defaultValue, type }: any) => {
 
     if (!control) return null
 
@@ -19,6 +19,7 @@ const FlatInput = ({ control, maxLength, name,defaultValue }: any) => {
             return (
                 <>
                     <Input
+                        type={type ? type : 'text'}
                         autoComplete="off"
                         onChange={onChange}
                         value={value}
@@ -39,11 +40,16 @@ const FlatInput = ({ control, maxLength, name,defaultValue }: any) => {
                             position: 'relative',
                             border: Boolean(errors[name]) ? '2px solid #c84b4b !important' : '2px solid #181820',
                         }}
-                        endAdornment={<div css={{
-                            color: '#b9b6ba',
-                            marginRight: '8px',
-                            fontSize: '12px',
-                        }}>{value.length}/{maxLength}</div>} />
+                        endAdornment=
+                        {maxLength &&
+                            <div css={{
+                                color: '#b9b6ba',
+                                marginRight: '8px',
+                                fontSize: '12px',
+                            }}>{value.length}/{maxLength}</div>}
+
+
+                    />
                     <ErrorMessage
                         errors={errors}
                         name={name}
