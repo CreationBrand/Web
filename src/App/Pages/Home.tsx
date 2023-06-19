@@ -8,14 +8,13 @@ import Tri from 'Stories/Views/Tri'
 import Nav from 'Stories/Layout/Nav'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { triState } from 'State/atoms'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { layoutSizeData, notificationStateFamily } from 'State/Data'
-import { memo } from 'react'
+import { memo, useEffect, useState } from 'react'
 import Main from 'Stories/Layout/Main'
 import Left from 'Stories/Layout/Left'
 import Search from 'Stories/Chunk/Search/Search'
 import Right from 'Stories/Layout/Right'
-import { AnimatePresence } from 'framer-motion'
 import { Badge, BadgeProps, IconButton, styled } from '@mui/material'
 
 // ICONS
@@ -24,8 +23,10 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLayerGroup } from '@fortawesome/free-solid-svg-icons'
-
-
+import CommunityList from 'Stories/Chunk/Lists/CommunityList'
+import GlobalList from 'Stories/Chunk/Lists/GlobalList'
+import { AnimatePresence } from 'framer-motion'
+import GroupList from 'Stories/Chunk/Lists/GroupList'
 
 
 const StyledBadge = styled(Badge)<BadgeProps>({
@@ -45,13 +46,30 @@ const StyledBadge = styled(Badge)<BadgeProps>({
 });
 
 
-const Home = () => {
+const Home = ({ children }: any) => {
 
     const navigate = useNavigate()
     const [l, r] = useRecoilValue(triState)
     const setTri = useSetRecoilState(triState)
     const noti = useRecoilValue(notificationStateFamily('noti'))
     const layoutSize = useRecoilValue(layoutSizeData)
+
+    const submit = () => navigate(`/submit`)
+    const notif = () => navigate(`/notifications`)
+
+    const [last, setLast] = useState('trending')
+    const location = useLocation()
+
+    useEffect(() => {
+        let parts = location.pathname.split('/')
+        if (location.pathname === '/trending' && last !== 'trending') setLast('trending')
+        else if (location.pathname === '/home') setLast('home')
+        else if (parts[1] === 'c' && parts.length === 3) setLast('community')
+        else if (parts[1] === 'g') setLast('group')
+
+    }, [location])
+
+
 
     return (
         <Tri left={l} right={r}>
@@ -66,7 +84,7 @@ const Home = () => {
                 <Nav>
                     {layoutSize === 'mobile' ? <>
                         <IconButton
-                            onMouseDown={() => navigate(`/submit`)}
+                            // onMouseDown={() => navigate(`/submit`)}
                             disableRipple={true}
                             size="small"
                             color="secondary"
@@ -85,7 +103,7 @@ const Home = () => {
                             badgeContent={noti} invisible={!Boolean(noti)}>
 
                             <IconButton
-                                onClick={() => navigate(`/notifications`)}
+                                // onClick={() => navigate(`/notifications`)}
                                 disableRipple={true}
                                 size="small"
                                 color="secondary"
@@ -121,7 +139,7 @@ const Home = () => {
                             <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
 
                                 <IconButton
-                                    onMouseDown={() => navigate(`/submit`)}
+                                    onMouseDown={submit}
                                     disableRipple={true}
                                     size="small"
                                     color="secondary"
@@ -140,7 +158,7 @@ const Home = () => {
                                     badgeContent={noti} invisible={!Boolean(noti)}>
 
                                     <IconButton
-                                        onClick={() => navigate(`/notifications`)}
+                                        onClick={notif}
                                         disableRipple={true}
                                         size="small"
                                         color="secondary"
@@ -174,9 +192,14 @@ const Home = () => {
                         </>
                     }
                 </Nav>
-                <AnimatePresence>
+                <>
+                    {children}
+                    {last === 'trending' && <GlobalList type="trending" />}
+                    {last === 'home' && <GlobalList type="home" />}
+                    {last === 'community' && <CommunityList />}
+                    {last === 'group' && <GroupList />}
                     <Outlet />
-                </AnimatePresence>
+                </>
             </Main>
             <Right>
 

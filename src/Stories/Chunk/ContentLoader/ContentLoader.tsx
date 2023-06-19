@@ -32,6 +32,8 @@ const proxy = "https://cors.creationbrand.workers.dev"
 
 const ContentLoader = ({ type, content, public_id }: any) => {
 
+    
+
     if (type === 'link') {
         let t1 = content.slice(-4)
         if (t1 === '.mp4') return <Player url={`${proxy}/${content}`} />

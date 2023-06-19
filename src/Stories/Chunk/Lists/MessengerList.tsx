@@ -7,21 +7,22 @@ import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import VirtualList from 'Stories/Chunk/VirtualList/VirtualList'
 import usePullMessages from 'Hooks/usePullMessages'
 import { memo, useEffect } from 'react'
-import MessagePane from 'Stories/Pane/messagePane'
 import useMessenger from 'Hooks/Pull/useMessenger'
 import MessengerControl from 'Stories/Bits/MessengerFilter/MessengerControl'
 import useClearNotif from 'Hooks/useClearNotif'
 import ReverseList from '../VirtualList/ReverseList'
+import MessagePane from 'Stories/Bits/Filter/messagePane'
 
 const C = {
     container: css({
         height: '100%',
         position: 'relative',
         overflow: 'hidden',
-        marginTop: '8px',
-        padding: '0px 16px',
-        borderRadius: '8px',
-        backgroundColor: '#272732',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        zIndex: 100,
+        background: '#0f0e10',
     })
 }
 

@@ -11,8 +11,9 @@ import VisibilitySensor from 'react-visibility-sensor';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import useWindow from 'Hooks/useWindow';
-import { useRecoilState} from 'recoil';
+import { useRecoilState } from 'recoil';
 import { soundState } from 'State/atoms';
+import { autoPlayAtom, muteAtom } from 'State/contentAtoms';
 
 
 
@@ -44,13 +45,26 @@ const C = {
         background: '#181820',
         overflow: 'hidden',
     }),
+    blur: css({
+        width: '100%',
+        height: '100%',
+        background: '#181820',
+        position: 'absolute',
+        filter: 'blur(4px) brightness(45%)',
+    }),
 }
 
-const Player = ({ url }: any) => {
+const Player = ({ url, fallback }: any) => {
 
     const handleVisability = (visable: boolean) => setIsPlaying(visable)
+
+
+
     const [error, setError] = useState(false)
     const handleError = () => setError(true)
+
+    const [autoPlay, setAutoPlay] = useRecoilState(autoPlayAtom)
+    const [mute, setMute] = useRecoilState(muteAtom)
 
     const [open, setOpen] = useState(false);
 
@@ -69,6 +83,15 @@ const Player = ({ url }: any) => {
         })
     }, [])
 
+
+
+    const handlePlay = (e: any) => {
+        e.stopPropagation()
+        setIsPlaying(!isPlaying)
+    }
+
+
+
     if (error) return <div css={C.error}>
         <Walk variant='error' />
     </div>
@@ -83,7 +106,8 @@ const Player = ({ url }: any) => {
                     onError={handleError}
                     playing={isPlaying}
                     url={url}
-                    muted={true}
+                    // muted={mute}
+                    // autoPlay={autoPlay}
                     loop={true}
                 />
 
@@ -102,10 +126,7 @@ const Player = ({ url }: any) => {
                             padding: '2px',
                             borderRadius: '8px',
                         }}
-                        onClick={(e) => {
-                            e.stopPropagation()
-                            setIsPlaying(!isPlaying)
-                        }}>
+                        onClick={handlePlay}>
 
                         {isPlaying ?
                             <PauseRoundedIcon css={{ fontSize: 34 }} /> :

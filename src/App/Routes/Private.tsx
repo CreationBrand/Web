@@ -1,13 +1,10 @@
-import { Routes, Route, Navigate, } from 'react-router-dom'
-import Error from 'Stories/Error/Error'
-import GlobalList from 'Stories/Chunk/Lists/GlobalList'
+import { Routes, Route, useLocation, } from 'react-router-dom'
+import Error from 'Stories/Chunk/Error/Error'
 import PostList from 'Stories/Chunk/Lists/PostList'
-import CommunityList from 'Stories/Chunk/Lists/CommunityList'
 import MessengerList from 'Stories/Chunk/Lists/MessengerList'
-import GroupList from 'Stories/Chunk/Lists/GroupList'
 import EditCommunity from 'Stories/Views/EditCommunity'
 import EditPerson from 'Stories/Views/EditPerson'
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
 import Home from 'App/Pages/Home'
 import SearchList from 'Stories/Chunk/Lists/SearchList'
 import PersonList from 'Stories/Chunk/Lists/PersonList'
@@ -15,40 +12,86 @@ import CommentList from 'Stories/Chunk/Lists/CommentList'
 import NotiList from 'Stories/Chunk/Lists/NotiList'
 import SearchCommunityList from 'Stories/Chunk/Lists/SearchCommunityList'
 import Submit from 'Stories/Views/Submit'
+import { contentFlow } from 'State/Flow'
+import { useSetRecoilState } from 'recoil'
+import { set } from 'react-hook-form'
 
 var Private = () => {
+
     console.log('%c [Route] ', 'background: #000; color: #55daae', 'Loading Private Routes');
+
+    const location = useLocation()
+    const setContentFlow: any = useSetRecoilState(contentFlow)
+
+    useEffect(() => {
+
+        console.log(location.pathname)
+        let parts: any = location.pathname.split('/')
+
+        switch (parts) {
+            case parts[1] === 'trending':
+                return setContentFlow('global')
+            case parts[1] === 'home':
+                return setContentFlow('global')
+            case parts[1] === 'c' && parts.length === 3:
+                return setContentFlow('community')
+            case parts[1] === 'c' && parts[4] === 'p':
+                return setContentFlow('post')
+            case parts[1] === 'c' && parts[4] === 'p' && parts[6] === 'c':
+                return setContentFlow('comment')
+            case parts[1] === 'g':
+                return setContentFlow('group')
+            case parts[1] === 'p':
+                return setContentFlow('person')
+            case parts[1] === 'm':
+                return setContentFlow('messenger')
+            case parts[1] === 'settings':
+                return setContentFlow('settings')
+            case parts[1] === 'submit':
+                return setContentFlow('submit')
+            case parts[1] === 'notifications':
+                return setContentFlow('notifications')
+        }
+
+    }, [location.pathname]);
+
+
+
 
     return (
         <>
-            <Error />
-
+            {/* <Error /> */}
             <Routes>
+
                 <Route path="/" element={<Home />}>
 
+                    {/* fake */}
+                    <Route path="/trending" element={<div />} />
+                    <Route path="/home" element={<div />} />
+                    <Route path="/c/:community_id" element={<div />} />
+                    <Route path="/g/:group_id" element={<div />} />
+
+                    {/* real */}
                     <Route path="/settings" element={<EditPerson />} />
                     <Route path="/submit" element={<Submit />} />
                     <Route path="/notifications" element={<NotiList />} />
 
                     <Route path="/search/:query" element={<SearchList />} />
-                    <Route path="c/:community_id/search/:query" element={<SearchCommunityList />} />
+                    <Route path="/c/:community_id/search/:query" element={<SearchCommunityList />} />
 
-                    <Route path="g/:group_id" element={<GroupList />} />
-                    <Route path="p/:person_id" element={<PersonList />} />
-                    <Route path="m/:messenger_id" element={<MessengerList />} />
+                    <Route path="/p/:person_id" element={<PersonList />} />
+                    <Route path="/m/:messenger_id" element={<MessengerList />} />
 
-                    <Route path="/home" element={<GlobalList type="home" />} />
-                    <Route path="/trending" element={<GlobalList type="trending" />} />
+                    <Route path="/c/:community_id/p/:post_id" element={<PostList />} />
+                    <Route path="/c/:community_id/p/:post_id/c/:comment_id" element={<CommentList />} />
+                    <Route path="/c/:community_id/edit" element={<EditCommunity />} />
 
-                    <Route path="c/:community_id" element={<CommunityList />} />
-                    <Route path="c/:community_id/p/:post_id" element={<PostList />} />
-                    <Route path="c/:community_id/p/:post_id/c/:comment_id" element={<CommentList />} />
-                    <Route path="c/:community_id/edit" element={<EditCommunity />} />
+
 
                 </Route>
 
                 <Route path="/error" element={<div>404</div>} />
-                <Route path="*" element={<Navigate to="/trending" replace={true} />} />
+                {/* <Route path="*" element={<Navigate to="/trending" replace={true} />} /> */}
             </Routes>
         </>
     )

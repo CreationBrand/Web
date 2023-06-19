@@ -6,7 +6,6 @@ import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import VirtualList from '../VirtualList/VirtualList'
 import {  useParams } from 'react-router-dom'
 import useCommunityFlow from 'Hooks/useCommunityFlow'
-import useContentFlow from 'Hooks/useContentFlow'
 import useCommentSubTree from 'Hooks/Pull/useCommentSubTree'
 import usePost from 'Hooks/Pull/usePost'
 
@@ -16,7 +15,10 @@ const C = {
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
-        justifyContent: 'center',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        zIndex: 100,
+        background: '#0f0e10',
     })
 }
 
@@ -28,7 +30,6 @@ const CommentList = () => {
     const [isLoading2, isError2, components] = useCommentSubTree(params.comment_id)
 
     useCommunityFlow(params.community_id)
-    useContentFlow('comment')
     useCommunityFlow(null)
 
 

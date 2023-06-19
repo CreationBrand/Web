@@ -10,6 +10,7 @@ const Main = ({ children }: any) => {
         height: '100%',
         background: '#0f0e10',
         overflow: 'hidden',
+        position: 'relative',
     })
 
     return <div css={s} id="MAIN" onClick={(e) => e.stopPropagation()}>

@@ -42,30 +42,40 @@ const schema = Joi.object({
 
 
 const C = {
+
+    pane: css({
+        width: '100%',
+        height: '100%',
+        background: '#0f0e10',
+        touchAction: 'pan-y',
+        zIndex: 200,
+        position: 'relative',
+        paddingTop: '8px',
+
+    }),
+
     container: css({
         width: '100%',
-        height: 'calc(100% - 56px)',
-        padding: '22px 0px',
-        scrollbarGutter: 'stable both-edges',
+        height: '100%',
         overflow: 'auto',
-        background: '#272732',
-        marginTop: '8px',
         borderRadius: '8px',
-        touchAction: 'pan-y',
+        background: '#272732',
+        
 
     }),
     inner: css({
+        width: '100%',
+        borderRadius: '8px',
+        background: '#272732',
         display: 'flex',
         flexDirection: 'column',
-        width: '100%',
         maxWidth: '800px',
         margin: '0 auto',
-
     }),
+
     section: css({
         width: 'min-content',
         background: '#181820',
-
         borderRadius: '8px',
     }),
     wrapper: css({
@@ -109,143 +119,144 @@ const Submit = () => {
         }
     };
 
-    return <div css={C.container}>
-        <div css={C.inner}>
+    return <div css={C.pane}>
+        <div css={C.container}>
+            <div css={C.inner}>
 
 
-            <section css={{ padding: 16 }}>
-                <div css={C.row}>
-                    <div css={textBold('x')}>Create a Post</div>
-                    <div>
-                        <Button color='secondary' onClick={() => navigate(-1)}>Cancel</Button>
-                        <Button
-                            disabled={!(Object.keys(errors).length === 0 && errors.constructor === Object)}
-                            disableElevation
-                            sx={{
-                                marginLeft: '8px',
-                                borderRadius: '8px',
-                            }}
-                            onMouseDown={onSubmit} variant='contained'>Submit</Button>
+                <section css={{ padding: 16 }}>
+                    <div css={C.row}>
+                        <div css={textBold('x')}>Create a Post</div>
+                        <div>
+                            <Button color='secondary' onClick={() => navigate(-1)}>Cancel</Button>
+                            <Button
+                                disabled={!(Object.keys(errors).length === 0 && errors.constructor === Object)}
+                                disableElevation
+                                sx={{
+                                    marginLeft: '8px',
+                                    borderRadius: '8px',
+                                }}
+                                onMouseDown={onSubmit} variant='contained'>Submit</Button>
+                        </div>
                     </div>
-                </div>
 
 
-            </section>
+                </section>
 
-            <Divider />
+                <Divider />
 
-            <section css={{ padding: '16px 16px 0 16px' }}>
-                <div css={textLabel('s')}>select a community </div>
-                <CommunityPicker name="community_id" control={control} />
-            </section>
+                <section css={{ padding: '16px 16px 0 16px' }}>
+                    <div css={textLabel('s')}>select a community </div>
+                    <CommunityPicker name="community_id" control={control} />
+                </section>
 
-            <section css={{ padding: '16px 16px 0 16px' }}>
-                <div css={textLabel('s')}>title</div>
-                <FlatInput name='title' maxLength={150} control={control}></FlatInput>
-            </section>
-
-
-            <section css={{ padding: '16px 16px 0 16px' }}>
-                <div css={textLabel('s')}>type</div>
-
-                <Controller
-                    name="type"
-                    control={control}
-                    defaultValue="text"
-                    render={({ field: { onChange, value } }) =>
-                        <TabContext value={value}>
-                            <div css={C.section}>
-                                <TabList
-                                    sx={{
-                                        fontFamily: 'noto sans',
-                                        color: 'white',
-                                        height: '40px !important',
-                                    }}
-                                    textColor="secondary"
-                                    indicatorColor="secondary"
-                                    onChange={(e, v) => { onChange(v) }}>
-                                    <Tab label="Post" value="text"
-                                        icon={<FeedRoundedIcon />}
-                                        iconPosition="start"
-                                    />
-                                    <Tab label="Link" value="link"
-                                        icon={<OpenInNewRoundedIcon />}
-                                        iconPosition="start"
-                                    />
-                                    <Tab label="Upload" value="upload"
-                                        icon={<BackupRoundedIcon />}
-                                        iconPosition="start"
-
-                                    />
-                                </TabList>
-                            </div>
+                <section css={{ padding: '16px 16px 0 16px' }}>
+                    <div css={textLabel('s')}>title</div>
+                    <FlatInput name='title' maxLength={150} control={control}></FlatInput>
+                </section>
 
 
-                            <section css={{ marginTop: 16 }}>
-                                <TabPanel
-                                    sx={{ padding: '0' }}
-                                    value="text" >
-                                    <div css={textLabel('s')}>Content</div>
-                                    <RichInput
-                                        name='content'
-                                        control={control}
-                                        maxLength={10000} />
+                <section css={{ padding: '16px 16px 0 16px' }}>
+                    <div css={textLabel('s')}>type</div>
 
-                                </TabPanel>
-                            </section>
+                    <Controller
+                        name="type"
+                        control={control}
+                        defaultValue="text"
+                        render={({ field: { onChange, value } }) =>
+                            <TabContext value={value}>
+                                <div css={C.section}>
+                                    <TabList
+                                        sx={{
+                                            fontFamily: 'noto sans',
+                                            color: 'white',
+                                            height: '40px !important',
+                                        }}
+                                        textColor="secondary"
+                                        indicatorColor="secondary"
+                                        onChange={(e, v) => { onChange(v) }}>
+                                        <Tab label="Post" value="text"
+                                            icon={<FeedRoundedIcon />}
+                                            iconPosition="start"
+                                        />
+                                        <Tab label="Link" value="link"
+                                            icon={<OpenInNewRoundedIcon />}
+                                            iconPosition="start"
+                                        />
+                                        <Tab label="Upload" value="upload"
+                                            icon={<BackupRoundedIcon />}
+                                            iconPosition="start"
 
-
-                            <section css={{ marginTop: 16 }}>
-                                <TabPanel
-                                    sx={{ padding: '0' }}
-                                    value="upload">
-                                    <Controller
-                                        name="content"
-                                        control={control}
-                                        render={({ field: { onChange, value } }) =>
-                                            <DropZone
-                                                value={value}
-                                                onChange={onChange}
-                                            />
-
-                                        }
-                                    />
-                                </TabPanel>
-                            </section>
-
-
-                            <section css={{ marginTop: 16 }}>
-                                <TabPanel value="link" sx={{ padding: 0 }}>
-                                    <div css={textLabel('s')}>link</div>
-                                    <FlatInput name='content' maxLength={300} control={control}></FlatInput>
-                                </TabPanel>
-                            </section>
-
-                        </TabContext>
-                    } />
-            </section>
+                                        />
+                                    </TabList>
+                                </div>
 
 
+                                <section css={{ marginTop: 16 }}>
+                                    <TabPanel
+                                        sx={{ padding: '0' }}
+                                        value="text" >
+                                        <div css={textLabel('s')}>Content</div>
+                                        <RichInput
+                                            name='content'
+                                            control={control}
+                                            maxLength={10000} />
+
+                                    </TabPanel>
+                                </section>
+
+
+                                <section css={{ marginTop: 16 }}>
+                                    <TabPanel
+                                        sx={{ padding: '0' }}
+                                        value="upload">
+                                        <Controller
+                                            name="content"
+                                            control={control}
+                                            render={({ field: { onChange, value } }) =>
+                                                <DropZone
+                                                    value={value}
+                                                    onChange={onChange}
+                                                />
+
+                                            }
+                                        />
+                                    </TabPanel>
+                                </section>
+
+
+                                <section css={{ marginTop: 16 }}>
+                                    <TabPanel value="link" sx={{ padding: 0 }}>
+                                        <div css={textLabel('s')}>link</div>
+                                        <FlatInput name='content' maxLength={300} control={control}></FlatInput>
+                                    </TabPanel>
+                                </section>
+
+                            </TabContext>
+                        } />
+                </section>
 
 
 
-            <section css={{ padding: 16 }}>
-                <div css={textLabel('s')}>POST PREVIEW</div>
-                <div css={{
-                    maxWidth: '800px', width: '100%', overflow: 'hidden',
-                    whiteSpace: 'normal',
-                    wordBreak: 'break-word',
-                }}>
-                    <div css={textBold('x')}>{data.title && data.title}</div>
-                    <ContentLoader type={data.type} content={data.content} />
-                </div>
-            </section>
+
+
+                <section css={{ padding: 16 }}>
+                    <div css={textLabel('s')}>POST PREVIEW</div>
+                    <div css={{
+                        maxWidth: '800px', width: '100%', overflow: 'hidden',
+                        whiteSpace: 'normal',
+                        wordBreak: 'break-word',
+                    }}>
+                        <div css={textBold('x')}>{data.title && data.title}</div>
+                        <ContentLoader type={data.type} content={data.content} />
+                    </div>
+                </section>
 
 
 
-        </div>
-    </div >
-
+            </div>
+        </div >
+    </div>
 
 }
 

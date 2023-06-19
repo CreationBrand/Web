@@ -87,7 +87,7 @@ const CreateCommunity = ({ open, onClose }: any) => {
 
     const data = watch()
     const [loading, setLoading] = useState(false);
-    usePreventBackNavigation(onClose)
+    // usePreventBackNavigation(onClose)
 
     const onSubmit = handleSubmit(async (data) => {
 
@@ -227,18 +227,18 @@ const CreateCommunity = ({ open, onClose }: any) => {
 
 export default CreateCommunity
 
-const usePreventBackNavigation = (onClose: any) => {
-    const navigate = useNavigate();
-    useEffect(() => {
-        const handleBeforeUnload = (event: any) => {
-            onClose()
-            event.preventDefault();
-            navigate('/trending');
-        };
-        window.onpopstate = handleBeforeUnload;
-        return () => {
-            window.onpopstate = handleBeforeUnload;
-        };
-    }, [navigate]);
+// const usePreventBackNavigation = (onClose: any) => {
+//     const navigate = useNavigate();
+//     useEffect(() => {
+//         const handleBeforeUnload = (event: any) => {
+//             onClose()
+//             event.preventDefault();
+//             navigate('/trending');
+//         };
+//         window.onpopstate = handleBeforeUnload;
+//         return () => {
+//             window.onpopstate = handleBeforeUnload;
+//         };
+//     }, [navigate]);
 
-};
+// };

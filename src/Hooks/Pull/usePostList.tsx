@@ -26,16 +26,18 @@ const usePostList = (community_id: any, filter: any) => {
         setCursor(false)
         setComponents([])
         setResetState({});
-        console.log('%c [RESET] ', 'font-weight: bold; color: #0F0', 'PostList');
-        
+        console.log('%c [RESET] ', 'font-weight: bold; color: #F00', 'PostList');
+
     }, [community_id, filter])
 
     useEffect(() => {
         (async () => {
             try {
-                console.log('%c [RESET] ', 'font-weight: bold; color: #0F0', 'PostList');
                 if (end || isError) return
-                if (cache.has(`posts:${community_id}:${filter}:${cursor}`)) return setList(cache.get(`posts:${community_id}:${filter}:${cursor}`))
+                if (cache.has(`posts:${community_id}:${filter}:${cursor}`)){
+                    console.log('%c [CACHE] ', 'font-weight: bold; color: #FF0', `Posts Cursor:${cursor}`);
+                    return setList(cache.get(`posts:${community_id}:${filter}:${cursor}`))
+                } 
 
                 let req: any = await socketRequest('posts', { community_id, filter, cursor: cursor })
                 console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.posts?.length}) Posts Cursor:${cursor}`);
@@ -52,25 +54,29 @@ const usePostList = (community_id: any, filter: any) => {
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
 
-
+            let batch: any = []
             for (let i = 0; i < listItems?.length; i++) {
                 listItems[i].visibility = true
                 set(postSync(listItems[i].public_id), listItems[i]);
-                set(postList, (oldList: any) => [...oldList, <Post {...listItems[i]} />])
+                batch.push(<Post {...listItems[i]} />)
             }
+            set(postList, (oldList: any) => [...oldList, batch])
+
         },
         []
     );
 
     const fetchNext = async () => {
+        console.log(components)
         if (components?.length === 0) return
-        if (filter === 'none') return setCursor(components[components.length - 1].props.hot)
-        else if (filter === 'HOT') return setCursor(components[components.length - 1].props.hot)
-        else if (filter === 'NEW') return setCursor(components[components.length - 1].props.created_at)
-        else if (filter === 'TOP') return setCursor(components[components.length - 1].props.karma)
+        let last:any = components[components.length - 1]
+        if (filter === 'none') return setCursor(last[last.length - 1].props.hot)
+        else if (filter === 'HOT') return setCursor(last[last.length - 1].props.hot)
+        else if (filter === 'NEW') return setCursor(last[last.length - 1].props.created_at)
+        else if (filter === 'TOP') return setCursor(last[last.length - 1].props.karma)
     }
 
-    return [isLoading, isError, components.concat(<ChunkError variant={!end ? 'loading' : 'end'} onLoad={fetchNext} />)]
+    return [isLoading, isError, components]
 }
 
 

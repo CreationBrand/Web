@@ -1,47 +1,20 @@
 /** @jsxImportSource @emotion/react */
 
-import { memo, useCallback, useEffect, useRef } from 'react'
-import {  useVirtualizer } from '@tanstack/react-virtual'
+import { memo, useRef } from 'react'
+import { useVirtualizer } from '@tanstack/react-virtual'
 import useWindow from 'Hooks/useWindow'
-import throttle from 'Util/throttle';
-
-
-const pool: any = {}
 
 const VirtualList = ({ list, offset, overscan, public_id }: any) => {
 
     const { height } = useWindow()
     const parentRef: any = useRef()
 
-    const throttled = useCallback(
-        throttle((value: any) => {
-            let temp = value.calculateRange()
-            if (temp.startIndex === 0) return
-            pool[public_id] = temp.startIndex
-        }, 1000), [],
-    );
-
     let virtualizer = useVirtualizer({
         count: list?.length,
-        onChange: (virtualItems: any) => throttled(virtualItems),
         getScrollElement: () => parentRef.current,
         estimateSize: () => 516,
-        overscan: overscan ? overscan : 8,
+        overscan: 1,
     })
-
-    const scrollToIndex = (index: any, ...args: any) => {
-        virtualizer.scrollToIndex(index, ...args);
-    };
-
-    useEffect(() => {
-        if (!public_id) return
-
-        try {
-            if (pool[public_id]) {
-                scrollToIndex(pool[public_id], { align: "start" })
-            }
-        } catch (e) { }
-    }, [public_id])
 
 
     const items: any = virtualizer.getVirtualItems()
@@ -98,9 +71,6 @@ const VirtualList = ({ list, offset, overscan, public_id }: any) => {
         </div>
     )
 }
-
-
-
 
 
 

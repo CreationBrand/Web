@@ -60,20 +60,22 @@ const Image = ({ url }: any) => {
         <div onClick={(e) => e.stopPropagation()}>
             <Viewer src={url} open={open} onClose={handleClose} />
 
-            <div
-                onClick={(e) => { handleOpen() }}
-                css={C.container}>
+                <div
+                    onClick={(e) => { handleOpen() }}
+                    css={C.container}>
 
-                <img
-                    onError={handleImgError}
-                    src={url} css={C.blur} />
+                    <img
+                        // loading="lazy"
+                        onError={handleImgError}
+                        src={url} css={C.blur} />
 
-                <img
-                    onError={handleImgError}
-                    css={C.img} src={url} />
+                    <img
+                        // loading="lazy"
+                        onError={handleImgError}
+                        css={C.img} src={url} />
+                </div>
+        </div >
 
-            </div>
-        </div>
     )
 }
 

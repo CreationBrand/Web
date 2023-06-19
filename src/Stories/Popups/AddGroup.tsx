@@ -90,7 +90,7 @@ const AddGroup = ({ open, onClose }: any) => {
     const layoutSize = useRecoilValue(layoutSizeData)
 
     const data = watch()
-    usePreventBackNavigation(onClose)
+    // usePreventBackNavigation(onClose)
 
     const onSubmit = handleSubmit(async (data) => {
         setLoading(true)
@@ -190,18 +190,18 @@ const AddGroup = ({ open, onClose }: any) => {
 
 export default AddGroup
 
-const usePreventBackNavigation = (onClose: any) => {
-    const navigate = useNavigate();
-    useEffect(() => {
-        const handleBeforeUnload = (event: any) => {
-            onClose()
-            event.preventDefault();
-            navigate('/trending');
-        };
-        window.onpopstate = handleBeforeUnload;
-        return () => {
-            window.onpopstate = handleBeforeUnload;
-        };
-    }, [navigate]);
+// const usePreventBackNavigation = (onClose: any) => {
+//     const navigate = useNavigate();
+//     useEffect(() => {
+//         const handleBeforeUnload = (event: any) => {
+//             onClose()
+//             event.preventDefault();
+//             navigate('/trending');
+//         };
+//         window.onpopstate = handleBeforeUnload;
+//         return () => {
+//             window.onpopstate = handleBeforeUnload;
+//         };
+//     }, [navigate]);
 
-};
+// };

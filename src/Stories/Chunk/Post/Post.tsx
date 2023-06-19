@@ -12,13 +12,13 @@ import { useRecoilValue } from 'recoil'
 import { authFlow, contentFlow, filterFlow } from 'State/Flow'
 import { textBold, textLight } from 'Global/Mixins'
 import RightMenu from 'Stories/Bits/RightMenu/RightMenu'
-import VisibilitySensor from 'react-visibility-sensor';
 import LiveComments from 'Stories/Alive/LiveComments'
 import LiveViews from 'Stories/Alive/LiveViews'
 import LiveVotes from 'Stories/Alive/LiveVotes'
 import LiveTags from '../../Alive/LiveTags'
 import { hasSeen } from 'State/seenAtom'
 import usePostLive from './usePostLive'
+import VisibilitySensor from 'react-visibility-sensor';
 
 // @ts-ignore
 import TimeAgo from 'react-timeago'
@@ -72,7 +72,7 @@ const Post = (props: any) => {
 
     // proxing data
     const [inView, setVisibility] = useState(false)
-    const data: any = usePostLive(inView, props)
+    const data: any = usePostLive(false, props)
     const { visibility, public_id, title, content, created_at, author, community, vote, karma, views, comments, tags, type, community_roles, global_roles } = data
 
     const filter = useRecoilValue(filterFlow)
@@ -152,6 +152,7 @@ const Post = (props: any) => {
                     </div>
 
                     <div css={[textBold('x'), (contentState !== 'post' && grayed) && { color: '#b9b6ba !important' }]}>{title && title}</div>
+
                     <ContentLoader type={type} content={content} public_id={public_id} />
 
                     <div css={C.footer} onClick={(e) => e.stopPropagation()}>

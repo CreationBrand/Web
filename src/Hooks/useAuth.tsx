@@ -18,6 +18,7 @@ import {
 } from 'State/Data'
 import { buildHex, communityLTL, communityLTT, messengerLTT } from 'Helper/Clean'
 import { authFlow } from 'State/Flow'
+var treeify = require('treeify');
 
 
 var useAuth = () => {
@@ -42,57 +43,48 @@ var useAuth = () => {
 
     useEffect(() => {
         var trySession = async () => {
+            console.groupCollapsed('%c[SESSION] ', 'font-weight:bold; color: #bada55', 'Checking Session');
+
             try {
                 let session = await verifyCognito()
-
+                console.log('%c[SESSION] ', 'font-weight:bold; color: #bada55', 'Session Data', session);
                 if (!session) {
-                    console.log('%c [SESSION] ', 'background: #000; color: #bada55', 'Invalid Session Token');
+                    console.log('%c[SESSION] ', 'font-weight:bold; color: #bada55', 'Invalid Session Token');
                     setLoading(false)
                 } else {
                     await setSession(session)
                     await connectSocket()
                     var request = await get('user')
+                    console.log('%c[SESSION] ', 'font-weight:bold; color: #bada55', 'USER', request);
 
                     if (request !== false) {
-
                         setAF('user')
-                        // DATA SUPPLY
+
                         setP(request.person)
-                        // console.groupCollapsed('%c [DATA - person] ', 'background: #000; color: #5555da');
-                        // console.log(treeify.asTree(request.person, true));
-                        // console.groupEnd();
 
                         setMTD(messengerLTT(request.messengers))
-                        // console.groupCollapsed('%c [DATA - messengers] ', 'background: #000; color: #5555da');
-                        // console.log(treeify.asTree(request.messengers, true));
-                        // console.groupEnd();
 
                         setC(request.communitys)
                         setCTD(communityLTT(request.communitys))
                         setCLD(communityLTL(request.communitys))
-                        // console.groupCollapsed('%c [DATA - communitys] ', 'background: #000; color: #5555da');
-                        // console.log(treeify.asTree(request.communitys, true));
-                        // console.groupEnd();
 
                         setR(request.globalRoles)
                         setHex(buildHex(request.globalRoles))
-                        // console.groupCollapsed('%c [DATA - globalRoles] ', 'background: #000; color: #5555da');
-                        // console.log(treeify.asTree(request.globalRoles, true));
-                        // console.groupEnd();
-
 
                         setT(request.tags)
-                        // console.groupCollapsed('%c [DATA - tags] ', 'background: #000; color: #5555da');
-                        // console.log(treeify.asTree(request.tags, true));
-                        // console.groupEnd();
 
                         setAuth(true)
                         setLoading(false)
+                        console.groupEnd();
+
                     } else {
+                        console.groupEnd();
                         setLoading(false)
                     }
                 }
             } catch (e) {
+                console.log('%c [SESSION] ', 'background: #000; color: #bada55', e);
+                console.groupEnd();
                 setLoading(false)
             }
         }

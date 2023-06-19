@@ -27,7 +27,7 @@ const Nav = ({ children }: any) => {
         paddingRight: '12px',
         justifyContent: 'space-between',
         alignItems: 'center',
-        zIndex: 100,
+        zIndex: 200,
         position: 'relative',
     })
 

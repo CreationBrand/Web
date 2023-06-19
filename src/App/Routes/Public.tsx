@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate, } from 'react-router-dom'
 import Preview from 'App/Pages/Preview'
 import GlobalList from 'Stories/Chunk/Lists/GlobalList'
-import Error from 'Stories/Error/Error'
+import Error from 'Stories/Chunk/Error/Error'
 import Announcements from 'Stories/Views/Announcements'
 import CommunityList from 'Stories/Chunk/Lists/CommunityList'
 import PostList from 'Stories/Chunk/Lists/PostList'
@@ -20,38 +20,29 @@ var Public = () => {
             <Error />
 
             <Routes>
-                <Route path="/" element={<Navigate to="/trending" replace={true} />} />
 
                 <Route path="/" element={<Preview />}>
 
-                    <Route
-                        path="/search/:query"
-                        element={<SearchList />} />
-
+                    {/* layover lists */}
+                    <Route path="search/:query" element={<SearchList />} />
+                    <Route path="c/:community_id/p/:post_id" element={<PostList />} />
                     <Route path="c/:community_id/search/:query" element={<SearchCommunityList />} />
+                    <Route path="c/:community_id/p/:post_id" element={<PostList />} />
+                    <Route path="p/:person_id" element={<PersonList />} />
 
-                    <Route
-                        path="c/:community_id"
-                        element={<CommunityList />}
-                    ></Route>
-                    <Route
-                        path="c/:community_id/p/:post_id"
-                        element={<PostList />}
-                    ></Route>
 
-                    <Route
-                        path="p/:person_id"
-                        element={<PersonList />}
-                    ></Route>
+                    <Route path="announcements" element={<Announcements />} />
+                    <Route path="contact" element={<Contact />} />
 
-                    <Route path="/trending" element={<GlobalList type='trending' />} />
-                    <Route path="/announcements" element={<Announcements />} />
-                    <Route path="/contact" element={<Contact />} />
+                    {/* fake */}
+                    {/* <Route path="c/:community_id" />
+                    <Route path="trending" /> */}
+
                 </Route>
 
 
 
-                <Route path="*" element={<Navigate to="/trending" replace={true} />} />
+                {/* <Route path="*" element={<Navigate to="/trending" replace={true} />} /> */}
 
             </Routes>
         </>

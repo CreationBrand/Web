@@ -78,7 +78,7 @@ const Link = ({ url }: any) => {
     }
 
 
-    console.log('DATA', data)
+    // console.log('DATA', data)
 
     try {
 
@@ -87,27 +87,28 @@ const Link = ({ url }: any) => {
         if (isLoading) return <div css={C.container}><Walk variant='loading' /></div>
 
         //IMAGE FIRST (FOR GIFS)
-        else if (["GIPHY", "Tenor"].includes(data?.siteName)) {
-            if (data?.images?.length) return <Image url={`${proxy}/${data?.images[0]}`} />
-            else if (data?.videos?.length) {
-                let video = data.videos[0].url
-                if (video.includes('.gif')) return <Image url={`${proxy}/${video}`} />
-                else return <Player url={`${proxy}/${video}`} />
-            }
-        }
+        // else if (["GIPHY", "Tenor"].includes(data?.siteName)) {
+        //     if (data?.images?.length) return <Image url={`${proxy}/${data?.images[0]}`} />
+        //     else if (data?.videos?.length) {
+        //         let video = data.videos[0].url
+        //         if (video.includes('.gif')) return <Image url={`${proxy}/${video}`} />
+        //         else return <Player url={`${proxy}/${video}`} />
+        //     }
+        // }
 
         //VIDEO FIRST (FOR VIDEOS)
-        else if (["HARDGIF.COM", "EPORNER.COM", "RedGIFs", "Imgur", "Porn Giphy"].includes(data?.siteName)) {
+        else if (["GIPHY", "Tenor", "HARDGIF.COM", "EPORNER.COM", "RedGIFs", "Imgur", "Porn Giphy"].includes(data?.siteName)) {
             if (data?.videos?.length) {
                 let video = data.videos[0].url
+                let fallback = data?.images?.length ? data?.images[0] : null
                 if (video.includes('.gif')) return <Image url={`${proxy}/${video}`} />
-                else return <Player url={`${proxy}/${video}`} />
+                else return <Player url={`${proxy}/${video}`} fallback={fallback} />
             }
             else if (data?.images?.length) return <Image url={`${proxy}/${data?.images[0]}`} />
         }
 
-        else if (data?.contentType === "application/x-mpegurl") return <Player url={`${proxy}/${url}`} />
-        else if (data?.videos.length && data?.videos[0]?.url) return <Player url={`${proxy}/${data?.videos[0]?.url}`} />
+        // else if (data?.contentType === "application/x-mpegurl") return <Player url={`${proxy}/${url}`} />
+        // else if (data?.videos.length && data?.videos[0]?.url) return <Player url={`${proxy}/${data?.videos[0]?.url}`} />
 
 
         return (<div css={C.container} onClick={handleClick}>

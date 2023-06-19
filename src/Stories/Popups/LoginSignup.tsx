@@ -97,8 +97,9 @@ const LoginSignup = ({ open, handleClose }: any) => {
 
         if (view === 'login') {
             let status = await loginCognito(data.username, data.password)
+            console.log(status)
             if (status === 'error') setError('username', { type: 'custom', message: 'Invalid username or password' });
-            if (status === 'sucess') window.location.reload();
+            // if (status === 'sucess') window.location.reload();
             if (status === 'verify') setView('verify')
         }
 

@@ -7,7 +7,6 @@ import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import VirtualList from '../VirtualList/VirtualList'
 import {  useParams } from 'react-router-dom'
 import useCommunityFlow from 'Hooks/useCommunityFlow'
-import useContentFlow from 'Hooks/useContentFlow'
 import usePerson from 'Hooks/Pull/usePerson'
 import PersonFilter from 'Stories/Bits/Filter/PersonFilter'
 import { postFilter } from 'State/filterAtoms'
@@ -19,7 +18,10 @@ const C = {
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
-        justifyContent: 'center',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        zIndex: 100,
+        background: '#0f0e10',
     })
 }
 
@@ -33,7 +35,6 @@ const PersonList = () => {
     const [isLoading, isError, component] = usePerson(params.person_id)
     // const [isLoading2, isError2, components] = usePullPosts('person', filter)
 
-    useContentFlow('person')
     useCommunityFlow(null)
 
 

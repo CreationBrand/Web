@@ -1,13 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { Visibility } from '@mui/icons-material';
 import { textNormal } from 'Global/Mixins'
 import { socketFlow } from 'State/Flow';
-import { on } from 'events';
-import { memo, useEffect, useState } from 'react';
+import { memo, } from 'react';
 import { useRecoilValue } from 'recoil';
-import MiniError from './MiniError';
-import Walk from './Walk';
+import VisibilitySensor from 'react-visibility-sensor';
+
 
 const C = {
     container: css({
@@ -19,7 +17,7 @@ const C = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        touchAction:'none',
+        touchAction: 'none',
 
     }),
     inner: css({
@@ -76,9 +74,10 @@ const ChunkError = ({ variant, onLoad, end }: any) => {
 
     const socket = useRecoilValue(socketFlow)
 
-    useEffect(() => {
+    const handleVisibility = (isVisible: boolean) => {
         if (onLoad && !end) onLoad()
-    }, [])
+    }
+
 
     let colors: any = {
         error: '#fb4b4b',
@@ -86,17 +85,19 @@ const ChunkError = ({ variant, onLoad, end }: any) => {
         end: '#fbb24b',
         connected: '#51fb4b',
         disconnected: '#fb8c4b',
-        
+
     }
 
     if (socket === 'error') variant = 'error'
 
 
     return (
-        <div css={C.container} key={'chunckerror'}>
-            <div css={C.inner}>
+        <VisibilitySensor onChange={handleVisibility}>
 
-                {/* <div css={C.float}>
+            <div css={C.container} key={'chunckerror'}>
+                <div css={C.inner}>
+
+                    {/* <div css={C.float}>
                     <svg className="gegga" >
                         <defs>
                             <filter id="gegga">
@@ -143,18 +144,19 @@ const ChunkError = ({ variant, onLoad, end }: any) => {
                     </svg>
                 </div> */}
 
-                <div css={[textNormal('t'), { fontWeight: '400', letterSpacing: '1px', }]}>
-                    {variant === 'error' && 'Something went wrong...'}
-                    {variant === 'loading' && 'Loading...'}
-                    {variant === 'end' && 'Nothing else to load...'}
-                    {variant === 'connected' && 'Connected!'}
-                    {variant === 'disconnected' && 'Disconnected...'}
+                    <div css={[textNormal('t'), { fontWeight: '400', letterSpacing: '1px', }]}>
+                        {variant === 'error' && 'Something went wrong...'}
+                        {variant === 'loading' && 'Loading...'}
+                        {variant === 'end' && 'Nothing else to load...'}
+                        {variant === 'connected' && 'Connected!'}
+                        {variant === 'disconnected' && 'Disconnected...'}
+                    </div>
+
+
                 </div>
 
-
             </div>
-
-        </div>
+        </VisibilitySensor>
 
 
     )

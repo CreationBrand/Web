@@ -71,9 +71,8 @@ const Search = () => {
         if (e.key === 'Backspace') {
             if (query.length === 0) setShowTag(false)
         }
-        else if (e.key === 'Enter' || e.key === 'Tab') {
+        else if (e.key === 'Enter') {
             setAnchorEl(null)
-
             if (showTag && current) navigate(`/c/${current?.public_id}/search/${query}`)
             else navigate(`/search/${query}`)
         }
@@ -85,11 +84,10 @@ const Search = () => {
         setAnchorEl(null)
     };
     let bounce = async (bouncedQuerry: any) => {
-        if (bouncedQuerry.length < 5) return
+        if (bouncedQuerry.length < 0) return
         let req: any = await socketRequest('typeAhead', { query: bouncedQuerry })
 
         let tempPersons = []
-        console.log(req.persons)
         for (var i in req.persons) {
 
             tempPersons.push(
@@ -241,7 +239,8 @@ const Search = () => {
                 height: '40px',
                 marginTop: '8px',
                 color: '#d7dadc',
-                zIndex: 110,
+                zIndex: 2000,
+
 
                 border: Boolean(anchorEl) ? '2px solid #9147ff' : null,
             }}
@@ -266,7 +265,8 @@ const Search = () => {
                 top: '-12px !important',
                 width: '100%', height: 'auto',
                 background: '#0f0e10',
-                zIndex: 100,
+                zIndex: 1500,
+
             }}
             open={Boolean(anchorEl) && !showTag}
             anchorEl={anchorEl}>

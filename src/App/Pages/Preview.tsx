@@ -5,9 +5,9 @@ import Tri from 'Stories/Views/Tri'
 import Nav from 'Stories/Layout/Nav'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { triState } from 'State/atoms'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import Main from 'Stories/Layout/Main'
 import Left from 'Stories/Layout/Left'
 import LogoWithName from 'Stories/Bits/Branding/LogoWithName'
@@ -21,6 +21,8 @@ import LoginSignup from 'Stories/Popups/LoginSignup'
 import Leaf from 'Stories/Chunk/VirtualTree/Leaf'
 import { textLabel } from 'Global/Mixins'
 import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
+import CommunityList from 'Stories/Chunk/Lists/CommunityList'
+import GlobalList from 'Stories/Chunk/Lists/GlobalList'
 
 const Preview = () => {
 
@@ -28,6 +30,20 @@ const Preview = () => {
     const [l, r] = useRecoilValue(triState)
     const setTri: any = useSetRecoilState(triState)
     const [showLogin, setShowLogin] = useState(false)
+
+
+    const [last, setLast] = useState('trending')
+
+    const location = useLocation()
+
+    useEffect(() => {
+        let parts = location.pathname.split('/')
+        if (location.pathname === '/trending') setLast('trending')
+        else if (location.pathname === '/home') setLast('home')
+        if (parts[1] === 'c' && parts.length === 3) setLast('community')
+
+    }, [location])
+
 
     return (
         <>
@@ -149,7 +165,14 @@ const Preview = () => {
                         </div>
 
                     </Nav>
+
+                    {/* {last === 'trending' && <GlobalList type="trending" />}
+                    {last === 'home' && <GlobalList type="home" />}
+                    {last === 'community' && <CommunityList />} */}
+
                     <Outlet />
+
+
                 </Main>
 
             </Tri >

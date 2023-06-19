@@ -129,9 +129,15 @@ export const verifyEmail = (code: string) => {
 export const verifyCognito = async () => {
 
 
+    console.groupCollapsed('%c [LOGIN] ', 'background: #000; color: #5555da', 'VERIFY COGNITO');
+
     return new Promise((resolve) => {
         try {
+
             const cookies = parseCookies()
+
+
+
             if (
                 cookies.refreshToken === undefined ||
                 cookies.LastAuthUser === undefined
@@ -140,15 +146,23 @@ export const verifyCognito = async () => {
                 return
             }
 
+            console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'COOKIES FOUND', cookies);
+
+
             const userData = {
                 Username: cookies.LastAuthUser,
                 Pool: userPool,
             }
 
+            console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'TOKEN', userData);
+
+
             const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
             var token = new AmazonCognitoIdentity.CognitoRefreshToken({
                 RefreshToken: cookies.refreshToken
             })
+
+            console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'TOKEN', token);
 
 
             cognitoUser.refreshSession(
@@ -167,13 +181,18 @@ export const verifyCognito = async () => {
                             token,
                             12
                         )
+                        console.groupEnd()
                         resolve(session.accessToken.payload)
                     } catch (error) {
+                        console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'SESSION ERROR', error);
+                        console.groupEnd()
+
                         resolve(false)
                     }
                 }
             )
         } catch (error) {
+            console.groupEnd()
             resolve(false)
         }
     })

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { socketRequest } from "Service/Socket";
+import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import CommunityPane from "Stories/Bits/Header/CommunityPane";
 import GroupPane from "Stories/Bits/Header/GroupPane";
-import LoaderPane from "Stories/Pane/loaderPane";
 
 
 const usePullGroup = (public_id: any) => {
@@ -36,7 +36,7 @@ const usePullGroup = (public_id: any) => {
 
 
 
-    if (loading === true) return [error, <LoaderPane />];
+    if (loading === true) return [error, <ChunkError variant='error' />];
     return [error, <GroupPane data={data.group} />, data];
 }
 

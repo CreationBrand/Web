@@ -4,7 +4,6 @@ import { socketRequest } from "Service/Socket";
 import { postListData } from "State/Data";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import MainPost from "Stories/Chunk/Post/Post";
-import LoaderPane from "Stories/Pane/loaderPane";
 
 
 const usePullGroups = (group_id: any, filter: string, varient: string) => {
@@ -54,7 +53,7 @@ const usePullGroups = (group_id: any, filter: string, varient: string) => {
         if (end === false) fetchMore().catch((err) => console.log(err))
     }, [page])
 
-    if (end === false) return [error, list.concat(<LoaderPane />)]
+    if (end === false) return [error]
     if (end === true) return [error, list.concat(<ChunkError variant='end' />)]
 
     return [error, list] as const;

@@ -14,7 +14,6 @@ import AddComment from '../Comment/AddComment'
 import VirtualList from '../VirtualList/VirtualList'
 import { contentFlow, postFilterFlow } from 'State/Flow'
 import useCommunityFlow from 'Hooks/useCommunityFlow'
-import useContentFlow from 'Hooks/useContentFlow'
 import useComments from 'Hooks/Pull/useComments'
 import { seenAtom } from 'State/seenAtom'
 import usePostList from 'Hooks/Pull/usePostList'
@@ -29,7 +28,9 @@ const C = {
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        zIndex: 100,
+        background: '#0f0e10',
     })
 }
 
@@ -42,7 +43,6 @@ const PostList = () => {
     const [isLoading2, isError2, components]: any = useComments(params.post_id)
     const see = useSetRecoilState(seenAtom)
 
-    useContentFlow('post')
     useCommunityFlow(params.community_id)
 
     useEffect(() => {
@@ -57,9 +57,9 @@ const PostList = () => {
         <motion.div
             key={`Post:${params.post_id}`}
             css={C.container}
-            transition={{ duration: 0.5 }}
-            initial={{ opacity: 0, }}
-            animate={{ opacity: 1, }}
+            transition={{ duration: 0.1 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
 
         >
             <VirtualList
