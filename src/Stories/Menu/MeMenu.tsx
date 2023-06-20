@@ -1,17 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { ClickAwayListener, IconButton, MenuItem, Popper, styled } from '@mui/material';
+import { ClickAwayListener, MenuItem, Popper, styled } from '@mui/material';
 import { memo, useState } from 'react';
 
-import RoleMenu from './RoleMenu';
-import TagMenu from './TagMenu';
 
 // icons
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import ReportGmailerrorredRoundedIcon from '@mui/icons-material/ReportGmailerrorredRounded';
-import GavelRoundedIcon from '@mui/icons-material/GavelRounded';
 import { useRecoilValue } from 'recoil';
 import { contentFlow } from 'State/Flow';
 import { textBold, textLight } from 'Global/Mixins';
@@ -140,7 +134,7 @@ const CommentMenu = ({ person_id, comment_id, tags, global_roles, community_role
                                     background: '#da373C !important',
                                 }
                             }}
-                            >Signout<ExitToAppRoundedIcon/></MenuItem>
+                            >Signout<ExitToAppRoundedIcon /></MenuItem>
                         </div>
 
                     </ClickAwayListener>

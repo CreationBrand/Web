@@ -20,7 +20,7 @@ var Private = () => {
 
     const location = useLocation()
     const [value, setContentFlow] = useRecoilState(contentFlow)
-    
+
     useEffect(() => {
         let parts: any = location.pathname.split('/')
         switch (true) {
@@ -54,10 +54,13 @@ var Private = () => {
 
     return (
         <>
-            {/* <Error /> */}
+            <Error />
             <Routes>
 
                 <Route path="/" element={<Home />}>
+
+                    <Route path="/" element={<Navigate to="/trending" replace={true} />} />
+
 
                     {/* fake */}
                     <Route path="/trending" element={<div />} />

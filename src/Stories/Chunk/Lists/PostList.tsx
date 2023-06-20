@@ -62,9 +62,10 @@ const PostList = () => {
 
         >
             <VirtualList
+                overscan={10}
                 list={[
                     component,
-                    <div css={{ maxWidth: '800px', margin: 'auto', marginTop: '0px', display: 'flex', flexDirection: 'column' }}>
+                    <div css={{ maxWidth: '800px', margin: 'auto', marginTop: '8px', display: 'flex', flexDirection: 'column' }}>
                         <AddComment post_id={params.post_id} parent_id={params.post_id} />
                     </div>,
                     ...components

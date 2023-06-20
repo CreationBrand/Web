@@ -1,15 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+
 import Button from '@mui/material/Button'
-import { useEffect, useState } from 'react'
-import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useState } from 'react'
+import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue, } from 'recoil'
 import { socketRequest } from 'Service/Socket'
-import { postListData, virtualListStateFamily } from 'State/Data'
-import { authFlow, postFilterFlow } from 'State/Flow'
+import { authFlow } from 'State/Flow'
 import Comment from 'Stories/Chunk/Comment/Comment'
 import Editor from 'Stories/Bits/Editor/Editor'
-import { setRecoil } from 'recoil-nexus'
-import { useQueryClient } from '@tanstack/react-query'
 import { commentList, commentSync } from 'State/commentAtoms'
 
 
@@ -19,7 +17,7 @@ const C = {
         background: '#272732',
         width: '100%',
         borderRadius: '8px',
-        marginTop: '8px',
+        // marginTop: '8px',
         padding: '8px',
         border: `2px solid #343442`,
         cursor: 'pointer',
@@ -36,10 +34,6 @@ const AddComment = ({ parent_id, post_id, onClose }: any) => {
     const [comment, setComment] = useState('')
     const authState = useRecoilValue(authFlow)
     const [list, setList] = useRecoilState(commentList)
-
-
-
-
 
     const sync = useRecoilTransaction_UNSTABLE(
         ({ set }) => (item: any) => {

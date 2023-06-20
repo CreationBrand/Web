@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Popper from '@mui/material/Popper';
 
@@ -9,13 +8,12 @@ import { useState } from 'react';
 import { MenuItem } from '@mui/material';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { socketRequest } from 'Service/Socket';
-import { communityFlow, contentFlow } from 'State/Flow';
 
 import { canMovePost } from 'Service/Rbac';
 import MoveDownRoundedIcon from '@mui/icons-material/MoveDownRounded';
 import { communityListData } from 'State/Data';
-import { postList, postSync, resetAllAtoms } from "State/postAtoms";
-import { Visibility } from '@mui/icons-material';
+import { postSync } from "State/postAtoms";
+import useCommunityData from 'Hooks/Pull/useCommunityData';
 
 
 const StyledPopper = styled(Popper)(({ theme }) => ({
@@ -28,13 +26,11 @@ const StyledPopper = styled(Popper)(({ theme }) => ({
 }));
 
 
-export default function MovePostMenu({ post_id }: any) {
+export default function MovePostMenu({ post_id, community_id }: any) {
 
-    const community: any = useRecoilValue(communityFlow)
+    const data = useCommunityData(community_id)
     const communityList = useRecoilValue(communityListData)
     let updateSync = useSetRecoilState(postSync(post_id))
-
-    const [value, setValue]: any = useState([]);
 
     const [anchorEl, setAnchorEl]: any = useState(null)
 
@@ -49,7 +45,7 @@ export default function MovePostMenu({ post_id }: any) {
     const handleClick = async (e: any) => {
 
         let req: any = await socketRequest('unsetPost', { post_id: post_id, community_id: e.currentTarget.dataset.test })
-        
+
         updateSync((prevState: any) => ({
             ...prevState,
             visibility: false,
@@ -57,13 +53,6 @@ export default function MovePostMenu({ post_id }: any) {
 
         if (req.status === 'ok') handleClose()
 
-        // if (value.indexOf(e.currentTarget.dataset.test) > -1) {
-        //     socketRequest('roles-remove-person', { public_id: public_id, role_id: e.currentTarget.dataset.test, person_id: person_id, community_id: community.public_id })
-        //     handleClose()
-        // } else {
-        //     socketRequest('roles-add-person', { public_id: public_id, role_id: e.currentTarget.dataset.test, person_id: person_id, community_id: community.public_id })
-        //     handleClose()
-        // }
     }
 
     const open = (e: any) => {
@@ -72,8 +61,7 @@ export default function MovePostMenu({ post_id }: any) {
         setAnchorEl(e.currentTarget)
     };
 
-
-    if (!community.allRoles || !canMovePost(community.roleHex)) return null
+    if (!data || !data.community.community_roles || !canMovePost(data.communityHex)) return null
 
     return (
 

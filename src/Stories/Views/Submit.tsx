@@ -2,11 +2,10 @@
 import { css } from '@emotion/react';
 
 import { useForm, Controller } from "react-hook-form";
-import { Divider, Input, Button, Tab } from "@mui/material"
+import { Divider, Button, Tab } from "@mui/material"
 import { useState } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useRecoilValue } from "recoil";
-
 
 import { personData } from 'State/Data';
 import { socketRequest } from 'Service/Socket';
@@ -25,7 +24,6 @@ import ContentLoader from 'Stories/Chunk/ContentLoader/ContentLoader';
 import RichInput from 'Stories/Forum/RichInput';
 import CommunityPicker from 'Stories/Forum/CommunityPicker';
 import FlatInput from 'Stories/Forum/FlatInput';
-
 
 
 // VALIDATION
@@ -60,7 +58,7 @@ const C = {
         overflow: 'auto',
         borderRadius: '8px',
         background: '#272732',
-        
+
 
     }),
     inner: css({
@@ -113,10 +111,12 @@ const Submit = () => {
     const navigate = useNavigate()
 
     const onSubmit = async () => {
+        setLoading(true)
         let req: any = await socketRequest('post-new', data)
         if (req.status === 'ok') {
             navigate(`/c/${data.community_id}`)
         }
+        setLoading(false)
     };
 
     return <div css={C.pane}>

@@ -22,25 +22,21 @@ const C = {
     })
 }
 
-const GroupList = ({ group_id }:any) => {
+const GroupList = ({ group_id }: any) => {
 
 
 
 
-    // const params = useParams()
+    const params = useParams()
 
 
-    // const [isError1, group, data] = usePullGroup(params.group_id)
+    const [isError1, group, data] = usePullGroup(params.group_id)
     const [isLoading, isError, components]: any = usePostList(group_id, 'group')
 
 
-    // if (isError1 || isError) return <ChunkError variant='error' />
-    // if (isLoading) return <ChunkError variant='loading' />
+    if (isError1 || isError) return <ChunkError variant='error' />
+    if (isLoading) return <ChunkError variant='loading' />
 
-    // console.log('GroupList')
-    // console.log(params)
-
-    console.log('GroupList')
 
     return (
         <motion.div
@@ -50,7 +46,7 @@ const GroupList = ({ group_id }:any) => {
             initial={{ opacity: 0, }}
             animate={{ opacity: 1, }}
         >
-            <VirtualList list={components} overscan={0} />
+            <VirtualList list={[group, ...components]} overscan={1} />
         </motion.div>
     )
 }

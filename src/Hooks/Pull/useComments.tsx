@@ -42,6 +42,7 @@ const useComments = (post_id: any) => {
 
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
+            const temp:any = []
             for (let i = 0; i < listItems?.length; i++) {
                 try {
 
@@ -66,6 +67,7 @@ const useComments = (post_id: any) => {
     );
 
     const fetchNext = async () => {
+        if (end || isError) return
         if (components?.length === 0) return
         setCursor(components[components.length - 1].props.sort_path)
     }

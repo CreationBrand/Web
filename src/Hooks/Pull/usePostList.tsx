@@ -49,7 +49,7 @@ const usePostList = (community_id: any, filter: any) => {
                 setIsError(true)
             }
         })()
-    }, [community_id, cursor])
+    }, [community_id, cursor, filter])
 
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
@@ -67,6 +67,7 @@ const usePostList = (community_id: any, filter: any) => {
     );
 
     const fetchNext = async () => {
+        if (end || isError) return
         if (components?.length === 0) return
         let last: any = components[components.length - 1]
 

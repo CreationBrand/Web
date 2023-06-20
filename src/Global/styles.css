@@ -323,3 +323,11 @@ body {
     font-size: 14px !important;
     color:inherit !important;
 }
+
+
+#search::-webkit-search-cancel-button{
+   
+
+    -webkit-appearance: none;
+ 
+}

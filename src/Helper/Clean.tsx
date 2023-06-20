@@ -22,7 +22,8 @@ export const communityLTT = (list: any, offset: any = 0) => {
 
     let tree: any = [];
 
-    list.forEach((group: any, iter1: number) => {
+    if(list.length === 0) return tree
+    list?.forEach((group: any, iter1: number) => {
         let children: any = []
         if (group.children) {
             group.children.forEach((item: any, iter2: number) => {

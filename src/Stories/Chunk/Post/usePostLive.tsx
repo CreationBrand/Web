@@ -44,7 +44,7 @@ const usePostLive = (active: boolean, props: any) => {
                 setData(clone)
             }
             else if (value?.tags) {
-                console.log('tags', value.tags)
+                // console.log('tags', value.tags)
 
                 clone.tags = value.tags
                 setData(clone)

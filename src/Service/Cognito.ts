@@ -23,7 +23,6 @@ export async function loginCognito(username: string, password: string) {
 
     return new Promise((resolve) => {
 
-        // deleteAllCookies()
 
         var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
             {
@@ -246,32 +245,45 @@ export const refreshSession = () => {
     });
 };
 
-export const logoutCognito = () => {
-    cognitoUser.signOut();
-
-
-    window.indexedDB.databases().then((r: any) => {
-        for (var i = 0; i < r.length; i++) window.indexedDB.deleteDatabase(r[i].name);
-    })
-    sessionStorage.clear();
-    localStorage.clear();
+export const logoutCognito = async () => {
     deleteAllCookies()
 
+    console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'LOGOUT')
+    try {
+        await cognitoUser.signOut();
 
+        window.indexedDB.databases().then((r: any) => {
+            for (var i = 0; i < r.length; i++) window.indexedDB.deleteDatabase(r[i].name);
+        })
+        sessionStorage.clear();
+        localStorage.clear();
+
+    } catch (e: any) {
+        console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'LOGOUT ERROR', e)
+    }
     window.location.reload()
     return true
 }
 
 //   HELPERS
-const deleteAllCookies = () => {
-    var cookies = document.cookie.split(';')
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i]
-        var eqPos = cookie.indexOf('=')
-        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
-        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+
+function deleteAllCookies() {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i];
+        clearCookie(cookie, window.location.hostname, "/")
+        // console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'DELETE COOKIE', cookie)
+        // const eqPos = cookie.indexOf("=");
+        // const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        // document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GT";
     }
 }
+function clearCookie(name: string, domain: string, path: string) {
+    const derivedDomain = domain || document.domain;
+    const derivedPath = path || "/";
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=${derivedDomain}; path=${derivedPath}`;
+};
+
 const createCookie = (name: string, value: any, hours: number) => {
     if (hours) {
         var date = new Date()

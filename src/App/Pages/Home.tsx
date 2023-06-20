@@ -87,11 +87,12 @@ const Home = () => {
                 <Nav>
                     {layoutSize === 'mobile' ? <>
                         <IconButton
-                            // onMouseDown={() => navigate(`/submit`)}
+                            onMouseDown={submit}
                             disableRipple={true}
                             size="small"
                             color="secondary"
                             sx={{
+                        
                                 ':hover': { color: '#fff' },
                                 height: '32px',
                                 width: '32px',
@@ -106,7 +107,7 @@ const Home = () => {
                             badgeContent={noti} invisible={!Boolean(noti)}>
 
                             <IconButton
-                                // onClick={() => navigate(`/notifications`)}
+                                onClick={notif}
                                 disableRipple={true}
                                 size="small"
                                 color="secondary"

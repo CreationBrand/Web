@@ -36,10 +36,10 @@ import CommentMenu from 'Stories/Menu/CommentMenu'
 const C = {
     container: css({
         width: '100%',
-        display: 'flex',
-        height: 'auto',
-        alignItems: 'stretch',
-        position: 'relative',
+        // display: 'flex',
+        // height: 'auto',
+        // alignItems: 'stretch',
+        // position: 'relative',
     }),
     inner: css({
         width: '100%',
@@ -75,6 +75,8 @@ const C = {
         position: 'relative',
         top: '-20px',
         cursor: 'pointer',
+        zIndex: 5,
+
 
     }),
     spacerMobile: css({
@@ -87,7 +89,7 @@ const C = {
         marginLeft: '0px',
         background: '#52555d',
         position: 'relative',
-
+        zIndex: 5,
     }),
     defaultSpacer: css({
         zIndex: 1,
@@ -111,6 +113,9 @@ const C = {
         height: '30px',
         display: 'flex',
         alignItems: 'center',
+        zIndex: 10,
+
+        position: 'relative',
     }),
     left: css({
         display: 'flex',
@@ -287,33 +292,41 @@ const Comment = (props: any) => {
                                 </>}
 
                                 <LiveVotes size='small' vote={vote} karma={karma} public_id={public_id} type='comment' />
-                                <div css={C.divider} />
-                                <Button
-                                    onClick={handleReply}
-                                    variant="text"
-                                    size="small"
-                                    color="secondary"
-                                    sx={{ gap: '8px', fontSize: '16px' }}
-                                >
-                                    <ReplyAllRoundedIcon fontSize="inherit" />
-                                    <div css={[textBold('t'), {
-                                        color: '#b9bbbe',
-                                    }]}>Reply</div>
-                                </Button>
+                                {depth < 10 && <>
+                                    <div css={C.divider} />
+
+                                    <Button
+                                        onClick={handleReply}
+                                        variant="text"
+                                        size="small"
+                                        color="secondary"
+                                        sx={{ gap: '8px', fontSize: '16px' }}                                    >
+                                        <ReplyAllRoundedIcon fontSize="inherit" />
+                                        <div css={[textBold('t'), {
+                                            color: '#b9bbbe',
+                                        }]}>Reply</div>
+                                    </Button>
+                                </>}
+
                             </div>
                         </div>
+                        </div>
+
                     </div>
 
-                    {showReply && <AddComment parent_id={public_id} post_id={params.post_id} onClose={handleReply} />}
-
                 </div>
+                {showReply &&
+                    <div css={{ background: '#272732', padding: '0 8px', maxWidth:'800px', margin:'0 auto' }}>
+                        <AddComment parent_id={public_id} post_id={params.post_id} onClose={handleReply} />
+                    </div>}
             </div>
-        </div>
 
-    )
+
+
+            )
 }
 
-export default Comment
+            export default Comment
 
 
 

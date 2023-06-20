@@ -104,17 +104,26 @@ const Viewer = ({ src, open, onClose }: any) => {
             sx={{
                 borderRadius: '0px',
                 backgroundColor: 'transparent',
+
+
+
+                
                 '& .MuiDialog-paper': {
                     backgroundColor: 'transparent !important',
                     boxShadow: 'none !important',
                     padding: '0px !important',
                     margin: '0px !important',
 
+                    
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    
                     overflow: 'hidden',
                     maxWidth: '800px',
                     maxHeight: '800px',
-                    height: '80vh',
-                    width: '80vw',
+ 
+
                 },
                 Backdrop: {
                     background: 'rgba(14,16,15,0.85)',
@@ -130,6 +139,8 @@ const Viewer = ({ src, open, onClose }: any) => {
                     objectFit: 'contain',
                     maxHeight: '100%',
                     maxWidth: '100%',
+                    height: '80vh',
+                    width: '100vw',
 
                 }}
             />

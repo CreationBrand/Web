@@ -3,17 +3,15 @@
 
 /** @jsxImportSource @emotion/react */
 
-import { Global, css } from '@emotion/react'
-import { useRef, useEffect, useState, useLayoutEffect } from 'react'
+import { css } from '@emotion/react'
+import { useRef, useState, useLayoutEffect } from 'react'
 import theme from 'Global/Theme'
 import { layoutSizeData } from 'State/Data'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState, } from 'recoil'
 import useWindow from 'Hooks/useWindow'
-import { motion, useDragControls } from 'framer-motion'
-
 import { useSpring, animated } from '@react-spring/web'
 import { useDrag } from '@use-gesture/react'
-import { bindState } from 'State/atoms'
+
 
 const Tri = (props: Props) => {
 
@@ -21,7 +19,6 @@ const Tri = (props: Props) => {
     const [layoutSize, setLayoutSize] = useRecoilState(layoutSizeData)
     const { width, height } = useWindow()
     const [position, setPosition] = useState(0)
-
 
     //runs on every size change (very inefficient)
     useLayoutEffect(() => {
@@ -32,12 +29,6 @@ const Tri = (props: Props) => {
 
     if (layoutSize === 'mobile') return <Mobile {...props} />
 
-    //@ts-ignore
-    // const { x } = useSpring({ x: position * (240) })
-    // const bind = useDrag(({ swipe: [swipeX] }) => {
-
-    //     setPosition((p) => Math.min(Math.max(-1, p + swipeX), 1))
-    // })
 
     const c = {
         left: css({
@@ -173,14 +164,9 @@ const Mobile = (props: Props) => {
         if (last) {
             if (dx < 0) {
                 if (xPos > 0 + offset) setXPos(xp => xp - 1)
-
-
             }
-
             else if (dx > 0) {
-                console.log('right')
                 if (xPos < 2) setXPos(xp => xp + 1)
-
             }
         }
     }, {

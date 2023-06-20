@@ -2,20 +2,20 @@
 
 import { useForm, Controller } from "react-hook-form";
 import LoadingButton from '@mui/lab/LoadingButton';
-import { FormControlLabel, Input, Modal, Radio, RadioGroup } from "@mui/material"
+import { FormControlLabel, Modal, Radio, RadioGroup } from "@mui/material"
 import { css } from '@emotion/react';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { textBold, textLabel, textLight, } from "Global/Mixins";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { useNavigate } from "react-router-dom";
 import { socketRequest } from "Service/Socket";
 import { communityLTL, communityLTT } from "Helper/Clean";
-import { communityListData, communityTreeData } from "State/Data";
+import { communityListData, communityTreeData, layoutSizeData } from "State/Data";
 import { setRecoil } from "recoil-nexus";
 import RichInput from "Stories/Forum/RichInput";
 import FlatInput from "Stories/Forum/FlatInput";
 import Joi from "joi";
 import { joiResolver } from "@hookform/resolvers/joi";
+import { useRecoilValue } from "recoil";
 
 const C = {
     container: css({
@@ -85,6 +85,8 @@ const CreateCommunity = ({ open, onClose }: any) => {
         resolver: joiResolver(schema)
     });
 
+    const layoutSize = useRecoilValue(layoutSizeData)
+
     const data = watch()
     const [loading, setLoading] = useState(false);
     // usePreventBackNavigation(onClose)
@@ -116,9 +118,9 @@ const CreateCommunity = ({ open, onClose }: any) => {
                     onClick={onClose}
                     css={{
                         cursor: "pointer",
-                        position: "fixed",
-                        top: "40px",
-                        right: "56px",
+                        position: layoutSize === 'mobile' ? "absolute" : "fixed",
+                        top: layoutSize === 'mobile' ? "8px" : "40px",
+                        right: layoutSize === 'mobile' ? "8px" : "56px",
                         zIndex: 4,
                         width: "44px",
                         height: "44px",
@@ -127,7 +129,6 @@ const CreateCommunity = ({ open, onClose }: any) => {
                         fontSize: "0",
                         WebkitTransition: "border-color .2s",
                         transition: "border-color .2s",
-
                         '&:hover': {
                             borderColor: '#fff'
                         },

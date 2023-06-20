@@ -80,10 +80,10 @@ const C = {
 
 const signupSchema = Joi.object({
     username: Joi.string().min(5).max(22).trim().strict().required().messages({
-            'string.empty': 'Username is not allowed to be empty',
-            'string.max': 'Username length must be less than or equal to {{#limit}} characters long',
-            'string.min': 'Username length must be at least {{#limit}} characters long.',
-            'string.trim': 'Username must not have leading or trailing whitespace',
+        'string.empty': 'Username is not allowed to be empty',
+        'string.max': 'Username length must be less than or equal to {{#limit}} characters long',
+        'string.min': 'Username length must be at least {{#limit}} characters long.',
+        'string.trim': 'Username must not have leading or trailing whitespace',
     }),
     password: Joi.string()
         .regex(/[ -~]*[a-z][ -~]*/) // at least 1 lower-case
@@ -106,6 +106,12 @@ const loginSchema = Joi.object({
     username: Joi.string(),
     password: Joi.string(),
 })
+const verifySchema = Joi.object({
+    code: Joi.string(),
+    username: Joi.string(),
+    password: Joi.string(),
+    email: Joi.string(),
+})
 
 const LoginSignup = ({ open, handleClose }: any) => {
 
@@ -115,7 +121,7 @@ const LoginSignup = ({ open, handleClose }: any) => {
 
     const { handleSubmit, control, formState: { errors }, reset, watch, setError } = useForm({
         mode: 'onChange',
-        resolver: joiResolver(view === 'login' ? loginSchema : signupSchema)
+        resolver: joiResolver((view === 'login') ? (loginSchema) : ((view === 'signup') ? (signupSchema) : (verifySchema)))
     });
 
 
@@ -128,6 +134,7 @@ const LoginSignup = ({ open, handleClose }: any) => {
 
     const onSubmit = handleSubmit(async (data) => {
         setLoading(true)
+      
 
         if (view === 'login') {
             let status = await loginCognito(data.username, data.password)
@@ -141,7 +148,7 @@ const LoginSignup = ({ open, handleClose }: any) => {
             let status = await signUpCognito(data.username, data.password, data.email)
             if (status === 'User already exists') setError('username', { type: 'custom', message: 'User already exists' });
             if (status === true) setView('verify')
-            // else setError('username', { type: 'custom', message: 'Invalid username or password' });
+            else setError('username', { type: 'custom', message: 'Invalid username or password' });
         }
 
         else if (view === 'verify') {

@@ -85,6 +85,7 @@ const PostMenu = ({ person_id, community_roles, tags, post_id, community_id }: a
 
                             <TagMenu community_id={community_id} current={tags} public_id={post_id} type={'post'} />
                             <RoleMenu community_id={community_id} current={community_roles} person_id={person_id} public_id={post_id} type={'post'} />
+                            <MovePostMenu  community_id={community_id}  post_id={post_id} />
                             {/* <RoleMenu current={community_roles} person_id={person_id} public_id={post_id} type={'post'} />
                                     <MovePostMenu post_id={post_id} /> */}
                             {/* </>} */}

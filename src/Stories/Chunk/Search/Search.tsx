@@ -6,8 +6,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { socketRequest } from 'Service/Socket'
 import Avatar from 'Stories/Bits/Avatar/Avatar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faYinYang } from '@fortawesome/free-solid-svg-icons';
-import { textLabel, textLight } from 'Global/Mixins';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { textLabel } from 'Global/Mixins';
 import { useNavigate } from 'react-router-dom';
 import { layoutSizeData } from 'State/Data';
 import { useRecoilValue } from 'recoil';
@@ -65,9 +65,7 @@ const Search = () => {
     const current = useRecoilValue(communityFlow)
     const content = useRecoilValue(contentFlow)
 
-    const removeTag = () => setShowTag(false)
     const handleSearch = (e: any) => {
-
         if (e.key === 'Backspace') {
             if (query.length === 0) setShowTag(false)
         }
@@ -77,14 +75,15 @@ const Search = () => {
             else navigate(`/search/${query}`)
         }
     }
-    const handleClick = (e: any) => {
-        setAnchorEl(e.currentTarget)
-    };
-    const handleClose = () => {
-        setAnchorEl(null)
-    };
+
+    const removeTag = () => setShowTag(false)
+    const handleClick = (e: any) => setAnchorEl(e.currentTarget)
+    const handleClose = () => setAnchorEl(null)
+
+
+
     let bounce = async (bouncedQuerry: any) => {
-        if (bouncedQuerry.length < 0) return
+        if (bouncedQuerry.length < 3) return
         let req: any = await socketRequest('typeAhead', { query: bouncedQuerry })
 
         let tempPersons = []
@@ -93,13 +92,10 @@ const Search = () => {
             tempPersons.push(
                 <div
                     onClick={(e) => {
-                        console.log(e.currentTarget.dataset.test)
                         setQuery('')
                         //@ts-ignore
                         navigate(e.currentTarget.dataset.test)
-                        e.stopPropagation()
                         handleClose()
-
                     }}
                     key={req.persons[i].public_id}
                     data-test={`p/${req.persons[i].public_id}`}
@@ -127,7 +123,10 @@ const Search = () => {
                             color: '#d7dadc',
                             fontFamily: 'Noto Sans',
                             fontSize: '12px',
-                        }}>{req.persons[i].about_me} <FontAwesomeIcon icon={faYinYang} /> {req.persons[i].karma} karma</div>
+                        }}>
+                            <span css={{ fontWeight: 'bold' }}>
+                                {req.persons[i].karma} </span>
+                            karma</div>
                     </div>
                 </div>)
         }
@@ -141,7 +140,7 @@ const Search = () => {
                         //@ts-ignore
                         navigate(e.currentTarget.dataset.test)
 
-                        e.stopPropagation()
+                        // e.stopPropagation()
                         handleClose()
 
                     }}
@@ -172,7 +171,8 @@ const Search = () => {
                             color: '#d7dadc',
                             fontFamily: 'Noto Sans',
                             fontSize: '12px',
-                        }}>{req.communities[i].description} - {req.communities[i].subscribers} member</div>
+                        }}>
+                            <span css={{ fontWeight: 'bold' }}>{req.communities[i].subscribers}</span> members</div>
                     </div>
                 </div>)
         }
@@ -191,6 +191,13 @@ const Search = () => {
         optimizedFn(e.target.value)
     }
 
+    const handleX = (e: any) => {
+        setQuery('')
+        setShowTag(false)
+        setAnchorEl(null)
+        e.stopPropagation()
+    }
+
 
     useEffect(() => {
         if (content === 'community' || content === 'post' || content === 'comment') {
@@ -200,17 +207,29 @@ const Search = () => {
     }, [current, content])
 
     return <div css={s} id="SEARCH"
-        onClick={(e: any) => e.stopPropagation()}
+
         style={{
             width: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'calc(100vw - 38px)' : '',
             position: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'absolute' : 'relative',
         }}>
         <Input
+            autoComplete='off'
             type="search"
+            id='search'
+            endAdornment={Boolean(anchorEl) &&
+                <div
+                    onClick={handleX}
+                    css={{
+                        padding: '0 8px', marginTop: '4px', cursor: 'pointer',
+                        color: '#bcbdbe',
+                    }}>
+                    <CloseRoundedIcon />
+                </div>
+            }
             startAdornment={
                 <div css={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <FontAwesomeIcon css={{ marginLeft: '14px', color: '#bcbdbe', fontSize: '16px' }} icon={faMagnifyingGlass} />
-                    {showTag && <div
+                    {(showTag && current) && <div
                         onClick={removeTag}
                         css={C.tag}>{current?.title}
 
@@ -225,6 +244,7 @@ const Search = () => {
                 </div>
 
             }
+            // onBlur={handleClose}
             onKeyDown={handleSearch}
             onClick={handleClick}
             value={query}
@@ -241,8 +261,11 @@ const Search = () => {
                 color: '#d7dadc',
                 zIndex: 2000,
 
+                '$:focus': {
+                    background: '#0f0e10',
+                },
 
-                border: Boolean(anchorEl) ? '2px solid #9147ff' : null,
+                // border: Boolean(anchorEl) ? '2px solid #9147ff' : null,
             }}
             disableUnderline
         />
@@ -252,7 +275,8 @@ const Search = () => {
 
 
         <Popper
-            onClick={(e: any) => e.stopPropagation()}
+
+
             id={'search-popper'}
             disablePortal
             sx={{
