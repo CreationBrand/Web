@@ -5,10 +5,8 @@ import { motion } from 'framer-motion'
 import { memo } from 'react'
 import useCommunityFlow from 'Hooks/useCommunityFlow'
 import VirtuList from '../VirtualList/VirtuList'
-import usePostList from 'Hooks/Pull/usePostList'
 import useNotiList from 'Hooks/Pull/useNotiList'
 import useClearNotif from 'Hooks/useClearNotif'
-import VirtualList from '../VirtualList/VirtualList'
 
 const C = {
     container: css({
@@ -38,7 +36,7 @@ const NotiList = ({ type }: any) => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
         >
-            <VirtualList list={components} />
+            <VirtuList list={components} />
         </motion.div>
     )
 }

@@ -11,6 +11,7 @@ import usePerson from 'Hooks/Pull/usePerson'
 import PersonFilter from 'Stories/Bits/Filter/PersonFilter'
 import { postFilter } from 'State/filterAtoms'
 import usePersonList from 'Hooks/Pull/usePersonList'
+import VirtuList from '../VirtualList/VirtuList'
 
 const C = {
     container: css({
@@ -49,7 +50,7 @@ const PersonList = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
         >
-            <VirtualList
+            <VirtuList
                 list={[
                     component,
                     <PersonFilter key={'filter'} />,

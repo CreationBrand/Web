@@ -50,6 +50,7 @@ const Author = ({ title, public_id, community_id, global_roles }: any) => {
     const [anchorEl, setAnchorEl] = useState(null)
     const navigate = useNavigate()
     const handleClick = () => {
+        setAnchorEl(null)
         navigate(`/p/${public_id}`)
 
     }
@@ -200,7 +201,7 @@ let Preview = ({ public_id, community_id }: any) => {
                 }}>
                     <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>About Me</div>
                     <ReactMarkdown children={data.about_me} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
-   
+
                 </div>
             }
 

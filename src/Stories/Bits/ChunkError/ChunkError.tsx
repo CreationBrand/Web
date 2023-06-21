@@ -70,7 +70,7 @@ const C = {
 
 }
 
-const ChunkError = ({ variant, onLoad, end }: any) => {
+const ChunkError = ({ variant, onLoad, end, refa }: any) => {
 
     const socket = useRecoilValue(socketFlow)
 
@@ -94,7 +94,7 @@ const ChunkError = ({ variant, onLoad, end }: any) => {
     return (
         <VisibilitySensor onChange={handleVisibility}>
 
-            <div css={C.container} key={'chunckerror'}>
+            <div ref={refa} css={C.container} key={'chunckerror'}>
                 <div css={C.inner}>
 
                     {/* <div css={C.float}>

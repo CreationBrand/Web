@@ -23,7 +23,6 @@ import LiveVotes from 'Stories/Alive/LiveVotes'
 import RightMenu from 'Stories/Bits/RightMenu/RightMenu'
 import { authFlow, filterFlow } from 'State/Flow'
 import useLiveData from 'Hooks/useLiveData'
-import VisibilitySensor from 'react-visibility-sensor';
 import useCommentLive from './useCommentLive'
 import { pathExistsSelector, pathSelector } from 'State/commentAtoms'
 import ContentLoader from '../ContentLoader/ContentLoader'
@@ -105,7 +104,7 @@ const C = {
     }),
     float: css({
         overflow: 'hidden',
-        marginTop: '16px',
+
         marginBottom: '8px',
         background: '#3b3b4b',
         borderRadius: '8px',
@@ -200,7 +199,7 @@ const Comment = (props: any) => {
     // NO RENDERS
     if (status === 'invisible' || !public_id) return null
     else if (!visibility) return null
-    else if (tags && tags.some((obj: any) => filter.includes(obj.public_id))) return null
+    // else if (tags && tags.some((obj: any) => filter.includes(obj.public_id))) return null
 
     // SPACERS
     const spacers = []
@@ -271,9 +270,16 @@ const Comment = (props: any) => {
                     </div>
 
                     <div css={{ display: 'flex', marginTop: '8px' }}>
+
+
                         {layoutState === 'desktop' && <div onClick={handleSpacer} data-key={depth - 2} css={C.defaultSpacer} style={{ background: colors[depth - 2] }} />}
+
                         <div>
-                            <ContentLoader type='text' content={content} />
+
+                            {!(tags && tags.some((obj: any) => filter.includes(obj.public_id))) && <div css={{ marginBottom: '16px', }}>
+                                <ContentLoader type='text' content={content} />
+                            </div>}
+
                             <div css={C.float}>
 
                                 {hasChildren && <>
@@ -309,24 +315,25 @@ const Comment = (props: any) => {
                                 </>}
 
                             </div>
-                        </div>
-                        </div>
 
+                        </div>
                     </div>
 
                 </div>
-                {showReply &&
-                    <div css={{ background: '#272732', padding: '0 8px', maxWidth:'800px', margin:'0 auto' }}>
-                        <AddComment parent_id={public_id} post_id={params.post_id} onClose={handleReply} />
-                    </div>}
+
             </div>
+            {showReply &&
+                <div css={{ background: '#272732', padding: '0 8px', maxWidth: '800px', margin: '0 auto' }}>
+                    <AddComment parent_id={public_id} post_id={params.post_id} onClose={handleReply} />
+                </div>}
+        </div>
 
 
 
-            )
+    )
 }
 
-            export default Comment
+export default Comment
 
 
 

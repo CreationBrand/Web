@@ -17,6 +17,7 @@
     "@mui/lab": "^5.0.0-alpha.106",
     "@mui/material": "^5.10.12",
     "@mui/x-data-grid": "^6.3.0",
+    "@react-hook/resize-observer": "^1.2.6",
     "@tanstack/react-query": "^4.29.7",
     "@tanstack/react-virtual": "^3.0.0-beta.18",
     "@testing-library/jest-dom": "^5.16.5",

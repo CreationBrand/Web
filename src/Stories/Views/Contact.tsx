@@ -7,15 +7,20 @@ import { useRecoilValue } from 'recoil';
 
 const C = {
     container: css({
+        height: '100%',
+        position: 'relative',
+        // overflow: 'hidden',
+        overflowY: 'scroll',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        zIndex: 1000,
+        background: '#0f0e10',
         width: '100%',
-        height: 'calc(100% - 56px)',
         padding: '22px',
-        scrollbarGutter: 'stable both-edges',
-        overflow: 'auto',
-        marginTop: '8px',
         borderRadius: '8px',
         color: "#fff",
-        touchAction:'pan-y',
+        touchAction: 'pan-y',
     }),
     inner: css({
         display: 'flex',
@@ -37,10 +42,7 @@ const Contact = () => {
         <motion.div
             css={C.container}
             key={`contact`}
-            transition={{ duration: 0.4 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}>
+     >
 
 
 

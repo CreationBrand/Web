@@ -24,9 +24,11 @@ const VirtuList = ({ list, public_id }: any) => {
             data={list}
             itemContent={(index, item) => {
                 return (
-                    <div key={index}>
+                    // <div key={index}>
+                    <>
                         {item}
-                    </div>
+                    </>
+                    // </div>
                 )
             }}
         />

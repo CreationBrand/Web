@@ -55,6 +55,8 @@ const CommunityTitle = ({ title, public_id }: any) => {
 
 
     const handleClick = (e: any) => {
+        setAnchorEl(null)
+
         e.stopPropagation()
         navigate(`/c/${public_id}`)
     }

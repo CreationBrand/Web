@@ -62,20 +62,20 @@ const Image = ({ url }: any) => {
     return (
         <div onClick={(e) => e.stopPropagation()}>
             <Viewer src={url} open={open} onClose={handleClose} />
-                <div
-                    onClick={(e) => { handleOpen() }}
-                    css={C.container}>
+            <div
+                onClick={(e) => { handleOpen() }}
+                css={C.container}>
 
-                    <img
-                        // loading="lazy"
-                        onError={handleImgError}
-                        src={url} css={C.blur} />
+                <img
+                    // loading="lazy"
+                    onError={handleImgError}
+                    src={url} css={C.blur} />
 
-                    <img
-                        // loading="lazy"
-                        onError={handleImgError}
-                        css={C.img} src={url} />
-                </div>
+                <img
+                    // loading="lazy"
+                    onError={handleImgError}
+                    css={C.img} src={url} />
+            </div>
         </div >
 
     )
@@ -106,27 +106,27 @@ const Viewer = ({ src, open, onClose }: any) => {
                 backgroundColor: 'transparent',
 
 
+                // backgroundColor: 'rgba(15,14,16,0.90)',
 
-                
                 '& .MuiDialog-paper': {
                     backgroundColor: 'transparent !important',
                     boxShadow: 'none !important',
                     padding: '0px !important',
                     margin: '0px !important',
 
-                    
+
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    
+
                     overflow: 'hidden',
                     maxWidth: '800px',
                     maxHeight: '800px',
- 
+
 
                 },
                 Backdrop: {
-                    background: 'rgba(14,16,15,0.85)',
+                    background: 'rgba(15,14,16,0.90)',
                 }
             }}
         >
