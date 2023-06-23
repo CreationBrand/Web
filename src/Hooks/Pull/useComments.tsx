@@ -44,8 +44,7 @@ const useComments = (post_id: any) => {
         ({ set }) => (listItems: any) => {
             const temp:any = []
             for (let i = 0; i < listItems?.length; i++) {
-                try {
-
+                try {   
                     let parts = listItems[i].path.split('.')
                     listItems[i].id = parts[listItems[i].depth - 1]
                     listItems[i].visibility = true
@@ -58,7 +57,6 @@ const useComments = (post_id: any) => {
                 try {
                     listItems[i].hasChildren = listItems[i + 1].depth > listItems[i].depth
                 } catch (e) { listItems[i].hasChildren = false }
-
 
                 set(commentSync(listItems[i].public_id), listItems[i]);
                 set(commentList, (oldList: any) => [...oldList, <Comment {...listItems[i]} />])

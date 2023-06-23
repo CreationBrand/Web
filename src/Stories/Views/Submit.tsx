@@ -49,26 +49,35 @@ const C = {
         zIndex: 200,
         position: 'relative',
         paddingTop: '8px',
+        overflowY: 'scroll',
 
     }),
 
     container: css({
         width: '100%',
-        height: '100%',
-        overflow: 'auto',
+        minHeight: '100%',
+
+        height: 'auto',
+        // overflow: 'auto',
+        // overflowY: 'scroll',
         borderRadius: '8px',
         background: '#272732',
-
+        paddingTop: '8px',
 
     }),
     inner: css({
         width: '100%',
+        height: 'auto',
+
         borderRadius: '8px',
         background: '#272732',
         display: 'flex',
         flexDirection: 'column',
         maxWidth: '800px',
+    
         margin: '0 auto',
+
+        paddingBottom:'52px',
     }),
 
     section: css({
@@ -237,10 +246,7 @@ const Submit = () => {
                 </section>
 
 
-
-
-
-                <section css={{ padding: 16 }}>
+                <section css={{ padding: 16}}>
                     <div css={textLabel('s')}>POST PREVIEW</div>
                     <div css={{
                         maxWidth: '800px', width: '100%', overflow: 'hidden',

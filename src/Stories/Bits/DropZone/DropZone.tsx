@@ -8,19 +8,20 @@ import { useDropzone } from 'react-dropzone'
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded';
 import { textLabel, textLight } from 'Global/Mixins';
+import { on } from 'events';
 
 
 const C = {
     container: css({
-        background: '#343442',
-        padding: '8px',
+
         borderRadius: '8px',
     }),
     dropzone: css({
         width: '100%',
         height: '120px',
-        background: '#272732',
+        background: '#181820',
         borderRadius: '8px',
+
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -30,7 +31,7 @@ const C = {
     }),
     files: css({
         padding: '8px',
-        background: '#272732',
+        background: '#181820',
         borderRadius: '8px',
         display: 'flex',
         gap: '8px',
@@ -145,9 +146,11 @@ const DropZone = ({ value, onChange }: any
                     <div css={C.files} key={file.path}>
                         {file.name}
                         <ClearRoundedIcon onClick={() => {
+                         
                             let temp = [...files]
                             temp.splice(iter, 1)
                             setFiles(temp)
+                            onChange(temp)
                         }} />
                     </div>
                 ))}

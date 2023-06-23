@@ -46,13 +46,13 @@ const Avatar = ({ public_id, size, onClick }: Props) => {
     const handleImgError = (e: any) => {
         // console.log('error')
         e.target.style.display = 'none'
+        e.target.removeAttribute('src')
 
     }
 
     return (
         <motion.div whileTap={{ scale: 0.9 }} css={C.icon} onClick={handleClick}>
             <img
-                loading="lazy"
                 css={C.image}
                 onError={handleImgError}
                 src={`${process.env.REACT_APP_CLOUDFRONT}/avatar/${public_id}`}

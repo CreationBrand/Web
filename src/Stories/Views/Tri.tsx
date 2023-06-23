@@ -37,6 +37,7 @@ const Tri = (props: Props) => {
             padding: theme.spacing(2),
             paddingRight: '0px',
             boxSizing: 'border-box',
+            minWidth: '240px',
             width: layoutSize === 'mobile' ? '240px !important' : '240px',
             marginLeft: layoutSize !== 'mobile' ? (props.left ? '0px' : '-240px') : '',
             position: layoutSize === 'mobile' ? 'fixed' : 'relative',

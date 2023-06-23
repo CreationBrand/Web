@@ -63,7 +63,7 @@ const AddMessage = ({ messenger_id }: any) => {
         if (e.key !== 'Enter') return
         let res: any = await socketRequest('message-new', { messenger_id: messenger_id, content: value })
         res.message.author = person
-        setMessages([<Message props={res.message} />, ...messages])
+        // setMessages([<Message props={res.message} />, ...messages])
         setValue('')
 
     }

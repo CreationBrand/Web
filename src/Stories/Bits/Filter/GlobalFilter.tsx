@@ -13,7 +13,6 @@ const C = {
     container: css({
         width: 'min-content',
         minHeight: '10px',
-        padding: '12px 0px 0px 0px',
         overflow: 'hidden',
         height: 'min-content',
     }),

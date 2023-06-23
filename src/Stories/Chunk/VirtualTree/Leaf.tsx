@@ -7,7 +7,7 @@ import { textNormal } from "Global/Mixins";
 import { notificationStateFamily, virtualListStateFamily } from "State/Data";
 import Avatar from "Stories/Bits/Avatar/Avatar";
 import { motion } from "framer-motion";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
 
@@ -92,6 +92,7 @@ const innerMotion = {
         background: '#272732',
         ease: "easeIn",
     },
+
 };
 
 const Leaf = ({ link, title, icon, public_id, atom }: any) => {
@@ -109,32 +110,38 @@ const Leaf = ({ link, title, icon, public_id, atom }: any) => {
     if (!state) return null
 
     return (
-        <motion.div
-            onClick={handleClick}
-            initial="rest"
-            whileHover="hover"
-            animate={location.pathname === link ? "active" : "rest"}
-            css={C.leaf}>
+        <Link css={{
+            all: 'unset',
+            '&:hover': {
+                textDecoration: 'none !important'
+            }
+        }} to={link} >
+            <motion.div
+                initial="rest"
+                whileHover="hover"
+                animate={location.pathname === link ? "active" : "rest"}
+                css={C.leaf}>
 
-            <motion.div variants={bulgeMotion} css={C.bulge} />
-            <motion.div css={C.inner} variants={innerMotion}>
+                <motion.div variants={bulgeMotion} css={C.bulge} />
+                <motion.div css={C.inner} variants={innerMotion}>
 
-                {icon &&
-                    <StyledBadge
-                        badgeContent={notification} invisible={!Boolean(notification)}>
-                        {icon}
-                    </StyledBadge>
-                }
+                    {icon &&
+                        <StyledBadge
+                            badgeContent={notification} invisible={!Boolean(notification)}>
+                            {icon}
+                        </StyledBadge>
+                    }
 
-                <p css={{
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                }}>{title}</p>
+                    <p css={{
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                    }}>{title}</p>
 
-            </motion.div>
+                </motion.div>
 
-        </motion.div >)
+            </motion.div >
+        </Link>)
 }
 
 

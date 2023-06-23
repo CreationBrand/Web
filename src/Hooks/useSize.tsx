@@ -1,16 +1,23 @@
 import useResizeObserver from "@react-hook/resize-observer"
-import { useState, useLayoutEffect } from "react"
+import throttle from "Util/throttle"
+import { useState, useLayoutEffect, useEffect } from "react"
 
 const useSize = (target: any) => {
-    const [size, setSize] = useState()
+    const [size, setSize] = useState(1)
 
     useLayoutEffect(() => {
         // if (!target.current) return
         setSize(target.current.getBoundingClientRect())
     }, [target])
 
+    
+    useEffect(() => {
+        // if (!target.current) return
+        setSize(target.current.getBoundingClientRect())
+    }, [target])
+
     // Where the magic happens
-    useResizeObserver(target, (entry: any) => setSize(entry.contentRect))
+    useResizeObserver(target, (entry: any) => throttle(setSize(entry.contentRect), 500))
     return size
 }
 

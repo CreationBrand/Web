@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import LoadingButton from '@mui/lab/LoadingButton';
 import { FormControlLabel, Modal, Radio, RadioGroup } from "@mui/material"
 import { css } from '@emotion/react';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { textBold, textLabel, textLight, } from "Global/Mixins";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { socketRequest } from "Service/Socket";
@@ -16,6 +16,7 @@ import FlatInput from "Stories/Forum/FlatInput";
 import Joi from "joi";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
 
 const C = {
     container: css({
@@ -89,24 +90,23 @@ const CreateCommunity = ({ open, onClose }: any) => {
 
     const data = watch()
     const [loading, setLoading] = useState(false);
-    // usePreventBackNavigation(onClose)
+    usePreventBackNavigation(onClose)
 
     const onSubmit = handleSubmit(async (data) => {
 
-        setLoading(true)
+        // setLoading(true)
 
-        data.visability = true
-        let res: any = await socketRequest('community-create', data)
+        // let res: any = await socketRequest('community-create', data)
 
-        if (!res) setLoading(false);
+        // if (!res) setLoading(false);
 
-        else if (res.status === 'ok') {
-            reset()
-            setRecoil(communityListData, communityLTL(res.communitys))
-            setRecoil(communityTreeData, communityLTT(res.communitys))
-            onClose()
-        }
-        setLoading(false)
+        // else if (res.status === 'ok') {
+        //     reset()
+        //     setRecoil(communityListData, communityLTL(res.communitys))
+        //     setRecoil(communityTreeData, communityLTT(res.communitys))
+        //     onClose()
+        // }
+        // setLoading(false)
     })
 
 
@@ -228,18 +228,18 @@ const CreateCommunity = ({ open, onClose }: any) => {
 
 export default CreateCommunity
 
-// const usePreventBackNavigation = (onClose: any) => {
-//     const navigate = useNavigate();
-//     useEffect(() => {
-//         const handleBeforeUnload = (event: any) => {
-//             onClose()
-//             event.preventDefault();
-//             navigate('/trending');
-//         };
-//         window.onpopstate = handleBeforeUnload;
-//         return () => {
-//             window.onpopstate = handleBeforeUnload;
-//         };
-//     }, [navigate]);
+const usePreventBackNavigation = (onClose: any) => {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const handleBeforeUnload = (event: any) => {
+            onClose()
+            event.preventDefault();
+            // navigate('/trending');
+        };
+        window.onpopstate = handleBeforeUnload;
+        return () => {
+            window.onpopstate = handleBeforeUnload;
+        };
+    }, [navigate]);
 
-// };
+};

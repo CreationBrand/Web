@@ -165,3 +165,10 @@ export const notification = atom({
     key: "notification",
     default: {} as any,
 });
+
+
+
+export const mainSizeState = atom({
+    key: "overlayState",
+    default: 0 as number,
+});

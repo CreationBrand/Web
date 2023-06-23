@@ -4,12 +4,18 @@ import { Button } from '@mui/material'
 import { textBold, textLabel, textLight } from 'Global/Mixins'
 import { memo } from 'react'
 
-import { useRecoilValue, } from 'recoil'
+import { useRecoilValue, useSetRecoilState, } from 'recoil'
 import { authFlow } from 'State/Flow'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import LiveRoles from 'Stories/Alive/LiveRoles'
+import { openDM } from 'Service/Action'
+import { socketRequest } from 'Service/Socket'
+import { messengerTreeData } from 'State/Data'
+import { set } from 'react-hook-form'
+import { messengerLTT } from 'Helper/Clean'
+import { Navigate } from 'react-router-dom'
 
 const C = {
 
@@ -115,11 +121,17 @@ const handleImgError = (e: any) => e.target.style.display = 'none'
 const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nickname, posts, public_id, username, }: any) => {
 
     const authState = useRecoilValue(authFlow)
+    const setMTD = useSetRecoilState(messengerTreeData)
+    const handleChat = async () => {
 
-    const openDm = () => { }
+        let req: any = await socketRequest('messenger-new', { person_id: public_id })
+        if (req) {
+            setMTD(messengerLTT(req.messengers))
+            // Navigate('/messenger')
+        }
+    }
 
 
-    console.log('about_me', global_roles)
     return (
         <div css={C.container} key={'person'}>
 
@@ -140,8 +152,8 @@ const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nic
                 <div css={C.action}>
 
                     <Button
-                        disabled={authState === 'guest'}
-                        onClick={openDm}
+                        disabled={true}
+                        // onClick={handleChat}
                         disableElevation
                         sx={{
                             marginLeft: 'auto !important',

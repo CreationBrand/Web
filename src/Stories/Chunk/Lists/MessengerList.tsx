@@ -37,6 +37,7 @@ const MessengerList = () => {
     const [isLoading, isError, list] = usePullMessages(params.messenger_id)
 
 
+    console.log('status', status)
 
 
     if (isError) return <ChunkError />
@@ -47,8 +48,8 @@ const MessengerList = () => {
             key={params.messenger_id}
             css={C.container}
             transition={{ duration: 0.1 }}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
         >
 
             <ReverseList

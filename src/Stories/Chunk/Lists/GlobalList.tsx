@@ -18,6 +18,7 @@ import { authFlow } from 'State/Flow'
 import useResizeObserver from '@react-hook/resize-observer'
 import useSize from 'Hooks/useSize'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
+import { mainSizeState } from 'State/Data'
 
 
 const C = {
@@ -40,10 +41,7 @@ const C = {
 
 const GlobalList = ({ type }: any) => {
 
-    const ref: any = useRef()
-    const size: any = useSize(ref)
-    let width = size?.width
-
+    const mainSize = useRecoilValue(mainSizeState)
     const [expanded, setExpanded]: any = useState(false);
 
     const handleChange =
@@ -54,13 +52,8 @@ const GlobalList = ({ type }: any) => {
 
     const [isLoading, isError, components] = usePostList(type, 'none')
 
-    if (isError) return <ChunkError refa={ref} variant='error' />
-    if (isLoading) return <ChunkError refa={ref} variant='loading' />
-
-
     return (
         <motion.div
-            ref={ref}
             key={type}
             css={C.container}
             transition={{ duration: 0.4 }}
@@ -68,14 +61,14 @@ const GlobalList = ({ type }: any) => {
             animate={{ opacity: 1 }}
         >
             <div css={{ maxWidth: '800px', width: '100%' }}>
-                <VirtuList list={components} public_id={type} />
+                {isError || isLoading ? <ChunkError variant={isError ? 'error' : 'loading'} /> :
+                    <VirtuList list={components} public_id={type} />}
             </div>
 
-            {(width > 852) &&
-                <div css={{ height: 'min-content', marginTop: '4px' }}>
-
-                    {width > 1052 &&
-                        <div css={{ width: '240px', marginTop: '12px' }}>
+            {(mainSize > 0) &&
+                <div css={{ height: 'min-content', marginTop: '16px' }}>
+                    {mainSize > 1 &&
+                        <div css={{ width: '240px', marginBottom: '16px' }}>
                             <Accordion
                                 disableGutters
                                 sx={{ background: '#272732', color: '#f2f3f5' }}
@@ -130,7 +123,6 @@ const GlobalList = ({ type }: any) => {
                         </div>
                     }
                     <GlobalFilter />
-
                 </div>
             }
 
