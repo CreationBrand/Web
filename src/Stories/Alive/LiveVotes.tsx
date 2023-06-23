@@ -1,18 +1,17 @@
 
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { Button } from '@mui/material'
 
-import ArrowDropUpRoundedIcon from '@mui/icons-material/ArrowDropUpRounded'
-import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded'
-import { mMuted } from 'Stories/Bits/Text/Text'
-import useDeltaSubscription from 'Hooks/useDeltaSubscription'
+import { Button } from '@mui/material'
 import Ticker from '../Bits/Ticker/Ticker'
 import { memo, useEffect, useState } from 'react'
 import { socketRequest } from 'Service/Socket'
 import { useRecoilValue } from 'recoil'
 import { authFlow } from 'State/Flow'
 
+// ICONS
+import ArrowDropUpRoundedIcon from '@mui/icons-material/ArrowDropUpRounded'
+import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded'
 
 const C = {
     up: css({

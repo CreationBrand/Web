@@ -20,21 +20,32 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 const C = {
     container: css({
         height: '44px',
+        width: '100%',
         display: 'flex',
-        alignItems: 'center',
-        marginBottom: '2px',
-        borderRadius: '8px',
-        zIndex: 1000,
-        backgroundColor: '#343446',
+        // alignItems: 'center',
+        // marginBottom: '2px',
+        // borderRadius: '8px',
+        // zIndex: 1000,
+
+        background: '#272732',
+        borderRadius: '12px',
         fontSize: '24px',
-        // rotate: '180deg',
+
     }),
     input: css({
         all: 'unset',
-        height: '22px',
+        height: '28px',
+        marginTop: '6px',
+        paddingLeft: '12px',
+        borderRadius: '12px',
         width: '100%',
-        fontSize: '16px',
+        fontSize: '14px',
         color: '#b9bbbe',
+        background: '#0f0e10',
+        border: '2px solid #0f0e10',
+        '&:focus': {
+            border: '2px solid #996ccc',
+        },
     }),
 }
 
@@ -42,7 +53,7 @@ const C = {
 
 
 
-const MessagePane = ({ messenger_id }: any) => {
+const AddMessage = ({ messenger_id }: any) => {
 
     const [value, setValue] = useState('')
     const [messages, setMessages]: any = useRecoilState(messageListData)
@@ -57,18 +68,18 @@ const MessagePane = ({ messenger_id }: any) => {
 
     }
 
-
     const handleChange = (e: any) => setValue(e.target.value)
 
 
     return <div css={C.container}>
-        <FontAwesomeIcon size='1x' icon={faPaperPlane} css={{ padding: '8px 16px 8px 16px', color: '#b9bbbe' }} />
+        <FontAwesomeIcon icon={faFaceLaugh} css={{ padding: '8px 16px 8px 16px', color: '#b9bbbe', fontSize: '22px', marginTop: '3px' }} />
         <input css={C.input} value={value} onChange={handleChange} onKeyDown={handleSubmit} placeholder='Type a message...' />
-        <FontAwesomeIcon size='1x' icon={faFaceLaugh} css={{ padding: '8px 16px 8px 16px', color: '#b9bbbe' }} />
+        <FontAwesomeIcon icon={faPaperPlane} css={{ padding: '8px 16px 8px 16px', color: '#b9bbbe', fontSize: '22px', marginTop: '3px' }} />
+
     </div>
 
 }
 
 
 
-export default memo(MessagePane)
+export default memo(AddMessage)

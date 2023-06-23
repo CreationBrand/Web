@@ -16,7 +16,6 @@ const C = {
         width: '100%',
         borderRadius: '8px',
         display: 'flex',
-        'white-space': 'normal !important',
     }),
     error: css({
         width: '100%',
@@ -32,7 +31,7 @@ const proxy = "https://cors.creationbrand.workers.dev"
 
 const ContentLoader = ({ type, content, public_id, view }: any) => {
 
-    
+
 
     if (type === 'link') {
         let t1 = content.slice(-4)

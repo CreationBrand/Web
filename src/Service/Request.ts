@@ -1,12 +1,12 @@
 
 var get = async (path: string) => {
 
-  var request = await fetch(`${process.env.REACT_APP_ENDPOINT}/${path}`, {
+  var request = await fetch(`${process.env.REACT_APP_REST}/${path}`, {
     method: "GET",
     credentials: "include",
     //@ts-ignore
     headers: {
-      Cookies: document.cookie,
+      // Cookies: document.cookie,
     },
   });
 

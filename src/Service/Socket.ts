@@ -1,65 +1,14 @@
-import { getRecoil, setRecoil } from 'recoil-nexus'
+import { setRecoil } from 'recoil-nexus'
 import { io, Socket } from 'socket.io-client'
-import { communityData, notificationStateFamily } from 'State/Data'
+import { notificationStateFamily } from 'State/Data'
 import { errorFlow, socketFlow } from 'State/Flow'
 import { DefaultEventsMap } from '@socket.io/component-emitter'
 import { parseCookies } from 'Util'
-import { handleNotification } from 'Helper/Notif'
-import { json } from 'stream/consumers'
 
 export let socket: Socket<DefaultEventsMap, DefaultEventsMap>
 
-export const connectSocket = async () => {
-
-    // // SOCKET.IO CONNECTION
-
-    // var cookies = parseCookies()
-
-    // socket = io('ws://localhost:8000', {
-    //     reconnectionDelayMax: 10000,
-    //     auth: {
-    //         token: cookies.accessToken
-    //     },
-    //     query: {
-    //         'my-key': 'my-value'
-    //     }
-    // })
-
-
-    // // SOCKET UPDATES HANDLERS
-    // socket.on('communitys', (data) => {
-    //     console.log(data)
-    //     let se = setRecoil(communityData, data)
-    //     console.log('setstate', se)
-    // })
-
-
-
-    // socket.on("error", (error: any) => {
-    //     console.log('error', error)
-    //     setRecoil(errorFlow, { type: error.type, message: error.message })
-    // });
-
-    // socket.io.on("error", (error: any) => {
-    //     colorLog('[SOCKET] Connection Failed', 'error')
-    //     // setRecoil(errorFlow, {error: error.type, type: 'socket'})
-
-    // });
-
-
-    // socket.on("connect", () => {
-    //     colorLog('[SOCKET] Connection Established', 'success')
-    //     setRecoil(socketFlow, socket)
-    // });
-
-    // socket.on('notification', handleNotification)
-
-}
-
 export const socketRequest = async (event: string, message: any) => {
-
     if (socket !== null && socket !== undefined && !socket.connected) return false
-
     return new Promise((resolve, reject) => {
         socket.emit(event, message, (data: any) => {
             if (data.error) {
@@ -69,22 +18,24 @@ export const socketRequest = async (event: string, message: any) => {
             }
         })
     });
-
 }
 
-var cookies = parseCookies()
 
+
+
+
+var cookies = parseCookies()
 
 // SOCKET.IO CONNECTION
 console.log('%c [Socket] ', 'font-weight:bold; color: #da55cd', 'Initializing Socket');
 //@ts-ignore
 socket = io(process.env.REACT_APP_SOCKET, {
     reconnectionDelayMax: 5000,
-
     auth: {
         token: cookies?.accessToken
     },
 })
+
 
 
 // SOCKET CONNECTION ERROR

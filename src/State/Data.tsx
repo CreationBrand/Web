@@ -4,7 +4,7 @@ import { atom, atomFamily, selectorFamily, useRecoilCallback, useRecoilState } f
 // GLOBAL STATE
 export const sessionData = atom({
     key: 'sessionData',
-    default: {} as any
+    default: false as any
 })
 
 export const personData = atom({

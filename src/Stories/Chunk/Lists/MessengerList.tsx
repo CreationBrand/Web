@@ -8,19 +8,19 @@ import VirtualList from 'Stories/Chunk/VirtualList/VirtualList'
 import usePullMessages from 'Hooks/usePullMessages'
 import { memo, useEffect } from 'react'
 import useMessenger from 'Hooks/Pull/useMessenger'
-import MessengerControl from 'Stories/Bits/MessengerFilter/MessengerControl'
+import MessengerControl from 'Stories/Bits/Filter/MessengerControl'
 import useClearNotif from 'Hooks/useClearNotif'
 import ReverseList from '../VirtualList/ReverseList'
-import MessagePane from 'Stories/Bits/Filter/messagePane'
+import AddMessage from '../Message/AddMessage'
 
 const C = {
     container: css({
         height: '100%',
         position: 'relative',
         overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        // display: 'flex',
+        // flexDirection: 'column',
+        // justifyContent: 'space-between',
         zIndex: 100,
         background: '#0f0e10',
     })
@@ -31,8 +31,12 @@ const MessengerList = () => {
     const params = useParams()
 
     useClearNotif(params.messenger_id)
+
+
     const [isLoading1, isError1, pane, data, status] = useMessenger(params.messenger_id)
     const [isLoading, isError, list] = usePullMessages(params.messenger_id)
+
+
 
 
     if (isError) return <ChunkError />
@@ -50,12 +54,14 @@ const MessengerList = () => {
             <ReverseList
                 list={list}
                 offset={76}
-
             />
             {pane}
-            {status === 'active' || status === 'owner' ?
-                <MessagePane messenger_id={params.messenger_id} /> :
-                <MessengerControl messenger_id={params.messenger_id} status={status} />}
+            <AddMessage messenger_id={params.messenger_id} />
+            {/* <MessagePane messenger_id={params.messenger_id} /> */}
+            {/* {status === 'active' || status === 'owner' ?
+                <MessagePane messenger_id={params.messenger_id} /> : */}
+
+            {/* <MessengerControl messenger_id={params.messenger_id} status={status} />  */}
 
         </motion.div>
     )

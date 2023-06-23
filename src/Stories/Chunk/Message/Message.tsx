@@ -4,6 +4,9 @@ import { css } from '@emotion/react'
 import { lBold, lNormal, sMuted, sNormal } from 'Stories/Bits/Text/Text'
 import Avatar from '../../Bits/Avatar/Avatar'
 
+import TimeAgo from 'react-timeago'
+import { formatTime } from 'Util/formatTime'
+
 const C = {
     container: css({
         width: '100%',
@@ -65,6 +68,8 @@ const Message = ({ props }: any) => {
 
                 <div css={C.header}>
                     <div css={C.name}>{props.author.nickname}</div>
+                    <span css={{ fontSize: '12px', color: '#b9bbb3' }}>• <TimeAgo date={props.created_at}  /></span>
+
                     {/* <div css={C.time}> {formatDistance(parseISO(props.created_at), new Date(), { addSuffix: true })}</div> */}
                 </div>
 

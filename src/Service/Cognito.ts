@@ -1,3 +1,5 @@
+import { log } from "Util/logging"
+
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js')
 const CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool
 
@@ -127,25 +129,25 @@ export const verifyEmail = (code: string) => {
 
 export const verifyCognito = async () => {
 
+    log('COGNITO', 'Attempting to Verify Cognito')
 
-    console.log('%c [LOGIN] ', 'font-weight:bold; color: #5555da', 'VERIFY COGNITO');
 
     return new Promise((resolve) => {
         try {
 
             const cookies = parseCookies()
 
-
-
             if (
                 cookies.refreshToken === undefined ||
                 cookies.LastAuthUser === undefined
             ) {
+                log('COGNITO', 'NO Cookies found')
+
                 resolve(false)
                 return
             }
 
-            console.log('%c [LOGIN] ', 'font-weight:bold; color: #5555da', 'COOKIES FOUND', cookies);
+            log('COGNITO', 'Cookies Found')
 
 
             const userData = {
@@ -153,7 +155,7 @@ export const verifyCognito = async () => {
                 Pool: userPool,
             }
 
-            console.log('%c [LOGIN] ', 'font-weight:bold; color: #5555da', 'TOKEN', userData);
+            log('COGNITO', `Attempting to refresh session for [${cookies.LastAuthUser}]`)
 
 
             const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
@@ -161,13 +163,13 @@ export const verifyCognito = async () => {
                 RefreshToken: cookies.refreshToken
             })
 
-            console.log('%c [LOGIN] ', 'font-weight:bold; color: #5555da', 'TOKEN', token);
-
-
             cognitoUser.refreshSession(
                 token,
                 function (err: any, session: any) {
-                    if (err) resolve(false)
+                    if (err) {
+                        log('COGNITO', `Refresh Session ERROR ${err}`)
+                        resolve(false)
+                    }
                     try {
                         var token = session.getAccessToken().getJwtToken()
                         createCookie(
@@ -180,22 +182,24 @@ export const verifyCognito = async () => {
                             token,
                             12
                         )
-                        console.groupEnd()
+                        log('COGNITO', `Cookies Built`)
+
+                        // console.groupEnd()
                         resolve(session.accessToken.payload)
                     } catch (error) {
-                        console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'SESSION ERROR', error);
-                        console.groupEnd()
-
+                        log('COGNITO', `Cookie build ERROR ${err}`)
                         resolve(false)
                     }
                 }
             )
         } catch (error) {
-            console.groupEnd()
+            log('COGNITO', 'VERIFY COGNITO ERROR')
             resolve(false)
         }
     })
 }
+
+
 
 export const reSendCode = () => {
     cognitoUser.resendConfirmationCode(function (err: any, result: any) {

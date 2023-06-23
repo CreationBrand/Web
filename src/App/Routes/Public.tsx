@@ -57,6 +57,7 @@ var Public = () => {
                 <Route path="/" element={<Preview />}>
 
                     <Route path="/" element={<Navigate to="/trending" replace={true} />} />
+                    <Route path="/home" element={<Navigate to="/trending" replace={true} />} />
 
 
                     {/* fake */}
@@ -71,7 +72,6 @@ var Public = () => {
                     <Route path="search/:query" element={<SearchList />} />
                     <Route path="c/:community_id/p/:post_id" element={<PostList />} />
                     <Route path="c/:community_id/search/:query" element={<SearchCommunityList />} />
-                    <Route path="c/:community_id/p/:post_id" element={<PostList />} />
                     <Route path="p/:person_id" element={<PersonList />} />
 
 

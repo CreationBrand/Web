@@ -1,10 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { textBold, textLabel } from 'Global/Mixins';
-import useDeltaSubscription from 'Hooks/useDeltaSubscription';
 import useSubscription from 'Hooks/useSubscription';
-import { socket, socketRequest } from 'Service/Socket';
-import { useEffect } from 'react';
+
 
 const C = {
     online: css({
@@ -15,7 +12,7 @@ const C = {
         background: '#43b581',
         marginLeft: '8px',
         marginRight: '2px',
- 
+
 
         "@keyframes pulse": {
             "0%": {

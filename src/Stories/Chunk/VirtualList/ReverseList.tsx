@@ -175,10 +175,13 @@ const ReverseList = ({ list }: any) => {
     }, [virtuoso])
 
 
+    // console.log('rows', rows)
+
     return (
         <Virtuoso
             ref={virtuoso}
-            style={{ height: height - 148, marginBottom: 8 }}
+      
+            style={{ height: height - 124, marginBottom: 8 }}
             firstItemIndex={firstItemIndex}
             initialTopMostItemIndex={25}
             data={rows}
