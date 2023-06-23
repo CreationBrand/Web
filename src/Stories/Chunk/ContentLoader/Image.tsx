@@ -61,7 +61,7 @@ const Image = ({ url }: any) => {
 
     return (
         <div onClick={(e) => e.stopPropagation()}>
-            <Viewer src={url} open={open} onClose={handleClose} />
+            {open && <Viewer src={url} open={open} onClose={handleClose} />}
             <div
                 onClick={(e) => { handleOpen() }}
                 css={C.container}>

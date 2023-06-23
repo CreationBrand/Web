@@ -1,18 +1,25 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-import React, { useState } from "react"
-import { motion, AnimatePresence, PanInfo } from "framer-motion"
+import { useState } from "react"
+import { Dialog, IconButton } from '@mui/material';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
+import Walk from 'Stories/Bits/ChunkError/Walk';
 
 
 
 const C = {
     container: css({
-        width: '100%',
-        height: '1000px',
-        maxHeight: '400px',
-        minHeight: '200px',
+        border: '1px solid #0f0e10',
         position: 'relative',
+        borderRadius: "12px",
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflow: 'hidden',
+        height: '400px',
+        background: '#181820',
     }),
     float: css({
         display: "flex",
@@ -27,7 +34,6 @@ const C = {
         flexDirection: "row",
         bottom: "20px",
         gap: "12px",
-        padding: "0px 16px",
         height: "30px",
         width: "auto",
         borderRadius: "50px",
@@ -45,81 +51,217 @@ const C = {
         height: "8px",
         opacity: 1
     }),
-}
 
-const sliderVariants = {
-    incoming: (direction: number) => ({
-        x: direction > 0 ? "100%" : "-100%",
-        scale: 1.2,
-        opacity: 0
+    blur: css({
+        width: '100%',
+        height: '100%',
+        background: '#181820',
+        position: 'absolute',
+        filter: 'blur(4px) brightness(45%)',
     }),
-    active: { x: 0, scale: 1, opacity: 1 },
-    exit: (direction: number) => ({
-        x: direction > 0 ? "-100%" : "100%",
-        scale: 1,
-        opacity: 0.2
-    })
+    img: css({
+        zIndex: 100,
+        objectFit: 'contain',
+        maxHeight: '400px',
+        width: '100%',
+    }),
+    float1: css({
+        display: "flex",
+        placeContent: "center",
+        placeItems: "center",
+        overflow: "hidden",
+        position: "absolute",
+        pointerEvents: "auto",
+        left: "50%",
+        top: "unset",
+        transform: "translateX(-50%)",
+        zIndex: 200,
+        flexDirection: "row",
+        bottom: "20px",
+        gap: "12px",
+        height: "30px",
+        width: "auto",
+        borderRadius: "50px",
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        backdropFilter: "blur(20px)",
+        color: "#fff",
+    }),
+    error: css({
+        width: '100%',
+        height: '400px',
+        borderRadius: '12px',
+        background: '#181820',
+        overflow: 'hidden',
+    }),
 }
 
-const sliderTransition = {
-    duration: 1,
-    ease: [0.56, 0.03, 0.12, 1.04]
-}
 
 const Carousel = ({ images }: any) => {
 
-    const [[imageCount, direction], setImageCount] = useState([0, 0])
     const [index, setIndex] = useState(0)
     const dots = Array(images.length).fill(0);
 
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const [error, setError] = useState(false);
+
+    const handleImgError = (e: any) => setError(true)
+
+    const up = () => {
+        if (index < images.length - 1) setIndex(index + 1)
+    }
+    const down = () => {
+        if (index > 0) setIndex(index - 1)
+    }
 
     if (images.length === 0) return null
+
+    if (error) return <div css={C.error}>
+        <Walk variant='error' />
+    </div>
+
 
     const move = (to: number) => {
         setIndex(to)
     }
 
-
-    let url = `https://artram.s3.amazonaws.com/images/${images[index]}.jpeg`
-    let url2 = `url(${images[index]}.jpeg)`
-
-
     return (
+        <div onClick={(e) => e.stopPropagation()}>
 
-        <div css={C.container} onClick={(e) => e.stopPropagation()}>
+            {open && <Viewer images={images} open={open} onClose={handleClose} />}
 
+            <div css={C.container} onClick={handleOpen}>
+                <img
+                    onError={handleImgError}
+                    src={images[index]}
+                    css={C.blur} />
+                <img
+                    onError={handleImgError}
+                    src={images[index]}
+                    css={C.img} />
+                <div onClick={(e) => e.stopPropagation()} css={C.float1}>
 
-            <AnimatePresence initial={false} custom={direction}>
-                <motion.div
-                    css={{
-                        border: '1px solid #272732',
-                        display: "block",
-                        height: "100%",
-                        width: "100%",
-                        borderRadius: "12px",
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        backgroundRepeat: "no-repeat",
-                        backgroundImage: `url(${images[index]})`,
-                    }}
-                    key={`i${imageCount}`}
-                    custom={direction}
-                    variants={sliderVariants}
-                    initial="incoming"
-                    animate="active"
-                    exit="exit"
-                    transition={sliderTransition}
-                    dragElastic={1}
+                    <IconButton
+                        sx={{
+                            height: '34px',
+                            width: '34px',
+                            color: '#b9bbbe',
+                        }}
+                        onClick={down}
+                    >
+                        < ArrowBackRoundedIcon />
+                    </IconButton>
+                    {dots.length < 10 ? dots.map((_, i) => (<div key={i} css={[C.dot, i === index && { background: '#fff' }]} onClick={() => move(i)} />)) :
+                        <div>  {index + 1}/{images.length} </div>
+                    }
 
-                />
-            </AnimatePresence>
+                    <IconButton
+                        sx={{
+                            height: '34px',
+                            width: '34px',
+                            color: '#b9bbbe',
+                        }}
+                        onClick={up}
 
-            <div css={C.float}>
-                {dots.map((_, i) => (<div key={i} css={[C.dot, i === index && { background: '#fff' }]} onClick={() => move(i)} />))}
+                    >
+                        <ArrowForwardRoundedIcon />
+                    </IconButton>
+
+                </div>
+
             </div>
-
         </div>
     )
 }
 
 export default Carousel
+
+
+
+const Viewer = ({ images, open, onClose }: any) => {
+
+    const [index, setIndex] = useState(0)
+    const [[imageCount, direction], setImageCount] = useState([0, 0])
+    const dots = Array(images.length).fill(0);
+
+    const move = (to: number) => {
+        setIndex(to)
+    }
+    const up = () => {
+        if (index < images.length - 1) setIndex(index + 1)
+    }
+    const down = () => {
+        if (index > 0) setIndex(index - 1)
+    }
+
+    return (
+
+        <Dialog
+            open={open}
+            onClose={onClose}
+            sx={{
+                borderRadius: '0px',
+                backgroundColor: 'transparent',
+                '& .MuiDialog-paper': {
+                    backgroundColor: 'transparent !important',
+                    boxShadow: 'none !important',
+                    padding: '0px !important',
+                    margin: '0px !important',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    overflow: 'hidden',
+                    maxWidth: '800px',
+                    maxHeight: '800px',
+                },
+                Backdrop: {
+                    background: 'rgba(15,14,16,0.90)',
+                }
+            }}
+        >
+            <img
+                onClick={onClose}
+                src={images[index]}
+                key={`i${imageCount}`}
+                css={{
+                    objectFit: 'contain',
+                    maxHeight: '100%',
+                    maxWidth: '100%',
+                    height: '80vh',
+                    width: '100vw',
+                }}
+            />
+            <div css={C.float}>
+
+                <IconButton
+                    sx={{
+                        height: '34px',
+                        width: '34px',
+                        color: '#b9bbbe',
+                    }}
+                    onClick={down}
+                >
+                    < ArrowBackRoundedIcon />
+                </IconButton>
+                {dots.length < 10 ? dots.map((_, i) => (<div key={i} css={[C.dot, i === index && { background: '#fff' }]} onClick={() => move(i)} />)) :
+                    <div>  {index + 1}/{images.length} </div>
+                }
+
+                <IconButton
+                    sx={{
+                        height: '34px',
+                        width: '34px',
+                        color: '#b9bbbe',
+                    }}
+                    onClick={up}
+
+                >
+                    <ArrowForwardRoundedIcon />
+                </IconButton>
+
+            </div>
+        </Dialog>
+
+    );
+}
