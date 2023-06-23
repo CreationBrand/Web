@@ -3,19 +3,21 @@
 import { css } from '@emotion/react'
 
 
-import { faEnvelope,} from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { useInfiniteQuery,  } from "@tanstack/react-query";
+import { useInfiniteQuery, } from "@tanstack/react-query";
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue } from "recoil";
 import { socketRequest } from "Service/Socket";
 import { postListData, virtualListStateFamily } from "State/Data";
-import { personFilter} from "State/filterAtoms";
+import { personFilter } from "State/filterAtoms";
 import { socketFlow } from "State/Flow";
+import { postList, postSync } from 'State/postAtoms';
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import ContentLoader from 'Stories/Chunk/ContentLoader/ContentLoader';
+import Post from 'Stories/Chunk/Post/Post';
 import MainPost from "Stories/Chunk/Post/Post";
 
 let end = false
@@ -23,7 +25,7 @@ let end = false
 const usePullPosts = (person_id: any) => {
 
     const [socket, setSocket] = useRecoilState(socketFlow)
-    const [components, setComponents]: any = useRecoilState(postListData)
+    const [components, setComponents]: any = useRecoilState(postList)
     const filter = useRecoilValue(personFilter)
 
 
@@ -38,25 +40,25 @@ const usePullPosts = (person_id: any) => {
         return req.posts
     }
 
-    const setListItems = useRecoilTransaction_UNSTABLE(
+    const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
-            if (!listItems) return
-            for (let i = 0; i < listItems.length; i++) {
-                set(virtualListStateFamily(`subscribe:${listItems[i].public_id}`), listItems[i]);
+            let batch: any = []
+            for (let i = 0; i < listItems?.length; i++) {
+                listItems[i].visibility = true
+                set(postSync(listItems[i].public_id), listItems[i]);
+                batch.push(<Post key={i} view='list' {...listItems[i]} />)
             }
+            set(postList, (oldList: any) => [...oldList, batch])
         },
         []
     );
 
     const {
-        data,
         isError,
         isLoading,
         fetchNextPage,
         hasNextPage,
-        isFetching,
-        isFetchingNextPage,
-        status,
+
     } = useInfiniteQuery({
         enabled: socket === 'connected' && !end,
         queryKey: ['person-list', person_id, filter],
@@ -71,15 +73,10 @@ const usePullPosts = (person_id: any) => {
             if (!data || data === undefined || data.pages.length === 0) return
             if (!data || data === undefined || data.pages.length === 0) return
 
-
             if (filter === 'POST') {
-                const temp = []
                 for (let i in data.pages) {
-                    for (let j in data.pages[i]) {
-                        temp.push(<MainPost public_id={data.pages[i][j].public_id} />)
-                    }
+                    setList(data.pages[i])
                 }
-                setComponents(temp)
             }
 
             else if (filter === 'COMMENT') {
@@ -91,8 +88,6 @@ const usePullPosts = (person_id: any) => {
                 }
                 setComponents(temp)
             }
-
-
 
         },
     })

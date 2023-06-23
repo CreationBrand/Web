@@ -2,10 +2,10 @@
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
 import { memo, } from 'react'
-import {  useRecoilValue } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import VirtualList from '../VirtualList/VirtualList'
-import {  useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import useCommunityFlow from 'Hooks/useCommunityFlow'
 import usePerson from 'Hooks/Pull/usePerson'
 import PersonFilter from 'Stories/Bits/Filter/PersonFilter'
@@ -47,16 +47,16 @@ const PersonList = () => {
             key={params.person_id}
             css={C.container}
             transition={{ duration: 0.1 }}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, }}
+            animate={{ opacity: 1, }}
         >
-            <VirtuList
+            <VirtualList
                 list={[
                     component,
                     <PersonFilter key={'filter'} />,
                     ...components
                 ]}
-                public_id={params.person_id} />
+            />
         </motion.div>
     )
 }
