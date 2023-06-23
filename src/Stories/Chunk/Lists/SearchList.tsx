@@ -28,13 +28,16 @@ const SearchList = () => {
 
     const [isLoading, isError, components] = useSearch(filter, params.query)
 
+
+
+    console.log('SearchList', params.query, filter, isLoading, isError, components)
     return (
         <motion.div
             key={params.query}
             css={C.container}
             transition={{ duration: 0.1 }}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1, }}
+            initial={{ opacity: 0, }}
+            animate={{ opacity: 1, }}
         >
             <VirtualList list={[
                 <SearchPane value={filter} onChange={setFilter} />, ...components
