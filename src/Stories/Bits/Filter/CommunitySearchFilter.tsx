@@ -39,7 +39,7 @@ const CommunitySearchFilter = () => {
 
                 <div>Searching For: {params.query}</div>
 
-                <FilterMenu />
+                {/* <FilterMenu /> */}
 
 
 

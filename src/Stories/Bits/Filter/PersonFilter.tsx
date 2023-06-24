@@ -118,7 +118,7 @@ const FilterPane = () => {
                 </Button>
 
 
-                {open && <TagFilter anchorEl={anchorEl} onClose={handleClose} />}
+                {/* {open && <TagFilter anchorEl={anchorEl} onClose={handleClose} />} */}
 
 
             </div>

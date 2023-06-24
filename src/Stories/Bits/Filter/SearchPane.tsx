@@ -159,7 +159,7 @@ const SearchPane = ({ value, onChange }: any) => {
 
 
 
-                {open && <TagFilter anchorEl={anchorEl} onClose={handleClose} />}
+                {/* {open && <TagFilter anchorEl={anchorEl} onClose={handleClose} />} */}
 
 
 
