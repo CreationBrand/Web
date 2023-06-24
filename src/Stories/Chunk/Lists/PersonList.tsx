@@ -1,17 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+
 import { motion } from 'framer-motion'
-import { memo, } from 'react'
 import { useRecoilValue } from 'recoil'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
-import VirtualList from '../VirtualList/VirtualList'
 import { useParams } from 'react-router-dom'
-import useCommunityFlow from 'Hooks/useCommunityFlow'
 import usePerson from 'Hooks/Pull/usePerson'
 import PersonFilter from 'Stories/Bits/Filter/PersonFilter'
-import { postFilter } from 'State/filterAtoms'
+import { personFilter} from 'State/filterAtoms'
 import usePersonList from 'Hooks/Pull/usePersonList'
 import VirtuList from '../VirtualList/VirtuList'
+import { mainSizeState } from 'State/Data'
+import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter'
 
 const C = {
     container: css({
@@ -19,8 +19,8 @@ const C = {
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
+        gap: '12px',
         zIndex: 100,
         background: '#0f0e10',
     })
@@ -29,37 +29,40 @@ const C = {
 const PersonList = () => {
 
     const params = useParams()
+    const mainSize = useRecoilValue(mainSizeState)
+    const filter = useRecoilValue(personFilter)
 
-    const filter = useRecoilValue(postFilter)
-
-    const [isLoading2, isError2, components] = usePersonList(params.person_id)
+    const [isLoading1, isError1, components] = usePersonList(params.person_id, filter)
     const [isLoading, isError, component] = usePerson(params.person_id)
-    // const [isLoading2, isError2, components] = usePullPosts('person', filter)
 
-    useCommunityFlow(null)
-
-
-    if (isError || isError2) return <ChunkError variant='error' />
-    if (isLoading || isLoading2) return <ChunkError variant='loading' />
 
     return (
         <motion.div
-            key={params.person_id}
             css={C.container}
-            transition={{ duration: 0.1 }}
-            initial={{ opacity: 0, }}
-            animate={{ opacity: 1, }}
+            transition={{ duration: 0.4 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
         >
-            <VirtualList
-                list={[
-                    component,
-                    <PersonFilter key={'filter'} />,
-                    ...components
-                ]}
-            />
+
+            <div css={{ maxWidth: '800px', width: '100%' }}>
+                {isError || isLoading || isError1 || isLoading1 ? <ChunkError variant={isError ? 'error' : 'loading'} /> :
+                    <VirtuList
+                        list={[
+                            component,
+                            <PersonFilter key={'filter'} />,
+                            ...components]}
+                    />
+                }
+            </div>
+            {mainSize > 0 &&
+                <div css={{ height: 'min-content', overflow: 'hidden', marginTop: '16px' }}>
+                    <GlobalFilter />
+                </div>}
         </motion.div>
+
+
     )
 }
 
 
-export default memo(PersonList)
+export default PersonList

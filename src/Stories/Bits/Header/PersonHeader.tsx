@@ -115,7 +115,11 @@ const C = {
     }),
 }
 
-const handleImgError = (e: any) => e.target.style.display = 'none'
+const handleImgError = (e: any) => {
+    e.target.style.display = 'none'
+    e.target.removeAttribute('src')
+}
+
 
 
 const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nickname, posts, public_id, username, }: any) => {

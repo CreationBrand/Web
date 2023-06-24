@@ -3,45 +3,89 @@
 import { css } from '@emotion/react'
 
 
-import { faEnvelope, } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { useInfiniteQuery, } from "@tanstack/react-query";
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+
+import { useEffect, useState } from "react"
 import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue } from "recoil";
 import { socketRequest } from "Service/Socket";
-import { postListData, virtualListStateFamily } from "State/Data";
-import { personFilter } from "State/filterAtoms";
-import { socketFlow } from "State/Flow";
-import { postList, postSync } from 'State/postAtoms';
+import { postList, postSync} from "State/postAtoms";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
+import Post from "Stories/Chunk/Post/Post";
+import { useNavigate } from 'react-router-dom';
+import { personFilter } from "State/filterAtoms";
 import ContentLoader from 'Stories/Chunk/ContentLoader/ContentLoader';
-import Post from 'Stories/Chunk/Post/Post';
-import MainPost from "Stories/Chunk/Post/Post";
 
-let end = false
+// ICONS
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const usePullPosts = (person_id: any) => {
 
-    const [socket, setSocket] = useRecoilState(socketFlow)
+import TTLCache from '@isaacs/ttlcache';
+import { set } from 'react-hook-form';
+const cache = new TTLCache({ max: 10000, ttl: 60000 })
+
+let end: boolean = false
+
+const usePersonList = (person_id: any, filter:any) => {
+
     const [components, setComponents]: any = useRecoilState(postList)
-    const filter = useRecoilValue(personFilter)
-
+    const [cursor, setCursor] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [isError, setIsError] = useState(false)
 
     useEffect(() => {
         end = false
+        setCursor(false)
         setComponents([])
+        console.log('%c [RESET] ', 'font-weight: bold; color: #F00', 'PersonList', filter);
     }, [person_id, filter])
 
-    const fetch = async ({ pageParam = false }) => {
-        let req: any = await socketRequest('person-list', { person_id, filter, cursor: pageParam })
-        // setListItems(req.posts)
-        return req.posts
-    }
+    useEffect(() => {
+        (async () => {
+            try {
+                console.log(filter)
+
+                if (end || isError) return
+
+                if (filter === 'POST') {
+                    if (cache.has(`posts:${person_id}:${filter}:${cursor}`)) {
+                        console.log('%c [CACHE] ', 'font-weight: bold; color: #FF0', `Posts Cursor:${cursor}`);
+                        return setList(cache.get(`posts:${person_id}:${filter}:${cursor}`))
+                    }
+                    let req: any = await socketRequest('person-list', { person_id, filter, cursor: cursor })
+                    console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.posts?.length}) Posts Cursor:${cursor}`);
+                    if (req?.posts?.length < 10) end = true
+                    setList(req.posts)
+                    cache.set(`posts:${person_id}:${filter}:${cursor}`, req.posts)
+                }
+
+
+                else if (filter === 'COMMENT'){
+                    if (cache.has(`comments:${person_id}:${filter}:${cursor}`)) {
+                        console.log('%c [CACHE] ', 'font-weight: bold; color: #FF0', `Comments Cursor:${cursor}`);
+                        return setComments(cache.get(`comments:${person_id}:${filter}:${cursor}`))
+                    }
+                    let req: any = await socketRequest('person-list', { person_id, filter, cursor: cursor })
+                    console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.comments?.length}) Comments Cursor:${cursor}`);
+                    if (req?.comments?.length < 25) end = true
+                    setComments(req.comments)
+                    cache.set(`comments:${person_id}:${filter}:${cursor}`, req.comments)
+                }
+                else {
+                    setIsError(true)
+                }
+
+
+
+            } catch (e) {
+                setIsError(true)
+            }
+        })()
+    }, [person_id, cursor, filter])
 
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
+
             let batch: any = []
             for (let i = 0; i < listItems?.length; i++) {
                 listItems[i].visibility = true
@@ -49,63 +93,43 @@ const usePullPosts = (person_id: any) => {
                 batch.push(<Post key={i} view='list' {...listItems[i]} />)
             }
             set(postList, (oldList: any) => [...oldList, batch])
+
         },
         []
     );
 
-    const {
-        isError,
-        isLoading,
-        fetchNextPage,
-        hasNextPage,
 
-    } = useInfiniteQuery({
-        enabled: socket === 'connected' && !end,
-        queryKey: ['person-list', person_id, filter],
-        queryFn: fetch,
-        getNextPageParam: (lastPage, pages) => {
-            if (!lastPage || lastPage.length === 0) return undefined
-            else return lastPage[lastPage.length - 1].created_at
-        },
-
-        onSuccess: (data) => {
-            if (end) return
-            if (!data || data === undefined || data.pages.length === 0) return
-            if (!data || data === undefined || data.pages.length === 0) return
-
-            if (filter === 'POST') {
-                console.log(data.pages)
-                for (let i in data.pages) {
-                    setList(data.pages[i])
-                }
+    const setComments = useRecoilTransaction_UNSTABLE(
+        ({ set }) => (listItems: any) => {
+            let batch: any = []
+            for (let i = 0; i < listItems?.length; i++) {
+                batch.push(<CommentWithPost key={i} {...listItems[i]} />)
             }
-
-            else if (filter === 'COMMENT') {
-                const temp = []
-                for (let i in data.pages) {
-                    for (let j in data.pages[i]) {
-                        temp.push(<CommentWithPost {...data.pages[i][j]} />)
-                    }
-                }
-                setComponents(temp)
-            }
-
+            set(postList, (oldList: any) => [...oldList, batch])
         },
-    })
+        []
+    );
+
+
 
     const fetchNext = async () => {
         if (end || isError) return
         if (components?.length === 0) return
         let last: any = components[components.length - 1]
-
         if (!last[last.length - 1]) return
+        if (last.length === 0) return
 
+        if (filter === 'POST') return setCursor(last[last.length - 1].props.created_at)
+        if (filter === 'COMMENT') return setCursor(last[last.length - 1].props.created_at)
     }
 
 
-
-    return [isLoading, isError, components.concat(<ChunkError variant={hasNextPage ? 'loading' : 'end'} onLoad={fetchNext} />)]
+    return [isLoading, isError, components.concat(<ChunkError variant={end ? 'end' : 'loading'} onLoad={fetchNext} />)]
 }
+
+
+
+export default usePersonList
 
 
 const C = {
@@ -126,13 +150,11 @@ const C = {
         background: '#272732',
         borderRadius: '8px',
         padding: '0px 8px',
-        // display: 'flex',
         paddingBottom: '8px',
     }),
     post: css({
         width: '100%',
-        // height: '40px',
-        // border: '1px solid red',
+
         display: 'flex',
         gap: '8px',
         padding: '8px 0px',
@@ -169,5 +191,3 @@ const CommentWithPost = (props: any) => {
         </div>
     )
 }
-
-export default usePullPosts

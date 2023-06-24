@@ -8,6 +8,7 @@ import useCommunitySearch from 'Hooks/Pull/useCommunitySearch';
 import useCommunityFlow from 'Hooks/useCommunityFlow';
 import usePullCommunity from 'Hooks/usePullCommunity';
 import ChunkError from 'Stories/Bits/ChunkError/MiniError';
+import VirtuList from '../VirtualList/VirtuList';
 
 const C = {
     container: css({
@@ -26,8 +27,6 @@ const SearchCommunityList = () => {
 
     const params: any = useParams()
 
-    useCommunityFlow(params.community_id)
-
     const [isLoading, isError, components] = useCommunitySearch(params.community_id, params.query)
     const [isLoading1, isError1, component, data] = usePullCommunity(params.community_id)
 
@@ -44,7 +43,8 @@ const SearchCommunityList = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
         >
-            <VirtualList list={[
+            <VirtuList
+             list={[
                 component,
                 <CommunitySearchFilter />,
                 ...components

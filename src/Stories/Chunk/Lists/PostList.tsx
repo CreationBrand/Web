@@ -3,20 +3,17 @@
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
 
-import { useEffect, useRef, useState, } from 'react'
+import { useEffect, useState, } from 'react'
 import { useParams } from 'react-router-dom'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 
 import AddComment from '../Comment/AddComment'
 import VirtualList from '../VirtualList/VirtualList'
-import { authFlow } from 'State/Flow'
 import { seenAtom } from 'State/seenAtom'
-import useWindow from 'Hooks/useWindow'
 import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter'
 import useCommunityData from 'Hooks/Pull/useCommunityData'
 import { textLabel } from 'Global/Mixins'
-import { isAdmin } from 'Service/Rbac'
 import Online from 'Stories/Bits/Online/Online'
 
 import Avatar from 'Stories/Bits/Avatar/Avatar'
@@ -24,11 +21,8 @@ import { leaveCommunity, joinCommunity } from 'Helper/Action'
 import useComments from 'Hooks/Pull/useComments'
 import usePost from 'Hooks/Pull/usePost'
 import { communityListData, mainSizeState } from 'State/Data'
-import { postFilter } from 'State/filterAtoms'
-import { Button } from '@mui/material'
-import useSize from 'Hooks/useSize'
 import VirtuList from '../VirtualList/VirtuList'
-import Move from 'Stories/Bits/Filter/Move'
+
 
 const C = {
     container: css({
@@ -75,7 +69,6 @@ const PostList = () => {
 
     const see = useSetRecoilState(seenAtom)
     const data = useCommunityData(params.community_id)
-    const auth = useRecoilValue(authFlow)
     const [isMember, setIsMember] = useState(false)
     const communityList = useRecoilValue(communityListData)
     const mainSize = useRecoilValue(mainSizeState)
@@ -112,7 +105,7 @@ const PostList = () => {
 
                 {isError || isError2 || isLoading || isLoading2 ?
                     <ChunkError variant={(isError || isError2) ? 'error' : ((isLoading || isLoading2) ? 'loading' : 'end')} /> :
-                    <VirtualList
+                    <VirtuList
                         overscan={20}
                         list={[
                             component,

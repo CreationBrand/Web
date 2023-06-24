@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
-import { motion } from 'framer-motion'
+
 
 const Avatar = ({ public_id, size, onClick }: Props) => {
+    
     const handleClick = (e: any) => {
         e.preventDefault()
         e.stopPropagation()
@@ -51,13 +52,13 @@ const Avatar = ({ public_id, size, onClick }: Props) => {
     }
 
     return (
-        <motion.div whileTap={{ scale: 0.9 }} css={C.icon} onClick={handleClick}>
+        <div css={C.icon} >
             <img
                 css={C.image}
                 onError={handleImgError}
                 src={`${process.env.REACT_APP_CLOUDFRONT}/avatar/${public_id}`}
             ></img>
-        </motion.div>
+        </div>
     )
 }
 
