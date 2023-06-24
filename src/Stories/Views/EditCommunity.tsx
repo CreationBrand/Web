@@ -114,8 +114,6 @@ const EditCommunity = () => {
     const [loadings, error, component, req] = usePullCommunity(params.community_id)
     const data = useLiveData(true, `community:${params.community_id}`)
 
-    console.log(req)
-
     // state
     const person = useRecoilValue(personData);
     const contentState: any = useRecoilValue(contentFlow);

@@ -7,11 +7,11 @@ import { css } from '@emotion/react'
 import { useRef, useState, useLayoutEffect } from 'react'
 import theme from 'Global/Theme'
 import { layoutSizeData } from 'State/Data'
-import { useRecoilState, } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import useWindow from 'Hooks/useWindow'
 import { useSpring, animated } from '@react-spring/web'
 import { useDrag } from '@use-gesture/react'
-
+import { authFlow } from 'State/Flow'
 
 const Tri = (props: Props) => {
 
@@ -146,6 +146,8 @@ const C = {
 
 const Mobile = (props: Props) => {
     const { width, height } = useWindow()
+    const auth = useRecoilValue(authFlow)
+
 
     let map: any = {
         0: -240,
@@ -169,7 +171,7 @@ const Mobile = (props: Props) => {
                 setXPos(0)
                 return api.start({ x: 240 })
             }
-            else{
+            else {
                 setXPos(1)
                 return api.start({ x: 0 })
             }
@@ -179,7 +181,8 @@ const Mobile = (props: Props) => {
         target: window,
         eventOptions: { capture: true },
         axis: 'x',
-        bounds: { left: -240, right: 240 },
+        threshold: 50,
+        bounds: { left: auth === 'guest' ? 0 : -240, right: 240 },
     })
 
     return (<div css={C.container} style={{ height: height, width: 480 + width, left: -240 }}>

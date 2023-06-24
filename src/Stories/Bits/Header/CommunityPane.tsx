@@ -18,6 +18,7 @@ import useLiveData from 'Hooks/useLiveData'
 import ContentLoader from 'Stories/Chunk/ContentLoader/ContentLoader'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
+import useCommunityData from 'Hooks/Pull/useCommunityData'
 
 const C = {
 
@@ -133,8 +134,9 @@ const CommunityPane = ({ public_id }: any) => {
     const navigate = useNavigate()
     const [active, setActive] = useState(false)
 
-    const community: any = useRecoilValue(communityFlow)
+    const dataC = useCommunityData(public_id)
     const communityList = useRecoilValue(communityListData)
+
 
     const handleEdit = (e: any) => {
         e.stopPropagation()
@@ -155,13 +157,14 @@ const CommunityPane = ({ public_id }: any) => {
         setIsMember(hasMatchingId)
     }, [communityList])
 
+    if (!dataC) return null
 
     return (
         <div css={C.container} key={'community'}>
             <div css={C.inner} onClick={openCommunity}>
 
                 <IconButton
-                    disabled={authState === 'guest' || !canManageCommunity(community?.roleHex)}
+                    disabled={authState === 'guest' || !canManageCommunity(dataC.communityHex)}
                     sx={{
                         zIndex: 100,
                         color: '#d7dadc', borderRadius: '12px', position: 'absolute', top: '8px', right: '8px'
@@ -202,7 +205,7 @@ const CommunityPane = ({ public_id }: any) => {
 
                     <Button
 
-                        disabled={authState === 'guest' || isAdmin(community?.roleHex)}
+                        disabled={authState === 'guest' || isAdmin(dataC.communityHex)}
                         onClick={handleJoin}
                         disableElevation
                         sx={{
