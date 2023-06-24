@@ -1,5 +1,6 @@
 import BitSet from 'bitset'
 import { atom, atomFamily, selectorFamily, useRecoilCallback, useRecoilState } from 'recoil'
+import { localStorageEffect } from './Effects'
 
 // GLOBAL STATE
 export const sessionData = atom({
@@ -172,3 +173,10 @@ export const mainSizeState = atom({
     key: "mainSizeState",
     default: 0 as number,
 });
+
+
+export const searchState = atom({
+    key: 'searchState',
+    default: [] as any,
+    effects_UNSTABLE: [localStorageEffect('searchState')],
+})

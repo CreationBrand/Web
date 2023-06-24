@@ -17,6 +17,9 @@ const C = {
         overflow: 'hidden',
         width: '100%',
         height: 'auto',
+        whiteSpace: 'pre-wrap',
+        wordWrap: 'break-word',
+        lineBreak: 'anywhere',
     }),
     tailed: css({
         maskImage: 'linear-gradient(180deg,#000 70%,transparent)',

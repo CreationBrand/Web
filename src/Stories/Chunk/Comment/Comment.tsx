@@ -243,7 +243,8 @@ const Comment = (props: any) => {
                                     global_roles={global_roles}
                                 />
 
-                                {created_at && <div css={[textLight('t'), { lineHeight: '20px' }]}><TimeAgo date={created_at} formatter={formatTime} /></div>}
+                                {created_at &&  <span css={{ fontSize: '12px', color: '#b9bbb3' }}><TimeAgo date={created_at} formatter={formatTime} /></span>
+                                }
 
                             </div>
 

@@ -13,7 +13,6 @@ import { layoutSizeData, notificationStateFamily } from 'State/Data'
 import { memo, useEffect, useState } from 'react'
 import Main from 'Stories/Layout/Main'
 import Left from 'Stories/Layout/Left'
-import Search from 'Stories/Chunk/Search/Search'
 import Right from 'Stories/Layout/Right'
 import { Badge, BadgeProps, IconButton, styled } from '@mui/material'
 
@@ -27,6 +26,7 @@ import CommunityList from 'Stories/Chunk/Lists/CommunityList'
 import GlobalList from 'Stories/Chunk/Lists/GlobalList'
 import { AnimatePresence } from 'framer-motion'
 import GroupList from 'Stories/Chunk/Lists/GroupList'
+import Search2 from 'Stories/Chunk/Search/Search2'
 
 
 const StyledBadge = styled(Badge)<BadgeProps>({
@@ -102,7 +102,7 @@ const Home = () => {
                             />
                         </IconButton>
 
-                        <Search />
+                        <Search2 />
                         <StyledBadge
                             badgeContent={noti} invisible={!Boolean(noti)}>
 
@@ -139,7 +139,7 @@ const Home = () => {
                                     fontSize='medium'
                                 />
                             </IconButton>
-                            <Search />
+                            <Search2 />
                             <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
 
                                 <IconButton

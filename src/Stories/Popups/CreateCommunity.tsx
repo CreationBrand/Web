@@ -94,19 +94,19 @@ const CreateCommunity = ({ open, onClose }: any) => {
 
     const onSubmit = handleSubmit(async (data) => {
 
-        // setLoading(true)
+        setLoading(true)
 
-        // let res: any = await socketRequest('community-create', data)
+        let res: any = await socketRequest('community-create', data)
 
-        // if (!res) setLoading(false);
+        if (!res) setLoading(false);
 
-        // else if (res.status === 'ok') {
-        //     reset()
-        //     setRecoil(communityListData, communityLTL(res.communitys))
-        //     setRecoil(communityTreeData, communityLTT(res.communitys))
-        //     onClose()
-        // }
-        // setLoading(false)
+        else if (res.status === 'ok') {
+            reset()
+            setRecoil(communityListData, communityLTL(res.communitys))
+            setRecoil(communityTreeData, communityLTT(res.communitys))
+            onClose()
+        }
+        setLoading(false)
     })
 
 

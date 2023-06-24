@@ -64,7 +64,7 @@ const CommentList = () => {
 
 
             {width > 852 &&
-                <div css={{ marginTop: '4px', height: 'min-content' }}>
+                <div css={{ marginTop: '16px', height: 'min-content' }}>
                     <GlobalFilter />
                 </div>}
 

@@ -13,7 +13,6 @@ import Left from 'Stories/Layout/Left'
 import LogoWithName from 'Stories/Bits/Branding/LogoWithName'
 import { faAddressCard, faFire, faScroll } from '@fortawesome/free-solid-svg-icons'
 import { textNormal } from 'Global/Mixins'
-import Search from 'Stories/Chunk/Search/Search'
 import { Button, IconButton } from '@mui/material'
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import { layoutSizeData } from 'State/Data'
@@ -24,6 +23,7 @@ import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
 import CommunityList from 'Stories/Chunk/Lists/CommunityList'
 import GlobalList from 'Stories/Chunk/Lists/GlobalList'
 import GroupList from 'Stories/Chunk/Lists/GroupList'
+import Search2 from 'Stories/Chunk/Search/Search2'
 
 const Preview = () => {
 
@@ -116,7 +116,7 @@ const Preview = () => {
 
                         </div>}
 
-                        <Search />
+                        <Search2 />
                         <div css={{ display: 'flex' }}>
 
                             <Button

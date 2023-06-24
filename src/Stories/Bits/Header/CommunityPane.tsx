@@ -117,7 +117,10 @@ const C = {
     }),
 }
 
-const handleImgError = (e: any) => e.target.style.display = 'none'
+const handleImgError = (e: any) => {
+    e.target.style.display = 'none'
+    e.target.removeAttribute('src')
+}
 
 
 const CommunityPane = ({ public_id }: any) => {

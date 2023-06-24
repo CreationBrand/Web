@@ -114,7 +114,7 @@ const Submit = () => {
     const person = useRecoilValue(personData);
 
     // form
-    const { register, handleSubmit, watch, formState: { errors }, control } = useForm({ mode: 'onChange', resolver: joiResolver(schema) });
+    const { register, handleSubmit, watch, formState: { errors }, control } = useForm({ mode: 'onChange', resolver: joiResolver(schema)});
     const [loading, setLoading] = useState(false);
     const data = watch()
     const navigate = useNavigate()
@@ -139,7 +139,7 @@ const Submit = () => {
                         <div>
                             <Button color='secondary' onClick={() => navigate(-1)}>Cancel</Button>
                             <Button
-                                disabled={!(Object.keys(errors).length === 0 && errors.constructor === Object)}
+                                disabled={Boolean(Object.keys(errors).length) || data.title === '' || data.community_id === undefined}
                                 disableElevation
                                 sx={{
                                     marginLeft: '8px',

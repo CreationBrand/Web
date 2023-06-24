@@ -9,8 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { textLabel } from 'Global/Mixins';
 import { useNavigate, useParams } from 'react-router-dom';
-import { layoutSizeData } from 'State/Data';
-import { useRecoilValue } from 'recoil';
+import { layoutSizeData, searchState } from 'State/Data';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { communityFlow, contentFlow } from 'State/Flow';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import useCommunityData from 'Hooks/Pull/useCommunityData';
@@ -50,13 +50,16 @@ const C = {
 }
 const Search = () => {
 
+
+
+    const [searches, setSearches] = useRecoilState(searchState)
     const navigate = useNavigate()
     const [anchorEl, setAnchorEl]: any = useState(null);
     const [query, setQuery] = useState('')
 
     const [persons, setPersons]: any = useState([])
     const [communitys, setCommunitys]: any = useState([])
-    const params:any = useParams()
+    const params: any = useParams()
     const [showTag, setShowTag] = useState(false)
 
     let layoutSize = useRecoilValue(layoutSizeData)
@@ -69,6 +72,9 @@ const Search = () => {
             if (query.length === 0) setShowTag(false)
         }
         else if (e.key === 'Enter') {
+
+            setSearches([query, ...searches.slice(0, 3)])
+
             setAnchorEl(null)
             if (showTag && current) navigate(`/c/${current.community?.public_id}/search/${query}`)
             else navigate(`/search/${query}`)
@@ -209,14 +215,16 @@ const Search = () => {
         else setShowTag(false)
     }, [current, content])
 
+
+
+    console.log('searches', searches)
+
     return (
 
         <ClickAwayListener onClickAway={handleClose}>
 
             <div
-
                 css={s} id="SEARCH"
-
                 style={{
                     width: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'calc(100vw - 38px)' : '',
                     position: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'absolute' : 'relative',
@@ -289,10 +297,10 @@ const Search = () => {
                     sx={{
                         border: '2px solid #996ccc',
                         position: 'relative',
-                        borderRadius: '8px',
+                        borderRadius: '20px',
                         borderTopLeftRadius: '0px',
                         borderTopRightRadius: '0px',
-                        top: '-16px !important',
+                        top: '16px !important',
                         width: '100%', height: 'auto',
                         background: '#0f0e10',
                         zIndex: 1500,
@@ -300,6 +308,11 @@ const Search = () => {
                     open={Boolean(anchorEl) && !showTag}
                     anchorEl={anchorEl}>
                     <div>
+
+                        {searches.map((search: any) => {
+                            <div>{search}</div>
+                        })}
+
                         {communitys.length > 0 && <div css={{
                             marginTop: '8px',
                             padding: '12px 12px 12px 12px',
