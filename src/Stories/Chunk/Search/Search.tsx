@@ -8,11 +8,12 @@ import Avatar from 'Stories/Bits/Avatar/Avatar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { textLabel } from 'Global/Mixins';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { layoutSizeData } from 'State/Data';
 import { useRecoilValue } from 'recoil';
 import { communityFlow, contentFlow } from 'State/Flow';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import useCommunityData from 'Hooks/Pull/useCommunityData';
 
 const s = css({
     width: '100%',
@@ -55,11 +56,12 @@ const Search = () => {
 
     const [persons, setPersons]: any = useState([])
     const [communitys, setCommunitys]: any = useState([])
-
+    const params:any = useParams()
     const [showTag, setShowTag] = useState(false)
 
     let layoutSize = useRecoilValue(layoutSizeData)
-    const current = useRecoilValue(communityFlow)
+    const current = useCommunityData(params?.community_id)
+
     const content = useRecoilValue(contentFlow)
 
     const handleSearch = (e: any) => {
@@ -68,7 +70,7 @@ const Search = () => {
         }
         else if (e.key === 'Enter') {
             setAnchorEl(null)
-            if (showTag && current) navigate(`/c/${current?.public_id}/search/${query}`)
+            if (showTag && current) navigate(`/c/${current.community?.public_id}/search/${query}`)
             else navigate(`/search/${query}`)
         }
     }
@@ -228,7 +230,7 @@ const Search = () => {
                         <div
                             onClick={handleX}
                             css={{
-                                padding: '0 8px', marginTop: '4px', cursor: 'pointer',
+                                padding: '0 8px', marginTop: '5px', cursor: 'pointer',
                                 color: '#bcbdbe',
                             }}>
                             <CloseRoundedIcon />
@@ -239,7 +241,7 @@ const Search = () => {
                             <FontAwesomeIcon css={{ marginLeft: '14px', color: '#bcbdbe', fontSize: '16px' }} icon={faMagnifyingGlass} />
                             {(showTag && current) && <div
                                 onClick={removeTag}
-                                css={C.tag}>{current?.title}
+                                css={C.tag}>{current?.community.title}
 
                                 <CloseRoundedIcon sx={{
                                     position: "relative",

@@ -12,7 +12,7 @@ import { postList, postSync} from "State/postAtoms";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import Post from "Stories/Chunk/Post/Post";
 import { useNavigate } from 'react-router-dom';
-import { personFilter } from "State/filterAtoms";
+import { personList } from "State/filterAtoms";
 import ContentLoader from 'Stories/Chunk/ContentLoader/ContentLoader';
 
 // ICONS
@@ -28,7 +28,7 @@ let end: boolean = false
 
 const usePersonList = (person_id: any, filter:any) => {
 
-    const [components, setComponents]: any = useRecoilState(postList)
+    const [components, setComponents]: any = useRecoilState(personList)
     const [cursor, setCursor] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isError, setIsError] = useState(false)
@@ -92,7 +92,7 @@ const usePersonList = (person_id: any, filter:any) => {
                 set(postSync(listItems[i].public_id), listItems[i]);
                 batch.push(<Post key={i} view='list' {...listItems[i]} />)
             }
-            set(postList, (oldList: any) => [...oldList, batch])
+            set(personList, (oldList: any) => [...oldList, batch])
 
         },
         []
@@ -105,7 +105,7 @@ const usePersonList = (person_id: any, filter:any) => {
             for (let i = 0; i < listItems?.length; i++) {
                 batch.push(<CommentWithPost key={i} {...listItems[i]} />)
             }
-            set(postList, (oldList: any) => [...oldList, batch])
+            set(personList, (oldList: any) => [...oldList, batch])
         },
         []
     );

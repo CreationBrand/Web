@@ -2,6 +2,11 @@ import { atom } from "recoil";
 import { localStorageEffect } from "./Effects";
 
 
+export const personList = atom({
+    key: "personList",
+    default: [] as any,
+});
+
 
 export const personFilter = atom({
     key: "personFilter",
