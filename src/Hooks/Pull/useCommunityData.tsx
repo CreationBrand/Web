@@ -8,6 +8,8 @@ const useCommunityData = (public_id: string) => {
     const [data, setData]: any = useState(null)
 
     useEffect(() => {
+
+        if (!public_id) return 
         (async () => {
             if (cache.has(`community:${public_id}`)) {
                 setData(cache.get(`community:${public_id}`))

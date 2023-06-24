@@ -28,9 +28,8 @@ const SearchList = () => {
 
     const [isLoading, isError, components] = useSearch(filter, params.query)
 
-
-
-    console.log('SearchList', params.query, filter, isLoading, isError, components)
+    // console.log('SearchList', params.query, filter, isLoading, isError, components)
+    
     return (
         <motion.div
             key={params.query}

@@ -1,92 +1,124 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { ClickAwayListener, Input, Popper, } from '@mui/material'
-import { useCallback, useEffect, useState } from 'react'
-import { socketRequest } from 'Service/Socket'
-import Avatar from 'Stories/Bits/Avatar/Avatar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { textLabel } from 'Global/Mixins';
-import { useNavigate } from 'react-router-dom';
-import { layoutSizeData } from 'State/Data';
-import { useRecoilValue } from 'recoil';
-import { communityFlow, contentFlow } from 'State/Flow';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
-const s = css({
-    width: '100%',
-    height: '100%',
-    position: 'relative',
-    // zIndex: 1000,
-    textOverflow: 'ellipsis',
-})
+import { layoutSizeData } from 'State/Data';
+import { useState, useEffect, memo, useCallback } from 'react';
+import { useRecoilValue } from 'recoil';
+import { ClickAwayListener, Popper, } from '@mui/material'
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import { contentFlow } from 'State/Flow';
+import useCommunityData from 'Hooks/Pull/useCommunityData';
+import { useNavigate, useParams } from 'react-router-dom';
+import { textLabel } from 'Global/Mixins';
+import Avatar from 'Stories/Bits/Avatar/Avatar';
+import { socketRequest } from 'Service/Socket';
 
 const C = {
+    container: css({
+        width: '100%',
+        height: "40px",
+        borderRadius: '20px',
+        padding: "4px 8px 4px 12px",
+        background: '#0f0e10',
+        zIndex: '500 !important',
+        border: '2px solid #0f0e10',
+        display: 'flex',
+        '&:focus': {
+            border: '2px solid #0f0e10',
+            color: "#fff !important",
+        }
+    }),
+    input: css({
+        all: 'unset',
+        color: '#fff',
+        width: '100%',
+        fontSize: '14px',
+        fontFamily: 'noto sans !important',
+    }),
     tag: css({
         height: "26px",
         padding: "0 4px 0 10px",
         display: "flex",
-        alignItems: "center",
         border: "2px solid #1F1E20",
         background: "#1F1E20",
         borderRadius: "10px",
         outline: "0",
-        overflow: "hidden",
-        whiteSpace: "nowrap",
-        textOverflow: "ellipsis",
         color: "#D7DADC",
-        fontSize: "12px",
-        fontWeight: "600",
-        fontFamily: "Noto Sans",
-        lineHeight: "26px",
         cursor: "pointer",
+        marginRight: "8px",
+        marginTop: "1px",
         '&:hover': {
             border: '2px solid #6e7071',
             color: "#fff !important",
         }
-    })
+    }),
+    tagTitle: css({
+        color: 'inherit',
+        fontSize: "12px",
+        fontWeight: "600",
+        fontFamily: "Noto Sans",
+        lineHeight: "22px",
+        maxWidth: "80px",
+        overflow: "hidden",
+        whiteSpace: "nowrap",
+        textOverflow: "ellipsis",
+    }),
 }
-const Search = () => {
+
+
+const Search2 = () => {
+
+    const params: any = useParams()
+    const [anchorEl, setAnchorEl]: any = useState(null);
+    let layoutSize = useRecoilValue(layoutSizeData)
+    const [showTag, setShowTag] = useState(false)
 
     const navigate = useNavigate()
-    const [anchorEl, setAnchorEl]: any = useState(null);
+    const current = useCommunityData(params?.community_id)
+    const content = useRecoilValue(contentFlow)
     const [query, setQuery] = useState('')
+
 
     const [persons, setPersons]: any = useState([])
     const [communitys, setCommunitys]: any = useState([])
 
-    const [showTag, setShowTag] = useState(false)
+    const removeTag = () => setShowTag(false)
+    const handleX = (e: any) => {
+        setQuery('')
+        setShowTag(false)
+        setAnchorEl(null)
+        e.stopPropagation()
+    }
+    const openSearch = (e: any) => {
 
-    let layoutSize = useRecoilValue(layoutSizeData)
-    const current = useRecoilValue(communityFlow)
-    const content = useRecoilValue(contentFlow)
-
+        if (anchorEl === null) setAnchorEl(e.currentTarget)
+        else setAnchorEl(null);
+    }
     const handleSearch = (e: any) => {
         if (e.key === 'Backspace') {
             if (query.length === 0) setShowTag(false)
         }
         else if (e.key === 'Enter') {
             setAnchorEl(null)
-            if (showTag && current) navigate(`/c/${current?.public_id}/search/${query}`)
+            if (showTag && current) navigate(`/c/${current?.community?.public_id}/search/${query}`)
             else navigate(`/search/${query}`)
         }
     }
-
-    const removeTag = () => setShowTag(false)
-    const handleClick = (e: any) => {
-        setAnchorEl(e.currentTarget)
-        e.preventDefault()
-        e.stopPropagation()
-
-    }
     const handleClose = () => setAnchorEl(null)
 
+
+
+
+
+    // TYPEAHEAD
     let bounce = async (bouncedQuerry: any) => {
         if (bouncedQuerry.length < 3) return
         let req: any = await socketRequest('typeAhead', { query: bouncedQuerry })
-
+        console.log(req)
         let tempPersons = []
+
         for (var i in req.persons) {
 
             tempPersons.push(
@@ -181,23 +213,13 @@ const Search = () => {
         setCommunitys(tempCommunitys)
 
     }
-
     const optimizedFn = useCallback(debounce(bounce), []);
     const typeahead = async (e: any) => {
-
-
         await setQuery(e.target.value)
-
         if (showTag) return
         optimizedFn(e.target.value)
     }
 
-    const handleX = (e: any) => {
-        setQuery('')
-        setShowTag(false)
-        setAnchorEl(null)
-        e.stopPropagation()
-    }
 
 
     useEffect(() => {
@@ -207,79 +229,65 @@ const Search = () => {
         else setShowTag(false)
     }, [current, content])
 
-    return (
 
+
+
+
+    return (
         <ClickAwayListener onClickAway={handleClose}>
 
-            <div
 
-                css={s} id="SEARCH"
-
+            < div
+                onClick={openSearch}
+                css={C.container}
                 style={{
                     width: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'calc(100vw - 38px)' : '',
                     position: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'absolute' : 'relative',
-                }}>
 
-                <Input
-                    autoComplete='off'
-                    type="search"
-                    id='search'
-                    endAdornment={Boolean(anchorEl) &&
-                        <div
-                            onClick={handleX}
-                            css={{
-                                padding: '0 8px', marginTop: '4px', cursor: 'pointer',
-                                color: '#bcbdbe',
-                            }}>
-                            <CloseRoundedIcon />
-                        </div>
-                    }
-                    startAdornment={
-                        <div css={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <FontAwesomeIcon css={{ marginLeft: '14px', color: '#bcbdbe', fontSize: '16px' }} icon={faMagnifyingGlass} />
-                            {(showTag && current) && <div
-                                onClick={removeTag}
-                                css={C.tag}>{current?.title}
+                }
+                }>
 
-                                <CloseRoundedIcon sx={{
-                                    position: "relative",
-                                    height: "26px",
-                                    marginLeft: "2px",
-                                    color: 'inherit',
-                                    fontSize: "18px",
-                                }} />
-                            </div>}
-                        </div>
-                    }
-                    // onBlur={handleClose}
+                <SearchRoundedIcon css={{ marginTop: '3px', marginRight: '4px', color: '#bcbdbe', fontSize: '24px' }} />
+
+                {
+                    (showTag && current) && <div
+                        onClick={removeTag}
+                        css={C.tag}>
+                        <span css={C.tagTitle}>
+                            {current?.community?.title}
+                        </span>
+                        <CloseRoundedIcon sx={{
+                            position: "relative",
+                            height: "22px",
+                            marginLeft: "2px",
+                            color: 'inherit',
+                            fontSize: "18px",
+                        }} />
+                    </div>
+                }
+
+
+                <input
                     onKeyDown={handleSearch}
-                    onClick={handleClick}
-                    value={query}
                     onChange={typeahead}
-                    placeholder="Search Artram"
-                    fullWidth
-                    sx={{
-                        borderRadius: '20px',
-                        fontFamily: 'Noto Sans',
-                        fontSize: '14px',
-                        background: '#0f0e10',
-                        height: '40px',
-                        marginTop: '8px',
-                        color: '#d7dadc',
-                        zIndex: 2000,
-                        '&:hover': {
-                            border: '2px solid #996ccc !important'
-                        },
+                    value={query}
+                    id="SEARCH"
+                    placeholder='Search Artram...'
+                    css={C.input}
+                ></input>
 
-                        '&:focus': {
-                            background: '#0f0e10',
-                            border: '2px solid #996ccc !important',
-                        },
-
-                        border: Boolean(anchorEl) ? '2px solid #996ccc' : null,
-                    }}
-                    disableUnderline
-                />
+                {
+                    Boolean(anchorEl) &&
+                    <div
+                        onClick={handleX}
+                        css={{
+                            marginTop: '1px',
+                            cursor: 'pointer',
+                            color: '#bcbdbe',
+                        }}>
+                        <CloseRoundedIcon sx={{ fontSize: '26px' }} />
+                    </div>
+                }
 
                 <Popper
                     id={'search-popper'}
@@ -288,16 +296,23 @@ const Search = () => {
                         border: '2px solid #996ccc',
                         position: 'relative',
                         borderRadius: '8px',
-                        borderTopLeftRadius: '0px',
-                        borderTopRightRadius: '0px',
-                        top: '-16px !important',
-                        width: '100%', height: 'auto',
+                        // borderTopLeftRadius: '0px',
+                        // borderTopRightRadius: '0px',
+                        top: '4px !important',
+                        width: 'calc(100% + 4px)',
+                        height: 'auto',
                         background: '#0f0e10',
-                        zIndex: 1500,
+                        zIndex: '250 !important',
+
                     }}
                     open={Boolean(anchorEl) && !showTag}
                     anchorEl={anchorEl}>
-                    <div>
+
+
+                    <div css={{
+                        zIndex: '240 !important',
+
+                    }}>
                         {communitys.length > 0 && <div css={{
                             marginTop: '8px',
                             padding: '12px 12px 12px 12px',
@@ -305,8 +320,8 @@ const Search = () => {
                             <div css={textLabel('t')}>Communities</div>
                             {communitys}
                         </div>}
-
                         {persons.length > 0 && <div css={{
+
                             padding: '0px 12px 12px 12px',
                         }}>
                             <div css={textLabel('t')}>Users</div>
@@ -316,13 +331,16 @@ const Search = () => {
                 </Popper>
 
 
+
             </div >
-        </ClickAwayListener>
+        </ClickAwayListener >
     )
 }
 
-export default Search
 
+
+
+export default memo(Search2)
 
 
 const debounce = (func: any) => {

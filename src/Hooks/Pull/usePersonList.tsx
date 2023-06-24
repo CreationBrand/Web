@@ -74,6 +74,7 @@ const usePullPosts = (person_id: any) => {
             if (!data || data === undefined || data.pages.length === 0) return
 
             if (filter === 'POST') {
+                console.log(data.pages)
                 for (let i in data.pages) {
                     setList(data.pages[i])
                 }
@@ -92,8 +93,18 @@ const usePullPosts = (person_id: any) => {
         },
     })
 
+    const fetchNext = async () => {
+        if (end || isError) return
+        if (components?.length === 0) return
+        let last: any = components[components.length - 1]
 
-    return [isLoading, isError, components.concat(<ChunkError variant={hasNextPage ? 'loading' : 'end'} onLoad={fetchNextPage} />)]
+        if (!last[last.length - 1]) return
+
+    }
+
+
+
+    return [isLoading, isError, components.concat(<ChunkError variant={hasNextPage ? 'loading' : 'end'} onLoad={fetchNext} />)]
 }
 
 

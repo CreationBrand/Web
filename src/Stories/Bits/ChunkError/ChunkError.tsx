@@ -10,9 +10,10 @@ import VisibilitySensor from 'react-visibility-sensor';
 const C = {
     container: css({
         height: '100%',
+        minHeight: '420px',
         width: '100%',
-        paddingBottom: '80px',
-        paddingTop: '40px',
+  
+        // paddingTop: '40px',
         margin: 'auto 0px',
         display: 'flex',
         justifyContent: 'center',
@@ -29,44 +30,18 @@ const C = {
         width: '100%',
     }),
     float: css({
-        width: '180px',
-        height: '180px',
+        height: '80px',
         position: 'relative',
         display: 'flex',
+        justifyContent: 'center',
+        // border:'1px solid #fff',
     }),
-
-    ".gegga": { width: "0", transition: "all 2s ease-in" },
-    ".snurra": { filter: "url(#gegga)", transition: "all 2s ease-in" },
-    ".stopp1": { stopColor: "#4b77fb", transition: "all 2s ease-in" },
-    ".stopp2": { stopColor: "#8e58f2", transition: "all 2s ease-in" },
-    ".halvan": {
-        transition: "all 2s ease-in",
-        // animation: "Snurra1 10s infinite linear",
-        strokeDasharray: "180 800",
-        fill: "none",
-        stroke: "url(#gradient)",
-        strokeWidth: 23,
-        strokeLinecap: "round"
-    },
-    ".strecken": {
-        // animation: "Snurra1 3s infinite linear",
-        strokeDasharray: "26 54",
-        fill: "none",
-        stroke: "url(#gradient)",
-        strokeWidth: 23,
-        strokeLinecap: "round"
-    },
-    ".skugga": {
-        filter: "blur(5px)",
-        opacity: 0.4,
-
-        position: "absolute",
-        transform: "translate(3px, 3px)"
-    },
-    "@keyframes Snurra1": {
-        "0%": { strokeDashoffset: 0 },
-        "100%": { strokeDashoffset: "-403px" }
+    "@keyframes gradient": {
+        "0%": { backgroundPosition: "0% 50%" },
+        "50%": { backgroundPosition: "100% 50%" },
+        "100%": { backgroundPosition: "0% 50%" }
     }
+
 
 }
 
@@ -97,66 +72,41 @@ const ChunkError = ({ variant, onLoad, end, refa }: any) => {
             <div ref={refa} css={C.container} key={'chunckerror'}>
                 <div css={C.inner}>
 
-                    {/* <div css={C.float}>
-                    <svg className="gegga" >
-                        <defs>
-                            <filter id="gegga">
-                                <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" />
-                                <feColorMatrix
-                                    in="blur"
-                                    mode="matrix"
-                                    values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 20 -10"
-                                    result="inreGegga"
-                                />
-                                <feComposite in="SourceGraphic" in2="inreGegga" operator="atop" />
-                            </filter>
-                        </defs>
-                    </svg>
-                    <svg className="snurra" width="180" height="180" viewBox="0 0 200 200">
-                        <defs>
-                            <linearGradient id="linjärGradient">
-                                <stop className="stopp1" css={variant ? { stopColor: colors[variant] } : null} offset="0" />
-                                <stop className="stopp2" offset="1" />
-                            </linearGradient>
-                            <linearGradient
-                                y2="160"
-                                x2="160"
-                                y1="40"
-                                x1="40"
-                                gradientUnits="userSpaceOnUse"
-                                id="gradient"
-                                xlinkHref="#linjärGradient"
-                            />
-                        </defs>
-                        <path
-                            className="halvan"
-                            d="m 164,100 c 0,-35.346224 -28.65378,-64 -64,-64 -35.346224,0 -64,28.653776 -64,64 0,35.34622 28.653776,64 64,64 35.34622,0 64,-26.21502 64,-64 0,-37.784981 -26.92058,-64 -64,-64 -37.079421,0 -65.267479,26.922736 -64,64 1.267479,37.07726 26.703171,65.05317 64,64 37.29683,-1.05317 64,-64 64,-64"
-                        />
-                        <circle className="strecken" cx="100" cy="100" r="64" />
-                    </svg>
-                    <svg className="skugga" width="180" height="180" viewBox="0 0 200 200">
+                    <div css={C.float}>
 
-                        <path
-                            className="halvan"
-                            d="m 164,100 c 0,-35.346224 -28.65378,-64 -64,-64 -35.346224,0 -64,28.653776 -64,64 0,35.34622 28.653776,64 64,64 35.34622,0 64,-26.21502 64,-64 0,-37.784981 -26.92058,-64 -64,-64 -37.079421,0 -65.267479,26.922736 -64,64 1.267479,37.07726 26.703171,65.05317 64,64 37.29683,-1.05317 64,-64 64,-64"
-                        />
-                        <circle className="strecken" cx="100" cy="100" r="64" />
-                    </svg>
-                </div> */}
+                        {/* <svg
+                            width={64}
+                            height={65}
+                            viewBox="0 0 64 65"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            css={{
+                                fill: "linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)",
+                            }}
+                        >
+                            <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M18.286 0H9.143v9.25h9.143V0zm9.143 9.25h-9.143v18.5h36.571V18.5h-9.143V9.25h-9.143v9.25H27.43V9.25zM9.143 18.5h9.143v9.25H9.143V18.5zm36.571 46.25V55.5h9.143v-9.25H18.286v18.5h9.143V55.5h9.142v9.25h9.143zM18.286 37v9.25H0v-18.5h18.286V37zm9.143 0h-9.143v9.25H64v-18.5H45.714V37h-9.142v-9.25h-9.143V37zM45.714 0h9.143v9.25h-9.143V0zM9.143 46.25h9.143v9.25H9.143v-9.25z"
+                                fill="#fff"
+                            />
+                        </svg> */}
+
+                
 
                     <div css={[textNormal('t'), { fontWeight: '400', letterSpacing: '1px', }]}>
                         {variant === 'error' && 'Something went wrong...'}
-                        {variant === 'loading' && 'Loading...'}
+                        {variant === 'loading' && 'Loading'}
                         {variant === 'end' && 'Nothing else to load...'}
                         {variant === 'connected' && 'Connected!'}
                         {variant === 'disconnected' && 'Disconnected...'}
                     </div>
-
+                    </div>
 
                 </div>
 
             </div>
-        </VisibilitySensor>
+        </VisibilitySensor >
 
 
     )

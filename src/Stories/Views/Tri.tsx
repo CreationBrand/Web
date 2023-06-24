@@ -117,7 +117,7 @@ const C = {
         userSelect: ' none',
         padding: 8,
         paddingRight: 0,
-        background: '#0f0e10',
+        // background: '#0f0e10',
 
     }),
     right: css({
@@ -127,7 +127,7 @@ const C = {
         touchAction: 'none',
         userSelect: ' none',
         padding: 8,
-        background: '#0f0e10',
+        // background: '#0f0e10',
 
 
     }),
@@ -145,12 +145,7 @@ const C = {
 
 
 const Mobile = (props: Props) => {
-
-
-
     const { width, height } = useWindow()
-
-    let offset = props.children.length === 2 ? 1 : 0
 
     let map: any = {
         0: -240,
@@ -159,31 +154,41 @@ const Mobile = (props: Props) => {
     }
 
     const [xPos, setXPos] = useState(1)
-    const { x } = useSpring({ x: map[xPos] })
-    const bind = useDrag(({ last, direction: [dx] }) => {
+    // const [{ x }, api] = useSpring({ x: map[xPos] })
 
-        if (last) {
-            if (dx < 0) {
-                if (xPos > 0 + offset) setXPos(xp => xp - 1)
+    const [{ x, }, api] = useSpring(() => ({ x: map[xPos] }))
+
+
+    const bind = useDrag(({ last, direction: [dx], offset: [x, y], down }) => {
+        if (!down) {
+            if (x < -200) {
+                setXPos(2)
+                return api.start({ x: -240 })
             }
-            else if (dx > 0) {
-                if (xPos < 2) setXPos(xp => xp + 1)
+            if (x > 200) {
+                setXPos(0)
+                return api.start({ x: 240 })
+            }
+            else{
+                setXPos(1)
+                return api.start({ x: 0 })
             }
         }
+        if (down) return api.start({ x })
     }, {
         target: window,
         eventOptions: { capture: true },
         axis: 'x',
-        threshold: 160,
+        bounds: { left: -240, right: 240 },
     })
 
-    return (<div css={C.container} style={{ height: height, width: 480 + width, left: -240 }} >
+    return (<div css={C.container} style={{ height: height, width: 480 + width, left: -240 }}>
 
         <animated.div css={C.left} style={{ x: x, height: height }}>{props.children[0]}</animated.div>
         <animated.div css={C.center} style={{
             width: width, height: height, x: x,
             transition: 'filter 0.3s ease-in-out',
-            filter: xPos !== 1 ? 'brightness(50%)' : '',
+            filter: xPos !== 1 ? 'brightness(40%)' : '',
         }}>{props.children[1]}</animated.div>
         <animated.div css={C.right} style={{ x: x, height: height }}>{props.children[2]}</animated.div>
 

@@ -41,7 +41,7 @@ const theme: any = createTheme({
                         border: `2px solid hsla(0,0%,100%,.1)`
                     },
                     "&.Mui-focused": {
-                        border: '2px solid #9147ff',
+                        border: '2px solid #996ccc',
                         background: '#0e0e10',
                     },
                     '&.Mui-error': {

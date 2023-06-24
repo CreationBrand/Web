@@ -42,9 +42,9 @@ const useComments = (post_id: any) => {
 
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
-            const temp:any = []
+            const temp: any = []
             for (let i = 0; i < listItems?.length; i++) {
-                try {   
+                try {
                     let parts = listItems[i].path.split('.')
                     listItems[i].id = parts[listItems[i].depth - 1]
                     listItems[i].visibility = true
@@ -70,7 +70,8 @@ const useComments = (post_id: any) => {
         setCursor(components[components.length - 1].props.sort_path)
     }
 
-    return [isLoading, isError, components.concat(<ChunkError variant={!end ? 'loading' : 'end'} onLoad={fetchNext} />)]
+
+    return [isLoading, isError, components.concat(<ChunkError variant={end ? 'end' : 'loading'} onLoad={fetchNext} />)]
 }
 
 

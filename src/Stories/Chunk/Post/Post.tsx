@@ -87,7 +87,6 @@ const Post = ({ view, ...props }: any) => {
     }
 
     const seen = useRecoilValue(hasSeen);
-
     if (!data || data === undefined || !visibility || !created_at) return null
 
 
@@ -121,20 +120,24 @@ const Post = ({ view, ...props }: any) => {
                         </div>}
 
 
-                        {flow !== 'community' && <div>
-                            <div>
-                                <div css={{ display: 'flex', gap: '4px', alignItems: 'baseline' }}>
-                                    <CommunityTitle title={community?.title} public_id={community?.public_id} />
+                        {flow !== 'community' && <div css={{ maxWidth: 'calc(100% - 88px)' }}>
 
-                                    <span css={{ fontSize: '14px', color: '#b9bbb3' }}><TimeAgo date={created_at} formatter={formatTime} /></span>
+                            <div css={{ display: 'flex', gap: '4px', alignItems: 'baseline' }}>
+                                <CommunityTitle title={community?.title} public_id={community?.public_id} />
 
-                                </div>
-                                <div css={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                    <Nickname title={author?.nickname} public_id={author?.public_id} global_roles={global_roles} />
-                                    {community_roles && <LiveRoles value={community_roles} />}
-                                    {tags && <LiveTags value={tags} />}
-                                </div>
+                                <span css={{ fontSize: '14px', color: '#b9bbb3' }}><TimeAgo date={created_at} formatter={formatTime} /></span>
+
                             </div>
+                            <div css={{
+                                width: '100%',
+
+                                overflow: 'scroll', whiteSpace: 'nowrap', flexWrap: 'nowrap', display: 'flex', gap: '8px', alignItems: 'center'
+                            }}>
+                                <Nickname title={author?.nickname} public_id={author?.public_id} global_roles={global_roles} />
+                                {community_roles && <LiveRoles value={community_roles} />}
+                                {tags && <LiveTags value={tags} />}
+                            </div>
+
 
 
                         </div>}

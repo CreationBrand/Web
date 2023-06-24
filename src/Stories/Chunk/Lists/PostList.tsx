@@ -98,11 +98,6 @@ const PostList = () => {
         setIsMember(hasMatchingId)
     }, [params.community_id])
 
-    if (isError || isError2) return <ChunkError variant='error' />
-    if (isLoading || isLoading2) return <ChunkError variant='loading' />
-
-
-
     return (
         <motion.div
             key={`Post:${params.post_id}`}
@@ -115,8 +110,8 @@ const PostList = () => {
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
 
-                {isError || isLoading ?
-                    <ChunkError variant={isError ? 'error' : 'loading'} /> :
+                {isError || isError2 || isLoading || isLoading2 ?
+                    <ChunkError variant={(isError || isError2) ? 'error' : ((isLoading || isLoading2) ? 'loading' : 'end')} /> :
                     <VirtualList
                         overscan={20}
                         list={[

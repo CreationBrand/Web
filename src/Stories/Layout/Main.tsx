@@ -11,7 +11,7 @@ const s = css({
     width: '100%',
     borderRadius: '8px',
     height: '100%',
-    background: '#0f0e10',
+    // background: '#0f0e10',
     overflow: 'hidden',
     position: 'relative',
 })
