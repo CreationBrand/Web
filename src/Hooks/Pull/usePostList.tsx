@@ -79,6 +79,7 @@ const usePostList = (community_id: any, filter: any) => {
         else if (filter === 'NEW') return setCursor(last[last.length - 1].props.created_at)
         else if (filter === 'TOP') return setCursor(last[last.length - 1].props.karma)
     }
+    
 
     return [isLoading, isError, components.concat(<ChunkError variant={end ? 'end' : 'loading'} onLoad={fetchNext} />)]
 }
