@@ -7,14 +7,14 @@ import useWindow from 'Hooks/useWindow'
 import { Virtuoso } from 'react-virtuoso'
 
 
-const VirtuList = ({ list, public_id }: any) => {
+const VirtuList = ({ list, public_id, overscan }: any) => {
 
     const { height } = useWindow()
     const ref: any = useRef(null)
 
     return (
         <Virtuoso
-            overscan={1}
+            overscan={overscan ? overscan : 1}
             ref={ref}
 
             style={{
@@ -24,11 +24,10 @@ const VirtuList = ({ list, public_id }: any) => {
             data={list}
             itemContent={(index, item) => {
                 return (
-                    // <div key={index}>
-                    <>
+                    <div key={`${index}|${public_id}`} style={{ minHeight: '1px' }}>
                         {item}
-                    </>
-                    // </div>
+                    </div>
+
                 )
             }}
         />

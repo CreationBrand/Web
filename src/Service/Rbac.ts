@@ -45,7 +45,6 @@ export const canManageRole = (set: any) => {
 
 export const canManageCommunity = (set: any) => {
 
-    console.log(set)
     //global
     let gHex = getRecoil(globalHex)
     if (Boolean(gHex.get(1) !== 0)) return true

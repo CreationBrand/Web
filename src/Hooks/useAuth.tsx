@@ -43,19 +43,20 @@ var useAuth = () => {
     const session = useSession()
 
     useEffect(() => {
-        if (!session) {
-            setLoading(false)
-            setAuth(false)
-            return
-        };
+        // if (!session) {
+        //     setAuth(false)
+        //     setLoading(false)
+        //     return
+        // };
 
         (async () => {
             var request = await get('user')
 
             if (request === false) {
                 logStatus('REST', 'User Data', false);
-                setLoading(false)
                 setAuth(false)
+                setLoading(false)
+
                 return
             }
             logStatus('REST', 'User Data', true);

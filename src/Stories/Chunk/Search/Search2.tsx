@@ -136,8 +136,8 @@ const Search2 = () => {
 
     const handlePrevGo = (e: any) => {
         e.stopPropagation()
-        navigate(`/search/${e.currentTarget.dataset.test}`)
-        setQuery(e.currentTarget.dataset.test)
+        navigate(`/search/${searches[e.currentTarget.dataset.test]}`)
+        setQuery(searches[e.currentTarget.dataset.test])
         setAnchorEl(null)
     }
     const handlePrevDel = (e: any) => {
@@ -347,7 +347,7 @@ const Search2 = () => {
                         <div>
 
                             {/* PREV SEARCHES */}
-                            {searches.map((search: any) => <div css={C.prev} key={search} data-test={search} onClick={handlePrevGo}>
+                            {searches.map((search: any, index: any) => <div css={C.prev} key={index} data-test={index} onClick={handlePrevGo}>
                                 <SearchRoundedIcon sx={{ fontSize: '18px' }} />
                                 {search}
                                 <CloseRoundedIcon onClick={handlePrevDel} data-test={search} sx={{ fontSize: '20px', marginLeft: 'auto' }} />

@@ -143,7 +143,7 @@ const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nic
 
                 <img css={C.banner}
                     loading="lazy"
-
+                    alt=""
                     onError={handleImgError}
                     src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${public_id}`} />
                 <div css={C.float}>

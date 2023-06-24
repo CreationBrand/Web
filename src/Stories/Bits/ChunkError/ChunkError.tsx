@@ -5,6 +5,7 @@ import { socketFlow } from 'State/Flow';
 import { memo, } from 'react';
 import { useRecoilValue } from 'recoil';
 import VisibilitySensor from 'react-visibility-sensor';
+import { Button } from '@mui/material';
 
 
 const C = {
@@ -12,7 +13,7 @@ const C = {
         height: '100%',
         minHeight: '420px',
         width: '100%',
-  
+
         // paddingTop: '40px',
         margin: 'auto 0px',
         display: 'flex',
@@ -52,7 +53,11 @@ const ChunkError = ({ variant, onLoad, end, refa }: any) => {
     const handleVisibility = (isVisible: boolean) => {
         if (onLoad && !end) onLoad()
     }
-
+    const retry = () => {
+        try {
+            onLoad(true)
+        } catch (e) { }
+    }
 
     let colors: any = {
         error: '#fb4b4b',
@@ -67,9 +72,10 @@ const ChunkError = ({ variant, onLoad, end, refa }: any) => {
 
 
     return (
-        <VisibilitySensor onChange={handleVisibility}>
 
-            <div ref={refa} css={C.container} key={'chunckerror'}>
+        <div ref={refa} css={C.container} key={'chunckerror'}>
+            <VisibilitySensor onChange={handleVisibility}>
+
                 <div css={C.inner}>
 
                     <div css={C.float}>
@@ -92,21 +98,49 @@ const ChunkError = ({ variant, onLoad, end, refa }: any) => {
                             />
                         </svg> */}
 
-                
 
-                    <div css={[textNormal('t'), { fontWeight: '400', letterSpacing: '1px', }]}>
-                        {variant === 'error' && 'Something went wrong...'}
-                        {variant === 'loading' && 'Loading'}
-                        {variant === 'end' && 'Nothing else to load...'}
-                        {variant === 'connected' && 'Connected!'}
-                        {variant === 'disconnected' && 'Disconnected...'}
-                    </div>
+
+                        <div css={[textNormal('t'), { fontWeight: '400', letterSpacing: '1px', }]}>
+                            {variant === 'error' && 'Something went wrong...'}
+                            {variant === 'loading' && 'Loading'}
+                            {variant === 'end' && <div css={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection: 'column',
+                                gap: '20px',
+                            }}>
+
+                                <div> Nothing else to load...</div>
+
+                                <Button
+                                    onMouseDown={retry}
+                                    sx={{
+                                        display: 'inline-flex',
+                                        whiteSpace: ' nowrap',
+                                        borderRadius: '14px',
+                                        background: '#6858f2',
+                                        height: '40px',
+                                        // width: '100%',
+                                        marginRight: '8px',
+                                        fontFamily: 'Noto Sans',
+                                        fontSize: '14px',
+                                        lineHeight: '12px !important',
+                                        fontWeight: '700',
+                                    }}
+                                    variant="contained" disableElevation>
+                                    Try Again
+                                </Button>
+                            </div>}
+                            {variant === 'connected' && 'Connected!'}
+                            {variant === 'disconnected' && 'Disconnected...'}
+                        </div>
                     </div>
 
                 </div>
 
-            </div>
-        </VisibilitySensor >
+            </VisibilitySensor >
+        </div>
 
 
     )

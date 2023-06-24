@@ -119,8 +119,7 @@ const C = {
 }
 
 const handleImgError = (e: any) => {
-    e.target.style.display = 'none'
-    e.target.removeAttribute('src')
+    e.target.src = 'bannerFB.jpg'
 }
 
 
@@ -176,7 +175,7 @@ const CommunityPane = ({ public_id }: any) => {
                 </IconButton>
 
                 <img css={C.banner}
-
+                    alt=""
                     onError={handleImgError}
                     src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.public_id}`} />
                 <div css={C.float}>

@@ -4,7 +4,7 @@ import { css } from '@emotion/react'
 
 
 const Avatar = ({ public_id, size, onClick }: Props) => {
-    
+
     const handleClick = (e: any) => {
         e.preventDefault()
         e.stopPropagation()
@@ -46,8 +46,8 @@ const Avatar = ({ public_id, size, onClick }: Props) => {
 
     const handleImgError = (e: any) => {
         // console.log('error')
-        e.target.style.display = 'none'
-        e.target.removeAttribute('src')
+        // e.target.style.display = 'none'
+        e.target.src = 'fb.jpg'
 
     }
 

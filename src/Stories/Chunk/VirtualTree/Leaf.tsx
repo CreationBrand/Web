@@ -132,11 +132,12 @@ const Leaf = ({ link, title, icon, public_id, atom }: any) => {
                         </StyledBadge>
                     }
 
-                    <p css={{
+                    <div css={{
+                        fontSize: '16px',
                         textOverflow: "ellipsis",
                         overflow: "hidden",
                         whiteSpace: "nowrap",
-                    }}>{title}</p>
+                    }}>{title}</div>
 
                 </motion.div>
 

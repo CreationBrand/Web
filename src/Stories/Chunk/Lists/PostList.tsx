@@ -3,7 +3,7 @@
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
 
-import { useEffect, useState, } from 'react'
+import { memo, useEffect, useState, } from 'react'
 import { useParams } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
@@ -22,6 +22,7 @@ import useComments from 'Hooks/Pull/useComments'
 import usePost from 'Hooks/Pull/usePost'
 import { communityListData, mainSizeState } from 'State/Data'
 import VirtuList from '../VirtualList/VirtuList'
+import useCommentList from 'Hooks/Pull/useCommentList'
 
 
 const C = {
@@ -65,7 +66,7 @@ const PostList = () => {
     const params: any = useParams()
 
     const [isLoading, isError, component] = usePost(params.post_id)
-    const [isLoading2, isError2, components]: any = useComments(params.post_id)
+    const [isLoading2, isError2, components]: any = useCommentList(params.post_id)
 
     const see = useSetRecoilState(seenAtom)
     const data = useCommunityData(params.community_id)
@@ -106,10 +107,11 @@ const PostList = () => {
                 {isError || isError2 || isLoading || isLoading2 ?
                     <ChunkError variant={(isError || isError2) ? 'error' : ((isLoading || isLoading2) ? 'loading' : 'end')} /> :
                     <VirtuList
-                        overscan={20}
+                        public_id={params.post_id}
+                        overscan={2}
                         list={[
                             component,
-                            <div css={{ maxWidth: '800px', margin: 'auto', marginTop: '8px', display: 'flex', flexDirection: 'column' }}>
+                            <div key={'component'} css={{ maxWidth: '800px', margin: 'auto', marginTop: '8px', display: 'flex', flexDirection: 'column' }}>
                                 <AddComment post_id={params.post_id} parent_id={params.post_id} />
                             </div>,
                             ...components
@@ -202,6 +204,6 @@ const PostList = () => {
 }
 
 
-export default PostList
+export default memo(PostList)
 
 const handleImgError = (e: any) => e.target.style.display = 'none'

@@ -199,7 +199,6 @@ const Comment = (props: any) => {
     // NO RENDERS
     if (status === 'invisible' || !public_id) return null
     else if (!visibility) return null
-    // else if (tags && tags.some((obj: any) => filter.includes(obj.public_id))) return null
 
     // SPACERS
     const spacers = []
@@ -209,7 +208,7 @@ const Comment = (props: any) => {
     }
 
     return (
-        <div css={C.container}>
+        <div key={public_id} css={C.container}>
 
             <div css={[C.inner, depth == 2 && C.headComment, last && C.tailComment]}>
                 <div css={C.spacers}>{spacers}</div>

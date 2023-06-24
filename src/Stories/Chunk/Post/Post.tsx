@@ -89,7 +89,6 @@ const Post = ({ view, ...props }: any) => {
     const seen = useRecoilValue(hasSeen);
     if (!data || data === undefined || !visibility || !created_at) return null
 
-
     return (
 
         <div css={C.container}>
@@ -102,7 +101,7 @@ const Post = ({ view, ...props }: any) => {
                         <Avatar size="medium" public_id={flow === 'global' ? community?.public_id : author?.public_id} />
 
                         {/* HEADER */}
-                        {flow === 'community' && <div>
+                        {flow !== 'global' && <div>
                             <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                                 <Author
                                     title={author?.nickname}
@@ -120,21 +119,16 @@ const Post = ({ view, ...props }: any) => {
                         </div>}
 
 
-                        {flow !== 'community' && <div css={{ maxWidth: 'calc(100% - 88px)' }}>
-
+                        {flow === 'global' && <div css={{ maxWidth: 'calc(100% - 88px)' }}>
                             <div css={{ display: 'flex', gap: '4px', alignItems: 'baseline' }}>
                                 <CommunityTitle title={community?.title} public_id={community?.public_id} />
-
                                 <span css={{ fontSize: '14px', color: '#b9bbb3' }}><TimeAgo date={created_at} formatter={formatTime} /></span>
-
                             </div>
                             <div css={{
-                                width: '100%',
-
-                                overflow: 'scroll', whiteSpace: 'nowrap', flexWrap: 'nowrap', display: 'flex', gap: '8px', alignItems: 'center'
+                                width: '100%', overflow: 'scroll', whiteSpace: 'nowrap', flexWrap: 'nowrap', display: 'flex', gap: '8px', alignItems: 'center'
                             }}>
                                 <Nickname title={author?.nickname} public_id={author?.public_id} global_roles={global_roles} />
-                                {community_roles && <LiveRoles value={community_roles} />}
+                                {/* {community_roles && <LiveRoles value={community_roles} />} */}
                                 {tags && <LiveTags value={tags} />}
                             </div>
 

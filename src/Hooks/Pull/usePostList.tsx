@@ -66,12 +66,28 @@ const usePostList = (community_id: any, filter: any) => {
         []
     );
 
-    const fetchNext = async () => {
+    const fetchNext = async (is?: any) => {
+    
+        if (is) {
+           try{
+            let last: any = components[components.length - 1]
+            if (filter === 'none') return setCursor(last[last.length - 1].props.hot)
+            if (filter === 'group') return setCursor(last[last.length - 1].props.hot)
+            else if (filter === 'HOT') return setCursor(last[last.length - 1].props.hot)
+            else if (filter === 'NEW') return setCursor(last[last.length - 1].props.created_at)
+            else if (filter === 'TOP') return setCursor(last[last.length - 1].props.karma)
+           }
+           catch(e){
+               console.log(e)
+           }
+        }
+
         if (end || isError) return
         if (components?.length === 0) return
-        let last: any = components[components.length - 1]
 
-        if(!last[last.length - 1]) return
+
+        let last: any = components[components.length - 1]
+        if (!last[last.length - 1]) return
         if (last.length === 0) return
         if (filter === 'none') return setCursor(last[last.length - 1].props.hot)
         if (filter === 'group') return setCursor(last[last.length - 1].props.hot)
@@ -79,7 +95,7 @@ const usePostList = (community_id: any, filter: any) => {
         else if (filter === 'NEW') return setCursor(last[last.length - 1].props.created_at)
         else if (filter === 'TOP') return setCursor(last[last.length - 1].props.karma)
     }
-    
+
 
     return [isLoading, isError, components.concat(<ChunkError variant={end ? 'end' : 'loading'} onLoad={fetchNext} />)]
 }

@@ -1,11 +1,11 @@
 #text {
     font-family: 'Noto Sans';
     font-size: 14px;
-    color: #ecedef;
+    color: #dfdfdf;
     margin: 0;
     padding: 0;
     text-wrap: wrap;
-    background:transparent !important;
+    background: transparent !important;
     max-width: 800px;
     width: 100%;
     word-wrap: break-word;
@@ -21,14 +21,13 @@ blockquote {
 
 h1 {
     font-weight: 600;
-    font-size: 20px !important;
+    font-size: 18px !important;
     margin: 8px 0 4px !important;
     font-family: 'noto sans';
-
 }
 h2 {
     font-weight: 600;
-    font-size: 18px;
+    font-size: 16px !important;
     margin: 4px 0 2px;
     font-family: 'noto sans';
 }
@@ -47,65 +46,21 @@ p {
     word-break: break-word;
 }
 
+ol {
+    font-family: 'noto sans';
+    font-size: 14px;
+}
 
+/* strong{
+  font-family: 'noto sans';
+  font-size: 14px;
+  font-weight: 800;
+} */
 
-
-.rings {
-    position: absolute;
-    width: 800px;
-    /* transform: scale3d(); */
-    bottom:130px;
-
-  }
-  .rings .ring__ringlet {
-    width: 700px;
-    height: 200px;
-    background: rgba(255, 255, 255, 0.02);
-    /* border: 1px solid rgba(255, 255, 255, 0.12); */
-    border-radius: 20px;
-    margin-left: 50%;
-    left: -350px;
-    position: absolute;
-    bottom: -160px;
-    
-    transform: scale3d(0.1, 0.1);
-    opacity: 0;
-    -webkit-animation: ring-1 3000ms ease-out infinite;
-            animation: ring-1 3000ms ease-out infinite;
-  }
-  .rings .ring__ringlet:nth-of-type(2) {
-    -webkit-animation-delay: 600ms;
-            animation-delay: 600ms;
-  }
-  .rings .ring__ringlet:nth-of-type(3) {
-    -webkit-animation-delay: 1200ms;
-            animation-delay: 1200ms;
-  }
-  
-  @-webkit-keyframes ring-1 {
-    0% {
-      transform: scale3d(0.1, 0.1,1);
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      transform: scale3d(1.2, 1.2,1);
-      opacity: 0;
-    }
-  }
-  
-  @keyframes ring-1 {
-    0% {
-      transform: scale3d(0.1, 0.1,1);
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      transform: scale3d(1.2, 1.2,1);
-      opacity: 0;
-    }
-  }
+p > img {
+    border: 1px solid #181820;
+    border-radius: 8px;
+    max-height: 400px;
+    width:100%;
+    object-fit: contain;
+}

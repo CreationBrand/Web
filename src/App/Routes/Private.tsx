@@ -30,9 +30,9 @@ var Private = () => {
                 return setContentFlow('global')
             case parts[1] === 'c' && parts.length === 3:
                 return setContentFlow('community')
-            case parts[1] === 'c' && parts[4] === 'p':
+            case parts[1] === 'c' && parts[3] === 'p':
                 return setContentFlow('post')
-            case parts[1] === 'c' && parts[4] === 'p' && parts[6] === 'c':
+            case parts[1] === 'c' && parts[3] === 'p' && parts[5] === 'c':
                 return setContentFlow('comment')
             case parts[1] === 'g':
                 return setContentFlow('group')

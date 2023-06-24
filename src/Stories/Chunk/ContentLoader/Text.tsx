@@ -17,10 +17,9 @@ const C = {
         overflow: 'hidden',
         width: '100%',
         height: 'auto',
-        whiteSpace: 'pre-wrap',
         wordWrap: 'break-word',
-        lineBreak: 'anywhere',
     }),
+
     tailed: css({
         maskImage: 'linear-gradient(180deg,#000 70%,transparent)',
         maxHeight: '340px',
@@ -37,7 +36,6 @@ const Text = ({ content, public_id, view }: any) => {
         <div
             id={'text'}
             css={[view === 'list' && C.tailed, C.container]}>
-
             <ReactMarkdown children={content} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
         </div>
 

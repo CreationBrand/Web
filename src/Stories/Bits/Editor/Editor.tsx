@@ -93,9 +93,9 @@ const C = {
 
 const modules = {
     toolbar: [
-        [{ 'header': 1 }, { 'header': 2 }],
+        [{ 'header': 1 }],
         ['bold', 'italic', 'underline', 'strike'],
-        ['blockquote', 'code-block'],
+        ['blockquote', 'code-block', { 'list': 'ordered' }],
 
     ],
 }
