@@ -80,9 +80,6 @@ const PostList = () => {
     }, [params.post_id])
 
 
-    console.log(isMuted)
-
-
 
     return (
         <motion.div
@@ -98,9 +95,9 @@ const PostList = () => {
 
                 {isError || isError2 || isLoading || isLoading2 ?
                     <ChunkError variant={(isError || isError2) ? 'error' : ((isLoading || isLoading2) ? 'loading' : 'end')} /> :
-                    <VirtuList
+                    <VirtualList
                         public_id={params.post_id}
-                        overscan={2}
+                        overscan={10}
                         list={[
                             component,
                             <div key={'component'} css={{ maxWidth: '800px', margin: 'auto', marginTop: '8px', display: 'flex', flexDirection: 'column' }}>

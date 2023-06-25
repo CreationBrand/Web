@@ -66,8 +66,7 @@ const AddComment = ({ parent_id, post_id, onClose, isMuted }: any) => {
 
             else {
                 insertIndex = clone2.findIndex((obj: any) => {
-
-                    return obj.props.public_id === parent_id
+                    return obj?.props?.public_id === parent_id
                 });
             }
             req.comments.visibility = true

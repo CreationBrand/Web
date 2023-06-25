@@ -165,7 +165,7 @@ const Comment = (props: any) => {
 
 
     const [inView, setVisibility] = useState(false)
-    const isMuted = useIsMuted(props.community.public_id)
+    const isMuted = useIsMuted(props?.community?.public_id)
 
 
     console.log(isMuted)

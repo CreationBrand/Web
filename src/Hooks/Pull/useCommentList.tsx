@@ -50,7 +50,7 @@ const usePostList = (post_id: any) => {
 
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
-            const temp: any = []
+ 
             for (let i = 0; i < listItems?.length; i++) {
                 try {
                     let parts = listItems[i].path.split('.')
@@ -67,10 +67,10 @@ const usePostList = (post_id: any) => {
                 } catch (e) { listItems[i].hasChildren = false }
 
                 set(commentSync(listItems[i].public_id), listItems[i]);
-                temp.push(<Comment {...listItems[i]} />)
+                set(commentList, (oldList: any) => [...oldList, <Comment {...listItems[i]} />])
+
             }
 
-            set(commentList, (oldList: any) => [...oldList, temp])
 
         }, []
     );
