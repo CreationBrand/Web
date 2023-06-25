@@ -18,6 +18,7 @@ import { memo, useState } from 'react';
 import TagMenu from './TagMenu';
 import RoleMenu from './RoleMenu';
 import MovePostMenu from './MovePostMenu';
+import Moderate from './Moderate';
 
 
 
@@ -90,7 +91,7 @@ const PostMenu = ({ person_id, community_roles, tags, post_id, community_id }: a
                                     <MovePostMenu post_id={post_id} /> */}
                             {/* </>} */}
                             <MenuItem disabled={true}>Global Roles <AdminPanelSettingsOutlinedIcon /></MenuItem>
-                            <MenuItem disabled={true}>Moderate <GavelRoundedIcon /></MenuItem>
+                            <Moderate />
                             <MenuItem>Report <ReportGmailerrorredRoundedIcon /></MenuItem>
                         </div>
 

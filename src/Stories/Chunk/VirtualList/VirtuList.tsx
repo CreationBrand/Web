@@ -16,8 +16,14 @@ const VirtuList = ({ list, public_id, overscan }: any) => {
         <Virtuoso
             overscan={overscan ? overscan : 1}
             ref={ref}
-
+            css={{
+                '&::-webkit-scrollbar': {
+                    display: 'none',
+                    scrollbarWidth: 'none',
+                },
+            }}
             style={{
+
                 height: height - 72, marginBottom: 8, width: '100%',
                 touchAction: 'pan-y'
             }}

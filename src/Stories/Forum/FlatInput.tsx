@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import { Input } from '@mui/material';
 import { Controller } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
-
+import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 
 
 const FlatInput = ({ control, maxLength, name, defaultValue, type }: any) => {
@@ -29,7 +29,6 @@ const FlatInput = ({ control, maxLength, name, defaultValue, type }: any) => {
                             '&:hover': {
                                 border: '2px solid #181820'
                             },
-
                             '&:focus-within': {
                                 border: '2px solid #996ccc'
                             },
@@ -47,19 +46,21 @@ const FlatInput = ({ control, maxLength, name, defaultValue, type }: any) => {
                                 marginRight: '8px',
                                 fontSize: '12px',
                             }}>{value.length}/{maxLength}</div>}
-
-
                     />
                     <ErrorMessage
                         errors={errors}
                         name={name}
                         render={({ message }) => <p css={{
-                            marginTop: '2px',
+                            marginTop: '4px',
                             color: '#c84b4b',
-                            fontSize: '12px',
-                            fontWeight: 500,
+                            fontSize: '14px',
+                            fontWeight: 400,
                             fontFamily: 'noto sans',
-                        }}>{message}</p>} />
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                        }}>
+                            <ErrorOutlineRoundedIcon />{message}</p>} />
                 </>
 
             )

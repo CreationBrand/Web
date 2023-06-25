@@ -23,6 +23,7 @@ import usePost from 'Hooks/Pull/usePost'
 import { communityListData, mainSizeState } from 'State/Data'
 import VirtuList from '../VirtualList/VirtuList'
 import useCommentList from 'Hooks/Pull/useCommentList'
+import useIsMuted from 'Hooks/Util/useIsMuted'
 
 
 const C = {
@@ -73,6 +74,9 @@ const PostList = () => {
     const [isMember, setIsMember] = useState(false)
     const communityList = useRecoilValue(communityListData)
     const mainSize = useRecoilValue(mainSizeState)
+
+    const isMuted = useIsMuted(params.community_id)
+
 
     useEffect(() => {
         see((o: any) => [...o, params.post_id])

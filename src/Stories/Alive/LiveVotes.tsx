@@ -6,12 +6,14 @@ import { Button } from '@mui/material'
 import Ticker from '../Bits/Ticker/Ticker'
 import { memo, useEffect, useState } from 'react'
 import { socketRequest } from 'Service/Socket'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { authFlow } from 'State/Flow'
 
 // ICONS
 import ArrowDropUpRoundedIcon from '@mui/icons-material/ArrowDropUpRounded'
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded'
+import { commentSync } from 'State/commentAtoms'
+import { postSync } from 'State/postAtoms'
 
 const C = {
     up: css({
@@ -60,36 +62,42 @@ const C = {
 
 const LiveVotes = ({ karma, public_id, vote, size, type }: any) => {
 
-    const [interaction, setInteraction] = useState(vote)
     const authData = useRecoilValue(authFlow)
-    const [counter, setCounter] = useState(karma)
+    const updater = useSetRecoilState(type === 'post' ? postSync(public_id) : commentSync(public_id))
 
-    useEffect(() => {
-        if (authData === 'guest') setInteraction(0)
-    }, [])
+    const setvote = (delta: number, interaction: any) => {
+        updater((old: any) => {
+            return {
+                ...old,
+                karma: old.karma + delta,
+                vote: interaction,
+            }
+        })
+    }
+
 
     const increase = () => {
         if (authData === 'guest') return
-        else if (interaction === -1) { setCounter(counter + 2); setInteraction(1); socketRequest('vote', { vote: 1, public_id: public_id, type: type }) }
-        else if (interaction === 0 || !interaction) { setCounter(counter + 1); setInteraction(1); socketRequest('vote', { vote: 1, public_id: public_id, type: type }) }
-        else if (interaction === 1) { setCounter(counter - 1); setInteraction(0); socketRequest('vote', { vote: 0, public_id: public_id, type: type }) }
+        else if (vote === -1) { setvote(2, 1); socketRequest('vote', { vote: 1, public_id: public_id, type: type }) }
+        else if (vote === 0 || !vote) { setvote(1, 1); socketRequest('vote', { vote: 1, public_id: public_id, type: type }) }
+        else if (vote === 1) { setvote(-1, 0); socketRequest('vote', { vote: 0, public_id: public_id, type: type }) }
     }
 
     const decrease = () => {
         if (authData === 'guest') return
-        else if (interaction === 1) { setCounter(counter - 2); setInteraction(-1); socketRequest('vote', { vote: -1, public_id: public_id, type: type }) }
-        else if (interaction === 0 || !interaction) { setCounter(counter - 1); setInteraction(-1); socketRequest('vote', { vote: -1, public_id: public_id, type: type }) }
-        else if (interaction === -1) { setCounter(counter + 1); setInteraction(0); socketRequest('vote', { vote: 0, public_id: public_id, type: type }) }
+        else if (vote === 1) { setvote(-2, -1); socketRequest('vote', { vote: -1, public_id: public_id, type: type }) }
+        else if (vote === 0 || !vote) { setvote(-1, -1); socketRequest('vote', { vote: -1, public_id: public_id, type: type }) }
+        else if (vote === -1) { setvote(1, 0); socketRequest('vote', { vote: 0, public_id: public_id, type: type }) }
     }
 
     let color = '#b9bbbe'
-    if (interaction === 1) { color = '#43b581' }
-    else if (interaction === -1) { color = '#f04747' }
+    if (vote === 1) { color = '#43b581' }
+    else if (vote === -1) { color = '#f04747' }
 
     return (
         <div css={[C.vote, size === 'small' && C.small]}>
             <Button
-                css={[C.up, size === 'small' && C.smallDown, interaction === 1 && { color: '#43b581' }]}
+                css={[C.up, size === 'small' && C.smallDown, vote === 1 && { color: '#43b581' }]}
                 variant="text"
                 color="secondary"
                 size="small"
@@ -98,10 +106,10 @@ const LiveVotes = ({ karma, public_id, vote, size, type }: any) => {
                 <ArrowDropUpRoundedIcon fontSize="large" />
             </Button>
 
-            <Ticker value={counter} color={color} />
+            <Ticker value={karma} color={color} />
 
             <Button
-                css={[C.down, size === 'small' && C.smallDown, interaction === -1 && { color: '#f04747' }]}
+                css={[C.down, size === 'small' && C.smallDown, vote === -1 && { color: '#f04747' }]}
                 variant="text"
                 color="secondary"
                 size="small"

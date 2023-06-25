@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import { layoutSizeData } from 'State/Data'
 
 import ReactQuill from 'react-quill'
+import { useRecoilValue } from 'recoil'
 // import 'react-quill/dist/quill.snow.css'
 
 const C = {
@@ -83,19 +85,36 @@ const C = {
             minHeight: '24px !important',
             borderRadius: '8px',
             padding: '0px 0px',
+        },
+        '.ql-tooltip':{
+            background: '#0f0e10',
+            // zIndex: 500,
+            // position:'relative',
         }
 
     })
 }
 
 
-
-
-const modules = {
+let desktop = {
     toolbar: [
         [{ 'header': 1 }],
         ['bold', 'italic', 'underline', 'strike'],
-        ['blockquote', 'code-block', { 'list': 'ordered' }],
+        ['blockquote', 'code-block'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['clean']
+    ],
+
+}
+
+
+
+
+const mobile = {
+    toolbar: [
+        [{ 'header': 1 }],
+        ['bold', 'italic', 'underline', 'strike'],
+        ['blockquote', 'code-block'],
 
     ],
 }
@@ -104,6 +123,7 @@ const modules = {
 
 const Editor = ({ value, onChange, lock, placeholder, disabled }: any) => {
 
+    const layout = useRecoilValue(layoutSizeData)
 
 
 
@@ -119,7 +139,7 @@ const Editor = ({ value, onChange, lock, placeholder, disabled }: any) => {
 
                 }
             ]}
-            modules={modules}
+            modules={layout === 'mobile' ? mobile : desktop}
             // theme="snow"
             placeholder={disabled ? 'Sign in to edit.' : placeholder}
             value={value}

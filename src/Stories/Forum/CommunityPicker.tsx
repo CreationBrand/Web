@@ -16,7 +16,9 @@ import { forwardRef, useEffect, useState } from 'react';
 import { textNormal } from 'Global/Mixins';
 import { Controller } from 'react-hook-form';
 import Avatar from 'Stories/Bits/Avatar/Avatar';
+import { ErrorMessage } from '@hookform/error-message';
 
+import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 
 const CommunityPicker = ({ control, name }: any) => {
 
@@ -51,10 +53,27 @@ const CommunityPicker = ({ control, name }: any) => {
         control={control}
         // defaultValue={defaultValue ? defaultValue : ''}
         rules={{ required: true }}
-        render={({ field: { onChange, value } }) => (
-            <CustomSelect value={value} onChange={(_, newValue) => onChange(newValue)}>
-                {components}
-            </CustomSelect>
+        render={({ field: { onChange, value }, formState: { errors } }) => (
+            <>
+                <CustomSelect value={value} onChange={(_, newValue) => onChange(newValue)}>
+                    {components}
+                </CustomSelect>
+
+
+                <ErrorMessage
+                    errors={errors}
+                    name={name}
+                    render={({ message }) => <p css={{
+                        marginTop: '4px',
+                        color: '#c84b4b',
+                        fontSize: '14px',
+                        fontWeight: 400,
+                        fontFamily: 'noto sans',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                    }}><ErrorOutlineRoundedIcon />
+                        {message}</p>} /></>
         )}
     />)
 };

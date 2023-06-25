@@ -22,8 +22,8 @@ const C = {
         border: `2px solid #343442`,
         cursor: 'pointer',
         zIndex: 1000,
-        ':hover': {
-            border: `2px solid #583e76`,
+        ':focus-within': {
+            border: `2px solid #996ccc`,
         },
     }),
 }
