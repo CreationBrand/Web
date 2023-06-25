@@ -5,6 +5,7 @@ import { ErrorMessage } from '@hookform/error-message';
 import Editor from "Stories/Bits/Editor/Editor";
 import { Controller } from "react-hook-form";
 
+import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 
 
 const RichInput = ({ control, maxLength, name, defaultValue }: any) => {
@@ -23,26 +24,30 @@ const RichInput = ({ control, maxLength, name, defaultValue }: any) => {
                     }
                 }}>
                     <Editor value={value} onChange={onChange}></Editor>
-                    <div css={{
-                        position: 'absolute',
-                        bottom: '16px',
-                        right: '8px',
-                        color: '#b9b6ba',
-                        marginLeft: '8px',
-                        fontSize: '12px'
-                    }}>{value.length}/{maxLength}</div>
+                    {maxLength &&
+                        <div css={{
+                            position: 'absolute',
+                            bottom: '16px',
+                            right: '8px',
+                            color: '#b9b6ba',
+                            marginLeft: '8px',
+                            fontSize: '12px'
+                        }}>{value.length}/{maxLength}</div>}
                 </div>
 
                 <ErrorMessage
                     errors={errors}
                     name={name}
                     render={({ message }) => <p css={{
-                        marginTop: '2px',
+                        marginTop: '4px',
                         color: '#c84b4b',
-                        fontSize: '12px',
-                        fontWeight: 500,
+                        fontSize: '14px',
+                        fontWeight: 400,
                         fontFamily: 'noto sans',
-                    }}>{message}</p>} /></>
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                    }}><ErrorOutlineRoundedIcon />{message}</p>} /></>
         )}
     />)
 };

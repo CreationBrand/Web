@@ -10,8 +10,6 @@ const useCommentLive = (active: boolean, props: any) => {
     const [data, setData] = useRecoilState(commentSync(props.public_id))
 
 
-    console.log('useCommentLive', props.public_id, data)
-
     // useEffect(() => {
     //     if (!props.public_id || !active) return
 

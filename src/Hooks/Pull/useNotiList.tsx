@@ -15,9 +15,12 @@ import ContentLoader from 'Stories/Chunk/ContentLoader/ContentLoader';
 import { useNavigate } from 'react-router-dom';
 import CommunityTitle from 'Stories/Bits/Titles/CommunityTitle';
 import Author from 'Stories/Bits/Titles/Author';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faReplyAll } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import PostAddRoundedIcon from '@mui/icons-material/PostAddRounded';
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 
 
 const cache = new TTLCache({ max: 10000, ttl: 60000 })
@@ -53,21 +56,23 @@ const useNotiList = () => {
 
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
+            let temp: any = []
             for (let i = 0; i < listItems?.length; i++) {
-                // set(postSync(listItems[i].public_id), listItems[i]);
-
-                set(notiList, (oldList: any) => [...oldList, <Noti {...listItems[i]} />])
+                temp.push(<Noti {...listItems[i]} />)
             }
+
+            set(notiList, (oldList: any) => [...oldList, temp])
+
         },
         []
     );
 
     const fetchNext = async () => {
         if (components?.length === 0) return
-        // if (filter === 'none') return setCursor(components[components.length - 1].props.hot)
-        // else if (filter === 'HOT') return setCursor(components[components.length - 1].props.hot)
-        // else if (filter === 'NEW') return setCursor(components[components.length - 1].props.created_at)
-        // else if (filter === 'TOP') return setCursor(components[components.length - 1].props.karma)
+        try {
+            let last: any = components[components.length - 1]
+            return setCursor(last[last.length - 1].props.created_at)
+        } catch (e) { }
     }
 
     return [isLoading, isError, components.concat(<ChunkError variant={!end ? 'loading' : 'end'} onLoad={fetchNext} />)]
@@ -98,7 +103,9 @@ const C = {
         marginRight: '8px',
     }),
 
-    right: css({}),
+    right: css({
+
+    }),
     row: css({
         display: 'flex',
         gap: '4px',
@@ -111,15 +118,12 @@ const C = {
 
 const Noti = (props: any) => {
     let content = JSON.parse(props.content)
-
     const navigate = useNavigate()
 
     const handleClick = () => {
         if (props.type === 'comment-reply') navigate(`/c/${props?.community?.public_id}/p/${props?.post?.public_id}/c/${props?.comment?.public_id}`)
         if (props.type === 'post-reply') navigate(`/c/${props?.community?.public_id}/p/${props?.post?.public_id}/c/${content?.comment_id}`)
-
     }
-
 
     return <div css={C.container} onClick={handleClick}>
         <div css={C.inner}>
@@ -134,18 +138,19 @@ const Noti = (props: any) => {
                     <div>
                         {props?.author?.nickname}
                     </div>
-                    <FontAwesomeIcon icon={faArrowRight} />
-                    {props?.type === 'post-reply' && <div>post</div>}
-                    {props?.type === 'comment-reply' && <div>comment</div>}
-                    <FontAwesomeIcon icon={faArrowRight} />
+
+                    {props?.type === 'post-reply' && <div>replied to your post in</div>}
+                    {props?.type === 'comment-reply' && <div>replied to your comment in</div>}
+
                     <div>
-                        {props?.community?.title}
+                        #{props?.community?.title}
                     </div>
 
                 </div>
+                <div css={{ color: '#b9b6ba !important' }}>
+                    <ReactMarkdown children={content.content} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
 
-                <ContentLoader type="text" content={content.content} />
-
+                </div>
             </div>
         </div>
     </div>

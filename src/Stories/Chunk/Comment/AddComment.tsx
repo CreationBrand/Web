@@ -29,7 +29,7 @@ const C = {
 }
 
 
-const AddComment = ({ parent_id, post_id, onClose }: any) => {
+const AddComment = ({ parent_id, post_id, onClose, isMuted }: any) => {
 
     const [comment, setComment] = useState('')
     const authState = useRecoilValue(authFlow)
@@ -83,34 +83,36 @@ const AddComment = ({ parent_id, post_id, onClose }: any) => {
     return <div css={C.container}>
 
         <Editor
-            disabled={authState === 'guest'}
+            disabled={authState === 'guest' || isMuted}
             value={comment}
             onChange={(e: any) => setComment(e)}
-            placeholder='Comment your thoughts?' />
+            placeholder={isMuted ? 'You are Muted' : 'Comment your thoughts?' } />
 
-        {comment.length > 11 && <Button
-            onClick={onSubmit}
-            size='small'
-            disableElevation
-            sx={{
+        {
+            comment.length > 11 && <Button
+                onClick={onSubmit}
+                size='small'
+                disableElevation
+                sx={{
 
-                margin: '4px',
-                bottom: '0px',
-                right: '0px',
-                borderRadius: '8px',
-                background: '#272732',
-                position: 'absolute',
-                height: '32px',
-                // border: `2px solid #343442`,
-                color: '#b8babd',
-                ':hover': {
+                    margin: '4px',
+                    bottom: '0px',
+                    right: '0px',
+                    borderRadius: '8px',
                     background: '#272732',
-                    // border: `2px solid #583e76`,
-                    color: '#fff',
+                    position: 'absolute',
+                    height: '32px',
+                    // border: `2px solid #343442`,
+                    color: '#b8babd',
+                    ':hover': {
+                        background: '#272732',
+                        // border: `2px solid #583e76`,
+                        color: '#fff',
 
-                },
-            }}
-            variant='contained'>Submit</Button>}
+                    },
+                }}
+                variant='contained'>Submit</Button>
+        }
 
 
     </div>

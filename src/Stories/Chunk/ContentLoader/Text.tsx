@@ -17,7 +17,7 @@ const C = {
         overflow: 'hidden',
         width: '100%',
         height: 'auto',
-        wordWrap: 'break-word',
+        wordBreak: 'break-word',
     }),
 
     tailed: css({

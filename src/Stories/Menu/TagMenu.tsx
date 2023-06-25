@@ -40,9 +40,14 @@ const TagMenu = ({ current, public_id, type, community_id }: any) => {
     useEffect(() => {
         if (!current || current.length < 1) return
         let temp: any = []
-        current.forEach((elem: any) => {
-            temp.push(elem.public_id)
-        });
+       
+        try {
+            current?.forEach((elem: any) => {
+                temp.push(elem?.public_id)
+            });
+        } catch (e) {
+            console.log(e)
+        }
         setValue(temp)
     }, [public_id, current])
 

@@ -141,7 +141,7 @@ const Editor = ({ value, onChange, lock, placeholder, disabled }: any) => {
             ]}
             modules={layout === 'mobile' ? mobile : desktop}
             // theme="snow"
-            placeholder={disabled ? 'Sign in to edit.' : placeholder}
+            placeholder={placeholder}
             value={value}
             onChange={onChange}
 

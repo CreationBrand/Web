@@ -88,3 +88,13 @@ export const canMovePost = (set: any) => {
 
     return false
 };
+
+
+
+export const isMuted = (set: any) => {
+
+    if (set === null) return false
+    let bs = new BitSet(set)
+    if (Boolean(bs.get(4) !== 0)) return true
+    return false
+};

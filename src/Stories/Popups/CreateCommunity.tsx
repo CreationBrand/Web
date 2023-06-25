@@ -154,7 +154,7 @@ const CreateCommunity = ({ open, onClose }: any) => {
 
                 <div css={C.content}>
                     <h3 css={textLabel('s')}>description</h3>
-                    <RichInput name='description' control={control} maxLength={800} />
+                    <RichInput name='description' control={control}/>
                 </div>
 
                 <div css={C.content}>

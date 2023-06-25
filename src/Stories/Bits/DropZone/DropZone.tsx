@@ -2,18 +2,16 @@
 import { css } from '@emotion/react';
 
 
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
+import { textLabel, textLight } from 'Global/Mixins';
 
+// ICONS
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded';
-import { textLabel, textLight } from 'Global/Mixins';
-import { on } from 'events';
-
 
 const C = {
     container: css({
-
         borderRadius: '8px',
     }),
     dropzone: css({
@@ -21,7 +19,6 @@ const C = {
         height: '120px',
         background: '#181820',
         borderRadius: '8px',
-
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -38,6 +35,8 @@ const C = {
         justifyContent: 'center',
         alignItems: 'center',
         color: '#f2f2f2',
+        fontSize: '10px',
+        whiteSpace: 'nowrap',
     }),
     array: css({
         display: 'flex',
@@ -54,14 +53,12 @@ const DropZone = ({ value, onChange }: any
 
     const onDrop = useCallback(async (acceptedFiles: any) => {
 
-
         if (acceptedFiles.length === 1 && acceptedFiles[0].type === 'video/mp4') {
             if (acceptedFiles[0].size > 10000000) {
                 setFiles([])
                 setError(true)
                 return
             }
-
             onChange({
                 type: 'video',
                 source: URL.createObjectURL(acceptedFiles[0]),
@@ -70,50 +67,34 @@ const DropZone = ({ value, onChange }: any
             files.push(...acceptedFiles)
             setError(false)
             return
-
         }
 
-        else if (acceptedFiles.length > 0) {
-            let temp: any = []
-            let buffers: any = []
-            acceptedFiles.forEach(async (file: any) => {
+        let temp: any = []
+        let buffers: any = []
 
-                console.log('%c[FILE] ', 'font-weight:bold; color: #fcb358', `Type: ${file.type} Bytes:${file.size}`);
-
-                if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png') {
-
-                    if (acceptedFiles[0].size > 10000000) {
-                        setFiles([])
-                        setError(true)
-                        return
-                    }
-                    temp.push(URL.createObjectURL(file))
-                    buffers.push(await toBase64(file))
-                } else {
-                    setFiles([])
-                    setError(true)
-                    return
-                }
-            })
-            onChange({
-                type: 'image',
-                source: temp,
-                files: buffers,
-            })
-
-
-            files.push(...acceptedFiles)
-            setError(false)
-            return
+        for (let i = 0; i < acceptedFiles.length; i++) {
+            if (acceptedFiles[i].type !== 'image/jpeg' && acceptedFiles[i].type !== 'image/jpg' && acceptedFiles[i].type !== 'image/png' || acceptedFiles[i].size > 10000000) {
+                setFiles([])
+                setError(true)
+                return
+            } else {
+                temp.push(URL.createObjectURL(acceptedFiles[i]))
+                buffers.push(await toBase64(acceptedFiles[i]))
+            }
         }
+        setFiles(acceptedFiles)
+        onChange({
+            type: 'image',
+            source: temp,
+            files: buffers,
+        })        
+        setError(false)
 
-        setFiles([])
-        setError(true)
-        return
     }, [])
 
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+
 
     return (
 
@@ -121,16 +102,15 @@ const DropZone = ({ value, onChange }: any
             <div css={[textLabel('s'), {
                 display: 'flex',
                 justifyContent: 'space-between',
-            }]}>Upload {error && <div css={{ color: 'red' }}>Invalid file</div>}</div>
+            }]}>Upload {error && <div css={{ color: '#c84b4b' }}>Invalid file</div>}</div>
 
             <div
-                style={{ border: error ? '2px solid red' : 'none' }}
+                style={{ border: error ? '2px solid #c84b4b' : 'none' }}
                 css={C.dropzone} {...getRootProps()}>
                 <input {...getInputProps()} />
                 {
                     isDragActive ?
                         <p>Drop the files here ...</p> :
-
                         <>
                             <CloudUploadRoundedIcon sx={{ fontSize: '40px' }} />
                             <p>Drag 'n' drop some files here, or click to select files</p>
@@ -146,11 +126,8 @@ const DropZone = ({ value, onChange }: any
                     <div css={C.files} key={file.path}>
                         {file.name}
                         <ClearRoundedIcon onClick={() => {
-                         
-                            let temp = [...files]
-                            temp.splice(iter, 1)
-                            setFiles(temp)
-                            onChange(temp)
+                            setFiles([])
+                            onChange([])
                         }} />
                     </div>
                 ))}

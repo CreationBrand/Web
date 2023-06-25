@@ -31,14 +31,11 @@ import ContentLoader from '../ContentLoader/ContentLoader'
 import TimeAgo from 'react-timeago'
 import { formatTime } from 'Util/formatTime'
 import CommentMenu from 'Stories/Menu/CommentMenu'
+import useIsMuted from 'Hooks/Util/useIsMuted'
 
 const C = {
     container: css({
         width: '100%',
-        // display: 'flex',
-        // height: 'auto',
-        // alignItems: 'stretch',
-        // position: 'relative',
     }),
     inner: css({
         width: '100%',
@@ -46,7 +43,6 @@ const C = {
         margin: '0 auto',
         background: '#272732',
         padding: '0px 8px',
-
         display: 'flex',
 
     }),
@@ -169,6 +165,10 @@ const Comment = (props: any) => {
 
 
     const [inView, setVisibility] = useState(false)
+    const isMuted = useIsMuted(props.community.public_id)
+
+
+    console.log(isMuted)
 
     const [vote, tags, community_roles, global_roles, visibility, author, content, created_at,
         depth, karma, last, path, public_id, sort_path, updated_at, active, id, hasChildren,
@@ -210,122 +210,125 @@ const Comment = (props: any) => {
     return (
         <div key={public_id} css={C.container}>
 
-            <div css={[C.inner, depth == 2 && C.headComment, last && C.tailComment]}>
-                <div css={C.spacers}>{spacers}</div>
+            <div css={{ background: '#272732' }}>
+                <div css={[C.inner, depth == 2 && C.headComment, last && C.tailComment]}>
+                    <div css={C.spacers}>{spacers}</div>
 
-                <div css={[C.comment, { marginLeft: layoutState === 'mobile' ? '4px' : '0px' }]}>
+                    <div css={[C.comment, { marginLeft: layoutState === 'mobile' ? '4px' : '0px' }]}>
 
-                    <div style={{ marginBottom: layoutState === 'mobile' ? '8px' : '0px' }} css={C.header}>
+                        <div style={{ marginBottom: layoutState === 'mobile' ? '8px' : '0px' }} css={C.header}>
 
-                        <div css={{
-                            width: '36px',
-                            height: '36px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderRadius: '8px',
-                        }}>
-                            <Avatar public_id={author.public_id} size={'small'} />
-                        </div>
+                            <div css={{
+                                width: '36px',
+                                height: '36px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderRadius: '8px',
+                            }}>
+                                <Avatar public_id={author.public_id} size={'small'} />
+                            </div>
 
-                        <div css={{
-                            height: '36px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                        }}>
-                            <div css={{ display: 'flex', alignItems: 'center', gap: '4px', height: '12px', lineHeight: '10px' }}>
+                            <div css={{
+                                height: '36px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                            }}>
+                                <div css={{ display: 'flex', alignItems: 'center', gap: '4px', height: '12px', lineHeight: '10px' }}>
 
-                                <Nickname
-                                    title={author?.nickname}
-                                    public_id={author?.public_id}
-                                    global_roles={global_roles}
-                                />
+                                    <Nickname
+                                        title={author?.nickname}
+                                        public_id={author?.public_id}
+                                        global_roles={global_roles}
+                                    />
 
-                                {created_at &&  <span css={{ fontSize: '12px', color: '#b9bbb3' }}><TimeAgo date={created_at} formatter={formatTime} /></span>
+                                    {created_at && <span css={{ fontSize: '12px', color: '#b9bbb3' }}><TimeAgo date={created_at} formatter={formatTime} /></span>
+                                    }
+
+                                </div>
+
+                                {(community_roles || tags) &&
+                                    <div css={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
+                                        {community_roles && <LiveRoles value={community_roles} />}
+                                        {tags && <LiveTags value={tags} />}
+                                    </div>
                                 }
 
-                            </div>
 
-                            {(community_roles || tags) &&
-                                <div css={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
-                                    {community_roles && <LiveRoles value={community_roles} />}
-                                    {tags && <LiveTags value={tags} />}
+                            </div>
+                            {(authState !== 'guest' &&
+                                props?.community?.public_id &&
+                                author?.public_id
+                            ) && <CommentMenu
+                                    community_id={props.community.public_id}
+                                    person_id={author.public_id}
+                                    tags={tags}
+                                    comment_id={public_id}
+                                    global_roles={global_roles} c
+                                    community_roles={community_roles} />}
+
+                        </div>
+
+                        <div css={{ display: 'flex', marginTop: '8px' }}>
+
+
+                            {layoutState === 'desktop' && <div onClick={handleSpacer} data-key={depth - 2} css={C.defaultSpacer} style={{ background: colors[depth - 2] }} />}
+
+                            <div>
+
+                                {!(tags && tags.some((obj: any) => filter.includes(obj.public_id))) && <div css={{ marginBottom: '16px', }}>
+                                    <ContentLoader type='text' content={content} />
+                                </div>}
+
+                                <div css={C.float}>
+
+                                    {hasChildren && <>
+                                        <Button
+                                            onClick={handleButton}
+                                            css={C.action}
+                                            variant="text"
+                                            color="secondary"
+                                            size="large"
+                                        >
+                                            {status === 'active' ?
+                                                <IndeterminateCheckBoxOutlinedIcon sx={{ fontSize: '16px' }} /> :
+                                                <AddBoxOutlinedIcon sx={{ fontSize: '16px' }} />}
+                                        </Button>
+                                        <div css={C.divider} />
+                                    </>}
+
+                                    <LiveVotes size='small' vote={vote} karma={karma} public_id={public_id} type='comment' />
+                                    {depth < 10 && <>
+                                        <div css={C.divider} />
+
+                                        <Button
+                                            onClick={handleReply}
+                                            variant="text"
+                                            size="small"
+                                            color="secondary"
+                                            sx={{ gap: '8px', fontSize: '16px' }}                                    >
+                                            <ReplyAllRoundedIcon fontSize="inherit" />
+                                            <div css={[textBold('t'), {
+                                                color: '#b9bbbe',
+                                            }]}>Reply</div>
+                                        </Button>
+                                    </>}
+
                                 </div>
-                            }
-
-
-                        </div>
-                        {(authState !== 'guest' &&
-                            props?.community?.public_id &&
-                            author?.public_id
-                        ) && <CommentMenu
-                                community_id={props.community.public_id}
-                                person_id={author.public_id}
-                                tags={tags}
-                                comment_id={public_id}
-                                global_roles={global_roles} c
-                                community_roles={community_roles} />}
-
-                    </div>
-
-                    <div css={{ display: 'flex', marginTop: '8px' }}>
-
-
-                        {layoutState === 'desktop' && <div onClick={handleSpacer} data-key={depth - 2} css={C.defaultSpacer} style={{ background: colors[depth - 2] }} />}
-
-                        <div>
-
-                            {!(tags && tags.some((obj: any) => filter.includes(obj.public_id))) && <div css={{ marginBottom: '16px', }}>
-                                <ContentLoader type='text' content={content} />
-                            </div>}
-
-                            <div css={C.float}>
-
-                                {hasChildren && <>
-                                    <Button
-                                        onClick={handleButton}
-                                        css={C.action}
-                                        variant="text"
-                                        color="secondary"
-                                        size="large"
-                                    >
-                                        {status === 'active' ?
-                                            <IndeterminateCheckBoxOutlinedIcon sx={{ fontSize: '16px' }} /> :
-                                            <AddBoxOutlinedIcon sx={{ fontSize: '16px' }} />}
-                                    </Button>
-                                    <div css={C.divider} />
-                                </>}
-
-                                <LiveVotes size='small' vote={vote} karma={karma} public_id={public_id} type='comment' />
-                                {depth < 10 && <>
-                                    <div css={C.divider} />
-
-                                    <Button
-                                        onClick={handleReply}
-                                        variant="text"
-                                        size="small"
-                                        color="secondary"
-                                        sx={{ gap: '8px', fontSize: '16px' }}                                    >
-                                        <ReplyAllRoundedIcon fontSize="inherit" />
-                                        <div css={[textBold('t'), {
-                                            color: '#b9bbbe',
-                                        }]}>Reply</div>
-                                    </Button>
-                                </>}
 
                             </div>
-
                         </div>
-                    </div>
 
+                    </div>
                 </div>
+                {showReply &&
+                    <div css={{ padding: '12px 8px', maxWidth: '800px', margin: '0 auto', background: '#272732', zIndex: 100, position: 'relative' }}>
+                        <AddComment isMuted={isMuted} parent_id={public_id} post_id={params.post_id} onClose={handleReply} />
+                    </div>}
 
             </div>
-            {showReply &&
-                <div css={{ background: '#272732', padding: '0 8px', maxWidth: '800px', margin: '0 auto' }}>
-                    <AddComment parent_id={public_id} post_id={params.post_id} onClose={handleReply} />
-                </div>}
+
         </div>
 
 

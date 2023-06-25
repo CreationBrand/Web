@@ -71,10 +71,7 @@ const PostList = () => {
 
     const see = useSetRecoilState(seenAtom)
     const data = useCommunityData(params.community_id)
-    const [isMember, setIsMember] = useState(false)
-    const communityList = useRecoilValue(communityListData)
     const mainSize = useRecoilValue(mainSizeState)
-
     const isMuted = useIsMuted(params.community_id)
 
 
@@ -83,18 +80,9 @@ const PostList = () => {
     }, [params.post_id])
 
 
-    const handleJoin = (e: any) => {
-        e.stopPropagation()
-        setIsMember(!isMember)
-        if (isMember) leaveCommunity(params.community_id)
-        else joinCommunity(params.community_id)
-    }
+    console.log(isMuted)
 
-    // IS MEMBER
-    useEffect(() => {
-        const hasMatchingId = communityList.some((obj: any) => obj.public_id === params.community_id);
-        setIsMember(hasMatchingId)
-    }, [params.community_id])
+
 
     return (
         <motion.div
@@ -116,7 +104,7 @@ const PostList = () => {
                         list={[
                             component,
                             <div key={'component'} css={{ maxWidth: '800px', margin: 'auto', marginTop: '8px', display: 'flex', flexDirection: 'column' }}>
-                                <AddComment post_id={params.post_id} parent_id={params.post_id} />
+                                <AddComment isMuted={isMuted} post_id={params.post_id} parent_id={params.post_id} />
                             </div>,
                             ...components
                         ]} />
@@ -196,7 +184,6 @@ const PostList = () => {
                                 </div>
                             </motion.div> : <div css={{ width: '240px', height: '164px', marginBottom: '8px' }}></div>}
                     <GlobalFilter />
-                    {/* <Move /> */}
                 </div>
             }
 
@@ -211,3 +198,4 @@ const PostList = () => {
 export default memo(PostList)
 
 const handleImgError = (e: any) => e.target.style.display = 'none'
+

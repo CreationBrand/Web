@@ -68,6 +68,7 @@ export default function ModerateMenu({ post_id, community_id }: any) {
     return (
 
         <MenuItem
+            disabled={true}
             onMouseEnter={open}
             onMouseLeave={handleClose}
         >
