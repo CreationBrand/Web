@@ -80,8 +80,7 @@ const CommentList = () => {
                         public_id={params.post_id}
                         overscan={2}
                         list={[
-                            component,
-                            ...components
+                            
                         ]} />
                 }
 
