@@ -33,7 +33,7 @@ const useComments = (post_id: any) => {
             console.log(end)
             if (end || isError) return
             try {
-                
+
                 let req: any = await socketRequest('comments', { post_id, filter, cursor: cursor })
                 console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.comments?.length}) Comments`);
                 console.log(req.comments);
@@ -45,21 +45,25 @@ const useComments = (post_id: any) => {
 
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
-            const temp: any = []
+      
             for (let i = 0; i < listItems?.length; i++) {
-                try {
-                    let parts = listItems[i].path.split('.')
-                    listItems[i].id = parts[listItems[i].depth - 1]
-                    listItems[i].visibility = true
-                    listItems[i].active = false
-                    if (2 === listItems[i + 1].depth) {
-                        listItems[i].last = true
-                    }
-                } catch (e) { listItems[i].last = true }
 
+                // set props
+                let parts = listItems[i].path.split('.')
+                listItems[i].id = parts[listItems[i].depth - 1]
+                listItems[i].visibility = true
+                listItems[i].active = false
+
+                // first last
+                // if (i === 0) listItems[i].first = true
+                // if (i === listItems.length - 1) listItems[i].last = true
+
+                // has children
                 try {
                     listItems[i].hasChildren = listItems[i + 1].depth > listItems[i].depth
-                } catch (e) { listItems[i].hasChildren = false }
+                } catch (e) {
+                    listItems[i].hasChildren = false
+                }
 
                 set(commentSync(listItems[i].public_id), listItems[i]);
                 set(commentList, (oldList: any) => [...oldList, <Comment {...listItems[i]} />])
@@ -73,6 +77,9 @@ const useComments = (post_id: any) => {
         setCursor(components[components.length - 1].props.sort_path)
     }
 
+
+
+    
 
     return [isLoading, isError, components.concat(<ChunkError variant={end ? 'end' : 'loading'} onLoad={fetchNext} />)]
 }
