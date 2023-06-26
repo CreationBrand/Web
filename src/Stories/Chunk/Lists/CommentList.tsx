@@ -13,6 +13,7 @@ import Online from 'Stories/Bits/Online/Online'
 import { useRecoilValue } from 'recoil'
 import Avatar from 'Stories/Bits/Avatar/Avatar'
 import useCommunityData from 'Hooks/Pull/useCommunityData'
+import { PostHolder } from './PlaceHolders'
 
 const C = {
     container: css({
@@ -51,7 +52,7 @@ const D = {
 
 const CommentList = () => {
 
-    const params:any = useParams()
+    const params: any = useParams()
     const mainSize = useRecoilValue(mainSizeState)
     const data = useCommunityData(params.community_id)
 
@@ -73,17 +74,14 @@ const CommentList = () => {
         >
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
-
-                {isError || isError2 || isLoading || isLoading2 ?
-                    <ChunkError variant={(isError || isError2) ? 'error' : ((isLoading || isLoading2) ? 'loading' : 'end')} /> :
-                    <VirtuList
-                        public_id={params.post_id}
-                        overscan={2}
-                        list={[
-                            
-                        ]} />
-                }
-
+                <VirtuList
+                    public_id={params.post_id}
+                    overscan={2}
+                    list={[
+                        (isError || isError2 || isLoading || isLoading2) ?
+                            [<PostHolder />] :
+                            [component, ...components]
+                    ]} />
             </div>
 
 
