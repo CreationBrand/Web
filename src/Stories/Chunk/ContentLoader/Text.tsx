@@ -21,11 +21,19 @@ const C = {
     }),
 
     tailed: css({
-        maskImage: 'linear-gradient(180deg,#000 70%,transparent)',
-        maxHeight: '340px',
-        overflow: 'hidden',
-        position: 'relative',
-        zIndex: 500,
+        position: "relative",
+        width: "300px",
+        maxHeight: "300px",
+        overflow: "hidden",
+        '&:after': {
+            content: "\"\"",
+            position: "absolute",
+            top: "260px",
+            left: "0",
+            height: "40px",
+            width: "100%",
+            background: "linear-gradient(rgba(0,0,0,0), #272732)",
+        }
     }),
 
 }

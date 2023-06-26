@@ -34,6 +34,7 @@ const C = {
         width: '24px',
         borderRadius: '8px',
         border: '2px solid',
+        cursor: 'pointer',
     }),
 }
 

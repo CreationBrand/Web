@@ -31,7 +31,18 @@ const C = {
         zIndex: 50,
         gap: '12px',
 
-    })
+    }),
+    link: css({
+        color: '#d7dadc ',
+        fontSize: '12px',
+        fontWeight: 600,
+        textDecoration: 'none',
+        '&:hover': {
+            textDecoration: 'underline',
+            textDecorationThickness: '2px',
+        }
+
+    }),
 }
 
 
@@ -82,12 +93,12 @@ const GlobalList = ({ type }: any) => {
                                 </AccordionSummary>
                                 <AccordionDetails>
 
-                                    <div css={{ display: 'flex', flexWrap: 'wrap', color: '#d7dadc', gap: '12px' }}>
-                                        <Link style={{ textDecoration: 'none' }} to={'/c/06fc5e2a-8fe7-496f-9ec9-dbb2ae4df819'}>Questions</Link>
-                                        <Link style={{ textDecoration: 'none' }} to={'/c/aa3aed31-d79e-4bcf-9503-20746a4a9403'}>Development</Link>
-                                        <Link style={{ textDecoration: 'none' }} to={'/c/ed685d41-4d7a-4ed5-a24d-1e7de3b5643d'}>League of legends</Link>
-                                        <Link style={{ textDecoration: 'none' }} to={'/c/35a07980-4301-4367-8478-90da0e311d3c'}>Memes </Link>
-                                        <Link style={{ textDecoration: 'none' }} to={'/c/ed685d41-4d7a-4ed5-a24d-1e7de3b5643d'}>PoliticalCompassMemes</Link>
+                                    <div css={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                                        <Link css={C.link} to={'/c/06fc5e2a-8fe7-496f-9ec9-dbb2ae4df819'}>Questions</Link>
+                                        <Link css={C.link} to={'/c/aa3aed31-d79e-4bcf-9503-20746a4a9403'}>Development</Link>
+                                        <Link css={C.link} to={'/c/ed685d41-4d7a-4ed5-a24d-1e7de3b5643d'}>League of legends</Link>
+                                        <Link css={C.link} to={'/c/35a07980-4301-4367-8478-90da0e311d3c'}>Memes </Link>
+                                        <Link css={C.link} to={'/c/ed685d41-4d7a-4ed5-a24d-1e7de3b5643d'}>PoliticalCompassMemes</Link>
                                     </div>
 
 

@@ -167,9 +167,6 @@ const Comment = (props: any) => {
     const [inView, setVisibility] = useState(false)
     const isMuted = useIsMuted(props?.community?.public_id)
 
-
-    console.log(isMuted)
-
     const [vote, tags, community_roles, global_roles, visibility, author, content, created_at,
         depth, karma, last, path, public_id, sort_path, updated_at, active, id, hasChildren,
     ] = useCommentLive(true, props)

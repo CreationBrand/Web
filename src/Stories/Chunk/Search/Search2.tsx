@@ -77,7 +77,8 @@ const C = {
         fontSize: '14px',
         color: '#aaa2b2',
         cursor: 'pointer',
-        marginBottom: '4px',
+        marginBottom: '2px',
+        marginTop: '2px',
         alignItems: 'center',
         borderRadius: '8px',
         '&:hover': {
