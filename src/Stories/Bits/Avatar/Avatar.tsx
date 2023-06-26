@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 
 let sizeMap: any = {
-    small: '34px',
+    small: '36px',
     medium: '40px',
     large: '50px',
     extra: '80px',

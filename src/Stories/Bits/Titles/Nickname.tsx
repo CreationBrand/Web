@@ -25,7 +25,7 @@ const C = {
         lineHeight: '20px',
         display: 'flex',
         alignItems: 'center',
-        fontWeight: 400,
+        fontWeight: 600,
         color: '#b9b6ba',
         textDecoration: 'none',
         textDecorationThickness: '2px !important',

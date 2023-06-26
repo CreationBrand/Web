@@ -137,19 +137,14 @@ const Noti = (props: any) => {
 
                     <div>
                         {props?.author?.nickname}
-                    </div>
-
-                    {props?.type === 'post-reply' && <div>replied to your post in</div>}
-                    {props?.type === 'comment-reply' && <div>replied to your comment in</div>}
-
-                    <div>
+                        {props?.type === 'post-reply' && ' replied to your post in '}
+                        {props?.type === 'comment-reply' && ' replied to your comment in '}
                         #{props?.community?.title}
                     </div>
 
                 </div>
-                <div css={{ color: '#b9b6ba !important' }}>
+                <div css={{ color: '#b9b6ba !important', wordBreak:'break-word' }}>
                     <ReactMarkdown children={content.content} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
-
                 </div>
             </div>
         </div>

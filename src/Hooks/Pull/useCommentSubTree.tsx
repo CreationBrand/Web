@@ -1,18 +1,15 @@
 
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react'
+
 import { useEffect, useState } from "react"
-import { atom, atomFamily, selector, useRecoilState, useRecoilTransaction_UNSTABLE, useResetRecoilState, selectorFamily } from "recoil";
+import { useRecoilState, useRecoilTransaction_UNSTABLE } from "recoil";
 import { socketRequest } from "Service/Socket";
 import { commentList, commentSync, resetAllAtoms } from "State/commentAtoms";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import Comment from "Stories/Chunk/Comment/Comment";
 
 let end: boolean = false
-
-
-
-
-
-
 
 const useCommentSubTree = (comment_id: any) => {
 
@@ -67,7 +64,27 @@ const useCommentSubTree = (comment_id: any) => {
     );
 
 
-    return [isLoading, isError, components.concat(<ChunkError variant={'end'} />)]
+    let temp: any = components.length > 0 ? [<div
+        css={{
+            width: '100%',
+            background: '#272732',
+            borderTopRightRadius: '8px',
+            borderTopLeftRadius: '8px',
+            height: '8px',
+            marginTop: '8px',
+        }}
+    />, ...components, <div
+        css={{
+            width: '100%',
+            background: '#272732',
+            borderBottomRightRadius: '8px',
+            borderBottomLeftRadius: '8px',
+            height: '16px',
+        }}
+    />] : []
+
+
+    return [isLoading, isError, temp.concat(<ChunkError variant={'end'} />)]
 }
 
 

@@ -28,7 +28,7 @@ const C = {
 const SearchList = () => {
 
     const params: any = useParams()
-    const [filter, setFilter] = useState('post')
+    const [filter, setFilter] = useState('community')
     const [isLoading, isError, components] = useSearch(filter, params.query)
     const mainSize = useRecoilValue(mainSizeState)
 

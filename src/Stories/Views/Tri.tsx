@@ -181,7 +181,7 @@ const Mobile = (props: Props) => {
         target: window,
         eventOptions: { capture: true },
         axis: 'x',
-        threshold: 50,
+        threshold: 25,
         bounds: { left: auth === 'guest' ? 0 : -240, right: 240 },
     })
 

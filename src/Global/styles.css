@@ -359,3 +359,4 @@ body {
 .MuiSkeleton-root::after {
     background: linear-gradient(90deg, transparent, rgba(153, 108, 204, 0.043), transparent) !important;
 }
+

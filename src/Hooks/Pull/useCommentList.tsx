@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react'
 
 import { useEffect, useState } from "react"
 import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue } from "recoil";
@@ -50,7 +52,7 @@ const usePostList = (post_id: any) => {
 
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
- 
+
             for (let i = 0; i < listItems?.length; i++) {
                 try {
                     let parts = listItems[i].path.split('.')
@@ -86,8 +88,27 @@ const usePostList = (post_id: any) => {
         else if (filter === 'TOP') return setCursor(last[last.length - 1].props.karma)
     }
 
+    let temp = components.length > 0 ? [<div
+        css={{
+            width: '100%',
+            background: '#272732',
+            borderTopRightRadius: '8px',
+            borderTopLeftRadius: '8px',
+            height: '8px',
+            marginTop: '8px',
+        }}
+    />, ...components, <div
+        css={{
+            width: '100%',
+            background: '#272732',
+            borderBottomRightRadius: '8px',
+            borderBottomLeftRadius: '8px',
+            height: '16px',
+        }}
+    />] : []
 
-    return [isLoading, isError, components.concat(<ChunkError variant={end ? 'end' : 'loading'} onLoad={fetchNext} />)]
+
+    return [isLoading, isError, temp.concat(<ChunkError variant={end ? 'end' : 'loading'} onLoad={fetchNext} />)]
 }
 
 
