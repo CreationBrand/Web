@@ -16,6 +16,7 @@ import { useRecoilValue } from 'recoil'
 
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import { mainSizeState } from 'State/Data'
+import { PostHolder } from './PlaceHolders'
 
 
 const C = {
@@ -58,8 +59,10 @@ const GlobalList = ({ type }: any) => {
             animate={{ opacity: 1 }}
         >
             <div css={{ maxWidth: '800px', width: '100%' }}>
-                {isError || isLoading ? <ChunkError variant={isError ? 'error' : 'loading'} /> :
-                    <VirtuList list={components} public_id={type} />}
+                <VirtuList list={
+                    (isError || isLoading) ? [<PostHolder />, <PostHolder />, <PostHolder />, <PostHolder />] :
+                        components} public_id={type} />
+
             </div>
 
             {(mainSize > 0) &&

@@ -12,6 +12,7 @@ import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter'
 import usePullCommunity from 'Hooks/usePullCommunity'
 import VirtuList from '../VirtualList/VirtuList'
 import { mainSizeState } from 'State/Data'
+import { FilterHolder, HeadHolder, PostHolder } from './PlaceHolders'
 
 
 const C = {
@@ -47,19 +48,16 @@ const CommunityList = () => {
         >
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
-
-                {isError || isLoading || isError1 || isLoading1 ? <ChunkError variant={isError ? 'error' : 'loading'} /> :
-                    <VirtuList
-                        list={[
-                            component,
-                            <FilterPane />,
-                            ...components]}
-                    />
-                }
+                <VirtuList
+                    list={
+                        (isError || isLoading || isError1 || isLoading1) ?
+                            [<HeadHolder />, <FilterHolder />, <PostHolder />, <PostHolder />, <PostHolder />, <PostHolder />] :
+                            [component, <FilterPane />, ...components]}
+                />
             </div>
 
             {mainSize > 0 &&
-                <div css={{ height: 'min-content', overflow: 'hidden' , marginTop:'16px'}}>
+                <div css={{ height: 'min-content', overflow: 'hidden', marginTop: '16px' }}>
                     <GlobalFilter />
                 </div>}
 

@@ -129,7 +129,6 @@ body {
     background-color: #996ccc !important;
 }
 
-
 .MuiMenu-list {
     /* background-color: #0f0e10 !important;
     min-width: 160px;
@@ -336,24 +335,27 @@ body {
     background-color: transparent !important;
 }
 
-a {
+/* a {
     color: #d7dadc;
     font-weight: 400;
-    /* text-decoration: none; */
+ text-decoration: none; 
 }
-a:hover {
+ a:hover {
     color: #fff;
     text-decoration: underline !important;
-    text-decoration-thickness: 2px !important;
-    
-}
-
-
-
-
-
+    text-decoration-thickness: 2px !important; 
+} */
 
 /* width */
 ::-webkit-scrollbar {
     width: 0px;
-  }
+}
+
+.MuiSkeleton-root {
+    border-radius: 8px !important;
+    background-color: rgb(24 24 32) !important;
+}
+
+.MuiSkeleton-root::after {
+    background: linear-gradient(90deg, transparent, rgba(153, 108, 204, 0.043), transparent) !important;
+}

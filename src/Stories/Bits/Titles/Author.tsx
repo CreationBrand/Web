@@ -2,43 +2,31 @@
 import { css } from '@emotion/react'
 
 import { memo, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
 import HoverPopover from 'material-ui-popup-state/HoverPopover'
 import { AnimatePresence, motion } from 'framer-motion'
 import { socketRequest } from 'Service/Socket'
 import Avatar from '../Avatar/Avatar'
 import { textLabel } from 'Global/Mixins'
-import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 import { useRecoilValue } from 'recoil'
 import { authFlow } from 'State/Flow'
-import LogoDevSharpIcon from '@mui/icons-material/LogoDevSharp';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGhost } from '@fortawesome/free-solid-svg-icons'
 import LiveRoles from 'Stories/Alive/LiveRoles'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 
 const C = {
-    container: css({
-        display: 'flex',
-        gap: '4px',
-        alignItems: 'center',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-    }),
     underline: css({
         fontSize: '16px',
         height: '20px',
+        lineHeight: '20px',
         display: 'flex',
         alignItems: 'center',
-        gap: '4px',
         fontWeight: 600,
         color: '#f2f3f5',
+        textDecoration: 'none',
         textDecorationThickness: '2px !important',
-
         ':hover': {
-
             textDecoration: 'underline',
             cursor: 'pointer',
         },
@@ -49,6 +37,7 @@ const Author = ({ title, public_id, community_id, global_roles }: any) => {
 
     const [anchorEl, setAnchorEl] = useState(null)
     const navigate = useNavigate()
+
     const handleClick = () => {
         setAnchorEl(null)
         navigate(`/p/${public_id}`)
@@ -56,30 +45,19 @@ const Author = ({ title, public_id, community_id, global_roles }: any) => {
     }
 
     const handleHover = (event: any) => setAnchorEl(event.target)
-    const handleClose = () => setAnchorEl(null);
-    const [color, setColor]: any = useState(null)
-
-
-    useEffect(() => {
-        if (global_roles) {
-            let temp = global_roles.find((obj: any) => obj.title === 'admin')
-            if (temp) setColor(`#${temp.color.toString(16)}`)
-        }
-    }, [global_roles])
-
-
 
     return (
 
         <PopupState variant="popover" popupId="demo-popup-popover">
             {(popupState) => (
                 <div onClick={(e: any) => e.stopPropagation()}>
-                    <div
-                        style={{ color: color }}
+                    <Link
+                        to={`/p/${public_id}`}
                         onMouseEnter={handleHover}
                         {...bindHover(popupState)}
-                        onClick={handleClick}
-                        css={C.underline}>{title}</div>
+                        css={C.underline}>
+                        {title}
+                    </Link>
 
                     {Boolean(anchorEl) &&
                         <HoverPopover
@@ -99,9 +77,7 @@ const Author = ({ title, public_id, community_id, global_roles }: any) => {
                             }}
                         >
                             {Boolean(anchorEl) && <Preview public_id={public_id} community_id={community_id} />}
-                        </HoverPopover>
-                    }
-
+                        </HoverPopover>}
 
                 </div>
             )}

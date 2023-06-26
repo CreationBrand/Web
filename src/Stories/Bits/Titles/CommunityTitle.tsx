@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 
 import { memo, useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { Button, debounce } from '@mui/material'
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
@@ -23,24 +23,18 @@ import { isAdmin } from 'Service/Rbac'
 import useCommunityData from 'Hooks/Pull/useCommunityData'
 
 
-
 const C = {
-    container: css({
-        display: 'flex',
-        gap: '4px',
-        alignItems: 'center',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-    }),
     underline: css({
         fontSize: '16px',
+        height: '20px',
         lineHeight: '20px',
+        display: 'flex',
+        alignItems: 'center',
         fontWeight: 600,
+        color: '#f2f3f5',
+        textDecoration: 'none',
         textDecorationThickness: '2px !important',
-
-        color: '#fff',
         ':hover': {
-
             textDecoration: 'underline',
             cursor: 'pointer',
         },
@@ -50,56 +44,37 @@ const C = {
 const CommunityTitle = ({ title, public_id }: any) => {
 
     const [anchorEl, setAnchorEl] = useState(null)
-    const navigate = useNavigate()
-
-
-
-    const handleClick = (e: any) => {
-        setAnchorEl(null)
-
-        e.stopPropagation()
-        navigate(`/c/${public_id}`)
-    }
     const handleHover = (event: any) => setAnchorEl(event.target)
-    const handleClose = () => setAnchorEl(null);
-
-
-
 
     return (
-
-        <PopupState variant="popover" popupId="community-popup">
+        <PopupState variant="popover" popupId="community-title">
             {(popupState) => (
                 <div onClick={(e: any) => e.stopPropagation()}>
-
-                    <div
+                    <Link
+                        to={`/c/${public_id}`}
                         onMouseEnter={handleHover}
                         {...bindHover(popupState)}
-                        onClick={handleClick}
                         css={C.underline}>
                         {title}
-                    </div>
-
-                    <HoverPopover
-
-                        sx={{
-                            '& .MuiPaper-root': {
-                                borderRadius: '16px !important',
-                            }
-                        }}
-
-                        {...bindPopover(popupState)}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                    >
-                        {Boolean(anchorEl) && <Preview public_id={public_id} />}
-                    </HoverPopover>
+                    </Link>
+                    {Boolean(anchorEl) &&
+                        <HoverPopover
+                            sx={{
+                                '& .MuiPaper-root': {
+                                    borderRadius: '16px !important',
+                                }
+                            }}
+                            {...bindPopover(popupState)}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                        ><Preview public_id={public_id} />
+                        </HoverPopover>}
                 </div>
             )}
         </PopupState>

@@ -56,9 +56,9 @@ const PostMenu = ({ person_id, community_roles, tags, post_id, community_id }: a
 
         <IconButton
             sx={{
-                height: '34px',
-                width: '34px',
-                color: '#b9bbbe',
+                height: '40px',
+                width: '40px',
+                color: '#b9b6ba',
                 borderRadius: '8px'
             }}
             onClick={handleClick}

@@ -92,7 +92,8 @@ const Link = ({ url }: any) => {
 
 
     const handleClick = (e: any) => {
-        e.stopPropagation()
+        e.preventDefault();
+        e.stopPropagation();
         //@ts-ignore
         if (url) window.open(url, '_blank').focus();
     }

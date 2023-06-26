@@ -10,17 +10,15 @@ const C = {
         gap: '4px',
     }),
     box: css({
-        height: '10px',
-        width: '10px',
-        borderRadius: '3px',
-
+        height: '12px',
+        width: '12px',
+        borderRadius: '4px',
     }),
 }
 
 const LiveTags = ({ value }: any) => {
-
     const [components, setComponents] = useState([])
-
+    
     useEffect(() => {
         if (!value) return
         let list: any = []
@@ -35,7 +33,7 @@ const LiveTags = ({ value }: any) => {
     }, [value])
 
     if (!value) return null
-    return <div css={C.container}>{components} </div>
+    return <div css={C.container}>{components}</div>
 }
 
 

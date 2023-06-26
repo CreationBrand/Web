@@ -24,6 +24,7 @@ import { communityListData, mainSizeState } from 'State/Data'
 import VirtuList from '../VirtualList/VirtuList'
 import useCommentList from 'Hooks/Pull/useCommentList'
 import useIsMuted from 'Hooks/Util/useIsMuted'
+import { PostHolder } from './PlaceHolders'
 
 
 const C = {
@@ -81,6 +82,8 @@ const PostList = () => {
 
 
 
+
+
     return (
         <motion.div
             key={`Post:${params.post_id}`}
@@ -93,20 +96,18 @@ const PostList = () => {
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
 
-                {isError || isError2 || isLoading || isLoading2 ?
-                    <ChunkError variant={(isError || isError2) ? 'error' : ((isLoading || isLoading2) ? 'loading' : 'end')} /> :
-                    <VirtualList
-                        public_id={params.post_id}
-                        overscan={10}
-                        list={[
-                            component,
-                            <div key={'component'} css={{ maxWidth: '800px', margin: 'auto', marginTop: '8px', display: 'flex', flexDirection: 'column' }}>
-                                <AddComment isMuted={isMuted} post_id={params.post_id} parent_id={params.post_id} />
-                            </div>,
-                            ...components
-                        ]} />
-                }
-
+                <VirtualList
+                    public_id={params.post_id}
+                    overscan={10}
+                    list={
+                        (isError || isError2 || isLoading || isLoading2) ? [<PostHolder />] :
+                            [
+                                component,
+                                <div key={'component'} css={{ maxWidth: '800px', margin: 'auto', marginTop: '8px', display: 'flex', flexDirection: 'column' }}>
+                                    <AddComment isMuted={isMuted} post_id={params.post_id} parent_id={params.post_id} />
+                                </div>,
+                                ...components
+                            ]} />
             </div>
 
 

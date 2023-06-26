@@ -17,12 +17,13 @@ const usePostList = (community_id: any, filter: any) => {
     const [components, setComponents]: any = useRecoilState(postList)
 
     const [cursor, setCursor] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const [isError, setIsError] = useState(false)
     const [resetState, setResetState] = useRecoilState(resetAllAtoms);
 
     useEffect(() => {
         end = false
+        setIsLoading(true)
         setCursor(false)
         setComponents([])
         setResetState({});
@@ -47,6 +48,7 @@ const usePostList = (community_id: any, filter: any) => {
                 cache.set(`posts:${community_id}:${filter}:${cursor}`, req.posts)
             } catch (e) {
                 setIsError(true)
+                setIsLoading(false)
             }
         })()
     }, [community_id, cursor, filter])
@@ -61,7 +63,7 @@ const usePostList = (community_id: any, filter: any) => {
                 batch.push(<Post key={i} view='list' {...listItems[i]} />)
             }
             set(postList, (oldList: any) => [...oldList, batch])
-
+            setIsLoading(false)
         },
         []
     );

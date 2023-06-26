@@ -53,14 +53,14 @@ const Image = ({ url }: any) => {
     const [error, setError] = useState(false);
     const handleImgError = (e: any) => setError(true)
 
-
+    const stopDefault = (e: any) => { e.preventDefault(); e.stopPropagation() }
 
     if (error) return <div css={C.error}>
         <Walk variant='error' />
     </div>
 
     return (
-        <div onClick={(e) => e.stopPropagation()}>
+        <div onClick={stopDefault}>
             {open && <Viewer src={url} open={open} onClose={handleClose} />}
             <div
                 onClick={(e) => { handleOpen() }}

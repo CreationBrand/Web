@@ -103,3 +103,10 @@ export const roundButton = {
 export const section = css({
     padding: '16px 16px 0 16px'
 })
+
+export const time = css({
+    fontSize: '12px',
+    color: '#b9b6ba',
+    height: '14px',
+    fontWeight: 600
+})

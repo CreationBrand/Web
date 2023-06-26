@@ -69,7 +69,8 @@ const Player = ({ url, fallback }: any) => {
     const [open, setOpen] = useState(false);
 
     const handleOpen = (e: any) => {
-        e.stopPropagation()
+        e.preventDefault();
+        e.stopPropagation();
         setOpen(true)
         setIsPlaying(false)
     };
@@ -86,7 +87,8 @@ const Player = ({ url, fallback }: any) => {
 
 
     const handlePlay = (e: any) => {
-        e.stopPropagation()
+        e.preventDefault();
+        e.stopPropagation();
         setIsPlaying(!isPlaying)
     }
 

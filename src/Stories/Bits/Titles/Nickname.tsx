@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 
 import { memo, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
 import HoverPopover from 'material-ui-popup-state/HoverPopover'
@@ -19,20 +19,16 @@ import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 
 const C = {
-    container: css({
-        display: 'flex',
-        gap: '4px',
-        alignItems: 'center',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-    }),
     underline: css({
-        fontSize: '12px',
-        fontWeight: 500,
+        fontSize: '14px',
+        height: '20px',
         lineHeight: '20px',
+        display: 'flex',
+        alignItems: 'center',
+        fontWeight: 400,
         color: '#b9b6ba',
+        textDecoration: 'none',
         textDecorationThickness: '2px !important',
-
         ':hover': {
             textDecoration: 'underline',
             cursor: 'pointer',
@@ -43,60 +39,40 @@ const C = {
 const Nickname = ({ title, public_id, community_id, global_roles }: any) => {
 
     const [anchorEl, setAnchorEl] = useState(null)
-    const navigate = useNavigate()
-    const handleClick = () => {
-        setAnchorEl(null)
-
-        navigate(`/p/${public_id}`)
-    }
-
     const handleHover = (event: any) => setAnchorEl(event.target)
-    const handleClose = () => setAnchorEl(null);
-    const [color, setColor]: any = useState(null)
-
-
-    useEffect(() => {
-        if (global_roles) {
-            let temp = global_roles.find((obj: any) => obj.title === 'admin')
-            if (temp) setColor(`#${temp.color.toString(16)}`)
-        }
-    }, [global_roles])
-
-
 
     return (
 
         <PopupState
-
-            variant="popover" popupId="demo-popup-popover">
+            variant="popover" popupId="nickname">
             {(popupState) => (
                 <div onClick={(e: any) => e.stopPropagation()}>
-                    <div
-                        style={{ color: color }}
+                    <Link
+                        to={`/p/${public_id}`}
                         onMouseEnter={handleHover}
                         {...bindHover(popupState)}
-                        onClick={handleClick}
-                        css={C.underline}>{title}</div>
+                        css={C.underline}>
+                        {title}
+                    </Link>
 
-                    <HoverPopover
-                        sx={{
-                            // marginTop: '2px',
-                            '& .MuiPaper-root': {
-                                borderRadius: '16px !important',
-                            }
-                        }}
-                        {...bindPopover(popupState)}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                    >
-                        {Boolean(anchorEl) && <Preview public_id={public_id} community_id={community_id} />}
-                    </HoverPopover>
+                    {Boolean(anchorEl) &&
+                        <HoverPopover
+                            sx={{
+                                '& .MuiPaper-root': {
+                                    borderRadius: '16px !important',
+                                }
+                            }}
+                            {...bindPopover(popupState)}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                        >  <Preview public_id={public_id} community_id={community_id} />
+                        </HoverPopover>}
                 </div>
             )}
         </PopupState>
