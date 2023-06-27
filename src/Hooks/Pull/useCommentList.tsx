@@ -18,7 +18,7 @@ const usePostList = (post_id: any) => {
     const [components, setComponents]: any = useRecoilState(commentList)
 
     const [cursor, setCursor] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const [isError, setIsError] = useState(false)
     const filter = 'HOT'
     // const [resetState, setResetState] = useRecoilState(resetAllAtoms);
@@ -27,6 +27,7 @@ const usePostList = (post_id: any) => {
         end = false
         setCursor(false)
         setComponents([])
+        setIsLoading(true)
         // setResetState({});
         console.log('%c [RESET] ', 'font-weight: bold; color: #F00', 'CommentList');
     }, [post_id])
@@ -73,6 +74,7 @@ const usePostList = (post_id: any) => {
 
             }
 
+            setIsLoading(false)
 
         }, []
     );

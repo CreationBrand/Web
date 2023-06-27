@@ -13,6 +13,7 @@ import usePullCommunity from 'Hooks/usePullCommunity'
 import VirtuList from '../VirtualList/VirtuList'
 import { mainSizeState } from 'State/Data'
 import { FilterHolder, HeadHolder, PostHolder } from './PlaceHolders'
+import useCommunity from 'Hooks/Pull/useCommunity'
 
 
 const C = {
@@ -34,13 +35,13 @@ const CommunityList = () => {
     const filter = useRecoilValue(postFilter)
     const mainSize = useRecoilValue(mainSizeState)
 
-    const [isLoading1, isError1, component, data] = usePullCommunity(params.community_id)
+    const [isLoading1, isError1, component] = useCommunity(params.community_id)
     const [isLoading, isError, components]: any = usePostList(params.community_id, filter)
 
     return (
 
         <motion.div
-
+            key={params.community_id}
             css={C.container}
             transition={{ duration: 0.4 }}
             initial={{ opacity: 0 }}

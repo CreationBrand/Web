@@ -12,7 +12,7 @@ const C = {
         minHeight: '56px',
         width: '100%',
         maxWidth: '800px',
-
+        height: '530px',
         display: 'flex',
         flexDirection: 'column',
 
@@ -37,7 +37,7 @@ export const PostHolder = () => {
                 </div>
             </div>
 
-            <Skeleton variant="rounded" animation="wave" width='100%' height={200} />
+            <Skeleton variant="rounded" animation="wave" width='100%' height={400} />
 
             <div css={{ display: 'flex', gap: '8px' }}>
                 <Skeleton variant="rounded" animation="wave" width={80} height={30} />
@@ -133,5 +133,43 @@ export const FilterHolder = () => {
 
 
         </div>
+    </div>
+}
+
+const F = {
+    container: css({
+        width: '100%',
+        padding: '16px 2px 0px 0px',
+    }),
+    inner: css({
+        margin: '0 auto',
+        width: '100%',
+        // height: '42px',
+        // height: '120px',
+        maxWidth: '800px',
+        background: '#272732',
+        borderRadius: '8px',
+        overflow: 'hidden',
+        position: 'relative',
+        display: 'flex',
+        padding: '16px 8px',
+        justifyContent: 'space-between',
+    }),
+}
+export const CommentHolder = () => {
+
+    return <div css={F.container}>
+        <div css={F.inner}>
+
+            <div css={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <Skeleton variant="rounded" animation="wave" width={36} height={36} />
+                <Skeleton variant="rounded" animation="wave" width={80} height={20} />
+            </div>
+            <Skeleton variant="rounded" animation="wave" width={36} height={36} />
+        </div>
+
+
+
+
     </div>
 }

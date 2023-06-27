@@ -7,11 +7,12 @@ import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import { useParams } from 'react-router-dom'
 import usePerson from 'Hooks/Pull/usePerson'
 import PersonFilter from 'Stories/Bits/Filter/PersonFilter'
-import { personFilter} from 'State/filterAtoms'
+import { personFilter } from 'State/filterAtoms'
 import usePersonList from 'Hooks/Pull/usePersonList'
 import VirtuList from '../VirtualList/VirtuList'
 import { mainSizeState } from 'State/Data'
 import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter'
+import { FilterHolder, HeadHolder, PostHolder } from './PlaceHolders'
 
 const C = {
     container: css({
@@ -38,22 +39,28 @@ const PersonList = () => {
 
     return (
         <motion.div
+            key={params.person_id}
             css={C.container}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.1 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
         >
 
+
             <div css={{ maxWidth: '800px', width: '100%' }}>
-                {isError || isLoading || isError1 || isLoading1 ? <ChunkError variant={isError ? 'error' : 'loading'} /> :
-                    <VirtuList
-                        list={[
-                            component,
-                            <PersonFilter key={'filter'} />,
-                            ...components]}
-                    />
-                }
+                <VirtuList
+                    list={
+                        (isError || isLoading || isError1 || isLoading1) ?
+                            [<HeadHolder />, <FilterHolder />, <PostHolder />, <PostHolder />, <PostHolder />, <PostHolder />] :
+                            [
+                                component,
+                                <PersonFilter key={'filter'} />,
+                                ...components]}
+                />
             </div>
+
+
+
             {mainSize > 0 &&
                 <div css={{ height: 'min-content', overflow: 'hidden', marginTop: '16px' }}>
                     <GlobalFilter />

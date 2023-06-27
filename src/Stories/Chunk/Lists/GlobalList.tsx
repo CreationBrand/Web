@@ -14,7 +14,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Link } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
-import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
 import { mainSizeState } from 'State/Data'
 import { PostHolder } from './PlaceHolders'
 
@@ -65,7 +64,7 @@ const GlobalList = ({ type }: any) => {
         <motion.div
             key={type}
             css={C.container}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.1 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
         >

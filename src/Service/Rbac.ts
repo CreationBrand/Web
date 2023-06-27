@@ -98,3 +98,10 @@ export const isMuted = (set: any) => {
     if (Boolean(bs.get(4) !== 0)) return true
     return false
 };
+
+    export const isPublic = (set: any) => {
+        if (set === null) return false
+        let bs = new BitSet(`0x${set}`)
+        if (Boolean(bs.get(5) !== 0)) return true
+        return false
+    };

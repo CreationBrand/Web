@@ -1,16 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import VirtualList from '../VirtualList/VirtualList';
 import useSearch from 'Hooks/useSearch';
 import SearchPane from 'Stories/Bits/Filter/SearchPane';
-import ChunkError from 'Stories/Bits/ChunkError/ChunkError';
 import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter';
 import VirtuList from '../VirtualList/VirtuList';
 import { useRecoilValue } from 'recoil';
 import { mainSizeState } from 'State/Data';
+import { FilterHolder, PostHolder } from './PlaceHolders';
 
 const C = {
     container: css({
@@ -34,6 +34,7 @@ const SearchList = () => {
 
     return (
         <motion.div
+            key={params.query}
             css={C.container}
             transition={{ duration: 0.1 }}
             initial={{ opacity: 0 }}
@@ -41,15 +42,15 @@ const SearchList = () => {
         >
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
-
-                {isError || isLoading ? <ChunkError variant={isError ? 'error' : 'loading'} /> :
-                    <VirtuList
-                        list={[
-                            <SearchPane value={filter} onChange={setFilter} />,
-                            ...components
-                        ]}
-                    />
-                }
+                <VirtuList
+                    list={
+                        (isError || isLoading ?
+                            [<FilterHolder />, <PostHolder />, <PostHolder />, <PostHolder />, <PostHolder />] :
+                            [
+                                <SearchPane value={filter} onChange={setFilter} />,
+                                ...components
+                            ])}
+                />
             </div>
 
             {mainSize > 0 &&

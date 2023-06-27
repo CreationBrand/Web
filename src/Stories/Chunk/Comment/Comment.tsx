@@ -228,7 +228,7 @@ const Comment = (props: any) => {
 
                         <div css={{ height: '36px', display: 'flex', flexDirection: 'column', justifyContent: 'center', }}>
 
-                            <div css={{ display: 'flex', alignItems: 'center', gap: '4px', lineHeight: '14px' }}>
+                            <div css={{ display: 'flex', alignItems: 'center', gap: '4px', lineHeight: '16px' }}>
                                 <Nickname title={author?.nickname} public_id={author?.public_id} global_roles={global_roles} />
                                 <span css={time}><TimeAgo date={created_at} formatter={formatTime} /></span>
                             </div>

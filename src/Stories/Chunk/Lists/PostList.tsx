@@ -24,7 +24,7 @@ import { communityListData, mainSizeState } from 'State/Data'
 import VirtuList from '../VirtualList/VirtuList'
 import useCommentList from 'Hooks/Pull/useCommentList'
 import useIsMuted from 'Hooks/Util/useIsMuted'
-import { PostHolder } from './PlaceHolders'
+import { CommentHolder, FilterHolder, PostHolder } from './PlaceHolders'
 
 
 const C = {
@@ -101,7 +101,7 @@ const PostList = () => {
                     public_id={params.post_id}
                     overscan={10}
                     list={
-                        (isError || isError2 || isLoading || isLoading2) ? [<PostHolder />] :
+                        (isError || isError2 || isLoading || isLoading2) ? [<PostHolder />, <FilterHolder />, <CommentHolder />, <CommentHolder />,] :
                             [
                                 component,
                                 <div key={'component'} css={{ maxWidth: '800px', margin: 'auto', marginTop: '8px', display: 'flex', flexDirection: 'column' }}>

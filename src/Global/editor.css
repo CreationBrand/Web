@@ -12,7 +12,7 @@
 }
 
 blockquote {
-    border-left: #dbdee1 4px solid;
+    border-left: #cabcda 4px solid;
     padding-left: 8px;
     margin: 0px !important;
     font-family: 'noto sans';
@@ -38,7 +38,7 @@ p {
 .ql-syntax {
     font-size: 14px;
     padding: 12px 8px;
-    background: #181820;
+    background: #181820 !important;
     border-radius: 8px;
     width: 100%;
     text-wrap: wrap;
@@ -63,4 +63,10 @@ p > img {
     max-height: 400px;
     width:100%;
     object-fit: contain;
+}
+
+
+#text > ol , ul {
+    padding-left: 20px;
+    margin: 0px !important;
 }

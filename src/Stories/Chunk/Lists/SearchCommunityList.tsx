@@ -1,14 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+
 import { motion } from 'framer-motion';
 import { useParams } from 'react-router-dom';
-import VirtualList from '../VirtualList/VirtualList';
 import CommunitySearchFilter from 'Stories/Bits/Filter/CommunitySearchFilter';
 import useCommunitySearch from 'Hooks/Pull/useCommunitySearch';
-import useCommunityFlow from 'Hooks/useCommunityFlow';
 import usePullCommunity from 'Hooks/usePullCommunity';
-import ChunkError from 'Stories/Bits/ChunkError/MiniError';
 import VirtuList from '../VirtualList/VirtuList';
+import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter';
+import { FilterHolder, PostHolder } from './PlaceHolders';
+import { useRecoilValue } from 'recoil';
+import { mainSizeState } from 'State/Data';
 
 const C = {
     container: css({
@@ -16,8 +18,8 @@ const C = {
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
+        gap: '12px',
         zIndex: 100,
         background: '#0f0e10',
     })
@@ -26,13 +28,11 @@ const C = {
 const SearchCommunityList = () => {
 
     const params: any = useParams()
+    const mainSize = useRecoilValue(mainSizeState)
+
 
     const [isLoading, isError, components] = useCommunitySearch(params.community_id, params.query)
     const [isLoading1, isError1, component, data] = usePullCommunity(params.community_id)
-
-
-    if (isError1 || isError) return <ChunkError variant='error' />
-    if (isLoading1 || isLoading) return <ChunkError variant='loading' />
 
 
     return (
@@ -40,15 +40,29 @@ const SearchCommunityList = () => {
             key={params.query}
             css={C.container}
             transition={{ duration: 0.1 }}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, }}
+            animate={{ opacity: 1, }}
         >
-            <VirtuList
-             list={[
-                component,
-                <CommunitySearchFilter />,
-                ...components
-            ]} />
+
+
+            <div css={{ maxWidth: '800px', width: '100%' }}>
+                <VirtuList
+                    list={
+                        (isError || isLoading || isError1 || isLoading1) ?
+                            [<FilterHolder />, <PostHolder />, <PostHolder />, <PostHolder />, <PostHolder />] :
+                            [
+                                component,
+                                <CommunitySearchFilter />,
+                                ...components
+                            ]}
+                />
+            </div>
+
+            {mainSize > 0 &&
+                <div css={{ height: 'min-content', overflow: 'hidden', marginTop: '16px' }}>
+                    <GlobalFilter />
+                </div>}
+
         </motion.div>
     )
 
