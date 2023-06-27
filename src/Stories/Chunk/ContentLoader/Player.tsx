@@ -37,6 +37,9 @@ const C = {
             height: 'auto',
             borderRadius: '8px',
 
+
+            
+
         }
     }), error: css({
         width: '100%',
@@ -195,6 +198,7 @@ const Viewer = ({ url, open, onClose }: any) => {
             >
 
                 <ReactPlayer
+
                     playing={true}
                     controls
                     url={url}

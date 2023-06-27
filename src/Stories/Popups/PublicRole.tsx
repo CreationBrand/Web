@@ -12,6 +12,7 @@ import { layoutSizeData } from "State/Data";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isPublic } from "Service/Rbac";
 import { communitySync } from "State/Sync";
+import { authFlow } from "State/Flow";
 
 const C = {
     container: css({
@@ -85,7 +86,7 @@ const PublicRole = ({ value, current, community_id }: any) => {
 
     const layoutSize = useRecoilValue(layoutSizeData)
     const [open, setOpen] = useState(false);
-
+    const auth = useRecoilValue(authFlow)
 
     const onClose = () => setOpen(false);
     const onOpen = () => setOpen(true);
@@ -125,6 +126,7 @@ const PublicRole = ({ value, current, community_id }: any) => {
         }
     }
 
+    if(auth === 'guest') return null
 
     return (
         <>
@@ -216,7 +218,8 @@ export default PublicRole
 
 
 function checkPublicIdExists(array: any, public_id: any) {
-    for (let i = 0; i < array.length; i++) {
+    if (!array) return false;
+    for (let i = 0; i < array?.length; i++) {
         if (array[i]?.public_id === public_id) {
             return true; // Public ID exists in the array
         }

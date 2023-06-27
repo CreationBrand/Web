@@ -147,7 +147,7 @@ const C = {
 const Mobile = (props: Props) => {
     const { width, height } = useWindow()
     const auth = useRecoilValue(authFlow)
-
+    const ref = useRef(null)
 
     let map: any = {
         0: -240,
@@ -178,14 +178,13 @@ const Mobile = (props: Props) => {
         }
         if (down) return api.start({ x })
     }, {
-        target: window,
-        eventOptions: { capture: true },
+        target: ref,
         axis: 'x',
-        threshold: 25,
+        // threshold: 25,
         bounds: { left: auth === 'guest' ? 0 : -240, right: 240 },
     })
 
-    return (<div css={C.container} style={{ height: height, width: 480 + width, left: -240 }}>
+    return (<div css={C.container} ref={ref} style={{ height: height, width: 480 + width, left: -240 }}>
 
         <animated.div css={C.left} style={{ x: x, height: height }}>{props.children[0]}</animated.div>
         <animated.div css={C.center} style={{
