@@ -140,6 +140,9 @@ const AddGroup = ({ open, onClose }: any) => {
                         fontSize: "28px",
                     }} />
                 </div>
+
+
+                
                 <div css={C.title}>
                     <div css={textBold('x')}>Create Group</div>
                     <div css={textLight('t')}>Group communitys to create seperate feeds.</div>

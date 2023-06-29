@@ -53,11 +53,11 @@ const DropZone = ({ value, onChange }: any
 
     const onDrop = useCallback(async (acceptedFiles: any) => {
 
-        if (acceptedFiles.length !== 1) {
-            setFiles([])
-            setError(true)
-            return
-        }
+        // if (acceptedFiles.length !== 1) {
+        //     setFiles([])
+        //     setError(true)
+        //     return
+        // }
 
 
 

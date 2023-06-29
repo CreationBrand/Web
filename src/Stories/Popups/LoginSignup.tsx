@@ -4,18 +4,19 @@ import { useForm, Controller } from "react-hook-form";
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Input, Button, Modal, IconButton, InputAdornment } from "@mui/material"
 import { css } from '@emotion/react';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { textLabel, } from "Global/Mixins";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { authFlow } from "State/Flow";
 import { loginCognito, reSendCode, signUpCognito, verifyEmail } from "Service/Cognito";
 import Joi from "joi";
 import { joiResolver } from "@hookform/resolvers/joi";
 import FlatInput from "Stories/Forum/FlatInput";
+import { layoutSizeData } from "State/Data";
 
 const C = {
     container: css({
@@ -113,11 +114,12 @@ const verifySchema = Joi.object({
     email: Joi.string(),
 })
 
-const LoginSignup = ({ open, handleClose }: any) => {
+const LoginSignup = ({ open, onClose }: any) => {
 
     const [loading, setLoading] = useState(false);
     const [view, setView] = useState('login')
     const [auth, setAuth] = useRecoilState(authFlow)
+    const layoutSize = useRecoilValue(layoutSizeData)
 
     const { handleSubmit, control, formState: { errors }, reset, watch, setError } = useForm({
         mode: 'onChange',
@@ -129,12 +131,11 @@ const LoginSignup = ({ open, handleClose }: any) => {
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: any) => event.preventDefault();
-    const navigate = useNavigate()
 
 
     const onSubmit = handleSubmit(async (data) => {
         setLoading(true)
-      
+
 
         if (view === 'login') {
             let status = await loginCognito(data.username, data.password)
@@ -177,16 +178,16 @@ const LoginSignup = ({ open, handleClose }: any) => {
     }
 
     return (
-        <Modal open={open} onClose={handleClose} css={C.container} >
+        <Modal open={open} onClose={onClose} css={C.container} >
             <div css={C.popup}>
 
                 <div
-                    onClick={handleClose}
+                    onClick={onClose}
                     css={{
                         cursor: "pointer",
-                        position: "fixed",
-                        top: "40px",
-                        right: "56px",
+                        position: layoutSize === 'mobile' ? "absolute" : "fixed",
+                        top: layoutSize === 'mobile' ? "8px" : "40px",
+                        right: layoutSize === 'mobile' ? "8px" : "56px",
                         zIndex: 4,
                         width: "44px",
                         height: "44px",
@@ -195,7 +196,6 @@ const LoginSignup = ({ open, handleClose }: any) => {
                         fontSize: "0",
                         WebkitTransition: "border-color .2s",
                         transition: "border-color .2s",
-
                         '&:hover': {
                             borderColor: '#fff'
                         },
@@ -228,6 +228,7 @@ const LoginSignup = ({ open, handleClose }: any) => {
 
                             css={C.form}>
                             <div css={{
+                                textAlign: "center",
                                 marginBottom: "26px",
                                 fontSize: "28px",
                                 fontWeight: 450,
@@ -369,6 +370,7 @@ const LoginSignup = ({ open, handleClose }: any) => {
 
                             css={C.form}>
                             <div css={{
+                                textAlign: "center",
                                 marginBottom: "26px",
                                 fontSize: "28px",
                                 fontWeight: 450,
@@ -535,3 +537,25 @@ const LoginSignup = ({ open, handleClose }: any) => {
 
 
 export default LoginSignup
+
+
+
+// const usePreventBackNavigation = (open: any, onClose: any) => {
+//     const navigate = useNavigate();
+//     useEffect(() => {
+//         const handleBeforeUnload = (event: any) => {
+//             console.log('prevent back', open)
+//             if (!open) return;
+//             onClose()
+//             event.preventDefault();
+//             event.returnValue = "";
+//             navigate(1);
+//             console.log('prevent back')
+//         };
+//         window.onpopstate = handleBeforeUnload;
+//         return () => {
+//             window.onpopstate = handleBeforeUnload;
+//         };
+//     }, [navigate]);
+
+// };

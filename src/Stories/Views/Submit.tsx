@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import { useForm, Controller } from "react-hook-form";
 import { Divider, Button, Tab } from "@mui/material"
 import { useState } from "react";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { LoadingButton, TabContext, TabList, TabPanel } from "@mui/lab";
 import { useRecoilValue } from "recoil";
 
 import { personData } from 'State/Data';
@@ -133,11 +133,24 @@ const Submit = () => {
                     <section css={{ padding: 16 }}>
                         <div css={C.row}>
                             <div css={header}>Create a Post</div>
-                            <Button
+
+                            <LoadingButton
+                                loadingIndicator="Loading…"
+                                loading={loading}
                                 disabled={Boolean(Object.keys(errors).length) || data.title === '' || data.community_id === undefined}
                                 disableElevation
                                 sx={roundButton}
-                                onMouseDown={onSubmit} variant='contained'>Submit</Button>
+                                onMouseDown={onSubmit} variant='contained'
+                            >
+                                Submit
+                            </LoadingButton>
+
+
+
+
+
+
+
                         </div>
                     </section>
 

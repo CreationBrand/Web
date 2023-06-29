@@ -34,6 +34,9 @@ const Preview = () => {
     const [last, setLast]: any = useState(false)
     const location = useLocation()
 
+
+    console.log(showLogin)
+
     useEffect(() => {
         let parts = location.pathname.split('/')
         if (location.pathname === '/trending') setLast('trending')
@@ -44,7 +47,7 @@ const Preview = () => {
 
     return (
         <>
-            <LoginSignup open={showLogin} handleClose={() => setShowLogin(false)} />
+            {showLogin && <LoginSignup open={showLogin} onClose={() => setShowLogin(false)} />}
             <Tri left={l} right={false}>
 
                 <Left>
