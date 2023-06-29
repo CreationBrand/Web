@@ -20,7 +20,7 @@ const useCommunity = (community_id: any) => {
     }, [community_id])
 
     useEffect(() => {
-
+        if (!community_id) return
         (async () => {
             if (inSync?.community?.public_id) {
                 console.log('%c [SYNC] ', 'font-weight: bold; color: #0F0', `Community: ${inSync?.community.public_id}`);

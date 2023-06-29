@@ -1,30 +1,38 @@
-import { useEffect, useState, } from 'react'
-import { socketRequest } from 'Service/Socket'
-import TTLCache from '@isaacs/ttlcache';
 
-const cache = new TTLCache({ max: 10000, ttl: 300000 })
+import { useEffect, useState } from "react"
+import { useRecoilState, useRecoilTransaction_UNSTABLE } from "recoil";
+import { socketRequest } from "Service/Socket";
+import { communitySync } from "State/Sync";
 
-const useCommunityData = (public_id: string) => {
-    const [data, setData]: any = useState(null)
+const useCommunityData = (community_id: any) => {
+
+    const [data, setData]: any = useState(false)
+    const [inSync, setSync] = useRecoilState(communitySync(community_id))
 
     useEffect(() => {
-
-        if (!public_id) return 
+        if (!community_id) return
         (async () => {
-            if (cache.has(`community:${public_id}`)) {
-                setData(cache.get(`community:${public_id}`))
+            if (Object.keys(inSync).length > 0) {
+                console.log('%c [SYNC] ', 'font-weight: bold; color: #0F0', `Community: ${inSync?.community?.public_id}`);
+                setData(inSync)
                 return
-            } else {
-                let temp: any = await socketRequest('community', { community_id: public_id })
-                setData(temp)
-                cache.set(`community:${public_id}`, temp)
             }
+            let req: any = await socketRequest('community', { community_id: community_id })
+            console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `Community: ${community_id}`);
+            setData(req)
+            setItem(req)
         })()
-    }, [public_id])
+    }, [community_id])
 
+    const setItem = useRecoilTransaction_UNSTABLE(
+        ({ set }) => (listItems: any) => {
+            console.log('%c [SYNC] ', 'font-weight: bold; color: #0F0', `Community: ${listItems?.community?.public_id}`);
+            set(communitySync(listItems?.community?.public_id), listItems);
+        },
+        []
+    );
 
     return data
-
 }
 
 

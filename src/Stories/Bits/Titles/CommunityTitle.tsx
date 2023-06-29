@@ -46,6 +46,8 @@ const CommunityTitle = ({ title, public_id }: any) => {
     const [anchorEl, setAnchorEl] = useState(null)
     const handleHover = (event: any) => setAnchorEl(event.target)
 
+
+    if (!title || !public_id) return null
     return (
         <PopupState variant="popover" popupId="community-title">
             {(popupState) => (
@@ -131,113 +133,106 @@ let Preview = ({ public_id }: any) => {
         setIsMember(hasMatchingId)
     }, [public_id])
 
+    if (!data) return null
 
     return (<AnimatePresence mode='popLayout'>
 
-        {!data ? <motion.div
-            key={`error`}
+        <motion.div
+            key={`preview`}
             transition={{ duration: 0.4 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            css={D.container}><MiniError variant="loading" /></motion.div>
-            :
-            <motion.div
-                key={`preview`}
-                transition={{ duration: 0.4 }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                css={D.container}>
+            css={D.container}>
 
 
-                <img css={D.banner}
-                    onError={handleImgError}
-                    src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.community.public_id}`} />
+            <img css={D.banner}
+                onError={handleImgError}
+                src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.community.public_id}`} />
 
 
+            <div css={{
+                padding: '12px 12px 0px 12px',
+                display: 'flex',
+                gap: '8px',
+                alignItems: 'center',
+
+            }}>
+                <Avatar size='medium' public_id={public_id} />
                 <div css={{
-                    padding: '12px 12px 0px 12px',
-                    display: 'flex',
-                    gap: '8px',
-                    alignItems: 'center',
-
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
                 }}>
-                    <Avatar size='medium' public_id={public_id} />
-                    <div css={{
-                        textOverflow: "ellipsis",
+                    <h4 css={{
+                        fontSize: '16px', textOverflow: "ellipsis",
                         overflow: "hidden",
                         whiteSpace: "nowrap",
-                    }}>
-                        <h4 css={{
-                            fontSize: '16px', textOverflow: "ellipsis",
-                            overflow: "hidden",
-                            whiteSpace: "nowrap",
-                        }}>{data.community.title}</h4>
-                    </div>
-
-                    {authState !== 'guest' && <div css={D.action}>
-                        <Button
-                            disabled={isAdmin(data?.communityHex)}
-                            onClick={handleJoin}
-                            disableElevation
-                            sx={{
-                                marginLeft: 'auto !important',
-                                fontFamily: 'Noto Sans',
-                                background: '#0f0e10',
-                                borderRadius: '16px',
-                                fontSize: '12px',
-                                fontWeight: '700',
-                            }}
-                            variant="contained">{isMember ? 'LEAVE' : 'JOIN'}</Button>
-                    </div>
-                    }
-
+                    }}>{data.community.title}</h4>
                 </div>
-                {data.community.description !== "undefined" &&
-                    <div css={{
-                        padding: '12px 16px 0px 16px',
-                        fontSize: '14px',
-                        color: '#dbdee1',
-                    }}>
-                        <ReactMarkdown children={data.community.description} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
 
-                    </div>
+                {authState !== 'guest' && <div css={D.action}>
+                    <Button
+                        disabled={isAdmin(data?.communityHex)}
+                        onClick={handleJoin}
+                        disableElevation
+                        sx={{
+                            marginLeft: 'auto !important',
+                            fontFamily: 'Noto Sans',
+                            background: '#0f0e10',
+                            borderRadius: '16px',
+                            fontSize: '12px',
+                            fontWeight: '700',
+                        }}
+                        variant="contained">{isMember ? 'LEAVE' : 'JOIN'}</Button>
+                </div>
                 }
 
-
+            </div>
+            {data.community.description !== "undefined" &&
                 <div css={{
                     padding: '12px 16px 0px 16px',
                     fontSize: '14px',
-                    display: 'flex',
-                    gap: '18px',
+                    color: '#dbdee1',
                 }}>
-                    <div>
-                        <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Members</div>
-                        <div css={{
-                            color: '#fff',
-                            fontWeight: 700,
-                        }}>
-                            <span css={{
-                                display: ' inline-block',
-                                width: '10px',
-                                height: '10px',
-                                borderRadius: '50%',
-                                background: '#c4c9ce',
-                                marginRight: '4px',
-                            }} />{data.community.subscribers}</div>
-                    </div>
-                    <div>
-                        <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Online</div>
-                        <Online public_id={data.community.public_id} />
+                    <ReactMarkdown children={data.community.description} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
 
-                    </div>
+                </div>
+            }
+
+
+            <div css={{
+                padding: '12px 16px 0px 16px',
+                fontSize: '14px',
+                display: 'flex',
+                gap: '18px',
+            }}>
+                <div>
+                    <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Members</div>
+                    <div css={{
+                        color: '#fff',
+                        fontWeight: 700,
+                    }}>
+                        <span css={{
+                            display: ' inline-block',
+                            width: '10px',
+                            height: '10px',
+                            borderRadius: '50%',
+                            background: '#c4c9ce',
+                            marginRight: '4px',
+                        }} />{data.community.subscribers}</div>
+                </div>
+                <div>
+                    <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Online</div>
+                    <Online public_id={data.community.public_id} />
 
                 </div>
 
+            </div>
 
-            </motion.div>
-        }
+
+        </motion.div>
+
 
 
 

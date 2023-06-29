@@ -9,6 +9,9 @@ import { authFlow } from 'State/Flow'
 import Comment from 'Stories/Chunk/Comment/Comment'
 import Editor from 'Stories/Bits/Editor/Editor'
 import { commentList, commentSync } from 'State/commentAtoms'
+import { useParams } from 'react-router-dom'
+import { communitySync } from 'State/Sync'
+import useCommunityData from 'Hooks/Pull/useCommunityData'
 
 
 const C = {
@@ -34,6 +37,9 @@ const AddComment = ({ parent_id, post_id, onClose, isMuted }: any) => {
     const [comment, setComment] = useState('')
     const authState = useRecoilValue(authFlow)
     const [list, setList] = useRecoilState(commentList)
+    const params: any = useParams()
+    const community = useCommunityData(params.community_id)
+
 
     const sync = useRecoilTransaction_UNSTABLE(
         ({ set }) => (item: any) => {
@@ -50,6 +56,7 @@ const AddComment = ({ parent_id, post_id, onClose, isMuted }: any) => {
             content: comment,
             post_id: post_id,
             parent_id: parent_id,
+            community_id: community.community.public_id,
         })
 
         if (req.status === 'ok') {
@@ -85,7 +92,7 @@ const AddComment = ({ parent_id, post_id, onClose, isMuted }: any) => {
             disabled={authState === 'guest' || isMuted}
             value={comment}
             onChange={(e: any) => setComment(e)}
-            placeholder={isMuted ? 'You are Muted' : 'Comment your thoughts?' } />
+            placeholder={isMuted ? 'You are Muted' : 'Comment your thoughts?'} />
 
         {
             comment.length > 11 && <Button

@@ -212,12 +212,14 @@ const Comment = (props: any) => {
         else spacers.push(<div css={C.spacerMobile} key={i} style={{ background: colors[i] }} />)
     }
 
+
+
+    if (params.comment_id === public_id) console.log('match')
+
     return (
         <div key={public_id} css={[C.container]} id="comment">
 
             <div css={C.inner}>
-
-
                 <div css={C.spacers}>{spacers}</div>
 
                 <div css={[C.comment, { marginLeft: layoutState === 'mobile' ? '4px' : '0px' }]}>

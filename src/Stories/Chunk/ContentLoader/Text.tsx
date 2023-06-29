@@ -3,8 +3,9 @@ import { css } from '@emotion/react'
 import { contentFlow } from 'State/Flow';
 import { hasSeen } from 'State/seenAtom';
 
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown"
+import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import rehypeRaw from 'rehype-raw';
 
@@ -39,12 +40,34 @@ const C = {
 }
 
 const Text = ({ content, public_id, view }: any) => {
+    const ref: any = useRef(null)
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!ref.current) return;
+        ref.current.addEventListener('click', (event: any) => {
+            const target: any = event.target;
+            target.setAttribute("contentEditable", false);
+            if (event.target.className === 'mention') {
+                event.preventDefault();
+                const href = target.getAttribute('link');
+                navigate(href);
+            }
+        });
+
+    }, [])
+
 
     return (
+
         <div
+
+            ref={ref}
             id={'text'}
             css={[view === 'list' && C.tailed, C.container]}>
-            <ReactMarkdown children={content} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
+            <ReactMarkdown
+
+                children={content} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
         </div>
 
     )

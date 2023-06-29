@@ -176,11 +176,11 @@ const Mobile = (props: Props) => {
                 return api.start({ x: 0 })
             }
         }
-        if (down) return api.start({ x })
+        if (down) return api.start({ x, immmediate: down })
     }, {
         target: ref,
         axis: 'x',
-        // threshold: 25,
+        threshold: 100,
         bounds: { left: auth === 'guest' ? 0 : -240, right: 240 },
     })
 

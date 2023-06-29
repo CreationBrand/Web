@@ -116,7 +116,7 @@ const PostList = () => {
                 <div css={{ height: 'min-content', marginTop: '16px' }}>
                     {mainSize === 1 ? null :
                         data ?
-                            <Link css={{ all: 'unset' }} to={`/c/${data.community.public_id}`}>
+                            <Link css={{ all: 'unset' }} to={`/c/${data?.community?.public_id}`}>
 
                                 <motion.div
                                     key={`preview`
@@ -130,7 +130,7 @@ const PostList = () => {
 
                                     <img css={D.banner}
                                         onError={handleImgError}
-                                        src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.community.public_id}`} />
+                                        src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data?.community?.public_id}`} />
 
                                     <div css={{
                                         padding: '12px 0px 0px 0px',
@@ -150,7 +150,7 @@ const PostList = () => {
                                                 fontSize: '16px', textOverflow: "ellipsis",
                                                 overflow: "hidden",
                                                 whiteSpace: "nowrap",
-                                            }}>{data.community.title}</h4>
+                                            }}>{data?.community?.title}</h4>
                                         </div>
 
 
@@ -175,11 +175,11 @@ const PostList = () => {
                                                     borderRadius: '50%',
                                                     background: '#c4c9ce',
                                                     marginRight: '4px',
-                                                }} />{data.community.subscribers}</div>
+                                                }} />{data?.community?.subscribers}</div>
                                         </div>
                                         <div>
                                             <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Online</div>
-                                            <Online public_id={data.community.public_id} />
+                                            <Online public_id={data?.community?.public_id} />
 
                                         </div>
 

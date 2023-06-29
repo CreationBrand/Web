@@ -3,10 +3,10 @@
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
 import { memo } from 'react'
-import useCommunityFlow from 'Hooks/useCommunityFlow'
 import VirtuList from '../VirtualList/VirtuList'
 import useNotiList from 'Hooks/Pull/useNotiList'
 import useClearNotif from 'Hooks/useClearNotif'
+import { FilterHolder, PostHolder } from './PlaceHolders'
 
 const C = {
     container: css({
@@ -14,8 +14,8 @@ const C = {
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
+        gap: '12px',
         zIndex: 100,
         background: '#0f0e10',
     }),
@@ -26,7 +26,6 @@ const NotiList = ({ type }: any) => {
     const [isLoading, isError, components] = useNotiList()
 
     useClearNotif('noti')
-    useCommunityFlow(null)
 
     return (
         <motion.div
@@ -36,7 +35,17 @@ const NotiList = ({ type }: any) => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
         >
-            <VirtuList list={components} />
+
+            <div css={{ maxWidth: '800px', width: '100%' }}>
+                <VirtuList
+                    list={
+                        (isError || isLoading) ?
+                            [<FilterHolder />, <PostHolder />, <PostHolder />, <PostHolder />, <PostHolder />] :
+                            components
+                    }
+                />
+            </div>
+
         </motion.div>
     )
 }

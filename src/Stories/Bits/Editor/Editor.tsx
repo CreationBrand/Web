@@ -1,10 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { layoutSizeData } from 'State/Data'
 
+import { layoutSizeData } from 'State/Data'
 import ReactQuill from 'react-quill'
 import { useRecoilValue } from 'recoil'
-// import 'react-quill/dist/quill.snow.css'
+import "quill-mention";
+import { socketRequest } from 'Service/Socket';
+import 'quill/dist/quill.snow.css';
+import throttle from 'Util/throttle';
+
+import './mention'
+
 
 const C = {
     container: css({
@@ -86,7 +92,7 @@ const C = {
             borderRadius: '8px',
             padding: '0px 0px',
         },
-        '.ql-tooltip':{
+        '.ql-tooltip': {
             background: '#0f0e10',
             // zIndex: 500,
             // position:'relative',
@@ -95,29 +101,100 @@ const C = {
     })
 }
 
+const search = throttle(async (searchTerm: any, renderList: any, mentionChar: any) => {
+    let values: any;
+
+    if (mentionChar === "@") {
+        let res: any = await socketRequest('mention-person', { query: searchTerm });
+        values = res.persons;
+    } else if (mentionChar === "#") {
+        let res: any = await socketRequest('mention-community', { query: searchTerm });
+        values = res.communitys;
+    }
+
+    if (searchTerm.length === 0) {
+        renderList(values, searchTerm);
+    }
+
+    else {
+        const matches = [];
+        if (values.length === 0) return
+        for (let i = 0; i < values.length; i++) {
+
+            if (mentionChar === "@") {
+                matches.push({
+                    id: values[i].public_id,
+                    value: values[i].username,
+                    link: `/p/${values[i].public_id}`,
+                    text: values[i].username,
+                });
+            } else if (mentionChar === "#") {
+                matches.push({
+                    id: values[i].public_id,
+                    value: values[i].title,
+                    link: `/c/${values[i].public_id}`,
+                    text: values[i].title,
+                });
+            }
+        }
+        renderList(matches);
+    }
+}, 200)
 
 let desktop = {
     toolbar: [
         [{ 'header': 1 }],
-        ['bold', 'italic', 'underline', 'strike'],
+        ['bold', 'italic', 'underline', 'strike', 'link'],
         ['blockquote', 'code-block'],
         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
         ['clean']
     ],
+    mention: {
+        allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
+        mentionDenotationChars: ["@", "#"],
+        dataAttributes: ['id', 'value', 'link', 'denotationChar', 'text'],
+        source: search,
+        renderItem: function (item: any, searchTerm: any) {
+            return item.value
+        },
+        blobName: 'mention2',
+    },
 
 }
 
 
-
+const formats: any = [
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'code-block',
+    'list',
+    'bullet',
+    'link',
+    'mention',
+]
 
 const mobile = {
     toolbar: [
         [{ 'header': 1 }],
         ['bold', 'italic', 'underline', 'strike'],
         ['blockquote', 'code-block'],
-
     ],
+    mention: {
+        allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
+        mentionDenotationChars: ["@", "#"],
+        dataAttributes: ['id', 'value', 'link', 'denotationChar', 'text'],
+        source: search,
+        renderItem: function (item: any, searchTerm: any) {
+            return item.value
+        },
+        blobName: 'mention2',
+    },
 }
+
 
 
 
@@ -125,28 +202,26 @@ const Editor = ({ value, onChange, lock, placeholder, disabled }: any) => {
 
     const layout = useRecoilValue(layoutSizeData)
 
-
-
     return (
+
         <ReactQuill
             readOnly={disabled}
             preserveWhitespace
             id={'text'}
             css={[
                 C.editor,
-                lock && {
-                    height: lock,
-
-                }
+                lock && { height: lock }
             ]}
+            formats={formats}
             modules={layout === 'mobile' ? mobile : desktop}
-            // theme="snow"
             placeholder={placeholder}
             value={value}
             onChange={onChange}
-
         />
     )
+
+
+
 }
 
 export default Editor

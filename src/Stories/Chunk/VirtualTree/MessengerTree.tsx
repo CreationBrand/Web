@@ -2,23 +2,22 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react"
 
-import { textLabel,} from "Global/Mixins";
-import useMessengerTree from "Hooks/useMessengerTree";
+import { textLabel, } from "Global/Mixins";
 import { Tree } from "react-arborist";
 import Leaf from "./Leaf";
 import MessengerFilter from "Stories/Bits/MessengerFilter/MessengerFilter";
 import { useState } from "react";
-import { faFire,  faHouseUser,  faUser } from "@fortawesome/free-solid-svg-icons";
+import { faFire, faHouseUser, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useWindow from "Hooks/useWindow";
 import { useRecoilValue } from "recoil";
-import { personData } from "State/Data";
+import { messengerTreeData, personData } from "State/Data";
 
 
 
 const MessengerTree = () => {
 
-    const tree = useMessengerTree();
+    const tree = useRecoilValue(messengerTreeData)
     const person = useRecoilValue(personData)
     const [filter, setFilter]: any = useState('active')
     const [search, setSearch] = useState('')

@@ -53,6 +53,14 @@ const DropZone = ({ value, onChange }: any
 
     const onDrop = useCallback(async (acceptedFiles: any) => {
 
+        if (acceptedFiles.length !== 1) {
+            setFiles([])
+            setError(true)
+            return
+        }
+
+
+
         if (acceptedFiles.length === 1 && acceptedFiles[0].type === 'video/mp4') {
             if (acceptedFiles[0].size > 10000000) {
                 setFiles([])
@@ -87,7 +95,7 @@ const DropZone = ({ value, onChange }: any
             type: 'image',
             source: temp,
             files: buffers,
-        })        
+        })
         setError(false)
 
     }, [])
