@@ -28,6 +28,11 @@ var Private = () => {
                 return setContentFlow('global')
             case parts[1] === 'home':
                 return setContentFlow('global')
+            case parts[1] === 'search':
+                return setContentFlow('search')
+
+            case parts[1] === 'c' && parts[3] === 'search':
+                return setContentFlow('searchCommunity')
             case parts[1] === 'c' && parts.length === 3:
                 return setContentFlow('community')
             case parts[1] === 'c' && parts[3] === 'p':

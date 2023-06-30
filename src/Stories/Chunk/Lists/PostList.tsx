@@ -25,6 +25,7 @@ import VirtuList from '../VirtualList/VirtuList'
 import useCommentList from 'Hooks/Pull/useCommentList'
 import useIsMuted from 'Hooks/Util/useIsMuted'
 import { CommentHolder, FilterHolder, PostHolder } from './PlaceHolders'
+import useLinkPost from 'Hooks/Link/useLinkPost'
 
 
 const C = {
@@ -77,6 +78,9 @@ const PostList = () => {
     const isMuted = useIsMuted(params.community_id)
 
 
+    useLinkPost(params.post_id, true)
+
+
     useEffect(() => {
         see((o: any) => [...o, params.post_id])
     }, [params.post_id])
@@ -87,7 +91,7 @@ const PostList = () => {
 
     return (
         <motion.div
-            key={`Post:${params.post_id}`}
+            key={params.post_id}
             css={C.container}
             transition={{ duration: 0.1 }}
             initial={{ opacity: 0 }}

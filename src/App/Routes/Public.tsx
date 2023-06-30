@@ -18,8 +18,10 @@ var Public = () => {
     const location = useLocation()
     const [value, setContentFlow] = useRecoilState(contentFlow)
 
+
     useEffect(() => {
         let parts: any = location.pathname.split('/')
+        console.log(parts)
         switch (true) {
             case parts[1] === 'trending':
                 return setContentFlow('global')
@@ -27,6 +29,8 @@ var Public = () => {
                 return setContentFlow('global')
             case parts[1] === 'c' && parts.length === 3:
                 return setContentFlow('community')
+            case parts[1] === 'search':
+                return setContentFlow('search')
             case parts[1] === 'c' && parts[4] === 'p':
                 return setContentFlow('post')
             case parts[1] === 'c' && parts[4] === 'p' && parts[6] === 'c':

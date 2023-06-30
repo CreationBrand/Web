@@ -31,7 +31,7 @@ const C = {
         display: 'flex',
         alignItems: 'center',
         fontWeight: 600,
-        color: '#f2f3f5',
+        color: '#fff',
         textDecoration: 'none',
         textDecorationThickness: '2px !important',
         ':hover': {

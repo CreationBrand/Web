@@ -3,12 +3,17 @@
 import { css } from '@emotion/react'
 
 
-
+import { time } from 'Global/Mixins';
+import { formatTime } from 'Util/formatTime';
+// @ts-ignore
+import TimeAgo from 'react-timeago'
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 
 import { useEffect, useState } from "react"
 import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue } from "recoil";
 import { socketRequest } from "Service/Socket";
-import { postList, postSync} from "State/postAtoms";
+import { postList, postSync } from "State/postAtoms";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import Post from "Stories/Chunk/Post/Post";
 import { useNavigate } from 'react-router-dom';
@@ -22,11 +27,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import TTLCache from '@isaacs/ttlcache';
 import { set } from 'react-hook-form';
+import Avatar from 'Stories/Bits/Avatar/Avatar';
+import LiveVotes from 'Stories/Alive/LiveVotes';
 const cache = new TTLCache({ max: 10000, ttl: 60000 })
 
 let end: boolean = false
 
-const usePersonList = (person_id: any, filter:any) => {
+const usePersonList = (person_id: any, filter: any) => {
 
     const [components, setComponents]: any = useRecoilState(personList)
     const [cursor, setCursor] = useState(false)
@@ -60,7 +67,7 @@ const usePersonList = (person_id: any, filter:any) => {
                 }
 
 
-                else if (filter === 'COMMENT'){
+                else if (filter === 'COMMENT') {
                     if (cache.has(`comments:${person_id}:${filter}:${cursor}`)) {
                         console.log('%c [CACHE] ', 'font-weight: bold; color: #FF0', `Comments Cursor:${cursor}`);
                         return setComments(cache.get(`comments:${person_id}:${filter}:${cursor}`))
@@ -134,39 +141,36 @@ export default usePersonList
 
 const C = {
     container: css({
-        width: '100%',
-        display: 'flex',
-        height: 'auto',
-        alignItems: 'stretch',
-        position: 'relative',
-        marginTop: '8px',
-
-    }),
-    inner: css({
         cursor: 'pointer',
-        width: '100%',
-        maxWidth: '800px',
-        margin: '0 auto',
+        marginTop: '8px',
         background: '#272732',
         borderRadius: '8px',
-        padding: '0px 8px',
-        paddingBottom: '8px',
+        padding: '8px',
+        gap: '8px',
+        display: 'flex',
+        flexDirection: 'column',
     }),
-    post: css({
-        width: '100%',
 
+    post: css({
         display: 'flex',
         gap: '8px',
-        padding: '8px 0px',
-        fontSize: '14px',
-        color: '#d7dadc',
-        fontWeight: 'bold',
-        borderBottom: '2px solid #181820',
+        fontSize: '12px',
+        color: '#f2f3f5',
+        alignItems: 'center',
+        width: 'min-content',
+        padding: '6px 8px',
+        borderRadius: '8px',
+        background: '#181820',
+        whiteSpace: 'nowrap',
     }),
 }
 
 
 const CommentWithPost = (props: any) => {
+
+
+
+    console.log(props)
 
     const navigate = useNavigate()
 
@@ -176,18 +180,21 @@ const CommentWithPost = (props: any) => {
 
     return (
         <div css={C.container} onClick={handleClick}>
-            <div css={C.inner}>
+
+            <div css={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <div css={C.post}>
-                    <FontAwesomeIcon css={{ fontSize: '20px', color: '#d7dadc' }} icon={faEnvelope} />
+                    <Avatar public_id={props?.community_id} size='tiny' />
                     {props.post_title}
                 </div>
-                <ContentLoader type='text' content={props.content} />
-                <div>
-
-                    {/* <LiveVotes size='small' vote={props.vote} karma={props.karma} public_id={props.public_id} type='comment' /> */}
-
-                </div>
+                <div css={time}><TimeAgo date={props.created_at} formatter={formatTime} /></div>
             </div>
+
+
+            <ContentLoader type='text' content={props.content} />
+
+
+            {/* <LiveVotes vote={props.vote} karma={props.karma} public_id={props.public_id} type='comment' /> */}
+
         </div>
     )
 }

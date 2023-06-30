@@ -161,7 +161,7 @@ const Mobile = (props: Props) => {
     const [{ x, }, api] = useSpring(() => ({ x: map[xPos] }))
 
 
-    const bind = useDrag(({ last, direction: [dx], movement: [x, y], down}) => {
+    const bind = useDrag(({ last, direction: [dx], offset: [x, y], down}) => {
         if (!down) {
             if (x < -200) {
                 setXPos(2)
@@ -180,7 +180,7 @@ const Mobile = (props: Props) => {
     }, {
         target: ref,
         axis: 'x',
-        // threshold: 50,
+        threshold: 100,
         bounds: { left: auth === 'guest' ? 0 : -240, right: 240 },
     })
 

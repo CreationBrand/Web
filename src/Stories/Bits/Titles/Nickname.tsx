@@ -26,7 +26,7 @@ const C = {
         display: 'flex',
         alignItems: 'center',
         fontWeight: 600,
-        color: '#b9b6ba',
+        color: '#b9bbb3',
         textDecoration: 'none',
         textDecorationThickness: '2px !important',
         ':hover': {

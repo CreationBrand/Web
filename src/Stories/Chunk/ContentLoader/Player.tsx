@@ -22,7 +22,7 @@ const C = {
     player: css({
         borderRadius: '8px',
         width: '100%',
-        // width: 'min-content',
+        // maxHeight: '100%',
         overflow: 'hidden',
         position: 'relative',
         '& > div': {

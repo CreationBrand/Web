@@ -27,7 +27,7 @@ const C = {
 
     }),
     popup: css({
-        width: "400px",
+        width: "420px",
         overflow: "hidden",
         color: '#fff',
         background: '#272732',

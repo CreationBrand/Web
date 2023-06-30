@@ -22,11 +22,13 @@ const C = {
         width: '100%',
         height: "40px",
         borderRadius: '20px',
-        padding: "4px 8px 4px 12px",
+        padding: "2px 8px 3px 12px",
         background: '#0f0e10',
         zIndex: '500 !important',
         border: '2px solid #0f0e10',
         display: 'flex',
+        alignItems: 'center',
+        gap: '4px',
         '&:focus': {
             border: '2px solid #0f0e10',
             color: "#fff !important",
@@ -36,21 +38,28 @@ const C = {
         all: 'unset',
         color: '#fff',
         width: '100%',
-        fontSize: '14px',
+        height: '100%',
+        fontSize: '12px',
         fontFamily: 'noto sans !important',
+        overflow: "hidden",
+        whiteSpace: "nowrap",
+        textOverflow: "ellipsis",
     }),
     tag: css({
-        height: "26px",
+        height: "30px",
         padding: "0 4px 0 10px",
         display: "flex",
+        alignItems: "center",
         border: "2px solid #1F1E20",
         background: "#1F1E20",
-        borderRadius: "10px",
+        borderRadius: "16px",
+        gap: "4px",
         outline: "0",
         color: "#D7DADC",
         cursor: "pointer",
-        marginRight: "8px",
         marginTop: "1px",
+
+
         '&:hover': {
             border: '2px solid #6e7071',
             color: "#fff !important",
@@ -100,7 +109,7 @@ const Search2 = () => {
 
     const navigate = useNavigate()
     const current = useCommunityData(params?.community_id)
-    const content = useRecoilValue(contentFlow)
+    const content: any = useRecoilValue(contentFlow)
     const [query, setQuery] = useState('')
 
 
@@ -257,9 +266,8 @@ const Search2 = () => {
     }
 
 
-
     useEffect(() => {
-        if (content === 'community' || content === 'post' || content === 'comment') {
+        if (['community', 'searchCommunity', 'post', 'comment'].includes(content)) {
             setShowTag(true)
         }
         else setShowTag(false)
@@ -285,19 +293,19 @@ const Search2 = () => {
                     }
                     }>
 
-                    <SearchRoundedIcon css={{ marginTop: '3px', marginRight: '4px', color: '#bcbdbe', fontSize: '24px' }} />
+                    <SearchRoundedIcon css={{ marginTop: '2px', marginRight: '0px', color: '#bcbdbe', fontSize: '24px' }} />
 
                     {
                         (showTag && current) && <div
                             onClick={removeTag}
                             css={C.tag}>
+                            <Avatar public_id={current.community.public_id} size='tiny' />
                             <span css={C.tagTitle}>
                                 {current?.community?.title}
                             </span>
                             <CloseRoundedIcon sx={{
                                 position: "relative",
                                 height: "22px",
-                                marginLeft: "2px",
                                 color: 'inherit',
                                 fontSize: "18px",
                             }} />
@@ -319,9 +327,11 @@ const Search2 = () => {
                         <div
                             onClick={handleX}
                             css={{
-                                marginTop: '1px',
                                 cursor: 'pointer',
+                                height: '24px',
+                                width: '24px',
                                 color: '#bcbdbe',
+                                marginBottom: '2px',
                             }}>
                             <CloseRoundedIcon sx={{ fontSize: '26px' }} />
                         </div>}

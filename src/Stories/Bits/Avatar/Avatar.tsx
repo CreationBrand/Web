@@ -9,7 +9,7 @@ let sizeMap: any = {
     extra: '80px',
 }
 let radiusMap: any = {
-    tiny: '4px',
+    tiny: '24px',
     small: '8px',
     medium: '8px',
     large: '16px',
