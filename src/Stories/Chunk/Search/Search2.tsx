@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-
 import { layoutSizeData, searchState } from 'State/Data';
 import { useState, useEffect, memo, useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -12,10 +11,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { textLabel } from 'Global/Mixins';
 import Avatar from 'Stories/Bits/Avatar/Avatar';
 import { socketRequest } from 'Service/Socket';
-import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import { set } from 'react-hook-form';
 
 const C = {
     container: css({
@@ -100,16 +97,19 @@ const C = {
 
 const Search2 = () => {
 
-    const [searches, setSearches] = useRecoilState(searchState)
 
-    const params: any = useParams()
+    const [searches, setSearches] = useRecoilState(searchState)
     const [anchorEl, setAnchorEl]: any = useState(null);
     let layoutSize = useRecoilValue(layoutSizeData)
+
+    const params: any = useParams()
     const [showTag, setShowTag] = useState(false)
 
     const navigate = useNavigate()
+
     const current = useCommunityData(params?.community_id)
     const content: any = useRecoilValue(contentFlow)
+
     const [query, setQuery] = useState('')
 
 

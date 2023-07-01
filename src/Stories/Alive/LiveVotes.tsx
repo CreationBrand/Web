@@ -17,21 +17,19 @@ import { postSync } from 'State/postAtoms'
 
 const C = {
     up: css({
-        width: 'min-content',
         borderRadius: '8px',
         padding: '0px',
-
+        width: '30px',
+        height: '30px',
         minWidth: '10px',
-        height: '100% '
     }),
 
     down: css({
-        width: 'min-content',
+        width: '30px',
+        height: '30px',
         borderRadius: '8px',
         padding: '0px',
-
         minWidth: '10px',
-        height: '100% '
     }),
 
     vote: css({

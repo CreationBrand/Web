@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 
 import { memo } from 'react'
-import { faComment } from '@fortawesome/free-solid-svg-icons'
+import { faComment, faReply, faReplyAll } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Ticker from 'Stories/Bits/Ticker/Ticker'
 
@@ -26,7 +26,7 @@ const LiveComments = ({ value }: any) => {
 
     return (
         <div css={C.container}>
-            <FontAwesomeIcon icon={faComment} size='xs' />
+            <FontAwesomeIcon icon={faReplyAll} size='xs' />
             <div css={{ height: '20px' }}><Ticker value={value} /></div>
         </div >
     )

@@ -70,7 +70,6 @@ const Move = () => {
     if (!components.length) return null
 
     return <div css={C.container}>
-        <FontAwesomeIcon css={C.icon} icon={faArrowUpFromBracket} onClick={back} />
         <FontAwesomeIcon css={C.icon} icon={faArrowRight} onClick={foward} />
         <FontAwesomeIcon css={C.icon} icon={faArrowLeft} onClick={reverse} />
     </div>

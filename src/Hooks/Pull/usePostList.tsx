@@ -32,6 +32,7 @@ const usePostList = (community_id: any, filter: any) => {
     }, [community_id, filter])
 
     useEffect(() => {
+
         (async () => {
             try {
                 if (end || isError) return
@@ -51,7 +52,7 @@ const usePostList = (community_id: any, filter: any) => {
                 setIsLoading(false)
             }
         })()
-    }, [community_id, cursor, filter])
+    }, [community_id, cursor, filter, end])
 
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
@@ -68,21 +69,7 @@ const usePostList = (community_id: any, filter: any) => {
         []
     );
 
-    const fetchNext = async (is?: any) => {
-    
-        if (is) {
-           try{
-            let last: any = components[components.length - 1]
-            if (filter === 'none') return setCursor(last[last.length - 1].props.hot)
-            if (filter === 'group') return setCursor(last[last.length - 1].props.hot)
-            else if (filter === 'HOT') return setCursor(last[last.length - 1].props.hot)
-            else if (filter === 'NEW') return setCursor(last[last.length - 1].props.created_at)
-            else if (filter === 'TOP') return setCursor(last[last.length - 1].props.karma)
-           }
-           catch(e){
-               console.log(e)
-           }
-        }
+    const fetchNext = async () => {
 
         if (end || isError) return
         if (components?.length === 0) return
@@ -98,8 +85,23 @@ const usePostList = (community_id: any, filter: any) => {
         else if (filter === 'TOP') return setCursor(last[last.length - 1].props.karma)
     }
 
+    const onReset = () => {
+        try {
+            let last: any = components[components.length - 1]
+            if (filter === 'none') return setCursor(last[last.length - 1].props.hot)
+            if (filter === 'group') return setCursor(last[last.length - 1].props.hot)
+            else if (filter === 'HOT') return setCursor(last[last.length - 1].props.hot)
+            else if (filter === 'NEW') return setCursor(last[last.length - 1].props.created_at)
+            else if (filter === 'TOP') return setCursor(last[last.length - 1].props.karma)
+        }
+        catch (e) {
+            console.log(e)
+        }
 
-    return [isLoading, isError, components.concat(<ChunkError variant={end ? 'end' : 'loading'} onLoad={fetchNext} />)]
+    }
+
+
+    return [isLoading, isError, components.concat(<ChunkError variant={end ? 'end' : 'loading'} onLoad={fetchNext} reset={onReset} />)]
 }
 
 

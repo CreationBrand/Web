@@ -28,8 +28,6 @@ const usePostList = (post_id: any) => {
         setCursor(false)
         setComponents([])
         setIsLoading(true)
-        // setResetState({});
-        console.log('%c [RESET] ', 'font-weight: bold; color: #F00', 'CommentList');
     }, [post_id])
 
     useEffect(() => {
@@ -37,7 +35,6 @@ const usePostList = (post_id: any) => {
             try {
                 if (end || isError) return
                 if (cache.has(`comments:${post_id}:${filter}:${cursor}`)) {
-                    console.log('%c [CACHE] ', 'font-weight: bold; color: #FF0', `Comments Cursor:${cursor}`);
                     return setList(cache.get(`comments:${post_id}:${filter}:${cursor}`))
                 }
                 let req: any = await socketRequest('comments', { post_id, filter, cursor: cursor })
@@ -70,7 +67,7 @@ const usePostList = (post_id: any) => {
                 } catch (e) { listItems[i].hasChildren = false }
 
                 set(commentSync(listItems[i].public_id), listItems[i]);
-                set(commentList, (oldList: any) => [...oldList, <Comment {...listItems[i]} />])
+                set(commentList, (oldList: any) => [...oldList, <Comment {...listItems[i]} key={i} />])
 
             }
 
@@ -83,11 +80,7 @@ const usePostList = (post_id: any) => {
         if (end || isError) return
         if (components?.length === 0) return
         let last: any = components[components.length - 1]
-        if (!last[last.length - 1]) return
-        if (last.length === 0) return
-        else if (filter === 'HOT') return setCursor(last[last.length - 1].props.hot)
-        else if (filter === 'NEW') return setCursor(last[last.length - 1].props.created_at)
-        else if (filter === 'TOP') return setCursor(last[last.length - 1].props.karma)
+        return setCursor(last.props.sort_path)
     }
 
     let temp = components.length > 0 ? [<div
@@ -110,7 +103,9 @@ const usePostList = (post_id: any) => {
     />] : []
 
 
-    return [isLoading, isError, temp.concat(<ChunkError variant={end ? 'end' : 'loading'} onLoad={fetchNext} />)]
+
+
+    return [isLoading, isError, temp.concat(<ChunkError key='error' variant={end ? 'end' : 'loading'} onLoad={fetchNext} onReset={fetchNext}/>)]
 }
 
 

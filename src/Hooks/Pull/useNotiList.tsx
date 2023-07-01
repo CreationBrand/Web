@@ -46,7 +46,7 @@ const useNotiList = () => {
         ({ set }) => (listItems: any) => {
             let temp: any = []
             for (let i = 0; i < listItems?.length; i++) {
-                temp.push(<Noti {...listItems[i]} />)
+                temp.push(<Noti {...listItems[i]} key={i} />)
             }
             set(notiList, (oldList: any) => [...oldList, temp])
         },

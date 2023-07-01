@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Button, IconButton } from '@mui/material'
-import { textBold, textLabel, textLight, textNormal } from 'Global/Mixins'
+import { label, textBold, textLabel, textLight, textNormal } from 'Global/Mixins'
 import { memo, useEffect, useState } from 'react'
 
 import { useRecoilValue, } from 'recoil'
@@ -16,7 +16,6 @@ import LiveRoles from 'Stories/Alive/LiveRoles'
 import { canManageCommunity, isAdmin } from 'Service/Rbac'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
-import useCommunityData from 'Hooks/Pull/useCommunityData'
 import PublicRole from 'Stories/Popups/PublicRole'
 import useCommunityLive from './useCommunityLive'
 
@@ -121,7 +120,7 @@ const handleImgError = (e: any) => {
 
 const CommunityPane = ({ public_id }: any) => {
 
-    const data = useCommunityLive(true, public_id)
+    const data = useCommunityLive(false, public_id)
 
     const { title = '', description = '', subscribers = 0, your_roles = null, community_roles = null } = { ...data?.community }
 
@@ -191,7 +190,7 @@ const CommunityPane = ({ public_id }: any) => {
                                     <span css={C.offline} /> {subscribers} <span css={[textBold('t'), { color: '#d7dadc', }]}>Members</span>
                                 </span>
 
-                                <Online public_id={public_id} /> <span css={[textBold('t'), { color: '#d7dadc', }]}>Viewing</span>
+                                <Online value={data.online} /> <span css={[textBold('t'), { color: '#d7dadc', }]}>Viewing</span>
                             </div>
                         </div>
                     </div>
@@ -231,23 +230,25 @@ const CommunityPane = ({ public_id }: any) => {
                 <div css={C.inner2}>
 
                     {description && <>
-                        <div css={textLabel('t')}>About Community</div>
+                        <div css={label}>About Community</div>
                         <ReactMarkdown children={description} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
                     </>}
 
                     <div css={C.roles}>
                         <div>
-                            <div css={textLabel('t')}>Community Roles</div>
+                            <div css={label}>Community Roles</div>
                             <LiveRoles value={community_roles} />
                         </div>
                         <div>
-                            <div css={textLabel('t')}>Flairs</div>
+                            <div css={label}>Flairs</div>
                             <PublicRole value={community_roles} current={your_roles} community_id={public_id} />
                         </div>
-                        <div>
-                            <div css={textLabel('t')}>Your Roles</div>
-                            <LiveRoles value={your_roles} />
-                        </div>
+                        {your_roles && your_roles.length > 0 &&
+                            <div>
+                                <div css={label}>Your Roles</div>
+                                <LiveRoles value={your_roles} />
+                            </div>
+                        }
                     </div>
                 </div>
 

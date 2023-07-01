@@ -5,7 +5,7 @@ import { css } from '@emotion/react'
 
 import { Dialog, IconButton } from '@mui/material';
 import Walk from 'Stories/Bits/ChunkError/Walk';
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import VisibilitySensor from 'react-visibility-sensor';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
@@ -14,53 +14,72 @@ import useWindow from 'Hooks/useWindow';
 import { useRecoilState } from 'recoil';
 import { soundState } from 'State/atoms';
 import { autoPlayAtom, muteAtom } from 'State/contentAtoms';
+import zIndex from '@mui/material/styles/zIndex';
 
 
 
 
 const C = {
-    player: css({
-        borderRadius: '8px',
+
+    container: css({
         width: '100%',
-        // maxHeight: '100%',
+
+        height: '400px',
+        minHeight: '400px',
+
+        borderRadius: '8px',
+
+        maxHeight: '400px',
+        maxWidth: '800px',
+        border: '1px solid black',
+        background: '#0f0e10',
         overflow: 'hidden',
         position: 'relative',
+
         '& > div': {
+            position: 'relative',
             width: '100% !important',
-            background: '#272732',
+            objectFit: 'contain',
+            zIndex: 100,
+            height: '400px',
+            minHeight: '400px',
         },
         '& > div > video': {
-            backgroundColor: '#fff',
-            background: '#181820 !important',
             objectFit: 'contain',
             width: '100% !important',
             height: 'auto',
             borderRadius: '8px',
-
-
-            
+            zIndex: 100,
 
         }
-    }), error: css({
+
+    }),
+
+    error: css({
         width: '100%',
         height: '80px',
         borderRadius: '12px',
         background: '#181820',
         overflow: 'hidden',
     }),
-    blur: css({
-        width: '100%',
-        height: '100%',
-        background: '#181820',
-        position: 'absolute',
-        filter: 'blur(4px) brightness(45%)',
+    canvas: css({
+        position: "absolute",
+        top: "0",
+        left: "0",
+        width: "100%",
+        height: "100%",
+        // filter: "blur(16px)",
+        zIndex: 10,
     }),
+
 }
 
 const Player = ({ url, fallback }: any) => {
 
     const handleVisability = (visable: boolean) => setIsPlaying(visable)
 
+    const videoRef: any = useRef(null);
+    const canvasRef = useRef(null);
 
 
     const [error, setError] = useState(false)
@@ -97,17 +116,54 @@ const Player = ({ url, fallback }: any) => {
 
 
 
+
+    // useEffect(() => {
+    //     console.log(videoRef)
+    //     if (!videoRef.current || !canvasRef.current) return
+
+    //     const video: any = videoRef.current.getInternalPlayer();
+    //     const canvas: any = canvasRef.current;
+    //     const ctx = canvas.getContext('2d');
+
+    //     console.log(video)
+    //     if (!ctx) return
+
+    //     const drawFrame = () => {
+    //         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    //         requestAnimationFrame(drawFrame);
+    //     };
+
+    //     if (video && canvas) {
+    //         video.addEventListener('play', () => {
+    //             drawFrame();
+    //         });
+    //     }
+
+    //     return () => {
+    //         if (video && canvas) {
+    //             video.removeEventListener('play', () => {
+    //                 drawFrame();
+    //             });
+    //         }
+    //     };
+    // }, []);
+
+
+
     if (error) return <div css={C.error}>
         <Walk variant='error' />
     </div>
 
     return (
         <VisibilitySensor onChange={handleVisability}>
-            <div css={C.player} onClick={handleOpen} >
 
+            <div css={C.container} onClick={handleOpen}>
                 {open && <Viewer url={url} open={open} onClose={handleClose} />}
+                {/* <canvas css={C.canvas} ref={canvasRef} /> */}
 
                 <ReactPlayer
+
+                    ref={videoRef}
                     playing={isPlaying}
                     url={url}
                     muted={true}

@@ -132,8 +132,8 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
                     <AvatarEditor
                         ref={editor}
                         image={image}
-                        width={type === 'banner' ? 800 : 80}
-                        height={type === 'banner' ? 140 : 80}
+                        width={type === 'banner' ? 800 : 160}
+                        height={type === 'banner' ? 140 : 160}
                         border={30}
                         color={[0, 0, 0, 0.5]}
                         scale={scale}

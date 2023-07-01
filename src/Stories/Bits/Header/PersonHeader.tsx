@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Button } from '@mui/material'
-import { textBold, textLabel, textLight } from 'Global/Mixins'
+import { label, textBold, textLabel, textLight } from 'Global/Mixins'
 import { memo } from 'react'
 
 import { useRecoilValue, useSetRecoilState, } from 'recoil'
@@ -183,25 +183,25 @@ const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nic
             <div css={C.inner2}>
 
                 {about_me && <>
-                    <div css={textLabel('t')}>About Me</div>
+                    <div css={label}>About Me</div>
                     <ReactMarkdown children={about_me} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
                 </>}
 
                 <div css={C.roles}>
                     <div>
-                        <div css={textLabel('t')}>Karma</div>
+                        <div css={label}>Karma</div>
                         {karma}
                     </div>
                     <div>
-                        <div css={textLabel('t')}>Posts</div>
+                        <div css={label}>Posts</div>
                         {posts}
                     </div>
                     <div>
-                        <div css={textLabel('t')}>Comments</div>
+                        <div css={label}>Comments</div>
                         {comments}
                     </div>
                     <div>
-                        <div css={textLabel('t')}>global Roles</div>
+                        <div css={label}>global Roles</div>
                         <LiveRoles value={global_roles} />
                     </div>
                 </div>

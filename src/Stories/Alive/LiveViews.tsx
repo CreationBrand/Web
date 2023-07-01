@@ -4,8 +4,9 @@ import { css } from '@emotion/react'
 
 import Ticker from '../Bits/Ticker/Ticker'
 import { memo } from 'react'
-import { faEye } from '@fortawesome/free-solid-svg-icons'
+import { faChartSimple, faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import EqualizerRoundedIcon from '@mui/icons-material/EqualizerRounded';
 
 const C = {
     vote: css({
@@ -27,7 +28,7 @@ const LiveViews = ({ value }: any) => {
 
     return (
         <div css={C.vote}>
-            <FontAwesomeIcon icon={faEye} version='fa-reg' size='xs' />
+            <FontAwesomeIcon icon={faChartSimple} size='xs' />
             <div css={{ height: '20px' }}><Ticker value={value} /></div>
         </div >
     )

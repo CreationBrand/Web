@@ -12,6 +12,8 @@ import { commentList, commentSync } from 'State/commentAtoms'
 import { useParams } from 'react-router-dom'
 import { communitySync } from 'State/Sync'
 import useCommunityData from 'Hooks/Pull/useCommunityData'
+import { LoadingButton } from '@mui/lab'
+import { roundButton } from 'Global/Mixins'
 
 
 const C = {
@@ -34,6 +36,7 @@ const C = {
 
 const AddComment = ({ parent_id, post_id, onClose, isMuted }: any) => {
 
+    const [loading, setLoading] = useState(false)
     const [comment, setComment] = useState('')
     const authState = useRecoilValue(authFlow)
     const [list, setList] = useRecoilState(commentList)
@@ -51,7 +54,7 @@ const AddComment = ({ parent_id, post_id, onClose, isMuted }: any) => {
     // console.log('parent_id', parent_id, 'post_id', post_id)
 
     const onSubmit = async () => {
-
+        setLoading(true)
         const req: any = await socketRequest('comment-new', {
             content: comment,
             post_id: post_id,
@@ -61,28 +64,9 @@ const AddComment = ({ parent_id, post_id, onClose, isMuted }: any) => {
 
         if (req.status === 'ok') {
             setComment('')
-            sync(req.comments)
-
-            const clone2 = [...list]
-            var insertIndex = 0
-
-            if (parent_id === post_id) {
-                req.comments.last = true
-                insertIndex = -1
-            }
-
-            else {
-                insertIndex = clone2.findIndex((obj: any) => {
-                    return obj?.props?.public_id === parent_id
-                });
-            }
-            req.comments.visibility = true
-            clone2.splice(insertIndex + 1, 0, <Comment {...req.comments} />);
-            setList(clone2)
-
+            setLoading(false)
             if (onClose) onClose()
         }
-
     }
 
 
@@ -95,29 +79,20 @@ const AddComment = ({ parent_id, post_id, onClose, isMuted }: any) => {
             placeholder={isMuted ? 'You are Muted' : 'Comment your thoughts?'} />
 
         {
-            comment.length > 11 && <Button
+            comment.length > 11 && <LoadingButton
                 onClick={onSubmit}
-                size='small'
+                loadingIndicator="Loading…"
+                loading={loading}
                 disableElevation
-                sx={{
-
-                    margin: '4px',
-                    bottom: '0px',
-                    right: '0px',
-                    borderRadius: '8px',
-                    background: '#272732',
+                sx={[roundButton,{
                     position: 'absolute',
-                    height: '32px',
-                    // border: `2px solid #343442`,
-                    color: '#b8babd',
-                    ':hover': {
-                        background: '#272732',
-                        // border: `2px solid #583e76`,
-                        color: '#fff',
-
-                    },
-                }}
-                variant='contained'>Submit</Button>
+                    right: '8px',
+                    bottom: '8px',
+                }]}
+                onMouseDown={onSubmit} variant='contained'
+            >
+                Submit
+            </LoadingButton>
         }
 
 

@@ -45,10 +45,6 @@ export const PostHolder = () => {
                 <Skeleton variant="rounded" animation="wave" width={30} height={30} />
 
             </div>
-            {/* <Skeleton variant="rectangular" width={210} height={60} />
-            <Skeleton variant="rounded" width={210} height={60} /> */}
-
-
         </div>
     </div>
 };

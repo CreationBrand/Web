@@ -37,7 +37,7 @@ const usePost = (post_id: any) => {
             try {
                 if (end || isError) return
                 if (cache.has(`post:${post_id}`)) {
-                    setComponents(<Post  {...cache.get(`post:${post_id}`)} />)
+                    setComponents(<Post  {...cache.get(`post:${post_id}`)} key={post_id} />)
                     setList(cache.get(`post:${post_id}`))
                     setIsLoading(false)
                     return

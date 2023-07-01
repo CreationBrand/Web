@@ -9,7 +9,6 @@ import HoverPopover from 'material-ui-popup-state/HoverPopover'
 import { AnimatePresence, motion } from 'framer-motion'
 import MiniError from '../ChunkError/MiniError'
 import { socketRequest } from 'Service/Socket'
-import Avatar from '../Avatar/Avatar'
 import { textLabel } from 'Global/Mixins'
 import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 import { useRecoilValue } from 'recoil'
@@ -17,6 +16,7 @@ import { authFlow } from 'State/Flow'
 import LiveRoles from 'Stories/Alive/LiveRoles'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
+import Avatar from '../Avatar/Avatar'
 
 const C = {
     underline: css({
@@ -25,6 +25,7 @@ const C = {
         lineHeight: '20px',
         display: 'flex',
         alignItems: 'center',
+        gap: '4px',
         fontWeight: 600,
         color: '#b9bbb3',
         textDecoration: 'none',
@@ -52,7 +53,8 @@ const Nickname = ({ title, public_id, community_id, global_roles }: any) => {
                         onMouseEnter={handleHover}
                         {...bindHover(popupState)}
                         css={C.underline}>
-                        {title}
+                      {/* <Avatar public_id={public_id} size='tiny'/> */}
+                      {title}
                     </Link>
 
                     {Boolean(anchorEl) &&

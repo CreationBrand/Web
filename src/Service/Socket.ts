@@ -83,6 +83,7 @@ socket.onAny((eventName, ...args) => {
 
 
 socket.on("notif", (message: any) => {
+    console.log('%c [NOTIF] ', 'background: #000; color: #da55cd', message);
 
     try {
         if (message.type === 'message') {

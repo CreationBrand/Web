@@ -58,9 +58,6 @@ const Noti = (props: any) => {
     let content = JSON.parse(props.content)
     const navigate = useNavigate()
 
-
-    console.log(props)
-
     const handleClick = () => {
         if (props.type === 'comment-reply') navigate(`/c/${props?.community?.public_id}/p/${props?.post?.public_id}/c/${props?.comment?.public_id}`)
         if (props.type === 'post-reply') navigate(`/c/${props?.community?.public_id}/p/${props?.post?.public_id}/c/${content?.comment_id}`)

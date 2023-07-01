@@ -72,7 +72,7 @@ const Post = ({ view, ...props }: any) => {
 
     // proxing data
     const [inView, setVisibility] = useState(false)
-    const data: any = usePostLive(inView, props)
+    const data: any = usePostLive(false, props)
     const { visibility, public_id, title, content, created_at, author, community, vote, karma, views, comments, tags, type, community_roles, global_roles } = data
     const navigate = useNavigate();
     const seen = useRecoilValue(hasSeen);

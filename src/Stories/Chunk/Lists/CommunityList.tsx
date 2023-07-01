@@ -14,6 +14,7 @@ import VirtuList from '../VirtualList/VirtuList'
 import { mainSizeState } from 'State/Data'
 import { FilterHolder, HeadHolder, PostHolder } from './PlaceHolders'
 import useCommunity from 'Hooks/Pull/useCommunity'
+import useLinkCommunity from 'Hooks/Link/useLinkCommunity'
 
 
 const C = {
@@ -31,12 +32,14 @@ const C = {
 
 const CommunityList = () => {
 
-    const params = useParams()
+    const params:any = useParams()
     const filter = useRecoilValue(postFilter)
     const mainSize = useRecoilValue(mainSizeState)
 
     const [isLoading1, isError1, component] = useCommunity(params.community_id)
     const [isLoading, isError, components]: any = usePostList(params.community_id, filter)
+
+    useLinkCommunity(params.community_id, true)
 
     return (
 
@@ -52,7 +55,7 @@ const CommunityList = () => {
                 <VirtuList
                     list={
                         (isError || isLoading || isError1 || isLoading1) ?
-                            [<HeadHolder />, <FilterHolder />, <PostHolder />, <PostHolder />, <PostHolder />, <PostHolder />] :
+                            [<HeadHolder key={0} />, <FilterHolder key={1} />, <PostHolder key={2} />, <PostHolder key={3} />, <PostHolder key={5} />, <PostHolder key={6} />] :
                             [component, <FilterPane />, ...components]}
                 />
             </div>

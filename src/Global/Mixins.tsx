@@ -84,7 +84,7 @@ export const header = css({
 
 export const label = css({
     fontFamily: 'noto sans',
-    fontWeight: '600',
+    fontWeight: '700',
     color: "#dbdee1",
     fontSize: "14px",
     textTransform: "uppercase",

@@ -14,6 +14,7 @@ const VirtuList = ({ list, public_id, overscan }: any) => {
 
     return (
         <Virtuoso
+            defaultItemHeight={530}
             overscan={overscan ? overscan : 1}
             ref={ref}
             css={{

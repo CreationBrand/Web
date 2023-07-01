@@ -32,8 +32,7 @@ const C = {
     }),
 }
 
-const Online = ({ public_id }: any) => {
-    const data = useSubscription(`online:${public_id}`, false, true)
+const Online = ({ value }: any) => {
 
 
     return (
@@ -45,7 +44,7 @@ const Online = ({ public_id }: any) => {
                 color: '#fff',
             }}>
             <span css={C.online} />
-            {data ? data : 0}
+            {value}
         </span>
     )
 
