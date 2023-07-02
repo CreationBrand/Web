@@ -14,6 +14,7 @@ const s = css({
     // background: '#0f0e10',
     overflow: 'hidden',
     position: 'relative',
+    touchAction: 'pan-y',
 })
 
 

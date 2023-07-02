@@ -161,7 +161,9 @@ const Mobile = (props: Props) => {
     const [{ x, }, api] = useSpring(() => ({ x: map[xPos] }))
 
 
-    const bind = useDrag(({ last, direction: [dx], offset: [x, y], down}) => {
+    const bind = useDrag(({ last, direction: [dx], movement: [x, y], down}) => {
+
+
         if (!down) {
             if (x < -200) {
                 setXPos(2)
@@ -180,8 +182,7 @@ const Mobile = (props: Props) => {
     }, {
         target: ref,
         axis: 'x',
-        threshold: 100,
-        bounds: { left: auth === 'guest' ? 0 : -240, right: 240 },
+        // bounds: { left: auth === 'guest' ? 0 : -240, right: 240 },
     })
 
     return (<div css={C.container} ref={ref} style={{ height: height, width: 480 + width, left: -240 }}>
@@ -191,6 +192,8 @@ const Mobile = (props: Props) => {
             width: width, height: height, x: x,
             transition: 'filter 0.3s ease-in-out',
             filter: xPos !== 1 ? 'brightness(40%)' : '',
+            touchAction: xPos !== 1 ? 'pan-y' : 'all',
+            pointerEvents: xPos !== 1 ? 'none' : 'all',
         }}>{props.children[1]}</animated.div>
         <animated.div css={C.right} style={{ x: x, height: height }}>{props.children[2]}</animated.div>
 

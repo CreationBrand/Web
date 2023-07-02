@@ -23,6 +23,7 @@ const C = {
         width: '100%',
         borderRadius: '8px',
         // marginTop: '8px',
+        touchAction: 'pan-y',
         padding: '8px',
         border: `2px solid #343442`,
         cursor: 'pointer',
