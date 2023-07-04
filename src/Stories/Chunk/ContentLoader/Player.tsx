@@ -243,7 +243,7 @@ const Viewer = ({ url, open, onClose }: any) => {
                     }, '& > div > video': {
                         width: '100% !important',
                         height: 'auto !important',
-                        maxWidth: 'calc(100vw - 32px) !important',
+                        maxWidth: '100vw !important',
                         maxHeight: '80vh !important',
                         background: '#0f0e10 !important',
                         borderRadius: '8px',

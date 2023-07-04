@@ -12,7 +12,6 @@ const C = {
         minHeight: '56px',
         width: '100%',
         maxWidth: '800px',
-        height: '530px',
         display: 'flex',
         flexDirection: 'column',
 
