@@ -138,7 +138,7 @@ const Link = ({ url }: any) => {
 
 
         return (<div css={C.container} onClick={handleClick}>
-            {data?.images?.length && <img src={data?.images[0]} css={C.image} />}
+            {data?.images?.length && <img src={data?.images[0]} css={C.image} loading="lazy" />}
             <div css={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
                 {data?.title && <div css={C.title}>{data?.title}</div>}
                 {data?.description && <div css={C.desc}>{data?.description}</div>}

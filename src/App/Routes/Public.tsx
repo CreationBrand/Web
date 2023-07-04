@@ -21,7 +21,7 @@ var Public = () => {
 
     useEffect(() => {
         let parts: any = location.pathname.split('/')
-        console.log(parts)
+
         switch (true) {
             case parts[1] === 'trending':
                 return setContentFlow('global')

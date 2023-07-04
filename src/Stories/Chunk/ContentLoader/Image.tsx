@@ -11,7 +11,7 @@ const C = {
     container: css({
         border: '1px solid #0f0e10',
         position: 'relative',
-        borderRadius: "12px",
+        borderRadius: '12px',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -67,12 +67,12 @@ const Image = ({ url }: any) => {
                 css={C.container}>
 
                 <img
-                    // loading="lazy"
+                    loading="lazy"
                     onError={handleImgError}
                     src={url} css={C.blur} />
 
                 <img
-                    // loading="lazy"
+                    loading="lazy"
                     onError={handleImgError}
                     css={C.img} src={url} />
             </div>
@@ -103,10 +103,8 @@ const Viewer = ({ src, open, onClose }: any) => {
             onClose={onClose}
             sx={{
                 borderRadius: '0px',
-                backgroundColor: 'transparent',
-
-
-                // backgroundColor: 'rgba(15,14,16,0.90)',
+                // backgroundColor: 'transparent',
+                backgroundColor: 'rgba(15,14,16,0.55)',
 
                 '& .MuiDialog-paper': {
                     backgroundColor: 'transparent !important',

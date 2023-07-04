@@ -34,9 +34,6 @@ const Preview = () => {
     const [last, setLast]: any = useState(false)
     const location = useLocation()
 
-
-    console.log(showLogin)
-
     useEffect(() => {
         let parts = location.pathname.split('/')
         if (location.pathname === '/trending') setLast('trending')

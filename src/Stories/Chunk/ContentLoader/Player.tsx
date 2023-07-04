@@ -27,7 +27,7 @@ const C = {
         height: '400px',
         minHeight: '400px',
 
-        borderRadius: '8px',
+        borderRadius: '12px',
 
         maxHeight: '400px',
         maxWidth: '800px',

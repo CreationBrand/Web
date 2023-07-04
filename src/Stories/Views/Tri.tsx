@@ -161,11 +161,10 @@ const Mobile = (props: Props) => {
     const [{ x, }, api] = useSpring(() => ({ x: map[xPos] }))
 
 
-    const bind = useDrag(({ last, direction: [dx], movement: [x, y], down}) => {
-
+    const bind = useDrag(({ last, direction: [dx], movement: [x, y], down , initial}) => {
 
         if (!down) {
-            if (x < -200) {
+            if (x < -200 && auth !== 'guest' ) {
                 setXPos(2)
                 return api.start({ x: -240 })
             }
@@ -178,11 +177,14 @@ const Mobile = (props: Props) => {
                 return api.start({ x: 0 })
             }
         }
-        if (down) return api.start({ x: down ? x : 0, immmediate: down })
+        if (down) return api.start({ x: x, immmediate: down })
     }, {
         target: ref,
         axis: 'x',
-        // bounds: { left: auth === 'guest' ? 0 : -240, right: 240 },
+        from: () => [x.get(), 0],
+        threshold: 100,
+        bounds: { left: auth === 'guest' ? 0 : -240, right: 240 },
+        rubberband: false,
     })
 
     return (<div css={C.container} ref={ref} style={{ height: height, width: 480 + width, left: -240 }}>

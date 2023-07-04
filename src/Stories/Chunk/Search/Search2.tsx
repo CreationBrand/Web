@@ -36,7 +36,7 @@ const C = {
         color: '#fff',
         width: '100%',
         height: '100%',
-        fontSize: '12px',
+        fontSize: '13px',
         fontFamily: 'noto sans !important',
         overflow: "hidden",
         whiteSpace: "nowrap",
@@ -287,7 +287,8 @@ const Search2 = () => {
                     onClick={openSearch}
                     css={C.container}
                     style={{
-                        width: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'calc(100vw - 38px)' : '',
+                        width: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'calc(100vw - 18px)' : '',
+                        left:'0px',
                         position: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'absolute' : 'relative',
                         border: Boolean(anchorEl) ? '2px solid #996ccc' : '2px solid #0f0e10',
                     }
@@ -300,7 +301,9 @@ const Search2 = () => {
                             onClick={removeTag}
                             css={C.tag}>
                             <Avatar public_id={current.community.public_id} size='tiny' />
-                            <span css={C.tagTitle}>
+                            <span
+                                style={{ maxWidth: (layoutSize === 'mobile') ? '80px' : 'none', }}
+                                css={C.tagTitle}>
                                 {current?.community?.title}
                             </span>
                             <CloseRoundedIcon sx={{

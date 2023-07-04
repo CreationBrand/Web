@@ -22,7 +22,7 @@ var del = async (path: string, body: any) => {
     method: "DELETE",
     credentials: "include",
     headers: {
-        // "Access-Control-Allow-Origin": process.env.REACT_APP_ENDPOINT,
+      // "Access-Control-Allow-Origin": process.env.REACT_APP_ENDPOINT,
       "Access-Control-Allow-Credentials": "true",
       "Content-Type": "application/json",
       Cookies: document.cookie,

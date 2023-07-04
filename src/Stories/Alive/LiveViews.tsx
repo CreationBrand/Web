@@ -17,7 +17,7 @@ const C = {
         width: 'min-content',
         height: '30px',
         alignItems: 'center',
-        padding: '6px 8px',
+        padding: '0px 8px',
         color: '#b9bbb3',
         fontSize: '14px',
         fontWeight: 'bold',
@@ -29,7 +29,7 @@ const LiveViews = ({ value }: any) => {
     return (
         <div css={C.vote}>
             <FontAwesomeIcon icon={faChartSimple} size='xs' />
-            <div css={{ height: '20px' }}><Ticker value={value} /></div>
+            <div css={{ height: '20px' }}>{value}</div>
         </div >
     )
 }

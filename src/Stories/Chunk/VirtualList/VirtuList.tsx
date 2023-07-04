@@ -30,12 +30,7 @@ const VirtuList = ({ list, public_id, overscan }: any) => {
             }}
             data={list}
             itemContent={(index, item) => {
-                return (
-                    <div key={`${index}|${public_id}`} style={{ minHeight: '1px' }}>
-                        {item}
-                    </div>
-
-                )
+                return (item)
             }}
         />
     )

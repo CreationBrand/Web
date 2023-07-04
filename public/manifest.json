@@ -1,28 +1,27 @@
 {
     "short_name": "Artram",
     "name": "Artram",
-    "icons": 
-    [
-        {
-          "src": "Logo.png",
-          "sizes": "80x80",
-          "type": "image/png"
-        },
-        {
-          "src": "logo128.png",
-          "sizes": "128x128",
-          "type": "image/png"
-        },
-        {
-            "src": "logo512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-          }
-      ]
-    
-    ,
-    "start_url": ".",
+    "start_url": "/trending",
     "display": "standalone",
     "theme_color": "#0f0e10",
-    "background_color": "#0f0e10"
+    "background_color": "#0f0e10",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+
+        }
+    ]
 }

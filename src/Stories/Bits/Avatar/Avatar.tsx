@@ -31,6 +31,8 @@ const Avatar = ({ public_id, size }: any) => {
 
     return (
         <img
+            loading="lazy"
+
             style={{
                 objectFit: 'cover',
                 border: '1px solid #181820',
