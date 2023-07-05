@@ -19,6 +19,8 @@ import TagMenu from './TagMenu';
 import RoleMenu from './RoleMenu';
 import MovePostMenu from './MovePostMenu';
 import Moderate from './Moderate';
+import { layoutSizeData } from 'State/Data';
+import Drawer from 'Stories/Bits/Drawer/Drawer';
 
 
 
@@ -37,6 +39,7 @@ const PostMenu = ({ person_id, community_roles, tags, post_id, community_id }: a
 
     const flow = useRecoilValue(contentFlow)
 
+    const layout = useRecoilValue(layoutSizeData)
     const [anchorEl, setAnchorEl]: any = useState(null);
 
     const handleClick = (e: any) => {
@@ -44,11 +47,12 @@ const PostMenu = ({ person_id, community_roles, tags, post_id, community_id }: a
         e.stopPropagation()
         setAnchorEl(e.currentTarget);
     };
-
     const handleClose = () => {
         if (anchorEl) anchorEl.focus();
         setAnchorEl(null);
     };
+
+
 
 
 
@@ -66,7 +70,23 @@ const PostMenu = ({ person_id, community_roles, tags, post_id, community_id }: a
         >
             <MoreVertIcon />
 
-            {Boolean(anchorEl) && (
+
+            {(layout === "mobile" && Boolean(anchorEl)) && (<Drawer
+                open={Boolean(anchorEl)}
+                setOpen={setAnchorEl}
+                onClose={handleClose}
+            >
+                <TagMenu community_id={community_id} current={tags} public_id={post_id} type={'post'} />
+                <RoleMenu community_id={community_id} current={community_roles} person_id={person_id} public_id={post_id} type={'post'} />
+                <MovePostMenu community_id={community_id} post_id={post_id} />
+                <MenuItem disabled={true}>Global Roles <AdminPanelSettingsOutlinedIcon /></MenuItem>
+                <Moderate />
+                <MenuItem>Report <ReportGmailerrorredRoundedIcon /></MenuItem>
+            </Drawer>
+
+            )}
+
+            {(layout === "desktop" && Boolean(anchorEl)) && (
 
 
                 <StyledPopper
@@ -86,10 +106,7 @@ const PostMenu = ({ person_id, community_roles, tags, post_id, community_id }: a
 
                             <TagMenu community_id={community_id} current={tags} public_id={post_id} type={'post'} />
                             <RoleMenu community_id={community_id} current={community_roles} person_id={person_id} public_id={post_id} type={'post'} />
-                            <MovePostMenu  community_id={community_id}  post_id={post_id} />
-                            {/* <RoleMenu current={community_roles} person_id={person_id} public_id={post_id} type={'post'} />
-                                    <MovePostMenu post_id={post_id} /> */}
-                            {/* </>} */}
+                            <MovePostMenu community_id={community_id} post_id={post_id} />
                             <MenuItem disabled={true}>Global Roles <AdminPanelSettingsOutlinedIcon /></MenuItem>
                             <Moderate />
                             <MenuItem>Report <ReportGmailerrorredRoundedIcon /></MenuItem>

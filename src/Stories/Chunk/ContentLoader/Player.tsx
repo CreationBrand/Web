@@ -221,6 +221,7 @@ const Viewer = ({ url, open, onClose }: any) => {
                 borderRadius: '0px',
                 backgroundColor: 'transparent',
                 '& .MuiDialog-paper': {
+                    borderRadius: '0px !important',
                     backgroundColor: 'transparent !important',
                     boxShadow: 'none !important',
                     padding: '0px !important',
@@ -231,7 +232,7 @@ const Viewer = ({ url, open, onClose }: any) => {
                     maxHeight: '800px',
                 },
                 Backdrop: {
-                    background: 'rgba(15,14,16,0.90)',
+                    // background: 'rgba(15,14,16,0.90)',
                 }
             }}
         >
@@ -246,7 +247,7 @@ const Viewer = ({ url, open, onClose }: any) => {
                         maxWidth: '100vw !important',
                         maxHeight: '80vh !important',
                         background: '#0f0e10 !important',
-                        borderRadius: '8px',
+                        borderRadius: '0px',
                         border: '1px solid #0f0e10',
                     }
 

@@ -104,7 +104,7 @@ const Viewer = ({ src, open, onClose }: any) => {
             sx={{
                 borderRadius: '0px',
                 // backgroundColor: 'transparent',
-                backgroundColor: 'rgba(15,14,16,0.55)',
+                // backgroundColor: 'rgba(15,14,16,0.55)',
 
                 '& .MuiDialog-paper': {
                     backgroundColor: 'transparent !important',

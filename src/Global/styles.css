@@ -1,7 +1,6 @@
 /* TEMP NOTO SANS */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-
 @import './Fonts/font.css';
 @import './editor.css';
 
@@ -362,3 +361,12 @@ body {
     background: linear-gradient(90deg, transparent, rgba(153, 108, 204, 0.043), transparent) !important;
 }
 
+/* .MuiBackdrop-root {
+    background-color: rgba(14, 16, 15, 0.5) !important;
+} */
+.MuiModal-backdrop {
+    background-color: rgba(11, 8, 14, 0.85) !important;
+}
+.MuiDialog-container {
+    background-color: transparent !important;
+}

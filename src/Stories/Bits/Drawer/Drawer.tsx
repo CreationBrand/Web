@@ -1,15 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import * as React from 'react';
 import { Global } from '@emotion/react';
-import { styled } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { grey } from '@mui/material/colors';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Skeleton from '@mui/material/Skeleton';
-import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
 const drawerBleeding = 56;
@@ -41,13 +33,23 @@ export default function Drawer({ open, setOpen, children, ...props }: any) {
             <Global
                 styles={{
                     '.MuiDrawer-root > .MuiPaper-root': {
-                        height: `calc(40% - ${drawerBleeding}px)`,
+                        height:'min-content',
+                        // maxHeight: `calc(80%)`,
+                        // height: `calc(40% - ${drawerBleeding}px)`,
                         overflow: 'visible',
                     },
                 }}
             />
 
             <SwipeableDrawer
+            sx={{
+                background:'transparent',
+                '.MuiDrawer-paper': {
+                    background:'transparent !important',
+                    padding: '0px !important',
+                    boxShadow: 'none !important',
+                }
+            }}
                 container={container}
                 anchor="bottom"
                 open={open}
@@ -82,6 +84,7 @@ export default function Drawer({ open, setOpen, children, ...props }: any) {
                         padding: '8px',
                         display: 'flex',
                         flexDirection: 'column',
+                        boxShadow: '0px 10px 12px 10px rgba(0,0,0,0.9)',
                     }}
                 >
                     {children}

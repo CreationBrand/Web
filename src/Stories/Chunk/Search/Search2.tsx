@@ -287,7 +287,7 @@ const Search2 = () => {
                     onClick={openSearch}
                     css={C.container}
                     style={{
-                        width: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'calc(100vw - 18px)' : '',
+                        width: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'calc(100vw - 16px)' : '',
                         left:'0px',
                         position: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'absolute' : 'relative',
                         border: Boolean(anchorEl) ? '2px solid #996ccc' : '2px solid #0f0e10',

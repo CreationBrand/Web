@@ -11,9 +11,10 @@ import { socketRequest } from 'Service/Socket';
 
 import { canMovePost } from 'Service/Rbac';
 import MoveDownRoundedIcon from '@mui/icons-material/MoveDownRounded';
-import { communityListData } from 'State/Data';
+import { communityListData, layoutSizeData } from 'State/Data';
 import { postSync } from "State/postAtoms";
 import useCommunityData from 'Hooks/Pull/useCommunityData';
+import Drawer from 'Stories/Bits/Drawer/Drawer';
 
 
 const StyledPopper = styled(Popper)(({ theme }) => ({
@@ -31,6 +32,7 @@ export default function MovePostMenu({ post_id, community_id }: any) {
     const data = useCommunityData(community_id)
     const communityList = useRecoilValue(communityListData)
     let updateSync = useSetRecoilState(postSync(post_id))
+    const layout = useRecoilValue(layoutSizeData)
 
     const [anchorEl, setAnchorEl]: any = useState(null)
 
@@ -70,22 +72,16 @@ export default function MovePostMenu({ post_id, community_id }: any) {
             onMouseLeave={handleClose}
         >
 
-            {/* POPPER */}
-            <StyledPopper
-                placement={'left-start'}
-                modifiers={[{ name: "offset", options: { offset: [-6, -2] } }]}
-                id={'roleMenu'} open={Boolean(anchorEl)} anchorEl={anchorEl} >
-
-                <div
-                    css={{
-                        borderRadius: '4px',
-                        boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)',
-                        padding: '6px 8px',
-                        backgroundColor: '#0f0e10',
-                        maxHeight: '300px',
-                        overflowY: 'auto',
-                    }}
-                >
+            {(layout === "mobile" && Boolean(anchorEl)) && (<Drawer
+                open={Boolean(anchorEl)}
+                setOpen={setAnchorEl}
+                onClose={handleClose}
+            >
+                <div css={{
+                    maxHeight: '70vh',
+                    overflow: 'scroll',
+                    height: '100%',
+                }}>
                     {communityList.map((tag: any) =>
                         <MenuItem
                             key={tag.public_id}
@@ -95,9 +91,45 @@ export default function MovePostMenu({ post_id, community_id }: any) {
                             {tag.title}
                         </MenuItem>)}
                 </div>
+            </Drawer>
+
+            )}
+
+            {(layout === "desktop" && Boolean(anchorEl)) && (
 
 
-            </StyledPopper >
+                <StyledPopper
+                    id='postMenu'
+                    modifiers={[{ name: "offset", options: { offset: [0, -8] } }]}
+                    open={Boolean(anchorEl)} anchorEl={anchorEl} placement='bottom-end'>
+
+                    <div
+                        css={{
+                            borderRadius: '4px',
+                            boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)',
+                            padding: '6px 8px',
+                            backgroundColor: '#0f0e10',
+                            maxHeight: '300px',
+                            overflowY: 'auto',
+                        }}
+                    >
+                        {communityList.map((tag: any) =>
+                            <MenuItem
+                                key={tag.public_id}
+                                data-test={tag.public_id}
+                                onClick={handleClick}
+                            >
+                                {tag.title}
+                            </MenuItem>)}
+                    </div>
+
+
+                </StyledPopper >)}
+
+
+
+
+
 
 
             Move Post <MoveDownRoundedIcon />

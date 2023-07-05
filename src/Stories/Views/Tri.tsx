@@ -137,7 +137,6 @@ const C = {
         touchAction: 'none',
         userSelect: ' none',
         background: '#0f0e10',
-
         padding: 8,
 
     }),

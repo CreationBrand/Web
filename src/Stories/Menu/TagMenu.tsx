@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import Popper from '@mui/material/Popper';
 import { memo, useEffect, useState } from 'react';
 import { Checkbox, MenuItem } from '@mui/material';
-import { tagData } from 'State/Data';
+import { layoutSizeData, tagData } from 'State/Data';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { socketRequest } from 'Service/Socket';
 import StyleRoundedIcon from '@mui/icons-material/StyleRounded';
@@ -14,6 +14,7 @@ import { communityFlow } from 'State/Flow';
 import { commentSync } from 'State/commentAtoms';
 import { postSync } from 'State/postAtoms';
 import useCommunityData from 'Hooks/Pull/useCommunityData';
+import Drawer from 'Stories/Bits/Drawer/Drawer';
 
 
 const StyledPopper = styled(Popper)(({ theme }) => ({
@@ -31,16 +32,19 @@ const TagMenu = ({ current, public_id, type, community_id }: any) => {
     const [anchorEl, setAnchorEl]: any = useState(null)
     const [value, setValue]: any = useState([]);
     const tags = useRecoilValue(tagData)
-
     const community: any = useCommunityData(community_id)
-
     const updater = useSetRecoilState(type === 'post' ? postSync(public_id) : commentSync(public_id))
+    const layout = useRecoilValue(layoutSizeData)
+
+
+
+    console.log(current)
 
 
     useEffect(() => {
         if (!current || current.length < 1) return
         let temp: any = []
-       
+
         try {
             current?.forEach((elem: any) => {
                 temp.push(elem?.public_id)
@@ -94,49 +98,90 @@ const TagMenu = ({ current, public_id, type, community_id }: any) => {
             onMouseLeave={handleClose}
         >
 
-            <StyledPopper
-                modifiers={[{ name: "offset", options: { offset: [-8, -2] } }]}
-                id={'tagsMenu'} placement={'left-start'}
-                open={Boolean(anchorEl)} anchorEl={anchorEl}>
+            {(layout === "mobile" && Boolean(anchorEl)) && (<Drawer
+                open={Boolean(anchorEl)}
+                setOpen={setAnchorEl}
+                onClose={handleClose}
+            >
+                {tags.map((tag: any) =>
+                    <MenuItem
+                        key={tag.public_id}
+                        data-test={tag.public_id}
+                        onClick={handleTag}
+                    >
+                        <div
+                            css={{
+                                width: '14px',
+                                height: '14px',
+                                flexShrink: 0,
+                                borderRadius: '3px',
+                                backgroundColor: "#" + tag?.color?.toString(16),
+                            }} />
+                        {tag.title}
 
-                <div
-                    css={{
-                        borderRadius: '4px',
-                        boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)',
-                        padding: '6px 8px',
-                        backgroundColor: '#0f0e10',
-                    }}
-                >
-                    {tags.map((tag: any) =>
-                        <MenuItem
-                            key={tag.public_id}
-                            data-test={tag.public_id}
-                            onClick={handleTag}
-                        >
-                            <div
-                                css={{
-                                    width: '14px',
-                                    height: '14px',
-                                    flexShrink: 0,
-                                    borderRadius: '3px',
-                                    backgroundColor: "#" + tag?.color?.toString(16),
-                                }} />
-                            {tag.title}
+                        <Checkbox
+                            checked={value.indexOf(tag.public_id) > -1}
+                            size='small'
+                            sx={{
+                                marginLeft: 'auto',
+                                height: '14px',
+                                width: '14px',
+                                '&.Mui-checked': {
+                                    color: "#" + tag?.color?.toString(16),
+                                },
+                            }} />
+                    </MenuItem>)}
+            </Drawer>
 
-                            <Checkbox
-                                checked={value.indexOf(tag.public_id) > -1}
-                                size='small'
-                                sx={{
-                                    marginLeft: 'auto',
-                                    height: '14px',
-                                    width: '14px',
-                                    '&.Mui-checked': {
-                                        color: "#" + tag?.color?.toString(16),
-                                    },
-                                }} />
-                        </MenuItem>)}
-                </div>
-            </StyledPopper>
+            )}
+
+
+
+            {(layout === "desktop" && Boolean(anchorEl)) && (
+                <StyledPopper
+                    modifiers={[{ name: "offset", options: { offset: [-8, -2] } }]}
+                    id={'tagsMenu'}
+                    placement={'left-start'}
+                    open={Boolean(anchorEl)} anchorEl={anchorEl}>
+
+                    <div
+                        css={{
+                            borderRadius: '4px',
+                            boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)',
+                            padding: '6px 8px',
+                            backgroundColor: '#0f0e10',
+                        }}
+                    >
+                        {tags.map((tag: any) =>
+                            <MenuItem
+                                key={tag.public_id}
+                                data-test={tag.public_id}
+                                onClick={handleTag}
+                            >
+                                <div
+                                    css={{
+                                        width: '14px',
+                                        height: '14px',
+                                        flexShrink: 0,
+                                        borderRadius: '3px',
+                                        backgroundColor: "#" + tag?.color?.toString(16),
+                                    }} />
+                                {tag.title}
+
+                                <Checkbox
+                                    checked={value.indexOf(tag.public_id) > -1}
+                                    size='small'
+                                    sx={{
+                                        marginLeft: 'auto',
+                                        height: '14px',
+                                        width: '14px',
+                                        '&.Mui-checked': {
+                                            color: "#" + tag?.color?.toString(16),
+                                        },
+                                    }} />
+                            </MenuItem>)}
+                    </div>
+                </StyledPopper>)}
 
             Tags <StyleRoundedIcon />
         </MenuItem>
