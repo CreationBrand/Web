@@ -112,22 +112,24 @@ const C = {
     }),
     left: css({
         width: '240px',
+        minWidth: '240px',
         height: '100%',
         touchAction: 'none',
         userSelect: ' none',
         padding: 8,
-        paddingRight: 0,
-        // background: '#0f0e10',
+        paddingRight: 8,
+        background: '#000',
 
     }),
     right: css({
 
-        width: '240px',
+        // width: '80%',
         height: '100%',
         touchAction: 'none',
         userSelect: ' none',
         padding: 8,
-        // background: '#0f0e10',
+        paddingLeft: 8,
+        background: '#000',
 
 
     }),
@@ -137,7 +139,7 @@ const C = {
         touchAction: 'none',
         userSelect: ' none',
         background: '#0f0e10',
-        padding: 8,
+        padding: 4,
 
     }),
 }
@@ -148,10 +150,12 @@ const Mobile = (props: Props) => {
     const auth = useRecoilValue(authFlow)
     const ref = useRef(null)
 
+    let side = width * 0.75;
+
     let map: any = {
-        0: -240,
+        0: -side,
         1: 0,
-        2: 240
+        2: side
     }
 
     const [xPos, setXPos] = useState(1)
@@ -160,16 +164,16 @@ const Mobile = (props: Props) => {
     const [{ x, }, api] = useSpring(() => ({ x: map[xPos] }))
 
 
-    const bind = useDrag(({ last, direction: [dx], movement: [x, y], down , initial}) => {
+    const bind = useDrag(({ last, direction: [dx], movement: [x, y], down, initial }) => {
 
         if (!down) {
-            if (x < -200 && auth !== 'guest' ) {
+            if (x < -200 && auth !== 'guest') {
                 setXPos(2)
-                return api.start({ x: -240 })
+                return api.start({ x: -side })
             }
             if (x > 200) {
                 setXPos(0)
-                return api.start({ x: 240 })
+                return api.start({ x: side })
             }
             else {
                 setXPos(1)
@@ -181,14 +185,14 @@ const Mobile = (props: Props) => {
         target: ref,
         axis: 'x',
         from: () => [x.get(), 0],
-        threshold: 100,
-        bounds: { left: auth === 'guest' ? 0 : -240, right: 240 },
+        threshold: 50,
+        bounds: { left: auth === 'guest' ? 0 : -side, right: side },
         rubberband: false,
     })
 
-    return (<div css={C.container} ref={ref} style={{ height: height, width: 480 + width, left: -240 }}>
+    return (<div css={C.container} ref={ref} style={{ height: height, width: `auto`, left: -side }}>
 
-        <animated.div css={C.left} style={{ x: x, height: height }}>{props.children[0]}</animated.div>
+        <animated.div css={C.left} style={{ x: x, height: height, width: side }}>{props.children[0]}</animated.div>
         <animated.div css={C.center} style={{
             width: width, height: height, x: x,
             transition: 'filter 0.3s ease-in-out',
@@ -196,7 +200,7 @@ const Mobile = (props: Props) => {
             touchAction: xPos !== 1 ? 'pan-y' : 'all',
             pointerEvents: xPos !== 1 ? 'none' : 'all',
         }}>{props.children[1]}</animated.div>
-        <animated.div css={C.right} style={{ x: x, height: height }}>{props.children[2]}</animated.div>
+        <animated.div css={C.right} style={{ x: x, height: height, width: side }}>{props.children[2]}</animated.div>
 
     </div>)
 }

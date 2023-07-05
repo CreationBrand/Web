@@ -14,7 +14,11 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
 
 const C = {
-    inner: css([textBold('s'), {
+    inner: css({
+        fontSize: '14px',
+        fontWeight: 600,
+        cursor: 'pointer',
+
         touchAction: 'none',
         userSelect: 'none',
         flexGrow: 1,
@@ -24,7 +28,7 @@ const C = {
         width: '100%',
         whiteSpace: 'nowrap',
 
-    }]),
+    }),
     group: css({
         cursor: 'pointer',
         padding: '8px',
@@ -70,7 +74,7 @@ const Group = ({ node, onEdit }: any) => {
 
 
             <div css={{
-                height: '18px',
+                height: '20px',
                 cursor: 'pointer',
                 fill: '#b9bbbe',
                 '&:hover': {
@@ -78,9 +82,9 @@ const Group = ({ node, onEdit }: any) => {
                 }
             }}>
 
-                {node.children === null ? <CheckBoxOutlineBlankIcon onClick={handleGroup} sx={{ fontSize: '18px', fill: 'inherit' }} /> :
-                    node.isOpen ? <IndeterminateCheckBoxOutlinedIcon onClick={handleGroup} sx={{ fontSize: '18px', fill: 'inherit' }} />
-                        : <AddBoxOutlinedIcon onClick={handleGroup} sx={{ fontSize: '18px', fill: 'inherit' }} />
+                {node.children === null ? <CheckBoxOutlineBlankIcon onClick={handleGroup} sx={{ fontSize: '20px', fill: 'inherit' }} /> :
+                    node.isOpen ? <IndeterminateCheckBoxOutlinedIcon onClick={handleGroup} sx={{ fontSize: '20px', fill: 'inherit' }} />
+                        : <AddBoxOutlinedIcon onClick={handleGroup} sx={{ fontSize: '20px', fill: 'inherit' }} />
                 }
 
 
@@ -90,9 +94,10 @@ const Group = ({ node, onEdit }: any) => {
 
             <motion.div css={C.inner} onClick={handleNav}>
 
-                <div css={[{ color: "#" + node.data?.object?.color?.toString(16) + '!important', marginBottom: '0px !important' }]}>
+                <div css={{ color: "#" + node.data?.object?.color?.toString(16) + '!important' }}>
                     {node.data.object.title}
                 </div>
+
                 {!node.data.object.base && <SettingsOutlinedIcon onClick={handleEdit} sx={{
                     fontSize: '18px', fill: '#b9bbbe', '&:hover': {
                         fill: '#fff !important',

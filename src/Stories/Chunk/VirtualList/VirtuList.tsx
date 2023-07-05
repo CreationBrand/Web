@@ -25,7 +25,7 @@ const VirtuList = ({ list, public_id, overscan }: any) => {
             }}
             style={{
 
-                height: height - 72, marginBottom: 8, width: '100%',
+                height: height - 64, marginBottom: 8, width: '100%',
                 touchAction: 'pan-y'
             }}
             data={list}

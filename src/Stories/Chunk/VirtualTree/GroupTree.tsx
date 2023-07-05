@@ -71,11 +71,12 @@ const GroupTree = () => {
 
             <Tree
                 data={tree}
-                openByDefault={false}
-                width={216}
+                openByDefault={true}
+                width={'100%'}
                 height={height - 112}
                 indent={24}
                 rowHeight={40}
+                
                 overscanCount={1}
                 searchTerm={filter}
                 searchMatch={(node: any, term): any => {
