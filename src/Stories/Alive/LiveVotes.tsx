@@ -16,21 +16,6 @@ import { commentSync } from 'State/commentAtoms'
 import { postSync } from 'State/postAtoms'
 
 const C = {
-    up: css({
-        borderRadius: '8px',
-        padding: '0px',
-        width: '30px',
-        height: '30px',
-        minWidth: '10px',
-    }),
-
-    down: css({
-        width: '30px',
-        height: '30px',
-        borderRadius: '8px',
-        padding: '0px',
-        minWidth: '10px',
-    }),
 
     vote: css({
         display: 'flex',
@@ -39,7 +24,7 @@ const C = {
         borderRadius: '8px',
         alignItems: 'center',
         overflow: 'hidden',
-        gap: '4px',
+        gap: '2px',
         height: '30px',
         fontSize: '14px',
         fontWeight: 'bold',
@@ -49,12 +34,6 @@ const C = {
         flexDirection: 'row',
         width: 'min-content',
         background: 'transparent',
-    }),
-    smallDown: css({
-        borderRadius: '8px',
-        width: 'min-content',
-        height: '100%',
-        padding: '0px',
     }),
 }
 
@@ -94,28 +73,30 @@ const LiveVotes = ({ karma, public_id, vote, size, type }: any) => {
 
     return (
         <div css={[C.vote, size === 'small' && C.small]}>
-            <Button
-                css={[C.up, size === 'small' && C.smallDown, vote === 1 && { color: '#43b581' }]}
-                variant="text"
-                color="secondary"
-                size="small"
+
+
+            <ArrowDropUpRoundedIcon
                 onClick={increase}
-            >
-                <ArrowDropUpRoundedIcon fontSize="large" />
-            </Button>
+                sx={{
+                    cursor: 'pointer',
+                    fontSize: '30px !important',
+                    color: vote === 1 ? '#43b581' : '#b9bbbe'
+                }}
+            />
+
 
             <Ticker value={karma} color={color} />
 
-            <Button
-                css={[C.down, size === 'small' && C.smallDown, vote === -1 && { color: '#f04747' }]}
-                variant="text"
-                color="secondary"
-                size="small"
+            <ArrowDropUpRoundedIcon
                 onClick={decrease}
-            >
-                <ArrowDropDownRoundedIcon fontSize="large" />
-            </Button>
-        </div >
+                sx={{
+                    cursor: 'pointer',
+                    fontSize: '30px !important',
+                    color: vote === -1 ? '#f04747' : '#b9bbbe'
+                }}
+            />
+
+        </div>
     )
 }
 

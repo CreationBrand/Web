@@ -61,11 +61,14 @@ const CommunityTitle = ({ title, public_id }: any) => {
                     </Link>
                     {Boolean(anchorEl) &&
                         <HoverPopover
-                            sx={{
-                                '& .MuiPaper-root': {
-                                    borderRadius: '16px !important',
-                                }
-                            }}
+                        sx={{
+                            '& .MuiBackdrop-root': {
+                                background: 'transparent !important',
+                            },
+                            '.MuiPaper-root': {
+                                borderRadius: '16px !important',
+                            }
+                        }}
                             {...bindPopover(popupState)}
                             anchorOrigin={{
                                 vertical: 'bottom',
@@ -178,8 +181,7 @@ let Preview = ({ public_id }: any) => {
                         disableElevation
                         sx={{
                             marginLeft: 'auto !important',
-                            fontFamily: 'Noto Sans',
-                            background: '#0f0e10',
+                          background: '#0f0e10',
                             borderRadius: '16px',
                             fontSize: '12px',
                             fontWeight: '700',

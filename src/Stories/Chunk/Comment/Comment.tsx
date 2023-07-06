@@ -4,7 +4,6 @@
 import { css } from '@emotion/react'
 import { Button, } from '@mui/material'
 import LiveRoles from 'Stories/Alive/LiveRoles'
-import ReplyAllRoundedIcon from '@mui/icons-material/ReplyAllRounded'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { layoutSizeData } from 'State/Data'
 import { useState } from 'react'
@@ -16,7 +15,7 @@ import AddComment from './AddComment'
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 
-import { textBold, textLight, time } from 'Global/Mixins'
+import { time } from 'Global/Mixins'
 import LiveTags from '../../Alive/LiveTags'
 import Nickname from 'Stories/Bits/Titles/Nickname'
 import LiveVotes from 'Stories/Alive/LiveVotes'
@@ -32,27 +31,17 @@ import TimeAgo from 'react-timeago'
 import { formatTime } from 'Util/formatTime'
 import CommentMenu from 'Stories/Menu/CommentMenu'
 import useIsMuted from 'Hooks/Util/useIsMuted'
+import { faReplyAll } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const C = {
     container: css({
         width: '100%',
         background: '#272732',
         padding: '0px 8px',
-
-
-        '&::last-of-type': {
-            marginBottom: '8px',
-        }
-
     }),
     inner: css({
-        // width: '100%',
-        // maxWidth: '800px',
-        // margin: '0 auto',
-        // padding: '0px 8px',
         display: 'flex',
-
-
     }),
     header: css({
         marginTop: '12px',
@@ -171,8 +160,6 @@ const colors: any = {
 
 const Comment = (props: any) => {
 
-
-    const [inView, setVisibility] = useState(false)
     const isMuted = useIsMuted(props?.community?.public_id)
 
     const [vote, tags, community_roles, global_roles, visibility, author, content, created_at,
@@ -189,7 +176,6 @@ const Comment = (props: any) => {
     const doesPathExist = useRecoilValue(pathExistsSelector);
     const status = doesPathExist(path);
 
-    const handleVisibility = (isVisible: boolean) => setVisibility(isVisible)
     const handleReply = () => setShowReply(!showReply)
     const handleSpacer = (e: any) => {
         let parts = path.split('.')
@@ -213,13 +199,11 @@ const Comment = (props: any) => {
     }
 
 
-
-    if (params.comment_id === public_id) console.log('match')
-
     return (
-        <div key={public_id} css={[C.container]} id="comment">
+        <div key={public_id} css={[C.container]} id="COMMENT">
 
             <div css={C.inner}>
+
                 <div css={C.spacers}>{spacers}</div>
 
                 <div css={[C.comment, { marginLeft: layoutState === 'mobile' ? '4px' : '0px' }]}>
@@ -292,18 +276,17 @@ const Comment = (props: any) => {
                                 <LiveVotes size='small' vote={vote} karma={karma} public_id={public_id} type='comment' />
                                 {depth < 10 && <>
                                     <div css={C.divider} />
-
-                                    <Button
+                                    <FontAwesomeIcon
                                         onClick={handleReply}
-                                        variant="text"
-                                        size="small"
-                                        color="secondary"
-                                        sx={{ gap: '8px', fontSize: '16px' }}                                    >
-                                        <ReplyAllRoundedIcon fontSize="inherit" />
-                                        <div css={[textBold('t'), {
+                                        icon={faReplyAll} css={{
+                                            fontSize: '14px',
                                             color: '#b9bbbe',
-                                        }]}>Reply</div>
-                                    </Button>
+                                            cursor: 'pointer',
+                                            padding: '0px 8px',
+                                            '&:hover': {
+                                                color: '#fff',
+                                            },
+                                        }} />
                                 </>}
 
                             </div>
@@ -314,9 +297,6 @@ const Comment = (props: any) => {
 
                 </div>
 
-
-
-
             </div>
 
             {showReply &&
@@ -325,11 +305,6 @@ const Comment = (props: any) => {
                 </div>}
 
         </div>
-
-        // </div>
-
-
-
     )
 }
 

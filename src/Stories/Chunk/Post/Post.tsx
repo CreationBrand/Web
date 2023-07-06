@@ -62,6 +62,7 @@ const C = {
         all:'unset',
         color: '#f2f4f5',
         fontSize: '20px',
+        lineHeight: '25px',
         fontWeight: 600,
     }),
 }

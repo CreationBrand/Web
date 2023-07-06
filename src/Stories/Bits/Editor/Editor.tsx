@@ -20,7 +20,6 @@ const C = {
     editor: css({
         background: '#272732',
         // padding: '8px',
-        fontFamily: 'noto sans',
         color: 'white',
         width: '100%',
         borderRadius: '8px',
@@ -30,7 +29,6 @@ const C = {
 
         '.ql-blank': {
             '&::before': {
-                fontFamily: 'noto sans',
                 fontSize: '12px',
                 color: '#bcbdbe',
                 left: '0px',

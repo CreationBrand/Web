@@ -43,7 +43,6 @@ const RichInput = ({ control, maxLength, name, defaultValue }: any) => {
                         color: '#c84b4b',
                         fontSize: '14px',
                         fontWeight: 400,
-                        fontFamily: 'noto sans',
                         display: 'flex',
                         alignItems: 'center',
                         gap: '4px',

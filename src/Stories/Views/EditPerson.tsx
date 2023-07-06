@@ -6,7 +6,7 @@ import { Divider, Input, Button, TextareaAutosize, styled } from "@mui/material"
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { personData } from 'State/Data';
-import { textLabel } from 'Global/Mixins';
+import { header, label, roundButton, section, textLabel } from 'Global/Mixins';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +15,7 @@ import { socketRequest } from 'Service/Socket';
 import ImageEditor from 'Stories/Forum/ImageEditor';
 import FlatInput from 'Stories/Forum/FlatInput';
 import RichInput from 'Stories/Forum/RichInput';
+import { LoadingButton } from '@mui/lab';
 
 
 // VALIDATION
@@ -28,25 +29,18 @@ const schema = Joi.object({
 const C = {
     pane: css({
         width: '100%',
-        height: '100%',
+        height: 'calc(100% - 56px)',
         background: '#0f0e10',
         touchAction: 'pan-y',
         zIndex: 200,
         position: 'relative',
-
+        overflow: 'hidden',
     }),
     container: css({
-        width: '100%',
-        height: 'calc(100% - 56px)',
-        padding: '22px 0px',
-        scrollbarGutter: 'stable both-edges',
-        overflow: 'auto',
-        background: '#272732',
-        marginTop: '8px',
-        borderRadius: '8px',
-        position: 'relative',
-        touchAction: 'pan-y'
-
+        maxWidth: '800px',
+        margin: '0 auto',
+        overflowY: 'scroll',
+        height: '100%',
     }),
     inner: css({
         display: 'flex',
@@ -122,127 +116,135 @@ const EditPerson = () => {
     if (!person) return <div>loading</div>
 
 
-    return <div css={C.pane}><div css={C.container}>
 
-        <div css={C.inner}>
 
-            <div css={C.row}>
-                <div css={{
-                    color: '#fff',
-                    fontSize: "20px",
-                    fontWeight: 450,
-                }}>Settings</div>
-                <div>
-                    <Button color='secondary'>Cancel</Button>
-                    <Button
+    return (
+        <div css={C.pane}>
+            <div css={C.container}>
+
+                <section css={{ padding: '12px 8px', borderRadius: '8px', marginTop: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div css={header}>Edit Profile</div>
+                    <LoadingButton
+                        loadingIndicator="Loading…"
+                        loading={loading}
                         disabled={!(Object.keys(errors)?.length === 0 && errors.constructor === Object) ||
                             (person.nickname === changed.nickname &&
                                 person.about_me === changed.about_me || Object.keys(changed).length === 0)
                         }
                         disableElevation
-                        sx={{
-                            marginLeft: '8px',
-                            borderRadius: '8px',
-                        }}
-                        onMouseDown={onSubmit} variant='contained'>Submit</Button>
+                        sx={roundButton}
+                        onMouseDown={onSubmit} variant='contained'
+                    >
+                        update
+                    </LoadingButton>
+                </section>
+
+                <div css={{ background: '#272732', borderRadius: '8px', marginTop: '12px', padding: '0px 0px 16px 0px' }}>
+                    <section css={section}>
+                        <div css={{
+                            margin: "6px 0px",
+                            fontWeight: "bold",
+                            fontSize: "18px",
+                            lineHeight: "22px",
+                            wordBreak: "normal",
+                            textDecoration: "none",
+                            color: '#fff',
+                        }}>Display</div>
+                        <div css={{
+                            margin: "0px 0px 30px",
+                            fontWeight: "400",
+                            fontSize: "14px",
+                            lineHeight: "20px",
+                            wordBreak: "normal",
+                            textDecoration: "none",
+                            color: '#b9b6ba',
+                        }}>This is how users will see your account.</div>
+
+
+                        <section css={{ padding: '0px 0px 16px 0px' }}>
+
+                            <h3 css={label}>Username</h3>
+                            <Input
+                                value={`@${person.username}`}
+                                autoComplete="off"
+                                disabled
+                                disableUnderline
+                                fullWidth
+                                sx={{
+                                    height: "42px",
+                                }} />
+                        </section>
+
+
+                        <section css={{ padding: '0px 0px 16px 0px' }}>
+                            <h3 css={textLabel('s')}>Nickname</h3>
+                            <FlatInput control={control} name="nickname" defaultValue={person.nickname} maxLength={22} />
+                        </section>
+
+
+                        <section css={{ padding: '0px 0px 16px 0px' }}>
+                            <h3 css={textLabel('s')}>about me</h3>
+                            <RichInput control={control} name="about_me" defaultValue={person.about_me} maxLength={800} />
+                        </section>
+
+
+                    </section>
                 </div>
-            </div>
-
-            <Divider sx={{ margin: '12px' }} />
 
 
 
-            <section css={{ padding: '16px 16px 0px 16px' }}>
-                <div css={{
-                    margin: "6px 0px",
-                    fontWeight: "bold",
-                    fontSize: "18px",
-                    lineHeight: "22px",
-                    wordBreak: "normal",
-                    textDecoration: "none",
-                    color: '#fff',
-                }}>Display</div>
-                <div css={{
-                    margin: "0px 0px 30px",
-                    fontWeight: "400",
-                    fontSize: "14px",
-                    lineHeight: "20px",
-                    wordBreak: "normal",
-                    textDecoration: "none",
-                    color: '#b9b6ba',
-                }}>This is how users will see your account.</div>
-            </section>
-
-            <section css={{ padding: '16px 16px 0px 16px' }}>
-                <h3 css={textLabel('s')}>Username</h3>
-                <Input
-                    value={`@${person.username}`}
-                    autoComplete="off"
-                    disabled
-                    disableUnderline
-                    fullWidth
-                    sx={{
-                        height: "42px",
-                    }} />
-            </section>
-
-            <section css={{ padding: '16px 16px 0px 16px' }}>
-                <h3 css={textLabel('s')}>Nickname</h3>
-                <FlatInput control={control} name="nickname" defaultValue={person.nickname} maxLength={22} />
-            </section>
+                <div css={{ background: '#272732', borderRadius: '8px', marginTop: '12px', padding: '0px 0px 16px 0px' }}>
 
 
-            <section css={{ padding: '16px 16px 0px 16px' }}>
-                <h3 css={textLabel('s')}>about me</h3>
-                <RichInput control={control} name="about_me" defaultValue={person.about_me} maxLength={800} />
-            </section>
+                    <section css={section}>
+                        <div css={{
+                            margin: "6px 0px",
+                            fontWeight: "bold",
+                            fontSize: "18px",
+                            lineHeight: "22px",
+                            wordBreak: "normal",
+                            textDecoration: "none",
+                            color: '#fff',
+                        }}>Images</div>
+                        <div css={{
+                            margin: "0px 0px 30px",
+                            fontWeight: "400",
+                            fontSize: "14px",
+                            lineHeight: "20px",
+                            wordBreak: "normal",
+                            textDecoration: "none",
+                            color: '#b9b6ba',
+                        }}>Notice only accepts JPG/JPEG files. Also will take a few minutes to update.</div>
 
 
-            <section css={{ padding: '16px 16px 0px 16px' }}>
-                <div css={{
-                    margin: "6px 0px",
-                    fontWeight: "bold",
-                    fontSize: "18px",
-                    lineHeight: "22px",
-                    wordBreak: "normal",
-                    textDecoration: "none",
-                    color: '#fff',
-                }}>Images</div>
-                <div css={{
-                    fontWeight: "400",
-                    fontSize: "14px",
-                    lineHeight: "20px",
-                    wordBreak: "normal",
-                    textDecoration: "none",
-                    color: '#b9b6ba',
-                }}>Notice only accepts JPG/JPEG files. Also will take a few minutes to update. </div>
+                        <section css={{ display: 'flex', gap: '8px'}} >
+                            <div>
+                                <h3 css={textLabel('s')}>Avatar</h3>
+                                <ImageEditor type='avatar' api='person-avatar' id={person.public_id} />
+                            </div>
 
-            </section>
+                            <div>
+                                <div css={textLabel('s')}>Banner</div>
+                                <ImageEditor
+                                    width='800'
+                                    height='140'
+                                    type='banner' api='person-banner' id={person.public_id} />
+                            </div>
+                        </section>
 
-            <section css={{ padding: '16px 16px 0px 16px' }}>
-                <div css={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
 
-                    <div>
-                        <h3 css={textLabel('s')}>Avatar</h3>
-                        <ImageEditor type='avatar' api='person-avatar' id={person.public_id} />
-                        <div css={{ marginBottom: "26px" }} />
-                    </div>
 
-                    <div>
-                        <div css={textLabel('s')}>Banner</div>
-                        <ImageEditor
-                            width='800'
-                            height='140'
-                            type='banner' api='person-banner' id={person.public_id} />
-                        <div css={{ marginBottom: "26px" }} />
-                    </div>
+                    </section>
+
 
                 </div>
-            </section>
 
-        </div>
-    </div >
-    </div>
+
+
+            </div >
+        </div >
+    )
+
 }
 
 

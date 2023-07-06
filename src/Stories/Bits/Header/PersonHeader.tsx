@@ -161,7 +161,6 @@ const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nic
                         disableElevation
                         sx={{
                             marginLeft: 'auto !important',
-                            fontFamily: 'Noto Sans',
                             background: '#0f0e10',
                             borderRadius: '16px',
                             fontSize: '12px',

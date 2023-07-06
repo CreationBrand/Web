@@ -20,7 +20,6 @@ const C = {
         maxWidth: '800px',
         alignItems: 'center',
         display: 'flex',
-        fontFamily: 'noto sans',
         justifyContent: 'space-between',
         fontSize: '12px',
         fontWeight: 600,

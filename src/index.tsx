@@ -19,16 +19,16 @@ const queryClient = new QueryClient({
 })
 
 root.render(
-  <RecoilRoot>
-    <RecoilNexus />
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <QueryClientProvider client={queryClient}>
+  <BrowserRouter>
+    <RecoilRoot>
+      <RecoilNexus />
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
           <App />
-        </QueryClientProvider>
-      </ThemeProvider>
-    </BrowserRouter>
-  </RecoilRoot>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </RecoilRoot>
+  </BrowserRouter>
 );
 
 

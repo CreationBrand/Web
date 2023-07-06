@@ -13,7 +13,6 @@ const C = {
         gap: '8px',
         width: '100%',
         height: '40px',
-        fontFamily: 'Noto Sans',
 
     }),
 }

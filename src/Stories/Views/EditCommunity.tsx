@@ -290,7 +290,6 @@ const EditCommunity = () => {
                                             width: '100%',
                                             color: '#f2f3f5 !important',
                                             background: '#181820',
-                                            fontFamily: 'noto sans !important',
 
                                         }}
 

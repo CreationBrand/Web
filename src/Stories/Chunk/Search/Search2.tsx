@@ -37,7 +37,6 @@ const C = {
         width: '100%',
         height: '100%',
         fontSize: '13px',
-        fontFamily: 'noto sans !important',
         overflow: "hidden",
         whiteSpace: "nowrap",
         textOverflow: "ellipsis",
@@ -66,7 +65,6 @@ const C = {
         color: 'inherit',
         fontSize: "12px",
         fontWeight: "600",
-        fontFamily: "Noto Sans",
         lineHeight: "22px",
         maxWidth: "80px",
         overflow: "hidden",
@@ -196,12 +194,10 @@ const Search2 = () => {
                     <div>
                         <div css={{
                             color: '#f3f3f5',
-                            fontFamily: 'Noto Sans',
                             fontSize: '14px',
                         }}>{req.persons[i].nickname}</div>
                         <div css={{
                             color: '#d7dadc',
-                            fontFamily: 'Noto Sans',
                             fontSize: '12px',
                         }}>
                             <span css={{ fontWeight: 'bold' }}>
@@ -227,7 +223,6 @@ const Search2 = () => {
                     data-test={`c/${req.communities[i].public_id}`}
                     key={req.communities[i].public_id}
                     css={{
-                        fontFamily: 'Noto Sans',
                         borderRadius: '8px',
                         gap: '8px',
                         display: 'flex',
@@ -243,12 +238,10 @@ const Search2 = () => {
                     <div>
                         <div css={{
                             color: '#f3f3f5',
-                            fontFamily: 'Noto Sans',
                             fontSize: '14px',
                         }}>{req.communities[i].title}</div>
                         <div css={{
                             color: '#d7dadc',
-                            fontFamily: 'Noto Sans',
                             fontSize: '12px',
                         }}>
                             <span css={{ fontWeight: 'bold' }}>{req.communities[i].subscribers}</span> members</div>

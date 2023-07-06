@@ -1,16 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import AutoGraphRoundedIcon from '@mui/icons-material/AutoGraphRounded'
-import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded'
-import NewReleasesRoundedIcon from '@mui/icons-material/NewReleasesRounded'
+
 import { Button, Menu } from '@mui/material'
-import { sMuted } from 'Stories/Bits/Text/Text'
 import AutoAwesomeMosaicRoundedIcon from '@mui/icons-material/AutoAwesomeMosaicRounded';
-import { faAddressCard, faChartLine, faFire, faLayerGroup, faMessage, faNewspaper } from '@fortawesome/free-solid-svg-icons'
+import { faAddressCard, faLayerGroup, faNewspaper } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
-import TagFilter from 'Stories/Bits/Picker/TagFilter'
-import WeekendRoundedIcon from '@mui/icons-material/WeekendRounded';
+
 
 const C = {
     container: css({
@@ -29,7 +25,6 @@ const C = {
         maxWidth: '800px',
         alignItems: 'center',
         display: 'flex',
-        fontFamily: 'noto sans',
     }),
 }
 

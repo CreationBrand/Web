@@ -18,6 +18,7 @@ var Public = () => {
     const location = useLocation()
     const [value, setContentFlow] = useRecoilState(contentFlow)
 
+    console.log('publiuc',location.pathname)
 
     useEffect(() => {
         let parts: any = location.pathname.split('/')

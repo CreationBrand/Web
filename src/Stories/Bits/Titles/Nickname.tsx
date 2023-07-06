@@ -59,11 +59,14 @@ const Nickname = ({ title, public_id, community_id, global_roles }: any) => {
 
                     {Boolean(anchorEl) &&
                         <HoverPopover
-                            sx={{
-                                '& .MuiPaper-root': {
-                                    borderRadius: '16px !important',
-                                }
-                            }}
+                        sx={{
+                            '& .MuiBackdrop-root': {
+                                background: 'transparent !important',
+                            },
+                            '.MuiPaper-root': {
+                                borderRadius: '16px !important',
+                            }
+                        }}
                             {...bindPopover(popupState)}
                             anchorOrigin={{
                                 vertical: 'bottom',

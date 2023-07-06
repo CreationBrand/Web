@@ -4,7 +4,7 @@ let times: any = {
     minute: 'm',
     hour: 'h',
     day: 'd',
-    week: 'W',
+    week: 'w',
     month: 'M',
     year: 'Y',
 }

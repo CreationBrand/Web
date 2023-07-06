@@ -39,7 +39,7 @@ const C = {
         justifyContent: 'center',
         alignItems: 'center',
         color: '#f2f2f2',
-        marginBottom: '8px',
+        // marginBottom: '8px',
         padding: '8px',
         textAlign: 'center',
         '&:hover': {
@@ -104,7 +104,7 @@ const ImageEditor = ({ type, api, width, height, id }: any) => {
 
         <div
             style={{
-                width: type === 'banner' ? '240px' : '120px',
+                width: type === 'banner' ? '100%' : '120px',
                 border: error ? '2px solid red' : '2px solid #181820'
             }}
             css={C.dropzone} {...getRootProps()}>

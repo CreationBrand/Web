@@ -6,7 +6,7 @@ import { textLabel, } from "Global/Mixins";
 import { Tree } from "react-arborist";
 import Leaf from "./Leaf";
 import MessengerFilter from "Stories/Bits/MessengerFilter/MessengerFilter";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { faFire, faHouseUser, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useWindow from "Hooks/useWindow";
@@ -93,4 +93,4 @@ const Node = ({ node, style, dragHandle }: any) => {
         link={node.data.link} />
 }
 
-export default MessengerTree;
+export default memo(MessengerTree);

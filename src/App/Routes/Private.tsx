@@ -14,12 +14,11 @@ import SearchCommunityList from 'Stories/Chunk/Lists/SearchCommunityList'
 import Submit from 'Stories/Views/Submit'
 import { contentFlow } from 'State/Flow'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { set } from 'react-hook-form'
 
 var Private = () => {
 
     const location = useLocation()
-    const [value, setContentFlow] = useRecoilState(contentFlow)
+    const setContentFlow = useSetRecoilState(contentFlow)
 
     useEffect(() => {
         let parts: any = location.pathname.split('/')
@@ -30,7 +29,6 @@ var Private = () => {
                 return setContentFlow('global')
             case parts[1] === 'search':
                 return setContentFlow('search')
-
             case parts[1] === 'c' && parts[3] === 'search':
                 return setContentFlow('searchCommunity')
             case parts[1] === 'c' && parts.length === 3:

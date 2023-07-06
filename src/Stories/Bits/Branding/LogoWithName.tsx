@@ -47,7 +47,6 @@ const LogoWithName = () => {
             <div css={C.column}>
                 <div css={{
                     color: '#fff',
-                    fontFamily: 'Noto Sans',
                     fontSize: '20px',
                     letterSpacing: '1px',
                     lineHeight: '20px',
@@ -57,7 +56,6 @@ const LogoWithName = () => {
                         css={{
                             color:"#f2f3f5",
                             fontWeight: 'normal',
-                            fontFamily: 'Noto Sans',
                             fontSize: '12px',
                             lineHeight: '12px',
 

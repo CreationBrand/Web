@@ -23,7 +23,7 @@ const C = {
 
     inner: css({
         margin: '0 auto',
-        marginTop: '16px',
+        marginTop: '12px',
         width: '100%',
         height: '140px',
         minHeight: '140px',
@@ -204,7 +204,6 @@ const CommunityPane = ({ public_id }: any) => {
                         disableElevation
                         sx={{
                             marginLeft: 'auto !important',
-                            fontFamily: 'Noto Sans',
                             background: '#0f0e10',
                             borderRadius: '16px',
                             fontSize: '12px',

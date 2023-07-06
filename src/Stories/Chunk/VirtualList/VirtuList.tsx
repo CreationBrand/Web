@@ -2,21 +2,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { memo, useRef } from 'react'
-import useWindow from 'Hooks/useWindow'
+import { memo } from 'react'
 import { Virtuoso } from 'react-virtuoso'
-
 
 const VirtuList = ({ list, public_id, overscan }: any) => {
 
-    const { height } = useWindow()
-    const ref: any = useRef(null)
-
     return (
         <Virtuoso
-            defaultItemHeight={530}
+            defaultItemHeight={535}
             overscan={overscan ? overscan : 1}
-            ref={ref}
             css={{
                 '&::-webkit-scrollbar': {
                     display: 'none',
@@ -24,13 +18,14 @@ const VirtuList = ({ list, public_id, overscan }: any) => {
                 },
             }}
             style={{
-
-                height: height - 64, marginBottom: 8, width: '100%',
+                height: '100%',
+                marginBottom: 8,
+                width: '100%',
                 touchAction: 'pan-y'
             }}
             data={list}
             itemContent={(index, item) => {
-                return (item)
+                return item
             }}
         />
     )

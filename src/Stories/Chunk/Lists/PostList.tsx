@@ -48,11 +48,10 @@ const C = {
 const PostList = () => {
 
     const params: any = useParams()
-
     const [isLoading, isError, component] = usePost(params.post_id)
     const [isLoading2, isError2, components]: any = useCommentList(params.post_id)
 
-    const see = useSetRecoilState(seenAtom)
+    // const see = useSetRecoilState(seenAtom)
     const data = useCommunityData(params.community_id)
     const mainSize = useRecoilValue(mainSizeState)
     const isMuted = useIsMuted(params.community_id)
@@ -60,9 +59,10 @@ const PostList = () => {
     useLinkPost(params.post_id, true)
 
 
-    useEffect(() => {
-        see((o: any) => [...o, params.post_id])
-    }, [params.post_id])
+    // useEffect(() => {
+    //     see((o: any) => [...o, params.post_id])
+    // }, [params.post_id])
+
 
     return (
         <motion.div
@@ -93,7 +93,6 @@ const PostList = () => {
                 <div css={{ height: 'min-content', marginTop: '16px' }}>
                     {mainSize === 1 ? null : <CommunityPreview {...data} />}
                     <GlobalFilter />
-                    {/* <Move /> */}
                 </div>
             }
 

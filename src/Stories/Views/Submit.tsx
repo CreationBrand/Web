@@ -24,6 +24,9 @@ import ContentLoader from 'Stories/Chunk/ContentLoader/ContentLoader';
 import RichInput from 'Stories/Forum/RichInput';
 import CommunityPicker from 'Stories/Forum/CommunityPicker';
 import FlatInput from 'Stories/Forum/FlatInput';
+import LiveComments from 'Stories/Alive/LiveComments';
+import LiveViews from 'Stories/Alive/LiveViews';
+import LiveVotes from 'Stories/Alive/LiveVotes';
 
 
 // VALIDATION
@@ -42,34 +45,19 @@ const schema = Joi.object({
 const C = {
     pane: css({
         width: '100%',
-        height: '100%',
+        height: 'calc(100% - 56px)',
         background: '#0f0e10',
-        touchAction: 'pan-y',
         zIndex: 200,
         position: 'relative',
-        paddingTop: '8px',
         overflow: 'hidden',
     }),
-
     container: css({
-        width: '100%',
-        height: '100%',
-        borderRadius: '8px',
-        background: '#272732',
-        paddingTop: '20px',
-        overflow: 'scroll',
-    }),
-    inner: css({
-        width: '100%',
-        borderRadius: '8px',
-        background: '#272732',
-        display: 'flex',
-        flexDirection: 'column',
+        touchAction: 'pan-y',
         maxWidth: '800px',
         margin: '0 auto',
-        paddingBottom: '52px',
+        overflowY: 'scroll',
+        height: '100%',
     }),
-
     section: css({
         width: 'min-content',
         background: '#181820',
@@ -127,35 +115,28 @@ const Submit = () => {
     return (
         <div css={C.pane}>
             <div css={C.container}>
-                <div css={C.inner}>
-
-
-                    <section css={{ padding: 16 }}>
-                        <div css={C.row}>
-                            <div css={header}>Create a Post</div>
-
-                            <LoadingButton
-                                loadingIndicator="Loading…"
-                                loading={loading}
-                                disabled={Boolean(Object.keys(errors).length) || data.title === '' || data.community_id === undefined}
-                                disableElevation
-                                sx={roundButton}
-                                onMouseDown={onSubmit} variant='contained'
-                            >
-                                Submit
-                            </LoadingButton>
 
 
 
 
+                <section css={{ padding: '12px 8px', borderRadius: '8px', marginTop: '12px' }}>
+                    <div css={C.row}>
+                        <div css={header}>Create a Post</div>
+                        <LoadingButton
+                            loadingIndicator="Loading…"
+                            loading={loading}
+                            disabled={Boolean(Object.keys(errors).length) || data.title === '' || data.community_id === undefined}
+                            disableElevation
+                            sx={roundButton}
+                            onMouseDown={onSubmit} variant='contained'
+                        >
+                            Submit
+                        </LoadingButton>
+                    </div>
+                </section>
 
-
-
-                        </div>
-                    </section>
-
-                    <Divider />
-
+                {/* <Divider /> */}
+                <div css={{ background: '#272732', borderRadius: '8px', marginTop: '12px', padding: '0px 0px 16px 0px', }}>
                     <section css={section}>
                         <h4 css={label}>SELECT A COMMUNITY</h4>
                         <CommunityPicker name="community_id" control={control} />
@@ -246,7 +227,10 @@ const Submit = () => {
                                 </TabContext>
                             } />
                     </section>
+                </div>
 
+
+                <div css={{ background: '#272732', borderRadius: '8px', marginTop: '12px', padding: '0px 0px 16px 0px', }}>
 
                     <section css={section}>
                         <h4 css={label}>PREVIEW</h4>
@@ -255,15 +239,18 @@ const Submit = () => {
                             maxWidth: '800px', width: '100%', overflow: 'hidden',
                             whiteSpace: 'normal',
                             wordBreak: 'break-word',
+                            gap: '8px',
+                            display: 'flex',
+                            flexDirection: 'column',
                         }}>
                             <div css={textBold('x')}>{data.title && data.title}</div>
                             <ContentLoader type={data.type} content={data.content} />
                         </div>
                     </section>
 
-
-
                 </div>
+
+
             </div >
         </div>
     )

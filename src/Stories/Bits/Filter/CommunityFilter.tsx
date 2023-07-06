@@ -1,15 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import AutoGraphRoundedIcon from '@mui/icons-material/AutoGraphRounded'
-import WhatshotRoundedIcon from '@mui/icons-material/WhatshotRounded'
-import NewReleasesRoundedIcon from '@mui/icons-material/NewReleasesRounded'
-import { Button, Menu } from '@mui/material'
-import { sMuted } from 'Stories/Bits/Text/Text'
+
+import { Button } from '@mui/material'
 import AutoAwesomeMosaicRoundedIcon from '@mui/icons-material/AutoAwesomeMosaicRounded';
 import { faChartLine, faFire, faNewspaper } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
-import TagFilter from 'Stories/Bits/Picker/TagFilter'
 import { useRecoilState } from 'recoil'
 import { postFilter } from 'State/filterAtoms'
 
@@ -30,7 +26,6 @@ const C = {
         maxWidth: '800px',
         alignItems: 'center',
         display: 'flex',
-        fontFamily: 'noto sans',
     }),
 }
 

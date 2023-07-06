@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { textNormal } from 'Global/Mixins'
+
 import { socketFlow } from 'State/Flow';
 import { memo, } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -13,7 +13,6 @@ const C = {
         height: '100%',
         minHeight: '420px',
         width: '100%',
-
         // paddingTop: '40px',
         margin: 'auto 0px',
         display: 'flex',
@@ -37,14 +36,19 @@ const C = {
         justifyContent: 'center',
         // border:'1px solid #fff',
     }),
-    "@keyframes gradient": {
-        "0%": { backgroundPosition: "0% 50%" },
-        "50%": { backgroundPosition: "100% 50%" },
-        "100%": { backgroundPosition: "0% 50%" }
-    }
+}
 
+
+
+let colors: any = {
+    error: '#fb4b4b',
+    loading: '#4b77fb',
+    end: '#fbb24b',
+    connected: '#51fb4b',
+    disconnected: '#fb8c4b',
 
 }
+
 
 const ChunkError = ({ variant, onLoad, end, reset }: any) => {
 
@@ -59,14 +63,6 @@ const ChunkError = ({ variant, onLoad, end, reset }: any) => {
         } catch (e) { }
     }
 
-    let colors: any = {
-        error: '#fb4b4b',
-        loading: '#4b77fb',
-        end: '#fbb24b',
-        connected: '#51fb4b',
-        disconnected: '#fb8c4b',
-
-    }
 
     if (socket === 'error') variant = 'error'
 
@@ -80,8 +76,7 @@ const ChunkError = ({ variant, onLoad, end, reset }: any) => {
 
                     <div css={C.float}>
 
-
-                        <div css={[textNormal('t'), { fontWeight: '400', letterSpacing: '1px', }]}>
+                        <div css={{ fontWeight: '400', letterSpacing: '1px', }}>
                             {variant === 'error' && 'Something went wrong...'}
                             {variant === 'loading' && 'Loading'}
                             {variant === 'end' && <div css={{
@@ -104,7 +99,6 @@ const ChunkError = ({ variant, onLoad, end, reset }: any) => {
                                         height: '32px',
                                         // width: '100%',
                                         marginRight: '8px',
-                                        fontFamily: 'Noto Sans',
                                         fontSize: '12px',
                                         lineHeight: '12px !important',
                                         fontWeight: '600',

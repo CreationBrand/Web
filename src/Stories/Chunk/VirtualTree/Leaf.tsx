@@ -7,6 +7,7 @@ import { textNormal } from "Global/Mixins";
 import { notificationStateFamily, virtualListStateFamily } from "State/Data";
 import Avatar from "Stories/Bits/Avatar/Avatar";
 import { motion } from "framer-motion";
+import { memo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
@@ -33,8 +34,7 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 }));
 
 const C = {
-
-    leaf: css([textNormal('s'), {
+    leaf: css({
         touchAction: 'pan-y',
         userSelect: 'none',
         height: '40px',
@@ -43,7 +43,7 @@ const C = {
         alignItems: 'center',
         width: '100%',
         color: '#d7dadc',
-    }]),
+    }),
     bulge: css({
         width: '4px',
         height: '40%',
@@ -56,13 +56,21 @@ const C = {
         display: 'flex',
         gap: '8px',
         alignItems: 'center',
+
         width: '100%',
         height: '40px',
         padding: '8px',
+
+        cursor: 'pointer',
+
+    }),
+    title: css({
+        color: '#d7dadc',
+        fontSize: '16px',
         textOverflow: "ellipsis",
         overflow: "hidden",
         whiteSpace: "nowrap",
-        cursor: 'pointer',
+        fontWeight: '500',
     }),
 
 }
@@ -98,53 +106,29 @@ const innerMotion = {
 const Leaf = ({ link, title, icon, public_id, atom }: any) => {
 
     const notification = useRecoilValue(notificationStateFamily(public_id))
-    const state = useRecoilValue(virtualListStateFamily(atom))
-
-    const navigate = useNavigate()
     const location = useLocation()
 
-    const handleClick = () => {
-        if (link) navigate(link)
-    }
-
-    if (!state) return null
-
     return (
-        <Link css={{
-            all: 'unset',
-            '&:hover': {
-                textDecoration: 'none !important'
-            }
-        }} to={link} >
+        <Link css={{ all: 'unset' }} to={link}>
+
             <motion.div
                 initial="rest"
                 whileHover="hover"
                 animate={location.pathname === link ? "active" : "rest"}
                 css={C.leaf}>
-
                 <motion.div variants={bulgeMotion} css={C.bulge} />
                 <motion.div css={C.inner} variants={innerMotion}>
 
-                    {icon &&
-                        <StyledBadge
-                            badgeContent={notification} invisible={!Boolean(notification)}>
-                            {icon}
-                        </StyledBadge>
-                    }
-
-                    <div css={{
-                        fontSize: '16px',
-                        textOverflow: "ellipsis",
-                        overflow: "hidden",
-                        whiteSpace: "nowrap",
-                    }}>{title}</div>
-
+                    {icon && <StyledBadge badgeContent={notification} invisible={!Boolean(notification)}>
+                        {icon}
+                    </StyledBadge>}
+                    <span css={C.title}>{title}</span>
                 </motion.div>
-
             </motion.div >
-        </Link>)
+        </Link >
+    )
 }
 
 
 
-export default Leaf
+export default memo(Leaf)

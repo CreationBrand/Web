@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react"
+import { startTransition, useEffect, useState } from "react"
 import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue } from "recoil";
 import { socketRequest } from "Service/Socket";
 import { postFilter } from "State/filterAtoms";
@@ -27,31 +27,30 @@ const usePostList = (community_id: any, filter: any) => {
         setCursor(false)
         setComponents([])
         setResetState({});
-        console.log('%c [RESET] ', 'font-weight: bold; color: #F00', 'PostList');
-
     }, [community_id, filter])
 
     useEffect(() => {
+        startTransition(() => {
 
-        (async () => {
-            try {
-                if (end || isError) return
-                if (cache.has(`posts:${community_id}:${filter}:${cursor}`)) {
-                    console.log('%c [CACHE] ', 'font-weight: bold; color: #FF0', `Posts Cursor:${cursor}`);
-                    return setList(cache.get(`posts:${community_id}:${filter}:${cursor}`))
+            (async () => {
+                try {
+                    if (end || isError) return
+                    if (cache.has(`posts:${community_id}:${filter}:${cursor}`)) {
+                        return setList(cache.get(`posts:${community_id}:${filter}:${cursor}`))
+                    }
+
+                    let req: any = await socketRequest('posts', { community_id, filter, cursor: cursor })
+                    console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.posts?.length}) Posts Cursor:${cursor}`);
+
+                    if (req?.posts?.length < 10) end = true
+                    setList(req.posts)
+                    cache.set(`posts:${community_id}:${filter}:${cursor}`, req.posts)
+                } catch (e) {
+                    setIsError(true)
+                    setIsLoading(false)
                 }
-
-                let req: any = await socketRequest('posts', { community_id, filter, cursor: cursor })
-                console.log('%c [FETCH] ', 'font-weight: bold; color: #0F0', `(${req?.posts?.length}) Posts Cursor:${cursor}`);
-
-                if (req?.posts?.length < 10) end = true
-                setList(req.posts)
-                cache.set(`posts:${community_id}:${filter}:${cursor}`, req.posts)
-            } catch (e) {
-                setIsError(true)
-                setIsLoading(false)
-            }
-        })()
+            })()
+        });
     }, [community_id, cursor, filter, end])
 
     const setList = useRecoilTransaction_UNSTABLE(

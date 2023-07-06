@@ -13,79 +13,71 @@ import { useSpring, animated } from '@react-spring/web'
 import { useDrag } from '@use-gesture/react'
 import { authFlow } from 'State/Flow'
 
+
+
+const c = {
+    left: css({
+        height: '100%',
+        padding: theme.spacing(2),
+        paddingRight: '0px',
+        boxSizing: 'border-box',
+        minWidth: '240px',
+        width: '240px',
+        marginLeft: '',
+        position: 'relative',
+        zIndex: '',
+        opacity: '',
+        transition: 'opacity 0.3s , margin-left 0.3s ease-in-out'
+    }),
+    right: css({
+        height: '100%',
+        padding: theme.spacing(2),
+        paddingLeft: '0px',
+        boxSizing: 'border-box',
+        width: '240px',
+        position: 'relative',
+        right: '',
+        zIndex: '',
+        opacity: '',
+        transition: 'opacity 0.3s , margin-right 0.3s ease-in-out'
+    }),
+    center: css({
+        height: '100%',
+        flexGrow: '1',
+        boxSizing: 'border-box',
+        width: 'auto',
+        padding: theme.spacing(2),
+        touchAction: 'none',
+        position: 'relative',
+        zIndex: 100
+    }),
+    layout: css({
+        display: 'flex',
+        overflow: 'hidden',
+        height: '100vh',
+        background: theme.background.pri,
+        boxSizing: 'border-box',
+        touchAction: 'none'
+    })
+}
+
+
+
 const Tri = (props: Props) => {
 
     const ref: any = useRef(null)
-    const [layoutSize, setLayoutSize] = useRecoilState(layoutSizeData)
-    const { width, height } = useWindow()
-    const [position, setPosition] = useState(0)
-
-    //runs on every size change (very inefficient)
-    useLayoutEffect(() => {
-        if (width < 800 && layoutSize !== 'mobile') setLayoutSize('mobile')
-        if (width > 800 && layoutSize !== 'desktop') setLayoutSize('desktop')
-    }, [width])
-
-
-    if (layoutSize === 'mobile') return <Mobile {...props} />
-
-
-    const c = {
-        left: css({
-            height: height,
-
-            padding: theme.spacing(2),
-            paddingRight: '0px',
-            boxSizing: 'border-box',
-            minWidth: '240px',
-            width: layoutSize === 'mobile' ? '240px !important' : '240px',
-            marginLeft: layoutSize !== 'mobile' ? (props.left ? '0px' : '-240px') : '',
-            position: layoutSize === 'mobile' ? 'fixed' : 'relative',
-            zIndex: layoutSize === 'mobile' ? (position === 1 ? 0 : 80) : '',
-            opacity: layoutSize === 'mobile' ? (position === 1 ? 100 : 0) : '',
-            transition: 'opacity 0.3s , margin-left 0.3s ease-in-out'
-        }),
-        right: css({
-            height: height,
-            padding: theme.spacing(2),
-            paddingLeft: '0px',
-            boxSizing: 'border-box',
-            width: layoutSize === 'mobile' ? '240px !important' : '240px',
-            marginRight: layoutSize !== 'mobile' ? (props.right ? '0px' : '-240px') : '',
-            position: layoutSize === 'mobile' ? 'absolute' : 'relative',
-            right: layoutSize === 'mobile' ? '0px' : '',
-            zIndex: layoutSize === 'mobile' ? (position === -1 ? 0 : 80) : '',
-            opacity: layoutSize === 'mobile' ? (position === -1 ? 100 : 0) : '',
-            transition: 'opacity 0.3s , margin-right 0.3s ease-in-out'
-        }),
-        center: css({
-            height: '100%',
-            flexGrow: '1',
-            boxSizing: 'border-box',
-            width: layoutSize === 'mobile' ? '100% !important' : 'auto',
-            padding: theme.spacing(2),
-            touchAction: 'none',
-            position: layoutSize === 'mobile' ? 'absolute' : 'relative',
-            zIndex: 100
-        }),
-        layout: css({
-            display: 'flex',
-            overflow: 'hidden',
-            height: '100vh',
-            background: theme.background.pri,
-            boxSizing: 'border-box',
-            touchAction: 'none'
-        })
-    }
 
     return (
         <div id="layout" ref={ref} css={c.layout}>
-
-            <animated.div css={c.left}>{props.children[0]}</animated.div>
-            <animated.div css={c.center}>
+            <div style={{ marginLeft: (props.left ? '0px' : '-240px') }} css={c.left}>
+                {props.children[0]}
+            </div>
+            <div css={c.center}>
                 {props.children[1]}
-            </animated.div>
-            <animated.div css={c.right}>{props.children[2]}</animated.div>
+            </div>
+            <div style={{ marginRight: (props.right ? '0px' : '-240px') }} css={c.right}>
+                {props.children[2]}
+            </div>
         </div>
     )
 }
@@ -145,13 +137,12 @@ const C = {
 }
 
 
-const Mobile = (props: Props) => {
+export const Mobile = (props: Props) => {
     const { width, height } = useWindow()
     const auth = useRecoilValue(authFlow)
     const ref = useRef(null)
 
     let side = width * 0.75;
-
     let map: any = {
         0: -side,
         1: 0,
@@ -159,7 +150,6 @@ const Mobile = (props: Props) => {
     }
 
     const [xPos, setXPos] = useState(1)
-    // const [{ x }, api] = useSpring({ x: map[xPos] })
 
     const [{ x, }, api] = useSpring(() => ({ x: map[xPos] }))
 

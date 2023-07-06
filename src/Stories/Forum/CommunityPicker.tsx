@@ -68,7 +68,6 @@ const CommunityPicker = ({ control, name }: any) => {
                         color: '#c84b4b',
                         fontSize: '14px',
                         fontWeight: 400,
-                        fontFamily: 'noto sans',
                         display: 'flex',
                         alignItems: 'center',
                         gap: '4px',
@@ -128,14 +127,13 @@ const Button = forwardRef(function Button<
 
 const StyledButton = styled(Button, { shouldForwardProp: () => true })(
     ({ theme }) => `
-    font-family: noto sans;
     font-size: 0.875rem;
     box-sizing: border-box;
     height: 40px;
     width: 100%;
     max-width: 400px;
     padding: 4px 12px;
-    border-radius: 12px;
+    border-radius: 8px;
     text-align: left;
     background: #181820;
     border:2px solid #181820;
@@ -169,7 +167,6 @@ const StyledButton = styled(Button, { shouldForwardProp: () => true })(
 
 const StyledListbox = styled('ul')(
     ({ theme }) => `
-    font-family: noto sans;
     font-size: 0.875rem;
     box-sizing: border-box;
     padding: 6px;

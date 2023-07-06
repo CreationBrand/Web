@@ -34,8 +34,8 @@ export const communityLTT = (list: any, offset: any = 0) => {
                     path: `${iter1 + offset}.${iter2}`,
                     link: `/c/${item.public_id}`,
                     type: 'leaf',
-                    active: true,
-                    visible: true,
+                    // active: false,
+                    // visible: true,
                     object: {
                         icon: <Avatar public_id={item.public_id} size='small' />,
                         ...item

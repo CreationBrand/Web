@@ -5,7 +5,7 @@ import { Skeleton } from '@mui/material';
 const C = {
     container: css({
         width: '100%',
-        padding: '16px 0px 0px 0px',
+        padding: '12px 0px 0px 0px',
     }),
     inner: css({
         background: '#272732',
@@ -14,7 +14,6 @@ const C = {
         maxWidth: '800px',
         display: 'flex',
         flexDirection: 'column',
-
         margin: '0 auto',
         gap: '8px',
         padding: '8px',
@@ -29,19 +28,19 @@ export const PostHolder = () => {
         <div css={C.inner}>
 
             <div css={{ display: 'flex', gap: '8px' }}>
-                <Skeleton variant="rounded" animation="wave" width={40} height={40} />
+                <Skeleton variant="rounded" animation={false} width={40} height={40} />
                 <div css={{ width: '100%' }}>
-                    <Skeleton variant="rounded" animation="wave" width='140px' sx={{ marginBottom: '4px' }} height={18} />
-                    <Skeleton variant="rounded" animation="wave" width='140px' height={18} />
+                    <Skeleton variant="rounded" animation={false} width='140px' sx={{ marginBottom: '4px' }} height={18} />
+                    <Skeleton variant="rounded" animation={false} width='140px' height={18} />
                 </div>
             </div>
 
-            <Skeleton variant="rounded" animation="wave" width='100%' height={400} />
+            <Skeleton variant="rounded" animation={false} width='100%' height={400} />
 
             <div css={{ display: 'flex', gap: '8px' }}>
-                <Skeleton variant="rounded" animation="wave" width={80} height={30} />
-                <Skeleton variant="rounded" animation="wave" width={50} height={30} />
-                <Skeleton variant="rounded" animation="wave" width={30} height={30} />
+                <Skeleton variant="rounded" animation={false} width={80} height={30} />
+                <Skeleton variant="rounded" animation={false} width={50} height={30} />
+                <Skeleton variant="rounded" animation={false} width={30} height={30} />
 
             </div>
         </div>
@@ -73,14 +72,14 @@ export const HeadHolder = () => {
     return <div css={D.container}>
         <div css={D.inner}>
 
-            <Skeleton variant="rounded" animation="wave" width='200px' sx={{
+            <Skeleton variant="rounded" animation={false} width='200px' sx={{
                 position: 'absolute',
                 bottom: '8px',
                 left: '8px',
                 borderRadius: '16px !important',
             }} height={58} />
 
-            <Skeleton variant="rounded" animation="wave" width='64px' sx={{
+            <Skeleton variant="rounded" animation={false} width='64px' sx={{
                 position: 'absolute',
                 bottom: '8px',
                 right: '8px',
@@ -119,12 +118,12 @@ export const FilterHolder = () => {
         <div css={E.inner}>
 
             <div css={{ display: 'flex', gap: '8px', }}>
-                <Skeleton variant="rounded" animation="wave" width={80} height={28} />
-                <Skeleton variant="rounded" animation="wave" width={80} height={28} />
-                <Skeleton variant="rounded" animation="wave" width={80} height={28} />
+                <Skeleton variant="rounded" animation={false} width={80} height={28} />
+                <Skeleton variant="rounded" animation={false} width={80} height={28} />
+                <Skeleton variant="rounded" animation={false} width={80} height={28} />
             </div>
 
-            <Skeleton variant="rounded" animation="wave" width={40} height={28} />
+            <Skeleton variant="rounded" animation={false} width={40} height={28} />
 
 
         </div>
@@ -157,10 +156,10 @@ export const CommentHolder = () => {
         <div css={F.inner}>
 
             <div css={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <Skeleton variant="rounded" animation="wave" width={36} height={36} />
-                <Skeleton variant="rounded" animation="wave" width={80} height={20} />
+                <Skeleton variant="rounded" animation={false} width={36} height={36} />
+                <Skeleton variant="rounded" animation={false} width={80} height={20} />
             </div>
-            <Skeleton variant="rounded" animation="wave" width={36} height={36} />
+            <Skeleton variant="rounded" animation={false} width={36} height={36} />
         </div>
 
 

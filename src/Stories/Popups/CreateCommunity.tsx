@@ -90,7 +90,6 @@ const CreateCommunity = ({ open, onClose }: any) => {
 
     const data = watch()
     const [loading, setLoading] = useState(false);
-    usePreventBackNavigation(onClose)
 
     const onSubmit = handleSubmit(async (data) => {
 
@@ -184,7 +183,6 @@ const CreateCommunity = ({ open, onClose }: any) => {
                                             borderRadius: '8px',
                                             width: '100%',
                                             background: '#181820',
-                                            fontFamily: 'noto sans !important',
 
                                         }}
                                         value={true} control={<Radio />} label="Safe For Work" />
@@ -228,18 +226,3 @@ const CreateCommunity = ({ open, onClose }: any) => {
 
 export default CreateCommunity
 
-const usePreventBackNavigation = (onClose: any) => {
-    const navigate = useNavigate();
-    useEffect(() => {
-        const handleBeforeUnload = (event: any) => {
-            onClose()
-            event.preventDefault();
-            // navigate('/trending');
-        };
-        window.onpopstate = handleBeforeUnload;
-        return () => {
-            window.onpopstate = handleBeforeUnload;
-        };
-    }, [navigate]);
-
-};

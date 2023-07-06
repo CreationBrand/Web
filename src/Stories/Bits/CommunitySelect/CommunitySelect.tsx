@@ -15,7 +15,6 @@ const C = {
   container: css({
     background: '#181820',
     border: 'none !important',
-    fontFamily: 'noto sans',
     borderRadius: '8px',
     padding:'4px',
   })

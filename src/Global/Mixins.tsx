@@ -31,25 +31,21 @@ export const fontSize = {
 }
 
 export const textBold = (size: fontSize) => css({
-    fontFamily: fontPrimary,
     fontWeight: '600',
     color: '#f2f3f5',
     fontSize: fontSize[size],
 })
 export const textNormal = (size: fontSize) => css({
-    fontFamily: fontPrimary,
     fontWeight: '400',
     color: '#f2f2f2',
     fontSize: fontSize[size],
 })
 export const textLight = (size: fontSize) => css({
-    fontFamily: fontPrimary,
     fontWeight: '300',
     color: '#d7dadc',
     fontSize: fontSize[size],
 })
 export const textLabel = (size: fontSize) => css({
-    fontFamily: fontPrimary,
     fontWeight: '700',
     color: '#dbdee1',
     fontSize: fontSize[size],
@@ -73,17 +69,17 @@ export const full = '>'
 // CONTS
 
 export const header = css({
-    fontFamily: 'noto sans',
-    fontWeight: '600',
+    // fontFamily: 'noto sans',
+    fontWeight: '450',
     color: '#f2f3f5',
-    fontSize: '24px',
+    fontSize: '20px',
     lineHeight: '20px',
 
 })
 
 
 export const label = css({
-    fontFamily: 'noto sans',
+    // fontFamily: 'noto sans',
     fontWeight: '700',
     color: "#dbdee1",
     fontSize: "14px",
@@ -109,4 +105,17 @@ export const time = css({
     color: '#b9bbb3',
     height: '17px',
     fontWeight: 600
+})
+
+
+export const iconButton = css({
+    ':hover': { color: '#fff' },
+    cursor: 'pointer',
+    height: '28px !important',
+    width: '28px !important',
+    minWidth: '28px !important',
+    color: '#b9bbbe',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
 })

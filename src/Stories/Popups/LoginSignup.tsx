@@ -537,25 +537,3 @@ const LoginSignup = ({ open, onClose }: any) => {
 
 
 export default LoginSignup
-
-
-
-// const usePreventBackNavigation = (open: any, onClose: any) => {
-//     const navigate = useNavigate();
-//     useEffect(() => {
-//         const handleBeforeUnload = (event: any) => {
-//             console.log('prevent back', open)
-//             if (!open) return;
-//             onClose()
-//             event.preventDefault();
-//             event.returnValue = "";
-//             navigate(1);
-//             console.log('prevent back')
-//         };
-//         window.onpopstate = handleBeforeUnload;
-//         return () => {
-//             window.onpopstate = handleBeforeUnload;
-//         };
-//     }, [navigate]);
-
-// };

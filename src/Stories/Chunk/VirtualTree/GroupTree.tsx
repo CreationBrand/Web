@@ -17,17 +17,15 @@ import CommunityControls from "Stories/Bits/CommunityControls/CommunityControls"
 
 
 const GroupTree = () => {
-
+    
     const [tree, setTree] = useRecoilState(communityTreeData)
-    const [filter, setFilter]: any = useState('active')
     const [search, setSearch] = useState('')
     const { width, height } = useWindow()
 
     const [edit, setEdit] = useState(null)
+
     const editOpen = (e: any) => setEdit(e.data.object)
     const editClose = () => setEdit(null)
-
-
     const handleSearch = (e: any) => setSearch(e.target.value)
 
     const Node = ({ node, style, dragHandle }: any) => {
@@ -71,19 +69,15 @@ const GroupTree = () => {
 
             <Tree
                 data={tree}
-                openByDefault={true}
+                openByDefault={false}
                 width={'100%'}
                 height={height - 112}
                 indent={24}
                 rowHeight={40}
-                
                 overscanCount={1}
-                searchTerm={filter}
+                searchTerm={search}
                 searchMatch={(node: any, term): any => {
-                    if (search) {
-                        return node.data.object.title.toLowerCase().includes(search.toLowerCase())
-                    }
-                    return true
+                    return node.data.object.title.toLowerCase().includes(term.toLowerCase())
                 }}
             >
                 {Node}

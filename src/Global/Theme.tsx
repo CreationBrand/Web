@@ -31,7 +31,7 @@ const theme: any = createTheme({
 
                 },
                 root: {
-                    fontFamily: 'Noto Sans',
+                    fontFamily: "system-ui !important",
                     caretColor: 'transparent !important',
                     borderRadius: '8px',
                     border: '2px solid transparent',
@@ -62,9 +62,9 @@ const theme: any = createTheme({
         MuiButton: {
             styleOverrides: {
                 root: {
-                    fontFamily: 'Noto Sans',
+                    fontFamily: "system-ui !important",
                     textTransform: 'none',
-                    
+
                 },
                 label: {
                     textTransform: 'none',
@@ -79,7 +79,7 @@ const theme: any = createTheme({
                     color: '#b9bbbe',
                     padding: '8px 12px 8px 12px',
                     fontSize: '13px',
-                    fontFamily: 'noto sans',
+                    fontFamily: "system-ui !important",
                     borderRadius: '8px',
                 },
                 arrow: {
@@ -165,8 +165,8 @@ const theme: any = createTheme({
     spacing: (factor: number) => `${0.25 * factor}rem`,
 
     typography: {
-        pri: 'Noto Sans',
-        sec: 'Noto Sans',
+        // pri: 'Noto Sans',
+        // sec: 'Noto Sans',
         tri: 'Roboto',
         quad: 'Ubuntu',
     },
