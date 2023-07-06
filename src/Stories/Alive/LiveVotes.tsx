@@ -89,7 +89,8 @@ const LiveVotes = ({ karma, public_id, vote, size, type }: any) => {
 
             <ArrowDropUpRoundedIcon
                 onClick={decrease}
-                sx={{
+                sx={{  
+                    rotate: '180deg',
                     cursor: 'pointer',
                     fontSize: '30px !important',
                     color: vote === -1 ? '#f04747' : '#b9bbbe'

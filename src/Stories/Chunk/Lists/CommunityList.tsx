@@ -61,7 +61,7 @@ const CommunityList = () => {
             </div>
 
             {mainSize > 0 &&
-                <div css={{ height: 'min-content', overflow: 'hidden', marginTop: '16px' }}>
+                <div css={{ height: 'min-content', overflow: 'hidden', marginTop: '12px' }}>
                     <GlobalFilter />
                 </div>}
 

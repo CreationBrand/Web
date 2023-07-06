@@ -34,6 +34,7 @@ const C = {
         position: 'relative',
         display: 'flex',
         justifyContent: 'center',
+        color: '#d7dadc',
         // border:'1px solid #fff',
     }),
 }

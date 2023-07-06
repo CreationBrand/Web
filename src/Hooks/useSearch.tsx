@@ -35,7 +35,6 @@ const C = {
         maxWidth: '800px',
         alignItems: 'center',
         display: 'flex',
-        fontFamily: 'noto sans',
         color: '#fff',
         cursor: 'pointer',
     }),

@@ -23,6 +23,7 @@ import TimeAgo from 'react-timeago'
 import { formatTime } from 'Util/formatTime'
 import LiveRoles from 'Stories/Alive/LiveRoles'
 import PostMenu from 'Stories/Menu/PostMenu'
+import { block, cancel } from 'Util/stopPropagation'
 
 
 const C = {
@@ -59,9 +60,9 @@ const C = {
         display: 'flex',
     }),
     title: css({
-        all:'unset',
+        all: 'unset',
         color: '#f2f4f5',
-        fontSize: '20px',
+        fontSize: '24px',
         lineHeight: '25px',
         fontWeight: 600,
     }),
@@ -83,11 +84,7 @@ const Post = ({ view, ...props }: any) => {
     if (!data || data === undefined || !visibility || !created_at) return null
 
     return (
-        <div
-        // style={{
-        //     border: view === 'list' ? '2px solid #272732' : '2px solid #343442',
-        // }}
-        css={C.inner} onClick={bodyClick}>
+        <div css={C.inner} onClick={bodyClick}>
 
             <div css={C.header}>
                 {['global', 'person', 'search', 'group'].includes(flow) && <>
@@ -130,7 +127,9 @@ const Post = ({ view, ...props }: any) => {
 
             {!(tags && tags.some((obj: any) => filter.includes(obj?.public_id))) &&
                 <section css={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <Link to={`/c/${community.public_id}/p/${public_id}`} css={[C.title, (view === 'list' && seen(public_id)) && { color: '#b9b6ba !important' }]} >
+                    <Link
+                        onClick={block}
+                        to={`/c/${community.public_id}/p/${public_id}`} css={[C.title, (view === 'list' && seen(public_id)) && { color: '#b9b6ba !important' }]} >
                         {title && title}
                     </Link>
                     <ContentLoader view={view} type={type} content={content} public_id={public_id} />

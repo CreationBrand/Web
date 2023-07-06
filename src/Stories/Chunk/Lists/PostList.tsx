@@ -90,7 +90,7 @@ const PostList = () => {
             </div>
 
             {mainSize > 0 &&
-                <div css={{ height: 'min-content', marginTop: '16px' }}>
+                <div css={{ height: 'min-content', marginTop: '12px' }}>
                     {mainSize === 1 ? null : <CommunityPreview {...data} />}
                     <GlobalFilter />
                 </div>

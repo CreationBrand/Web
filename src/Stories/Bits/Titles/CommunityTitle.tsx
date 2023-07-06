@@ -1,15 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-import { memo, useEffect, useMemo, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { memo, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { Button, debounce } from '@mui/material'
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
 import HoverPopover from 'material-ui-popup-state/HoverPopover'
 import { AnimatePresence, motion } from 'framer-motion'
-import MiniError from '../ChunkError/MiniError'
-import { socketRequest } from 'Service/Socket'
+
 import Avatar from '../Avatar/Avatar'
 import { textLabel } from 'Global/Mixins'
 import { leaveCommunity, joinCommunity } from 'Helper/Action'
@@ -31,6 +30,7 @@ const C = {
         display: 'flex',
         alignItems: 'center',
         fontWeight: 600,
+        // letterSpacing: '0.2px',
         color: '#fff',
         textDecoration: 'none',
         textDecorationThickness: '2px !important',
@@ -61,14 +61,14 @@ const CommunityTitle = ({ title, public_id }: any) => {
                     </Link>
                     {Boolean(anchorEl) &&
                         <HoverPopover
-                        sx={{
-                            '& .MuiBackdrop-root': {
-                                background: 'transparent !important',
-                            },
-                            '.MuiPaper-root': {
-                                borderRadius: '16px !important',
-                            }
-                        }}
+                            sx={{
+                                '& .MuiBackdrop-root': {
+                                    background: 'transparent !important',
+                                },
+                                '.MuiPaper-root': {
+                                    borderRadius: '16px !important',
+                                }
+                            }}
                             {...bindPopover(popupState)}
                             anchorOrigin={{
                                 vertical: 'bottom',
@@ -181,7 +181,7 @@ let Preview = ({ public_id }: any) => {
                         disableElevation
                         sx={{
                             marginLeft: 'auto !important',
-                          background: '#0f0e10',
+                            background: '#0f0e10',
                             borderRadius: '16px',
                             fontSize: '12px',
                             fontWeight: '700',

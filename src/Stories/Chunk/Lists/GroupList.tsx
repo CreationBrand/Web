@@ -54,7 +54,7 @@ const GroupList = ({ group_id }: any) => {
             </div>
 
             {mainSize > 0 &&
-                <div css={{ height: 'min-content', overflow: 'hidden', marginTop: '16px' }}>
+                <div css={{ height: 'min-content', overflow: 'hidden', marginTop: '12px' }}>
                     <GlobalFilter />
                 </div>}
         </motion.div>

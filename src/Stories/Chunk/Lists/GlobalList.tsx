@@ -76,7 +76,7 @@ const GlobalList = ({ type }: any) => {
             </div>
 
             {(mainSize > 0) &&
-                <div css={{ height: 'min-content', marginTop: '16px' }}>
+                <div css={{ height: 'min-content', marginTop: '12px' }}>
                     {mainSize > 1 &&
                         <div css={{ width: '240px', marginBottom: '16px' }}>
                             <Accordion
