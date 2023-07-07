@@ -14,6 +14,7 @@ import { authFlow } from 'State/Flow'
 import LiveRoles from 'Stories/Alive/LiveRoles'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
+import { Tooltip } from '@mui/material'
 
 const C = {
     underline: css({
@@ -35,56 +36,35 @@ const C = {
 
 const Author = ({ title, public_id, community_id, global_roles }: any) => {
 
-    const [anchorEl, setAnchorEl] = useState(null)
-    const navigate = useNavigate()
-
-    const handleClick = () => {
-        setAnchorEl(null)
-        navigate(`/p/${public_id}`)
-
-    }
-
-    const handleHover = (event: any) => setAnchorEl(event.target)
-
     return (
+        <Tooltip
+            disableTouchListener
+            componentsProps={{
+                tooltip: {
+                    sx: {
+                        background: 'transparent !important',
+                        margin: '4px 0px 0px 0px !important',
+                        padding: '0px !important',
+                    },
+                },
+            }}
+            sx={{
+                '& .MuiBackdrop-root': {
+                    background: 'transparent !important',
+                },
+            }}
+            placement='bottom-start'
+            enterDelay={500}
 
-        <PopupState variant="popover" popupId="demo-popup-popover">
-            {(popupState) => (
-                <div onClick={(e: any) => e.stopPropagation()}>
-                    <Link
-                        to={`/p/${public_id}`}
-                        onMouseEnter={handleHover}
-                        {...bindHover(popupState)}
-                        css={C.underline}>
-                        {title}
-                    </Link>
+            title={<Preview public_id={public_id} community_id={community_id} />}>
+            <Link
+                to={`/p/${public_id}`}
+                css={C.underline}>
+                {title}
+            </Link>
+        </Tooltip >
 
-                    {Boolean(anchorEl) &&
-                        <HoverPopover
-                            sx={{
-                                '& .MuiBackdrop-root': {
-                                    background: 'transparent !important',
-                                },
-                                '.MuiPaper-root': {
-                                    borderRadius: '16px !important',
-                                }
-                            }}
-                            {...bindPopover(popupState)}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                        >
-                            {Boolean(anchorEl) && <Preview public_id={public_id} community_id={community_id} />}
-                        </HoverPopover>}
 
-                </div>
-            )}
-        </PopupState>
     )
 }
 
@@ -111,6 +91,8 @@ const D = {
 }
 
 let Preview = ({ public_id, community_id }: any) => {
+
+
 
     let [data, setData]: any = useState(null)
     const authState = useRecoilValue(authFlow)

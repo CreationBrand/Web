@@ -9,17 +9,21 @@ import Ticker from 'Stories/Bits/Ticker/Ticker'
 const C = {
     container: css({
         display: 'flex',
+        alignItems: 'center',
+        width: 'min-content',
+        height: '30px',
         background: '#181820',
         borderRadius: '8px',
         gap: '4px',
-        width: 'min-content',
-        height: '30px',
-        padding: '9px 8px',
+        padding: '0px 8px',
         color: '#b9bbb3',
+    }),
+    num: css({
+        height: '14px',
         fontSize: '14px',
-        lineHeight: '10px !important',
+        lineHeight: '12px',
         fontWeight: 'bold',
-    })
+    }),
 }
 
 const LiveComments = ({ value }: any) => {
@@ -27,7 +31,7 @@ const LiveComments = ({ value }: any) => {
     return (
         <div css={C.container}>
             <FontAwesomeIcon icon={faReplyAll} size='xs' />
-            {value}
+            <span css={C.num}>{value}</span>
         </div>
     )
 }

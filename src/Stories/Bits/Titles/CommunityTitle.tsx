@@ -4,7 +4,7 @@ import { css } from '@emotion/react'
 import { memo, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { Button, debounce } from '@mui/material'
+import { Button, Tooltip, debounce } from '@mui/material'
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
 import HoverPopover from 'material-ui-popup-state/HoverPopover'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -43,46 +43,36 @@ const C = {
 
 const CommunityTitle = ({ title, public_id }: any) => {
 
-    const [anchorEl, setAnchorEl] = useState(null)
-    const handleHover = (event: any) => setAnchorEl(event.target)
-
-
     if (!title || !public_id) return null
+
     return (
-        <PopupState variant="popover" popupId="community-title">
-            {(popupState) => (
-                <div onClick={(e: any) => e.stopPropagation()}>
-                    <Link
-                        to={`/c/${public_id}`}
-                        onMouseEnter={handleHover}
-                        {...bindHover(popupState)}
-                        css={C.underline}>
-                        {title}
-                    </Link>
-                    {Boolean(anchorEl) &&
-                        <HoverPopover
-                            sx={{
-                                '& .MuiBackdrop-root': {
-                                    background: 'transparent !important',
-                                },
-                                '.MuiPaper-root': {
-                                    borderRadius: '16px !important',
-                                }
-                            }}
-                            {...bindPopover(popupState)}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                        ><Preview public_id={public_id} />
-                        </HoverPopover>}
-                </div>
-            )}
-        </PopupState>
+        <Tooltip
+            disableTouchListener
+            componentsProps={{
+                tooltip: {
+                    sx: {
+                        background: 'transparent !important',
+                        margin: '4px 0px 0px 0px !important',
+                        padding: '0px !important',
+                    },
+                },
+            }}
+            sx={{
+                '& .MuiBackdrop-root': {
+                    background: 'transparent !important',
+                },
+            }}
+            placement='bottom-start'
+            enterDelay={500}
+
+            title={<Preview public_id={public_id} />}>
+            <Link
+                to={`/c/${public_id}`}
+                css={C.underline}>
+                {title}
+            </Link>
+        </Tooltip >
+
     )
 }
 

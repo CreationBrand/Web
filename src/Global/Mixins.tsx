@@ -113,6 +113,7 @@ export const iconButton = css({
     height: '28px !important',
     width: '28px !important',
     minWidth: '28px !important',
+    fontSize: '14px !important',
     color: '#b9bbbe',
     display: 'flex',
     justifyContent: 'center',

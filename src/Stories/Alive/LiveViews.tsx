@@ -9,28 +9,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import EqualizerRoundedIcon from '@mui/icons-material/EqualizerRounded';
 
 const C = {
-    vote: css({
+    container: css({
         display: 'flex',
+        alignItems: 'center',
+        width: 'min-content',
+        height: '30px',
         background: '#181820',
         borderRadius: '8px',
         gap: '4px',
-        width: 'min-content',
-        height: '30px',
-        padding: '9px 8px',
+        padding: '0px 8px',
         color: '#b9bbb3',
+    }),
+    num: css({
+        height: '14px',
         fontSize: '14px',
-        lineHeight: '10px !important',
+        lineHeight: '12px',
         fontWeight: 'bold',
-    })
+    }),
 }
 
 const LiveViews = ({ value }: any) => {
 
     return (
-        <div css={C.vote}>
+        <div css={C.container}>
             <FontAwesomeIcon icon={faChartSimple} size='xs' />
-            {value}
-        </div >
+            <span css={C.num}>{value}</span>
+        </div>
     )
 }
 

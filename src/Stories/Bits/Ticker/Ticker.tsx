@@ -35,7 +35,12 @@ function Ticker({ value, color }: any) {
         [springValue]
     );
 
-    return <span style={{ color: color }} ref={ref}>{value}</span>;
+    return <span style={{
+        color: color, height: '14px',
+        fontSize: '14px',
+        lineHeight: '12px',
+        fontWeight: 'bold',
+    }} ref={ref}>{value}</span>;
 }
 
 export default memo(Ticker)

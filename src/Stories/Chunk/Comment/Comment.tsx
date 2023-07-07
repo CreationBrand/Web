@@ -15,7 +15,7 @@ import AddComment from './AddComment'
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 
-import { time } from 'Global/Mixins'
+import { iconButton, time } from 'Global/Mixins'
 import LiveTags from '../../Alive/LiveTags'
 import Nickname from 'Stories/Bits/Titles/Nickname'
 import LiveVotes from 'Stories/Alive/LiveVotes'
@@ -31,7 +31,7 @@ import TimeAgo from 'react-timeago'
 import { formatTime } from 'Util/formatTime'
 import CommentMenu from 'Stories/Menu/CommentMenu'
 import useIsMuted from 'Hooks/Util/useIsMuted'
-import { faReplyAll } from '@fortawesome/free-solid-svg-icons'
+import { faFolder, faFolderOpen, faReplyAll } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const C = {
@@ -108,6 +108,7 @@ const C = {
         zIndex: 10,
 
         position: 'relative',
+        padding: '0px 2px',
     }),
     left: css({
         display: 'flex',
@@ -136,11 +137,8 @@ const C = {
         height: '32px',
     }),
     divider: css({
-        width: '1.5px',
-        minWidth: '1.5px',
-        borderRadius: '8px',
+        borderRight: '1px solid #272732',
         height: '100%',
-        background: '#272732',
     }),
 }
 
@@ -258,35 +256,27 @@ const Comment = (props: any) => {
                             <div css={C.float}>
 
                                 {hasChildren && <>
-                                    <Button
+                                    <div
+                                        css={iconButton}
                                         onClick={handleButton}
-                                        css={C.action}
-                                        variant="text"
-                                        color="secondary"
-                                        size="large"
+
                                     >
                                         {status === 'active' ?
-                                            <AddBoxOutlinedIcon sx={{ fontSize: '16px' }} /> :
-                                            <IndeterminateCheckBoxOutlinedIcon sx={{ fontSize: '16px' }} />
+                                            <FontAwesomeIcon icon={faFolder} size='sm' /> :
+                                            <FontAwesomeIcon icon={faFolderOpen} size='sm'/>
                                         }
-                                    </Button>
+                                    </div>
                                     <div css={C.divider} />
                                 </>}
 
                                 <LiveVotes size='small' vote={vote} karma={karma} public_id={public_id} type='comment' />
                                 {depth < 10 && <>
                                     <div css={C.divider} />
-                                    <FontAwesomeIcon
-                                        onClick={handleReply}
-                                        icon={faReplyAll} css={{
-                                            fontSize: '14px',
-                                            color: '#b9bbbe',
-                                            cursor: 'pointer',
-                                            padding: '0px 8px',
-                                            '&:hover': {
-                                                color: '#fff',
-                                            },
-                                        }} />
+                                    <div
+                                        css={iconButton}
+                                        onClick={handleReply}>
+                                        <FontAwesomeIcon icon={faReplyAll} />
+                                    </div>
                                 </>}
 
                             </div>

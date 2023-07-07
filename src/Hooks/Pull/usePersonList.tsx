@@ -78,7 +78,7 @@ const usePersonList = (person_id: any, filter: any) => {
                 setIsError(true)
             }
         })()
-    }, [person_id, cursor, filter])
+    }, [person_id, cursor])
 
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {

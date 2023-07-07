@@ -10,13 +10,13 @@ import { AnimatePresence, motion } from 'framer-motion'
 import MiniError from '../ChunkError/MiniError'
 import { socketRequest } from 'Service/Socket'
 import { textLabel } from 'Global/Mixins'
-import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 import { useRecoilValue } from 'recoil'
 import { authFlow } from 'State/Flow'
 import LiveRoles from 'Stories/Alive/LiveRoles'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import Avatar from '../Avatar/Avatar'
+import { Tooltip } from '@mui/material'
 
 const C = {
     underline: css({
@@ -39,48 +39,33 @@ const C = {
 
 const Nickname = ({ title, public_id, community_id, global_roles }: any) => {
 
-    const [anchorEl, setAnchorEl] = useState(null)
-    const handleHover = (event: any) => setAnchorEl(event.target)
-
     return (
+        <Tooltip
+            disableTouchListener
+            componentsProps={{
+                tooltip: {
+                    sx: {
+                        background: 'transparent !important',
+                        margin: '4px 0px 0px 0px !important',
+                        padding: '0px !important',
+                    },
+                },
+            }}
+            sx={{
+                '& .MuiBackdrop-root': {
+                    background: 'transparent !important',
+                },
+            }}
+            placement='bottom-start'
+            enterDelay={500}
 
-        <PopupState
-            variant="popover" popupId="nickname">
-            {(popupState) => (
-                <div onClick={(e: any) => e.stopPropagation()}>
-                    <Link
-                        to={`/p/${public_id}`}
-                        onMouseEnter={handleHover}
-                        {...bindHover(popupState)}
-                        css={C.underline}>
-                      {/* <Avatar public_id={public_id} size='tiny'/> */}
-                      {title}
-                    </Link>
-
-                    {Boolean(anchorEl) &&
-                        <HoverPopover
-                        sx={{
-                            '& .MuiBackdrop-root': {
-                                background: 'transparent !important',
-                            },
-                            '.MuiPaper-root': {
-                                borderRadius: '16px !important',
-                            }
-                        }}
-                            {...bindPopover(popupState)}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                        >  <Preview public_id={public_id} community_id={community_id} />
-                        </HoverPopover>}
-                </div>
-            )}
-        </PopupState>
+            title={<Preview public_id={public_id} community_id={community_id} />}>
+            <Link
+                to={`/p/${public_id}`}
+                css={C.underline}>
+                {title}
+            </Link>
+        </Tooltip >
     )
 }
 
