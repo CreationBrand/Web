@@ -11,7 +11,7 @@ import { Button } from '@mui/material';
 const C = {
     container: css({
         height: '100%',
-        minHeight: '420px',
+        minHeight: '220px',
         width: '100%',
         // paddingTop: '40px',
         margin: 'auto 0px',
@@ -35,6 +35,8 @@ const C = {
         display: 'flex',
         justifyContent: 'center',
         color: '#d7dadc',
+        fontSize: '12px',
+        fontWeight: '600',
         // border:'1px solid #fff',
     }),
 }

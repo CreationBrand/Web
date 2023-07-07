@@ -103,8 +103,7 @@ export const section = css({
 export const time = css({
     fontSize: '14px',
     color: '#b9bbb3',
-    height: '17px',
-    fontWeight: 600
+    fontWeight: 500
 })
 
 

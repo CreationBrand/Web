@@ -9,6 +9,7 @@ import { textLabel, textLight } from 'Global/Mixins';
 // ICONS
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded';
+import { Reorder } from "framer-motion"
 
 const C = {
     container: css({
@@ -35,8 +36,12 @@ const C = {
         justifyContent: 'center',
         alignItems: 'center',
         color: '#f2f2f2',
-        fontSize: '10px',
+        fontSize: '12px',
         whiteSpace: 'nowrap',
+        width: 'min-content',
+    }),
+    group: css({
+
     }),
     array: css({
         display: 'flex',
@@ -53,13 +58,11 @@ const DropZone = ({ value, onChange }: any
 
     const onDrop = useCallback(async (acceptedFiles: any) => {
 
-        // if (acceptedFiles.length !== 1) {
-        //     setFiles([])
-        //     setError(true)
-        //     return
-        // }
-
-
+        if (acceptedFiles.length > 30) {
+            setFiles([])
+            setError(true)
+            return
+        }
 
         if (acceptedFiles.length === 1 && acceptedFiles[0].type === 'video/mp4') {
             if (acceptedFiles[0].size > 10000000) {
@@ -81,13 +84,15 @@ const DropZone = ({ value, onChange }: any
         let buffers: any = []
 
         for (let i = 0; i < acceptedFiles.length; i++) {
-            if (acceptedFiles[i].type !== 'image/jpeg' && acceptedFiles[i].type !== 'image/jpg' && acceptedFiles[i].type !== 'image/png' || acceptedFiles[i].size > 10000000) {
+            console.log(acceptedFiles[i])
+            if (["image/gif", 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'].includes(acceptedFiles[i].type) && acceptedFiles[i].size < 10000000) {
+                temp.unshift(URL.createObjectURL(acceptedFiles[i]))
+                buffers.unshift(await toBase64(acceptedFiles[i]))
+            }
+            else {
                 setFiles([])
                 setError(true)
                 return
-            } else {
-                temp.push(URL.createObjectURL(acceptedFiles[i]))
-                buffers.push(await toBase64(acceptedFiles[i]))
             }
         }
         setFiles(acceptedFiles)
@@ -100,9 +105,32 @@ const DropZone = ({ value, onChange }: any
 
     }, [])
 
-
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
+    const reorder = async (e: any) => {
+
+        let temp: any = []
+        let buffers: any = []
+        for (let i = 0; i < e.length; i++) {
+            if ((e[i].type !== 'image/jpeg' && e[i].type !== 'image/jpg' && e[i].type !== 'image/png') || e[i].size > 10000000) {
+                setFiles([])
+                setError(true)
+                return
+            } else {
+                temp.unshift(URL.createObjectURL(e[i]))
+                buffers.unshift(await toBase64(e[i]))
+            }
+        }
+        setFiles(e);
+
+        onChange({
+            type: 'image',
+            source: temp,
+            files: buffers,
+        })
+
+
+    }
 
     return (
 
@@ -129,17 +157,17 @@ const DropZone = ({ value, onChange }: any
             </div>
             {files.length > 0 && <div css={textLabel('s')}>Files</div>}
 
-            <div css={C.array}>
+            <Reorder.Group values={files} onReorder={reorder} css={C.group}>
                 {files.map((file: any, iter: number) => (
-                    <div css={C.files} key={file.path}>
+                    <Reorder.Item
+
+                        key={file.path} value={file} css={C.files} >
+                        <img src={URL.createObjectURL(file)} alt="" width="40px" height="40px" />
                         {file.name}
-                        <ClearRoundedIcon onClick={() => {
-                            setFiles([])
-                            onChange([])
-                        }} />
-                    </div>
+                    </Reorder.Item>
                 ))}
-            </div>
+            </Reorder.Group>
+
         </div>
     )
 }

@@ -101,6 +101,7 @@ const Submit = () => {
 
     const onSubmit = async () => {
         setLoading(true)
+        console.log(data)
         let req: any = await socketRequest('post-new', data)
         if (req.status === 'ok') {
             navigate(`/c/${data.community_id}`)
@@ -160,7 +161,7 @@ const Submit = () => {
                                     <div css={C.section}>
                                         <TabList
                                             sx={{
-                                                fontFamily: 'noto sans',
+                                                // fontFamily: 'noto sans',
                                                 color: 'white',
                                                 height: '40px !important',
                                             }}

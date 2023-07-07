@@ -1,17 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-import { Key, useState } from "react"
-import { Dialog, IconButton } from '@mui/material';
-import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
-import Walk from 'Stories/Bits/ChunkError/Walk';
+import { useState } from "react"
+import { Dialog, } from '@mui/material';
+
 
 import Carousel from "framer-motion-carousel";
-import { motion } from 'framer-motion';
 import { useRecoilValue } from 'recoil';
 import { layoutSizeData } from 'State/Data';
 
+import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
+import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
 const C = {
     container: css({
@@ -39,17 +38,7 @@ const C = {
         fontSize: '12px',
         color: '#d7dadc',
     }),
-    dot: css({
-        borderRadius: "50%",
-        background: "#5d6066",
-        cursor: "pointer",
-        border: "none",
-        placeContent: "center",
-        placeItems: "center",
-        width: "8px",
-        height: "8px",
-        opacity: 1
-    }),
+
 
     blur: css({
         width: '100%',
@@ -65,25 +54,15 @@ const C = {
         width: '100%',
     }),
     float1: css({
-        display: "flex",
-        placeContent: "center",
-        placeItems: "center",
-        overflow: "hidden",
-        position: "absolute",
-        pointerEvents: "auto",
-        left: "50%",
-        top: "unset",
-        transform: "translateX(-50%)",
-        zIndex: 200,
-        flexDirection: "row",
-        bottom: "20px",
-        gap: "12px",
-        height: "30px",
-        width: "auto",
-        borderRadius: "50px",
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
-        backdropFilter: "blur(20px)",
-        color: "#fff",
+        position: 'absolute',
+        bottom: '0px',
+        left: "calc(50%)",
+        zIndex: 400,
+        background: "#000",
+        borderRadius: "4px",
+        padding: "2px 4px",
+        fontSize: "8px",
+
     }),
     error: css({
         width: '100%',
@@ -113,24 +92,20 @@ const Carousela = ({ images }: any) => {
 
 
             <div css={C.container}>
-
-
                 <img
+                    loading='lazy'
                     onError={handleImgError}
                     onClick={handleOpen}
                     src={images[0]}
                     css={C.blur} />
-
-
                 <img
+                    loading='lazy'
                     onError={handleImgError}
                     onClick={handleOpen}
-
                     src={images[0]}
                     css={C.img} />
 
                 <div css={C.float}>{images.length}</div>
-
             </div>
         </div >
     )
@@ -141,11 +116,67 @@ export default Carousela
 
 
 const Viewer = ({ images, open, onClose }: any) => {
-    const layoutSize = useRecoilValue(layoutSizeData)
+    const layout = useRecoilValue(layoutSizeData)
 
     const handleClose = () => {
-        if (layoutSize === 'mobile') onClose()
+        if (layout === 'mobile') onClose()
     };
+
+    const arrowLeft = ({ handlePrev, activeIndex }: any) => {
+
+        const onClick = () => {
+            handlePrev(activeIndex - 1);
+        }
+
+        if (activeIndex === 0 || layout === 'mobile') return (<div></div>)
+
+        return <div
+            onClick={onClick}
+            css={{
+                cursor: 'pointer',
+
+                background: '#996ccc9c',
+                position: 'absolute',
+                top: 'calc(50% - 40px)',
+                padding: '8px',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+            }}>
+            <ChevronLeftRoundedIcon />
+        </div>
+    }
+
+    const arrowRight = ({ handleNext, activeIndex }: any) => {
+
+        const onClick = () => {
+            handleNext(activeIndex + 1);
+        }
+
+        if (activeIndex === images.length - 1 || layout === 'mobile') return (<div></div>)
+
+        return <div
+            onClick={onClick}
+            css={{
+                cursor: 'pointer',
+                background: '#996ccc9c',
+                position: 'absolute',
+                top: 'calc(50% - 40px)',
+                padding: '8px',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                right: '0px',
+            }}>
+            <ChevronRightRoundedIcon />
+        </div>
+    }
+    const dots = ({ activeIndex, setActiveIndex }: any) => {
+
+        return <div css={C.float1}>
+            {activeIndex + 1}/{images.length}
+        </div>
+    }
 
 
     return (
@@ -158,50 +189,37 @@ const Viewer = ({ images, open, onClose }: any) => {
                 borderRadius: '0px',
                 backgroundColor: 'transparent',
 
-
-                // backgroundColor: 'rgba(15,14,16,0.90)',
-
                 '& .MuiDialog-paper': {
                     backgroundColor: 'transparent !important',
                     boxShadow: 'none !important',
                     padding: '0px !important',
                     margin: '0px !important',
-
-
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-
                     overflow: 'hidden',
-                    maxWidth: '800px',
-                    maxHeight: '800px',
-
-
+                    maxWidth: '900px',
+                    maxHeight: '900px',
                 },
-                Backdrop: {
-                    background: 'rgba(15,14,16,0.90)',
-                }
             }}
-
-
-
         >
 
 
             <Carousel
-                renderDots={(props: any) => { return <div></div>; }}
+                renderDots={dots}
+                renderArrowLeft={arrowLeft}
+                renderArrowRight={arrowRight}
                 autoPlay={false} interval={0} loop={true}>
                 {images.map((item: any, i: any) => (
 
                     <img
                         css={{
-                       
                             objectFit: 'contain',
                             maxHeight: '100%',
                             maxWidth: '100%',
-                            height: '80vh',
-                            marginLeft: '8px',
-                            width: 'calc(100vw - 16px)',
+                            marginBottom: '12px',
+                            height: '85vh',
+                            width: '100vw ',
                         }}
                         onClick={handleClose}
                         onDrag={(e: any) => {
@@ -224,8 +242,10 @@ const Viewer = ({ images, open, onClose }: any) => {
 
 
 
-        </Dialog>
+        </Dialog >
 
 
     );
 }
+
+

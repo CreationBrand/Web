@@ -31,7 +31,6 @@ const C = {
         background: '#272732',
         minHeight: '56px',
         width: '100%',
-        maxWidth: '800px',
         display: 'flex',
         flexDirection: 'column',
         margin: '0 auto',

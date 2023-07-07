@@ -82,7 +82,7 @@ const PostList = () => {
                         (isError || isError2 || isLoading || isLoading2) ? [<PostHolder />, <FilterHolder />, <CommentHolder />, <CommentHolder />,] :
                             [
                                 component,
-                                <div key={'component'} css={{ maxWidth: '800px', margin: 'auto', marginTop: '8px', display: 'flex', flexDirection: 'column' }}>
+                                <div key={'component'} css={{ margin: 'auto', marginTop: '8px', display: 'flex', flexDirection: 'column' }}>
                                     <AddComment isMuted={isMuted} post_id={params.post_id} parent_id={params.post_id} />
                                 </div>,
                                 ...components

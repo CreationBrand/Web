@@ -10,7 +10,6 @@ const s = css({
     width: '100%',
     borderTopLeftRadius: '0.4rem',
     borderTopRightRadius: '0.4rem',
-    minHeight: '50px',
     boxShadow: '0 1px 2px rgba(0,0,0,0.9),2px 0px 2px',
     display: 'flex',
     gap: '6px',
@@ -20,6 +19,9 @@ const s = css({
     alignItems: 'center',
     zIndex: 400,
     position: 'relative',
+    height: '56px !important',
+    minHeight: '56px !important',
+    maxHeight: '56px !important',
 })
 
 
@@ -32,8 +34,7 @@ const Nav = ({ children }: any) => {
         css={s}
         style={{
             borderRadius: layout === 'mobile' ? '8px' : '12px',
-            height: layout === 'mobile' ? '52px' : '56px',
-            minHeight: layout === 'mobile' ? '52px' : '56px',
+
         }}
         onClick={cancel}
     >

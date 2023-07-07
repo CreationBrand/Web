@@ -106,7 +106,7 @@ const useSearch = (type: string, query: string) => {
                         <div css={C.inner} onClick={() => { navigate(`/c/${req.communitys[i].public_id}`) }}>
                             <Avatar public_id={req.communitys[i].public_id} size={'medium'} />
                             <div>
-                                <div css={{ fontSize: '16px', fontWeight: '600' }}>{req.communitys[i].title}</div>
+                                <div css={{ fontSize: '18px', fontWeight: '700' }}>{req.communitys[i].title}</div>
                                 <ReactMarkdown children={req.communitys[i].description} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
                             </div>
                         </div>
