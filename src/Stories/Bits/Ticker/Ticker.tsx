@@ -5,7 +5,6 @@ import { css } from '@emotion/react'
 import { useMotionValue, useSpring } from "framer-motion";
 import { useRef, useEffect, memo } from "react";
 
-let formatter = Intl.NumberFormat('en', { notation: 'compact' });
 
 export function usePrevious(value: any) {
     const ref = useRef();

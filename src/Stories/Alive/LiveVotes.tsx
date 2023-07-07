@@ -22,11 +22,12 @@ const C = {
         background: '#181820',
         width: 'min-content',
         borderRadius: '8px',
-        alignItems: 'center',
+        // alignItems: 'center',
         overflow: 'hidden',
         gap: '2px',
         height: '30px',
         fontSize: '14px',
+        lineHeight: '28px !important',
         fontWeight: 'bold',
         color: '#b9bbb3',
     }),
@@ -89,7 +90,7 @@ const LiveVotes = ({ karma, public_id, vote, size, type }: any) => {
 
             <ArrowDropUpRoundedIcon
                 onClick={decrease}
-                sx={{  
+                sx={{
                     rotate: '180deg',
                     cursor: 'pointer',
                     fontSize: '30px !important',

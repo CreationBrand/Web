@@ -151,8 +151,8 @@ body {
 
 .MuiMenuItem-root {
     font-family: 'Noto Sans', sans-serif !important;
-    font-size: 13px !important;
-    font-weight: 500 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
     color: #b5bab1 !important;
     height: 32px !important;
     max-height: 32px !important;
@@ -297,7 +297,8 @@ body {
 
 .MuiFormControlLabel-label {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Helvetica Neue', Arial,
-        sans-serif !important;    font-size: 14px !important;
+        sans-serif !important;
+    font-size: 14px !important;
     color: inherit !important;
 }
 

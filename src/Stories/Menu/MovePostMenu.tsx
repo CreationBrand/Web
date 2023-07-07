@@ -100,8 +100,8 @@ export default function MovePostMenu({ post_id, community_id }: any) {
 
                 <StyledPopper
                     id='postMenu'
-                    modifiers={[{ name: "offset", options: { offset: [0, -8] } }]}
-                    open={Boolean(anchorEl)} anchorEl={anchorEl} placement='bottom-end'>
+                    modifiers={[{ name: "offset", options: { offset: [0, -2] } }]}
+                    open={Boolean(anchorEl)} anchorEl={anchorEl}   placement={'left-start'}>
 
                     <div
                         css={{

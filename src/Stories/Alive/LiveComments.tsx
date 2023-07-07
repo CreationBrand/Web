@@ -14,10 +14,10 @@ const C = {
         gap: '4px',
         width: 'min-content',
         height: '30px',
-        alignItems: 'center',
-        padding: '0px 8px',
+        padding: '9px 8px',
         color: '#b9bbb3',
         fontSize: '14px',
+        lineHeight: '10px !important',
         fontWeight: 'bold',
     })
 }
@@ -27,8 +27,8 @@ const LiveComments = ({ value }: any) => {
     return (
         <div css={C.container}>
             <FontAwesomeIcon icon={faReplyAll} size='xs' />
-            <div css={{ height: '20px' }}><Ticker value={value} /></div>
-        </div >
+            {value}
+        </div>
     )
 }
 

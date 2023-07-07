@@ -7,30 +7,24 @@ import { time } from 'Global/Mixins';
 import { formatTime } from 'Util/formatTime';
 // @ts-ignore
 import TimeAgo from 'react-timeago'
-import ReactMarkdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw';
+
 
 import { useEffect, useState } from "react"
-import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilTransaction_UNSTABLE } from "recoil";
 import { socketRequest } from "Service/Socket";
-import { postList, postSync } from "State/postAtoms";
+import { postSync } from "State/postAtoms";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import Post from "Stories/Chunk/Post/Post";
 import { useNavigate } from 'react-router-dom';
 import { personList } from "State/filterAtoms";
 import ContentLoader from 'Stories/Chunk/ContentLoader/ContentLoader';
 
-// ICONS
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 import TTLCache from '@isaacs/ttlcache';
-import { set } from 'react-hook-form';
 import Avatar from 'Stories/Bits/Avatar/Avatar';
-import LiveVotes from 'Stories/Alive/LiveVotes';
-const cache = new TTLCache({ max: 10000, ttl: 60000 })
 
+const cache = new TTLCache({ max: 10000, ttl: 60000 })
 let end: boolean = false
 
 const usePersonList = (person_id: any, filter: any) => {
@@ -44,19 +38,16 @@ const usePersonList = (person_id: any, filter: any) => {
         end = false
         setCursor(false)
         setComponents([])
-        console.log('%c [RESET] ', 'font-weight: bold; color: #F00', 'PersonList', filter);
     }, [person_id, filter])
 
     useEffect(() => {
         (async () => {
             try {
-                console.log(filter)
 
                 if (end || isError) return
 
                 if (filter === 'POST') {
                     if (cache.has(`posts:${person_id}:${filter}:${cursor}`)) {
-                        console.log('%c [CACHE] ', 'font-weight: bold; color: #FF0', `Posts Cursor:${cursor}`);
                         return setList(cache.get(`posts:${person_id}:${filter}:${cursor}`))
                     }
                     let req: any = await socketRequest('person-list', { person_id, filter, cursor: cursor })
@@ -69,7 +60,6 @@ const usePersonList = (person_id: any, filter: any) => {
 
                 else if (filter === 'COMMENT') {
                     if (cache.has(`comments:${person_id}:${filter}:${cursor}`)) {
-                        console.log('%c [CACHE] ', 'font-weight: bold; color: #FF0', `Comments Cursor:${cursor}`);
                         return setComments(cache.get(`comments:${person_id}:${filter}:${cursor}`))
                     }
                     let req: any = await socketRequest('person-list', { person_id, filter, cursor: cursor })
@@ -167,10 +157,6 @@ const C = {
 
 
 const CommentWithPost = (props: any) => {
-
-
-
-    console.log(props)
 
     const navigate = useNavigate()
 
