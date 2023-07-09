@@ -22,7 +22,7 @@ const C = {
         background: '#181820',
         width: 'min-content',
         borderRadius: '8px',
-        alignItems: 'center',
+        // alignItems: 'center',
         overflow: 'hidden',
         gap: '2px',
         height: '30px',

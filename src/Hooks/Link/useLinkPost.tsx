@@ -23,7 +23,7 @@ const useLinkPost = (post_id: string, active: boolean) => {
 
 
     function deltaEvent(value: any) {
-        
+
         if (!value || value === undefined || Object.keys(value).length < 1) return null
 
         if (value?.type === 'view') {
@@ -69,6 +69,7 @@ const useLinkPost = (post_id: string, active: boolean) => {
 
 
     useEffect(() => {
+
         if (!post_id || !active) return
 
         socket.emit('link-post', { post_id, active: true })

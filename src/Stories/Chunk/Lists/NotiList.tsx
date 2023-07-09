@@ -8,19 +8,8 @@ import useNotiList from 'Hooks/Pull/useNotiList'
 import useClearNotif from 'Hooks/useClearNotif'
 import { FilterHolder, PostHolder } from './PlaceHolders'
 import { Outlet } from 'react-router-dom'
+import { overList } from 'Global/Mixins'
 
-const C = {
-    container: css({
-        height: '100%',
-        position: 'relative',
-        overflow: 'hidden',
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '12px',
-        zIndex: 100,
-        background: '#0f0e10',
-    }),
-}
 
 const NotiList = ({ type }: any) => {
 
@@ -31,12 +20,12 @@ const NotiList = ({ type }: any) => {
     return (
         <motion.div
             key={type}
-            css={C.container}
+            css={overList}
             transition={{ duration: 0.1 }}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
         >
-            <Outlet />
+
 
 
             <div css={{ maxWidth: '800px', width: '100%' }}>

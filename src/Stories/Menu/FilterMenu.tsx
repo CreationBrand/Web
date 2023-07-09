@@ -14,6 +14,7 @@ import { filterFlow } from 'State/Flow';
 import { textLabel } from 'Global/Mixins';
 
 import AutoAwesomeMosaicRoundedIcon from '@mui/icons-material/AutoAwesomeMosaicRounded';
+import StyleRoundedIcon from '@mui/icons-material/StyleRounded';
 
 const StyledPopper = styled(Popper)(({ theme }) => ({
     borderRadius: '4px',
@@ -70,7 +71,7 @@ export default function FilterMenu() {
                     height: '32px',
                     width: '32px',
                 }}>
-                <AutoAwesomeMosaicRoundedIcon
+                <StyleRoundedIcon
                     sx={{ fontSize: '22px' }} />
             </IconButton>
 

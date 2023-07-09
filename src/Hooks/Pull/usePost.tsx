@@ -15,20 +15,18 @@ const usePost = (post_id: any) => {
     const [isLoading, setIsLoading] = useState(true)
     const [isError, setIsError] = useState(false)
     const [resetState, setResetState] = useRecoilState(resetAllAtoms);
-
     const [inSync, setSync] = useRecoilState(postSync(post_id))
 
-    useEffect(() => {
-        end = false
-        setIsLoading(true)
-        setIsError(false)
-        setComponents([])
-    }, [post_id])
+    // useEffect(() => {
+    //     end = false
+    //     setIsLoading(true)
+    //     setIsError(false)
+    //     setComponents([])
+    // }, [])
 
     useEffect(() => {
         (async () => {
             if (inSync?.public_id) {
-                console.log('%c [SYNC] ', 'font-weight: bold; color: #0F0', `Post: ${post_id}`);
                 setComponents(<Post key='post' view='post' {...inSync} />)
                 setIsLoading(false)
                 return

@@ -2,7 +2,7 @@
 
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import usePostList from 'Hooks/Pull/usePostList'
 import VirtuList from '../VirtualList/VirtuList'
 import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter'
@@ -20,21 +20,10 @@ import { PostHolder } from './PlaceHolders'
 
 //@ts-ignore
 import { Helmet } from "react-helmet"
+import { baseList } from 'Global/Mixins'
 
 
 const C = {
-    container: css({
-        height: '100%',
-        width: '100%',
-        position: 'absolute',
-        overflow: 'hidden',
-        display: 'flex',
-        justifyContent: 'center',
-        // alignItems: 'center',
-        zIndex: 50,
-        gap: '12px',
-
-    }),
     link: css({
         color: '#d7dadc ',
         fontSize: '12px',
@@ -65,14 +54,14 @@ const GlobalList = ({ type }: any) => {
     const [isLoading, isError, components] = usePostList(type, 'none')
 
     return (
+
         <motion.div
             key={type}
-            css={C.container}
-            transition={{ duration: 0.1 }}
+            css={baseList}
+            transition={{ duration: 0.5 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
         >
-            <Outlet />
 
             <Helmet>
                 <title>Artram</title>
@@ -152,3 +141,4 @@ const GlobalList = ({ type }: any) => {
 
 
 export default GlobalList
+

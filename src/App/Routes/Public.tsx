@@ -116,6 +116,6 @@ var Public = () => {
 export default memo(Public)
 
 
-function EmptyRoute() {
+const EmptyRoute = memo(() => {
     return <Outlet />;
-}
+})

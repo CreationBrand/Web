@@ -16,6 +16,7 @@ import { contentFlow } from 'State/Flow'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import EditGroup from 'Stories/Popups/EditGroup'
 import CreateCommunity from 'Stories/Popups/CreateCommunity'
+import AddGroup from 'Stories/Popups/AddGroup'
 
 var Private = () => {
 
@@ -59,56 +60,107 @@ var Private = () => {
 
     return (
         <>
-            <Error />
+            {/* <Error /> */}
             <Routes>
 
                 <Route path="/" element={<Home />}>
 
                     <Route path="/" element={<Navigate to="/trending" replace={true} />} />
 
-
                     {/* fake */}
-                    <Route path="/trending" element={<EmptyRoute />}>
-                        <Route path='create-community' element={<CreateCommunity />} />
+                    <Route path="/trending">
+                        <Route index element={<div />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
                     </Route>
 
-                    <Route path="/home" element={<EmptyRoute />}>
+                    <Route path="/home">
+                        <Route index element={<div />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
                     </Route>
 
-                    <Route path="/c/:community_id" element={<EmptyRoute />}>
+                    <Route path="/c/:community_id" >
+                        <Route index element={<div />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
                     </Route>
 
-                    <Route path="/g/:group_id" element={<EmptyRoute />}>
+
+                    <Route path="/g/:group_id">
+                        <Route index element={<div />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
                     </Route>
+
 
                     {/* real */}
-                    <Route path="/settings" element={<EditPerson />} />
-                    <Route path="/submit" element={<Submit />} />
-                    <Route path="/notifications" element={<NotiList />} />
-
-                    <Route path="/search/:query" element={<SearchList />} />
-                    <Route path="/c/:community_id/search/:query" element={<SearchCommunityList />} />
-
-                    <Route path="/p/:person_id" element={<PersonList />} />
-                    <Route path="/m/:messenger_id" element={<MessengerList />} />
-
-                    <Route path="/c/:community_id/p/:post_id" element={<PostList />} />
-                    <Route path="/c/:community_id/p/:post_id/c/:comment_id" element={<CommentList />} />
-                    <Route path="/c/:community_id/edit" element={<EditCommunity />} />
+                    <Route path="/settings">
+                        <Route index element={<EditPerson />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                    </Route>
 
 
+                    <Route path="/submit">
+                        <Route index element={<Submit />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                    </Route>
 
+
+                    <Route path="/notifications">
+                        <Route index element={<NotiList />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                    </Route>
+
+                    <Route path="/search/:query" >
+                        <Route index element={<SearchList />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                    </Route>
+
+                    <Route path="/c/:community_id/search/:query" >
+                        <Route index element={<SearchCommunityList />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                    </Route>
+
+                    <Route path="/p/:person_id"  >
+                        <Route index element={<PersonList />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                    </Route>
+
+                    <Route path="/m/:messenger_id"  >
+                        <Route index element={<MessengerList />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                    </Route>
+
+                    <Route path="/c/:community_id/p/:post_id">
+                        <Route index element={<PostList />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                    </Route>
+
+                    <Route path="/c/:community_id/p/:post_id/c/:comment_id" >
+                        <Route index element={<CommentList />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                    </Route>
                 </Route>
 
                 <Route path="/error" element={<div>404</div>} />
                 <Route path="*" element={<Navigate to="/trending" replace={true} />} />
-            </Routes>
+            </Routes >
         </>
     )
 }
 export default memo(Private)
 
 
-function EmptyRoute() {
+const EmptyRoute = memo(() => {
     return <Outlet />;
-}
+})

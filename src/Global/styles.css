@@ -320,7 +320,7 @@ body {
     background-color: rgba(14, 16, 15, 0.5) !important;
 } */
 .MuiModal-backdrop {
-    background: #0c090e9e !important;
+    background: #0c090ec0 !important;
 }
 .MuiDialog-container {
     background-color: transparent !important;

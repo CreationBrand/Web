@@ -14,19 +14,9 @@ import { useRecoilValue } from 'recoil'
 
 //@ts-ignore
 import { Helmet } from "react-helmet"
+import { baseList } from 'Global/Mixins'
 
-const C = {
-    container: css({
-        height: '100%',
-        width: '100%',
-        position: 'absolute',
-        overflow: 'hidden',
-        display: 'flex',
-        justifyContent: 'center',
-        zIndex: 50,
-        gap: '12px',
-    })
-}
+
 
 const GroupList = ({ group_id }: any) => {
 
@@ -37,15 +27,14 @@ const GroupList = ({ group_id }: any) => {
     const [isLoading, isError, components]: any = usePostList(group_id, 'group')
 
     return (
+
         <motion.div
             key={params.group_id}
-            css={C.container}
+            css={baseList}
             transition={{ duration: 0.5 }}
             initial={{ opacity: 0, }}
             animate={{ opacity: 1, }}
         >
-            <Outlet />
-
             <Helmet>
                 <title>{data?.group?.title}</title>
             </Helmet>

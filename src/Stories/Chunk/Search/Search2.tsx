@@ -66,7 +66,6 @@ const C = {
         fontSize: "12px",
         fontWeight: "600",
         lineHeight: "22px",
-        maxWidth: "80px",
         overflow: "hidden",
         whiteSpace: "nowrap",
         textOverflow: "ellipsis",
@@ -292,7 +291,7 @@ const Search2 = () => {
                     }
                     }>
 
-                    <SearchRoundedIcon css={{ marginTop: '2px', marginRight: '0px', color: '#bcbdbe', fontSize: '24px' }} />
+                    <SearchRoundedIcon css={{ color: '#bcbdbe', fontSize: '22px' }} />
 
                     {
                         (showTag && current) && <div
@@ -300,7 +299,7 @@ const Search2 = () => {
                             css={C.tag}>
                             <Avatar public_id={current.community.public_id} size='tiny' />
                             <span
-                                style={{ maxWidth: (layoutSize === 'mobile') ? '80px' : 'none', }}
+                                style={{ maxWidth: (layoutSize === 'mobile') ? '120px' : 'none', }}
                                 css={C.tagTitle}>
                                 {current?.community?.title}
                             </span>

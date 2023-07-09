@@ -36,9 +36,10 @@ function Ticker({ value, color }: any) {
     );
 
     return <span style={{
-        color: color, height: '14px',
+        color: color,
+
         fontSize: '14px',
-        lineHeight: '12px',
+        lineHeight: '30px',
         fontWeight: 'bold',
     }} ref={ref}>{value}</span>;
 }

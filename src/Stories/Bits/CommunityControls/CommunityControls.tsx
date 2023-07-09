@@ -28,17 +28,7 @@ const C = {
 
 const CommunityControls = () => {
 
-    const [open1, setOpen1] = useState(false);
-    const handleClickOpen1 = () => setOpen1(true);
-    const handleClose1 = () => setOpen1(false);
-
-    const [group, setGroup] = useState(false);
-    const groupClose = () => setGroup(false);
-
     return <div css={C.container}>
-
-
-        <AddGroup open={group} onClose={groupClose} />
 
         <FilterMenu />
 
@@ -60,16 +50,17 @@ const CommunityControls = () => {
 
 
         <Tooltip title="Add Group" arrow>
-            <IconButton
-                onClick={() => setGroup(true)}
-                size="small"
-                color="secondary" sx={{
-                    borderRadius: '4px',
-                    height: '32px',
-                    width: '32px',
-                }}>
-                <LibraryAddIcon sx={{ fontSize: '20px' }} />
-            </IconButton>
+            <Link to='create-group' relative="path">
+                <IconButton
+                    size="small"
+                    color="secondary" sx={{
+                        borderRadius: '4px',
+                        height: '32px',
+                        width: '32px',
+                    }}>
+                    <LibraryAddIcon sx={{ fontSize: '20px' }} />
+                </IconButton>
+            </Link>
         </Tooltip>
 
 

@@ -12,18 +12,16 @@ const C = {
         alignItems: 'center',
         width: 'min-content',
         height: '30px',
+        lineHeight: '30px',
+        fontSize: '14px',
         background: '#181820',
         borderRadius: '8px',
         gap: '4px',
         padding: '0px 8px',
-        color: '#b9bbb3',
-    }),
-    num: css({
-        height: '14px',
-        fontSize: '14px',
-        lineHeight: '12px',
+        color: '#b9bbbe',
         fontWeight: 'bold',
     }),
+
 }
 
 const LiveComments = ({ value }: any) => {
@@ -31,7 +29,7 @@ const LiveComments = ({ value }: any) => {
     return (
         <div css={C.container}>
             <FontAwesomeIcon icon={faReplyAll} size='xs' />
-            <span css={C.num}>{value}</span>
+            {value}
         </div>
     )
 }

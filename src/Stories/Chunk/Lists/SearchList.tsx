@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import useSearch from 'Hooks/useSearch';
 import SearchPane from 'Stories/Bits/Filter/SearchPane';
 import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter';
@@ -11,19 +11,11 @@ import VirtuList from '../VirtualList/VirtuList';
 import { useRecoilValue } from 'recoil';
 import { mainSizeState } from 'State/Data';
 import { FilterHolder, PostHolder } from './PlaceHolders';
+import { overList } from 'Global/Mixins';
 
-const C = {
-    container: css({
-        height: '100%',
-        position: 'relative',
-        overflow: 'hidden',
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '12px',
-        zIndex: 100,
-        background: '#0f0e10',
-    })
-}
+//@ts-ignore
+import { Helmet } from "react-helmet"
+
 
 const SearchList = () => {
 
@@ -35,12 +27,15 @@ const SearchList = () => {
     return (
         <motion.div
             key={params.query}
-            css={C.container}
+            css={overList}
             transition={{ duration: 0.1 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
         >
-            <Outlet />
+
+            <Helmet>
+                <title>Artram: Search - {params?.query}</title>
+            </Helmet>
 
 
             <div css={{ maxWidth: '800px', width: '100%' }}>

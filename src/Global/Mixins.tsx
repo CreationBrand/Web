@@ -119,3 +119,26 @@ export const iconButton = css({
     justifyContent: 'center',
     alignItems: 'center',
 })
+
+
+export const overList = css({
+    height: '100%',
+    position: 'relative',
+    overflow: 'hidden',
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '12px',
+    zIndex: 100,
+    background: '#0f0e10',
+})
+
+export const baseList = css({
+    height: '100%',
+    width: '100%',
+    position: 'absolute',
+    overflow: 'hidden',
+    display: 'flex',
+    justifyContent: 'center',
+    zIndex: 50,
+    gap: '12px',
+})

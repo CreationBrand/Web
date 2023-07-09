@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
-import { Outlet, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import useCommentSubTree from 'Hooks/Pull/useCommentSubTree'
 import usePost from 'Hooks/Pull/usePost'
 import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter'
@@ -11,19 +11,8 @@ import { useRecoilValue } from 'recoil'
 import useCommunityData from 'Hooks/Pull/useCommunityData'
 import { PostHolder } from './PlaceHolders'
 import CommunityPreview from 'Stories/Bits/Preview/CommunityPreview'
+import { overList } from 'Global/Mixins'
 
-const C = {
-    container: css({
-        height: '100%',
-        position: 'relative',
-        overflow: 'hidden',
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '12px',
-        zIndex: 100,
-        background: '#0f0e10',
-    })
-}
 
 
 const D = {
@@ -63,14 +52,12 @@ const CommentList = () => {
     return (
         <motion.div
             key={`comment:${params.post_id}`}
-            css={C.container}
-            transition={{ duration: 0.1 }}
+            css={overList}
+            transition={{ duration: 0.4 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
 
         >
-            <Outlet />
-
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
                 <VirtuList

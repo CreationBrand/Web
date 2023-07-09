@@ -77,16 +77,26 @@ const schema = Joi.object({
 })
 
 
-const AddGroup = ({ open, onClose }: any) => {
+const AddGroup = () => {
 
     const [loading, setLoading] = useState(false);
     const [tree, setTree]: any = useRecoilState(communityTreeData)
+    const navigate = useNavigate()
+
+
+
 
     const { handleSubmit, control, formState: { errors }, reset, watch } = useForm({
         mode: 'onChange',
         resolver: joiResolver(schema)
     });
-    
+
+
+    const onClose = () => {
+        reset()
+        navigate(-1)
+    }
+
     const layoutSize = useRecoilValue(layoutSizeData)
 
     const data = watch()
@@ -110,10 +120,10 @@ const AddGroup = ({ open, onClose }: any) => {
 
 
     return (
-        <Modal open={open} onClose={onClose} css={C.container} >
+        <Modal open={true} onClose={onClose} css={C.container} >
             <div css={C.popup}>
 
-            <div
+                <div
                     onClick={onClose}
                     css={{
                         cursor: "pointer",
@@ -142,7 +152,7 @@ const AddGroup = ({ open, onClose }: any) => {
                 </div>
 
 
-                
+
                 <div css={C.title}>
                     <div css={textBold('x')}>Create Group</div>
                     <div css={textLight('t')}>Group communitys to create seperate feeds.</div>
@@ -193,18 +203,3 @@ const AddGroup = ({ open, onClose }: any) => {
 
 export default AddGroup
 
-// const usePreventBackNavigation = (onClose: any) => {
-//     const navigate = useNavigate();
-//     useEffect(() => {
-//         const handleBeforeUnload = (event: any) => {
-//             onClose()
-//             event.preventDefault();
-//             navigate('/trending');
-//         };
-//         window.onpopstate = handleBeforeUnload;
-//         return () => {
-//             window.onpopstate = handleBeforeUnload;
-//         };
-//     }, [navigate]);
-
-// };

@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 
 import { motion } from 'framer-motion';
-import { Outlet, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import CommunitySearchFilter from 'Stories/Bits/Filter/CommunitySearchFilter';
 import useCommunitySearch from 'Hooks/Pull/useCommunitySearch';
 import usePullCommunity from 'Hooks/usePullCommunity';
@@ -11,25 +11,15 @@ import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter';
 import { FilterHolder, PostHolder } from './PlaceHolders';
 import { useRecoilValue } from 'recoil';
 import { mainSizeState } from 'State/Data';
+import { overList } from 'Global/Mixins';
 
-const C = {
-    container: css({
-        height: '100%',
-        position: 'relative',
-        overflow: 'hidden',
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '12px',
-        zIndex: 100,
-        background: '#0f0e10',
-    })
-}
+//@ts-ignore
+import { Helmet } from "react-helmet"
 
 const SearchCommunityList = () => {
 
     const params: any = useParams()
     const mainSize = useRecoilValue(mainSizeState)
-
 
     const [isLoading, isError, components] = useCommunitySearch(params.community_id, params.query)
     const [isLoading1, isError1, component, data] = usePullCommunity(params.community_id)
@@ -38,13 +28,17 @@ const SearchCommunityList = () => {
     return (
         <motion.div
             key={params.query}
-            css={C.container}
+            css={overList}
             transition={{ duration: 0.1 }}
             initial={{ opacity: 0, }}
             animate={{ opacity: 1, }}
         >
 
-            <Outlet />
+            <Helmet>
+                <title>{data?.community?.title}</title>
+                <meta name="description" content={data?.community?.description} />
+            </Helmet>
+
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
                 <VirtuList

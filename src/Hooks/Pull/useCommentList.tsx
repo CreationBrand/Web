@@ -16,12 +16,10 @@ let end: boolean = false
 const usePostList = (post_id: any) => {
 
     const [components, setComponents]: any = useRecoilState(commentList)
-
     const [cursor, setCursor] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [isError, setIsError] = useState(false)
     const filter = 'HOT'
-    // const [resetState, setResetState] = useRecoilState(resetAllAtoms);
 
     useEffect(() => {
         end = false
@@ -31,6 +29,7 @@ const usePostList = (post_id: any) => {
     }, [post_id])
 
     useEffect(() => {
+
         (async () => {
             try {
                 if (end || isError) return
@@ -46,7 +45,7 @@ const usePostList = (post_id: any) => {
                 setIsError(true)
             }
         })()
-    }, [post_id, cursor, filter])
+    }, [cursor])
 
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {
@@ -105,7 +104,7 @@ const usePostList = (post_id: any) => {
 
 
 
-    return [isLoading, isError, temp.concat(<ChunkError key='error' variant={end ? 'end' : 'loading'} onLoad={fetchNext} onReset={fetchNext}/>)]
+    return [isLoading, isError, temp.concat(<ChunkError key='error' variant={end ? 'end' : 'loading'} onLoad={fetchNext} onReset={fetchNext} />)]
 }
 
 
