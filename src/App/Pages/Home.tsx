@@ -80,7 +80,7 @@ const Home = () => {
         if (location.pathname === '/trending') setLast('trending')
         else if (location.pathname === '/home') setLast('home')
         else if (parts[1] === 'c' && parts.length === 3) setLast('community')
-        else if (parts[1] === 'g' && parts.length === 3) {
+        else if (parts[1] === 'g' && parts.length === 3 && parts[2] !== id) {
             setLast('group')
             setId(parts[2])
         }

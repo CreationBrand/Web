@@ -16,7 +16,6 @@ import LiveViews from 'Stories/Alive/LiveViews'
 import LiveVotes from 'Stories/Alive/LiveVotes'
 import LiveTags from '../../Alive/LiveTags'
 import { hasSeen } from 'State/seenAtom'
-import usePostLive from './usePostLive'
 
 // @ts-ignore
 import TimeAgo from 'react-timeago'
@@ -81,66 +80,68 @@ const Post = ({ view, ...props }: any) => {
     const authState = useRecoilValue(authFlow)
     const flow: any = useRecoilValue(contentFlow)
 
+    const handleClick = (e: any) => {
+        if (view !== 'list') return
+        navigate(`/c/${community.public_id}/p/${public_id}`)
+    }
+
     if (!data || data === undefined || !visibility || !created_at) return null
 
     return (
-        <Link to={`/c/${community.public_id}/p/${public_id}`} css={{ all: 'unset', minHeight:'40px' }}>
-            <div css={C.inner}>
-                <div css={C.header}>
-                    {['global', 'person', 'search', 'group'].includes(flow) && <>
-                        <Avatar size="medium" public_id={community?.public_id} />
-                        <div css={{ maxWidth: 'calc(100% - 88px)' }}>
-                            <div css={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-                                <CommunityTitle title={community?.title} public_id={community?.public_id} />
-                                <span css={time}><TimeAgo date={created_at} formatter={formatTime} /></span>
-                            </div>
-                            <div css={{ width: '100%', overflow: 'scroll', whiteSpace: 'nowrap', flexWrap: 'nowrap', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                <Nickname title={author?.nickname} public_id={author?.public_id} global_roles={global_roles} />
-                                {tags && <LiveTags value={tags} />}
-                            </div>
+        <div css={C.inner} onClick={handleClick}>
+            <div css={C.header}>
+                {['global', 'person', 'search', 'group'].includes(flow) && <>
+                    <Avatar size="medium" public_id={community?.public_id} />
+                    <div css={{ maxWidth: 'calc(100% - 88px)' }}>
+                        <div css={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                            <CommunityTitle title={community?.title} public_id={community?.public_id} />
+                            <span css={time}><TimeAgo date={created_at} formatter={formatTime} /></span>
                         </div>
-                    </>}
-
-                    {['comment', 'post', 'community', 'searchCommunity'].includes(flow) && <>
-                        <Avatar size="medium" public_id={author?.public_id} />
-                        <div>
-                            <div css={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '2px' }}>
-                                <Author title={author?.nickname} public_id={author?.public_id} community_id={community?.public_id} global_roles={global_roles} />
-                                <span css={time}><TimeAgo date={created_at} formatter={formatTime} /></span>
-                            </div>
-                            <div css={{ display: 'flex', alignItems: 'center', gap: '4px', height: '18px' }}>
-                                {community_roles && <LiveRoles value={community_roles} />}
-                                {tags && <LiveTags value={tags} />}
-                            </div>
+                        <div css={{ width: '100%', overflow: 'scroll', whiteSpace: 'nowrap', flexWrap: 'nowrap', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <Nickname title={author?.nickname} public_id={author?.public_id} global_roles={global_roles} />
+                            {tags && <LiveTags value={tags} />}
                         </div>
-                    </>}
+                    </div>
+                </>}
 
-
-                    {authState !== 'guest' && <PostMenu
-                        tags={tags}
-                        person_id={author?.public_id}
-                        post_id={public_id}
-                        community_id={community?.public_id}
-                        global_roles={global_roles}
-                        community_roles={community_roles} />}
-                </div>
-
-                {!(tags && tags.some((obj: any) => filter.includes(obj?.public_id))) &&
-                    <section css={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <div css={C.title}>
-                            {title && title}
+                {['comment', 'post', 'community', 'searchCommunity'].includes(flow) && <>
+                    <Avatar size="medium" public_id={author?.public_id} />
+                    <div>
+                        <div css={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '2px' }}>
+                            <Author title={author?.nickname} public_id={author?.public_id} community_id={community?.public_id} global_roles={global_roles} />
+                            <span css={time}><TimeAgo date={created_at} formatter={formatTime} /></span>
                         </div>
-                        <ContentLoader view={view} type={type} content={content} public_id={public_id} />
-                        <div css={C.footer} onClick={(e: any) => { e.preventDefault(); e.stopPropagation() }}>
-                            <LiveVotes vote={vote} karma={karma} public_id={public_id} type='post' />
-                            <LiveViews value={views} />
-                            <LiveComments value={comments} />
+                        <div css={{ display: 'flex', alignItems: 'center', gap: '4px', height: '18px' }}>
+                            {community_roles && <LiveRoles value={community_roles} />}
+                            {tags && <LiveTags value={tags} />}
                         </div>
-                    </section>
-                }
+                    </div>
+                </>}
+
+
+                {authState !== 'guest' && <PostMenu
+                    tags={tags}
+                    person_id={author?.public_id}
+                    post_id={public_id}
+                    community_id={community?.public_id}
+                    global_roles={global_roles}
+                    community_roles={community_roles} />}
             </div>
-        </Link>
 
+            {!(tags && tags.some((obj: any) => filter.includes(obj?.public_id))) &&
+                <section css={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div css={C.title}>
+                        {title && title}
+                    </div>
+                    <ContentLoader view={view} type={type} content={content} public_id={public_id} />
+                    <div css={C.footer} onClick={(e: any) => { e.preventDefault(); e.stopPropagation() }}>
+                        <LiveVotes vote={vote} karma={karma} public_id={public_id} type='post' />
+                        <LiveViews value={views} />
+                        <LiveComments value={comments} />
+                    </div>
+                </section>
+            }
+        </div>
     )
 }
 

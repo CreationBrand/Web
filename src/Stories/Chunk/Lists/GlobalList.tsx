@@ -2,7 +2,7 @@
 
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
-import { memo, useState } from 'react'
+import { memo,  useState } from 'react'
 import usePostList from 'Hooks/Pull/usePostList'
 import VirtuList from '../VirtualList/VirtuList'
 import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter'
@@ -140,5 +140,5 @@ const GlobalList = ({ type }: any) => {
 }
 
 
-export default GlobalList
+export default memo(GlobalList)
 

@@ -15,6 +15,7 @@ import { useRecoilValue } from 'recoil'
 //@ts-ignore
 import { Helmet } from "react-helmet"
 import { baseList } from 'Global/Mixins'
+import useGroupList from 'Hooks/Pull/useGroupList'
 
 
 
@@ -23,13 +24,13 @@ const GroupList = ({ group_id }: any) => {
     const params: any = useParams()
     const mainSize = useRecoilValue(mainSizeState)
 
-    const [isError1, group, data] = usePullGroup(params.group_id)
-    const [isLoading, isError, components]: any = usePostList(group_id, 'group')
+    const [isError1, group, data] = usePullGroup(group_id)
+    const [isError, components]: any = useGroupList(group_id)
 
     return (
 
         <motion.div
-            key={params.group_id}
+            key={group_id}
             css={baseList}
             transition={{ duration: 0.5 }}
             initial={{ opacity: 0, }}
@@ -42,7 +43,7 @@ const GroupList = ({ group_id }: any) => {
             <div css={{ maxWidth: '800px', width: '100%' }}>
                 <VirtuList
                     list={
-                        (isError || isLoading ?
+                        (isError ?
                             [<FilterHolder />, <PostHolder />, <PostHolder />, <PostHolder />, <PostHolder />] :
                             [
                                 group,

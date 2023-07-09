@@ -6,31 +6,28 @@ import { postFilter } from "State/filterAtoms";
 import { postList, postSync, resetAllAtoms } from "State/postAtoms";
 import ChunkError from "Stories/Bits/ChunkError/ChunkError";
 import Post from "Stories/Chunk/Post/Post";
-
 import TTLCache from '@isaacs/ttlcache';
-const cache = new TTLCache({ max: 10000, ttl: 60000 })
 
+const cache = new TTLCache({ max: 10000, ttl: 60000 })
 let end: boolean = false
 
 const usePostList = (community_id: any, filter: any) => {
 
     const [components, setComponents]: any = useRecoilState(postList)
-
     const [cursor, setCursor] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [isError, setIsError] = useState(false)
-    const [resetState, setResetState] = useRecoilState(resetAllAtoms);
+    // const [resetState, setResetState] = useRecoilState(resetAllAtoms);
 
     useEffect(() => {
         end = false
         setIsLoading(true)
         setCursor(false)
         setComponents([])
-        setResetState({});
+        // setResetState({});
     }, [community_id, filter])
 
     useEffect(() => {
-        startTransition(() => {
 
             (async () => {
                 try {
@@ -50,7 +47,6 @@ const usePostList = (community_id: any, filter: any) => {
                     setIsLoading(false)
                 }
             })()
-        });
     }, [community_id, cursor, filter, end])
 
     const setList = useRecoilTransaction_UNSTABLE(
