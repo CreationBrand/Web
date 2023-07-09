@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation, Navigate, } from 'react-router-dom'
+import { Routes, Route, useLocation, Navigate, Outlet, } from 'react-router-dom'
 import Error from 'Stories/Chunk/Error/Error'
 import PostList from 'Stories/Chunk/Lists/PostList'
 import MessengerList from 'Stories/Chunk/Lists/MessengerList'
@@ -14,6 +14,8 @@ import SearchCommunityList from 'Stories/Chunk/Lists/SearchCommunityList'
 import Submit from 'Stories/Views/Submit'
 import { contentFlow } from 'State/Flow'
 import { useRecoilState, useSetRecoilState } from 'recoil'
+import EditGroup from 'Stories/Popups/EditGroup'
+import CreateCommunity from 'Stories/Popups/CreateCommunity'
 
 var Private = () => {
 
@@ -66,10 +68,18 @@ var Private = () => {
 
 
                     {/* fake */}
-                    <Route path="/trending" element={<div />} />
-                    <Route path="/home" element={<div />} />
-                    <Route path="/c/:community_id" element={<div />} />
-                    <Route path="/g/:group_id" element={<div />} />
+                    <Route path="/trending" element={<EmptyRoute />}>
+                        <Route path='create-community' element={<CreateCommunity />} />
+                    </Route>
+
+                    <Route path="/home" element={<EmptyRoute />}>
+                    </Route>
+
+                    <Route path="/c/:community_id" element={<EmptyRoute />}>
+                    </Route>
+
+                    <Route path="/g/:group_id" element={<EmptyRoute />}>
+                    </Route>
 
                     {/* real */}
                     <Route path="/settings" element={<EditPerson />} />
@@ -97,3 +107,8 @@ var Private = () => {
     )
 }
 export default memo(Private)
+
+
+function EmptyRoute() {
+    return <Outlet />;
+}

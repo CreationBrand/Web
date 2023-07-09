@@ -2,6 +2,7 @@
 import { css } from '@emotion/react';
 import { bindState } from 'State/atoms';
 import { motion } from 'framer-motion';
+import { Outlet } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 
@@ -37,14 +38,11 @@ const Contact = () => {
 
 
     return (
-
-
         <motion.div
             css={C.container}
             key={`contact`}
-     >
-
-
+        >
+            <Outlet />
 
             <div css={C.inner}>
 

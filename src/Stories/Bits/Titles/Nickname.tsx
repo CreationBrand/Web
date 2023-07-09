@@ -2,10 +2,7 @@
 import { css } from '@emotion/react'
 
 import { memo, useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-
-import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
-import HoverPopover from 'material-ui-popup-state/HoverPopover'
+import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import MiniError from '../ChunkError/MiniError'
 import { socketRequest } from 'Service/Socket'
@@ -17,6 +14,7 @@ import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import Avatar from '../Avatar/Avatar'
 import { Tooltip } from '@mui/material'
+import { block, handleImgError } from 'Util/stopPropagation'
 
 const C = {
     underline: css({
@@ -61,6 +59,7 @@ const Nickname = ({ title, public_id, community_id, global_roles }: any) => {
 
             title={<Preview public_id={public_id} community_id={community_id} />}>
             <Link
+                onClick={block}
                 to={`/p/${public_id}`}
                 css={C.underline}>
                 {title}
@@ -125,7 +124,6 @@ let Preview = ({ public_id, community_id }: any) => {
                 <img css={D.banner}
                     onError={handleImgError}
                     src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.public_id}`} />
-
 
                 <div css={{
                     padding: '12px 12px 0px 12px',
@@ -203,4 +201,3 @@ let Preview = ({ public_id, community_id }: any) => {
 }
 
 
-const handleImgError = (e: any) => e.target.style.display = 'none'

@@ -43,7 +43,6 @@ const usePersonList = (person_id: any, filter: any) => {
     useEffect(() => {
         (async () => {
             try {
-
                 if (end || isError) return
 
                 if (filter === 'POST') {
@@ -56,8 +55,6 @@ const usePersonList = (person_id: any, filter: any) => {
                     setList(req.posts)
                     cache.set(`posts:${person_id}:${filter}:${cursor}`, req.posts)
                 }
-
-
                 else if (filter === 'COMMENT') {
                     if (cache.has(`comments:${person_id}:${filter}:${cursor}`)) {
                         return setComments(cache.get(`comments:${person_id}:${filter}:${cursor}`))
@@ -68,17 +65,12 @@ const usePersonList = (person_id: any, filter: any) => {
                     setComments(req.comments)
                     cache.set(`comments:${person_id}:${filter}:${cursor}`, req.comments)
                 }
-                else {
-                    setIsError(true)
-                }
-
-
 
             } catch (e) {
                 setIsError(true)
             }
         })()
-    }, [person_id, cursor])
+    }, [person_id, cursor, isError, filter])
 
     const setList = useRecoilTransaction_UNSTABLE(
         ({ set }) => (listItems: any) => {

@@ -16,13 +16,14 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 
 const C = {
     container: css({
+        boxSizing: 'border-box',
         width: '100%',
         height: "40px",
         borderRadius: '20px',
-        padding: "2px 8px 3px 12px",
+        padding: "4px 8px 4px 8px",
         background: '#0f0e10',
         zIndex: '500 !important',
-        border: '2px solid #0f0e10',
+        // border: '2px solid #0f0e10',
         display: 'flex',
         alignItems: 'center',
         gap: '4px',
@@ -43,17 +44,16 @@ const C = {
     }),
     tag: css({
         height: "30px",
-        padding: "0 4px 0 10px",
+        padding: "4px",
         display: "flex",
         alignItems: "center",
-        border: "2px solid #1F1E20",
-        background: "#1F1E20",
-        borderRadius: "16px",
+        border: "2px solid #1f1e20",
+        background: "#1f1e20",
+        borderRadius: "20px",
         gap: "4px",
         outline: "0",
         color: "#D7DADC",
         cursor: "pointer",
-        marginTop: "1px",
 
 
         '&:hover': {
@@ -114,6 +114,11 @@ const Search2 = () => {
     const [persons, setPersons]: any = useState([])
     const [communitys, setCommunitys]: any = useState([])
 
+    const handleTag = (e:any) => {
+        e.stopPropagation()
+        e.preventDefault()
+        navigate(`/c/${current?.community?.public_id}`)
+    }
     const removeTag = () => setShowTag(false)
     const handleX = (e: any) => {
         setQuery('')
@@ -281,7 +286,7 @@ const Search2 = () => {
                     css={C.container}
                     style={{
                         width: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'calc(100vw - 8px)' : '',
-                        left:'0px',
+                        left: '0px',
                         position: (layoutSize === 'mobile' && Boolean(anchorEl)) ? 'absolute' : 'relative',
                         border: Boolean(anchorEl) ? '2px solid #996ccc' : '2px solid #0f0e10',
                     }
@@ -291,7 +296,7 @@ const Search2 = () => {
 
                     {
                         (showTag && current) && <div
-                            onClick={removeTag}
+                            onClick={handleTag}
                             css={C.tag}>
                             <Avatar public_id={current.community.public_id} size='tiny' />
                             <span
@@ -299,12 +304,15 @@ const Search2 = () => {
                                 css={C.tagTitle}>
                                 {current?.community?.title}
                             </span>
-                            <CloseRoundedIcon sx={{
-                                position: "relative",
-                                height: "22px",
-                                color: 'inherit',
-                                fontSize: "18px",
-                            }} />
+                            <CloseRoundedIcon
+                                onClick={removeTag}
+
+                                sx={{
+                                    position: "relative",
+                                    height: "22px",
+                                    color: 'inherit',
+                                    fontSize: "18px",
+                                }} />
                         </div>
                     }
 

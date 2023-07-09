@@ -7,6 +7,7 @@ import VirtuList from '../VirtualList/VirtuList'
 import useNotiList from 'Hooks/Pull/useNotiList'
 import useClearNotif from 'Hooks/useClearNotif'
 import { FilterHolder, PostHolder } from './PlaceHolders'
+import { Outlet } from 'react-router-dom'
 
 const C = {
     container: css({
@@ -35,6 +36,8 @@ const NotiList = ({ type }: any) => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
         >
+            <Outlet />
+
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
                 <VirtuList

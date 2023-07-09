@@ -19,9 +19,8 @@ const s = css({
     alignItems: 'center',
     zIndex: 400,
     position: 'relative',
-    height: '56px !important',
-    minHeight: '56px !important',
-    maxHeight: '56px !important',
+    height: '56px',
+    // backgroundImage: `url(${process.env.REACT_APP_CLOUDFRONT}/banner/85d7ca20-199a-40bb-ba9f-dc7d54ebfae2)`,
 })
 
 
@@ -34,7 +33,7 @@ const Nav = ({ children }: any) => {
         css={s}
         style={{
             borderRadius: layout === 'mobile' ? '8px' : '12px',
-
+            // height: layout === 'mobile' ? '50px' : '56px',
         }}
         onClick={cancel}
     >

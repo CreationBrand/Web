@@ -11,11 +11,15 @@ import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Link } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
 import { mainSizeState } from 'State/Data'
 import { PostHolder } from './PlaceHolders'
+
+
+//@ts-ignore
+import { Helmet } from "react-helmet"
 
 
 const C = {
@@ -68,6 +72,12 @@ const GlobalList = ({ type }: any) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
         >
+            <Outlet />
+
+            <Helmet>
+                <title>Artram</title>
+            </Helmet>
+
             <div css={{ maxWidth: '800px', width: '100%' }}>
                 <VirtuList list={
                     (isError || isLoading) ? [<PostHolder />, <PostHolder />, <PostHolder />, <PostHolder />] :

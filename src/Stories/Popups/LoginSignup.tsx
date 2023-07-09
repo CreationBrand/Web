@@ -20,7 +20,6 @@ import { layoutSizeData } from "State/Data";
 
 const C = {
     container: css({
-        // backgroundColor: 'rgba(15,14,16,0.90)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -114,7 +113,15 @@ const verifySchema = Joi.object({
     email: Joi.string(),
 })
 
-const LoginSignup = ({ open, onClose }: any) => {
+const LoginSignup = () => {
+
+    console.log('here')
+    const navigate = useNavigate()
+
+    const onClose = () => {
+        console.log('close')
+        navigate(-1)
+    }
 
     const [loading, setLoading] = useState(false);
     const [view, setView] = useState('login')
@@ -177,8 +184,10 @@ const LoginSignup = ({ open, onClose }: any) => {
         }
     }
 
+
+    console.log('here')
     return (
-        <Modal open={open} onClose={onClose} css={C.container} >
+        <Modal open={true} onClose={onClose} css={C.container} >
             <div css={C.popup}>
 
                 <div
@@ -210,7 +219,7 @@ const LoginSignup = ({ open, onClose }: any) => {
                 </div>
 
                 <div css={C.image}>
-                    <img css={{ width: '100%', objectFit: "cover", height: '100%' }} src={'OIG.jpg'}></img>
+                    <img css={{ width: '100%', objectFit: "cover", height: '100%' }} src={'OIG.webp'}></img>
                 </div>
 
 
@@ -231,7 +240,7 @@ const LoginSignup = ({ open, onClose }: any) => {
                                 textAlign: "center",
                                 marginBottom: "26px",
                                 fontSize: "28px",
-                                fontWeight: 450,
+                                fontWeight: 500,
                                 lineHeight: "40px",
                             }}>Sign Into Your Account</div>
 
@@ -373,7 +382,7 @@ const LoginSignup = ({ open, onClose }: any) => {
                                 textAlign: "center",
                                 marginBottom: "26px",
                                 fontSize: "28px",
-                                fontWeight: 450,
+                                fontWeight: 500,
                                 lineHeight: "40px",
                             }}>Create Your Account
                             </div>
@@ -447,7 +456,7 @@ const LoginSignup = ({ open, onClose }: any) => {
                             <div css={{
                                 marginBottom: "26px",
                                 fontSize: "28px",
-                                fontWeight: 450,
+                                fontWeight: 500,
                                 lineHeight: "40px",
                             }}>Enter verification code</div>
 

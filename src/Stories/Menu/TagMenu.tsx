@@ -37,10 +37,6 @@ const TagMenu = ({ current, public_id, type, community_id }: any) => {
     const layout = useRecoilValue(layoutSizeData)
 
 
-
-    console.log(current)
-
-
     useEffect(() => {
         if (!current || current.length < 1) return
         let temp: any = []

@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useLocation, } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation, Outlet, } from 'react-router-dom'
 import Preview from 'App/Pages/Preview'
 import GlobalList from 'Stories/Chunk/Lists/GlobalList'
 import Error from 'Stories/Chunk/Error/Error'
@@ -10,31 +10,31 @@ import SearchList from 'Stories/Chunk/Lists/SearchList'
 import Contact from 'Stories/Views/Contact'
 import PersonList from 'Stories/Chunk/Lists/PersonList'
 import SearchCommunityList from 'Stories/Chunk/Lists/SearchCommunityList'
-import { useRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 import { contentFlow } from 'State/Flow'
+import LoginSignup from 'Stories/Popups/LoginSignup'
 
 var Public = () => {
 
     const location = useLocation()
-    const [value, setContentFlow] = useRecoilState(contentFlow)
-
-    console.log('publiuc',location.pathname)
+    const setContentFlow = useSetRecoilState(contentFlow)
 
     useEffect(() => {
         let parts: any = location.pathname.split('/')
-
         switch (true) {
             case parts[1] === 'trending':
                 return setContentFlow('global')
             case parts[1] === 'home':
                 return setContentFlow('global')
-            case parts[1] === 'c' && parts.length === 3:
-                return setContentFlow('community')
             case parts[1] === 'search':
                 return setContentFlow('search')
-            case parts[1] === 'c' && parts[4] === 'p':
+            case parts[1] === 'c' && parts[3] === 'search':
+                return setContentFlow('searchCommunity')
+            case parts[1] === 'c' && parts.length === 3:
+                return setContentFlow('community')
+            case parts[1] === 'c' && parts[3] === 'p':
                 return setContentFlow('post')
-            case parts[1] === 'c' && parts[4] === 'p' && parts[6] === 'c':
+            case parts[1] === 'c' && parts[3] === 'p' && parts[5] === 'c':
                 return setContentFlow('comment')
             case parts[1] === 'g':
                 return setContentFlow('group')
@@ -51,14 +51,11 @@ var Public = () => {
         }
 
     }, [location.pathname]);
-
     return (
         <>
             <Error />
 
             <Routes>
-
-
                 <Route path="/" element={<Preview />}>
 
                     <Route path="/" element={<Navigate to="/trending" replace={true} />} />
@@ -66,32 +63,59 @@ var Public = () => {
 
 
                     {/* fake */}
-                    <Route path="/trending" element={<div />} />
-                    <Route path="/home" element={<div />} />
-                    <Route path="/c/:community_id" element={<div />} />
-                    <Route path="/g/:group_id" element={<div />} />
+                    <Route path="/trending" element={<EmptyRoute />}>
+                        <Route path='auth' element={<LoginSignup />} />
+                    </Route>
 
+                    <Route path="/home" element={<EmptyRoute />}>
+                        <Route path='auth' element={<LoginSignup />} />
+                    </Route>
+
+                    <Route path="/c/:community_id" element={<EmptyRoute />}>
+                        <Route path='auth' element={<LoginSignup />} />
+                    </Route>
+
+                    <Route path="/g/:group_id" element={<EmptyRoute />}>
+                        <Route path='auth' element={<LoginSignup />} />
+                    </Route>
 
 
                     {/* layover lists */}
-                    <Route path="search/:query" element={<SearchList />} />
-                    <Route path="c/:community_id/p/:post_id" element={<PostList />} />
-                    <Route path="c/:community_id/search/:query" element={<SearchCommunityList />} />
-                    <Route path="p/:person_id" element={<PersonList />} />
+                    <Route path="search/:query" element={<SearchList />}  >
+                        <Route path='auth' element={<LoginSignup />} />
+                    </Route>
+
+                    <Route path="c/:community_id/p/:post_id" element={<PostList />}  >
+                        <Route path='auth' element={<LoginSignup />} />
+                    </Route>
+
+                    <Route path="c/:community_id/search/:query" element={<SearchCommunityList />}  >
+                        <Route path='auth' element={<LoginSignup />} />
+                    </Route>
+
+                    <Route path="p/:person_id" element={<PersonList />}  >
+                        <Route path='auth' element={<LoginSignup />} />
+                    </Route>
 
 
-                    <Route path="announcements" element={<Announcements />} />
-                    <Route path="contact" element={<Contact />} />
+                    <Route path="announcements" element={<Announcements />}  >
+                        <Route path='auth' element={<LoginSignup />} />
+                    </Route>
 
+                    <Route path="contact" element={<Contact />} >
+                        <Route path='auth' element={<LoginSignup />} />
+                    </Route>
 
                 </Route>
 
-
-
                 <Route path="*" element={<Navigate to="/trending" replace={true} />} />
-
             </Routes>
         </>
     )
 }
 export default memo(Public)
+
+
+function EmptyRoute() {
+    return <Outlet />;
+}

@@ -1,15 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import { memo } from 'react'
 
 let sizeMap: any = {
-    tiny: '18px',
+    tiny: '22px',
     small: '36px',
     medium: '40px',
     large: '50px',
     extra: '80px',
 }
 let radiusMap: any = {
-    tiny: '24px',
+    tiny: '50%',
     small: '8px',
     medium: '8px',
     large: '16px',
@@ -31,8 +32,6 @@ const Avatar = ({ public_id, size }: any) => {
 
     return (
         <img
-            loading="lazy"
-
             style={{
                 objectFit: 'cover',
                 border: '1px solid #181820',
@@ -48,5 +47,5 @@ const Avatar = ({ public_id, size }: any) => {
     )
 }
 
-export default Avatar
+export default memo(Avatar)
 

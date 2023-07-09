@@ -2,20 +2,21 @@
 import { css } from '@emotion/react'
 
 import { motion } from 'framer-motion'
-import { useParams } from 'react-router-dom'
-import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
+import { Outlet, useParams } from 'react-router-dom'
 import FilterPane from 'Stories/Bits/Filter/CommunityFilter'
 import { useRecoilValue } from 'recoil'
 import { postFilter } from 'State/filterAtoms'
 import usePostList from 'Hooks/Pull/usePostList'
 import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter'
-import usePullCommunity from 'Hooks/usePullCommunity'
 import VirtuList from '../VirtualList/VirtuList'
 import { mainSizeState } from 'State/Data'
 import { FilterHolder, HeadHolder, PostHolder } from './PlaceHolders'
 import useCommunity from 'Hooks/Pull/useCommunity'
 import useLinkCommunity from 'Hooks/Link/useLinkCommunity'
 
+
+//@ts-ignore
+import { Helmet } from "react-helmet"
 
 const C = {
     container: css({
@@ -32,11 +33,11 @@ const C = {
 
 const CommunityList = () => {
 
-    const params:any = useParams()
+    const params: any = useParams()
     const filter = useRecoilValue(postFilter)
     const mainSize = useRecoilValue(mainSizeState)
 
-    const [isLoading1, isError1, component] = useCommunity(params.community_id)
+    const [isLoading1, isError1, component, data] = useCommunity(params.community_id)
     const [isLoading, isError, components]: any = usePostList(params.community_id, filter)
 
     useLinkCommunity(params.community_id, true)
@@ -50,6 +51,13 @@ const CommunityList = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
         >
+            <Outlet />
+
+            <Helmet>
+                <title>{data?.community?.title}</title>
+                <meta name="description" content={data?.community?.description} />
+
+            </Helmet>
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
                 <VirtuList

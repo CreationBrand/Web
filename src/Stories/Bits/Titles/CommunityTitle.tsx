@@ -3,12 +3,8 @@ import { css } from '@emotion/react'
 
 import { memo, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-
-import { Button, Tooltip, debounce } from '@mui/material'
-import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
-import HoverPopover from 'material-ui-popup-state/HoverPopover'
+import { Button, Tooltip } from '@mui/material'
 import { AnimatePresence, motion } from 'framer-motion'
-
 import Avatar from '../Avatar/Avatar'
 import { textLabel } from 'Global/Mixins'
 import { leaveCommunity, joinCommunity } from 'Helper/Action'
@@ -20,6 +16,7 @@ import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import { isAdmin } from 'Service/Rbac'
 import useCommunityData from 'Hooks/Pull/useCommunityData'
+import { block } from 'Util/stopPropagation'
 
 
 const C = {
@@ -67,6 +64,7 @@ const CommunityTitle = ({ title, public_id }: any) => {
 
             title={<Preview public_id={public_id} />}>
             <Link
+                onClick={block}
                 to={`/c/${public_id}`}
                 css={C.underline}>
                 {title}

@@ -3,32 +3,25 @@
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
 
-import { memo, useEffect, useState, } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
-import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
+import { memo } from 'react'
+import { Outlet, useParams } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
 
 import AddComment from '../Comment/AddComment'
 import VirtualList from '../VirtualList/VirtualList'
-import { seenAtom } from 'State/seenAtom'
 import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter'
 import useCommunityData from 'Hooks/Pull/useCommunityData'
-import { textLabel } from 'Global/Mixins'
-import Online from 'Stories/Bits/Online/Online'
 
-import Avatar from 'Stories/Bits/Avatar/Avatar'
-import { leaveCommunity, joinCommunity } from 'Helper/Action'
-import useComments from 'Hooks/Pull/useComments'
 import usePost from 'Hooks/Pull/usePost'
-import { communityListData, mainSizeState } from 'State/Data'
-import VirtuList from '../VirtualList/VirtuList'
+import { mainSizeState } from 'State/Data'
 import useCommentList from 'Hooks/Pull/useCommentList'
 import useIsMuted from 'Hooks/Util/useIsMuted'
 import { CommentHolder, FilterHolder, PostHolder } from './PlaceHolders'
 import useLinkPost from 'Hooks/Link/useLinkPost'
-import Move from 'Stories/Bits/Filter/Move'
 import CommunityPreview from 'Stories/Bits/Preview/CommunityPreview'
 
+//@ts-ignore
+import { Helmet } from "react-helmet"
 
 const C = {
     container: css({
@@ -63,7 +56,6 @@ const PostList = () => {
     //     see((o: any) => [...o, params.post_id])
     // }, [params.post_id])
 
-
     return (
         <motion.div
             key={params.post_id}
@@ -72,14 +64,22 @@ const PostList = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
         >
+            <Outlet />
+
+            <Helmet>
+                <title>{component?.props?.title}</title>
+                <meta name="description" content={component?.props?.content} />
+            </Helmet>
+
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
+
 
                 <VirtualList
                     public_id={params.post_id}
                     overscan={10}
                     list={
-                        (isError || isError2 || isLoading || isLoading2) ? [<PostHolder />, <FilterHolder />, <CommentHolder />, <CommentHolder />,] :
+                        (isError || isError2 || isLoading || isLoading2) ? [<PostHolder />, <FilterHolder />, <CommentHolder />, <CommentHolder />] :
                             [
                                 component,
                                 <div key={'component'} css={{ margin: 'auto', marginTop: '8px', display: 'flex', flexDirection: 'column' }}>

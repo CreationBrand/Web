@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 
 import { motion } from 'framer-motion';
-import { useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import CommunitySearchFilter from 'Stories/Bits/Filter/CommunitySearchFilter';
 import useCommunitySearch from 'Hooks/Pull/useCommunitySearch';
 import usePullCommunity from 'Hooks/usePullCommunity';
@@ -44,6 +44,7 @@ const SearchCommunityList = () => {
             animate={{ opacity: 1, }}
         >
 
+            <Outlet />
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
                 <VirtuList

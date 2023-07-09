@@ -19,7 +19,6 @@ import { communityLTL, communityLTT } from 'Helper/Clean';
 
 const C = {
     container: css({
-        // backgroundColor: 'rgba(15,14,16,0.90)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

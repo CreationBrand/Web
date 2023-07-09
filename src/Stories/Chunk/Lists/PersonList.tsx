@@ -4,7 +4,7 @@ import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
 import { useRecoilValue } from 'recoil'
 import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
-import { useParams } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 import usePerson from 'Hooks/Pull/usePerson'
 import PersonFilter from 'Stories/Bits/Filter/PersonFilter'
 import { personFilter } from 'State/filterAtoms'
@@ -46,6 +46,7 @@ const PersonList = () => {
             animate={{ opacity: 1 }}
         >
 
+            <Outlet />
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
                 <VirtuList

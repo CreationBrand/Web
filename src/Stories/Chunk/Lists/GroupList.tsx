@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
 import { memo } from 'react'
-import { useParams } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 import usePullGroup from 'Hooks/usePullGroup'
 import usePostList from 'Hooks/Pull/usePostList'
 import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter'
@@ -10,6 +10,10 @@ import VirtuList from '../VirtualList/VirtuList'
 import { FilterHolder, PostHolder } from './PlaceHolders'
 import { mainSizeState } from 'State/Data'
 import { useRecoilValue } from 'recoil'
+
+
+//@ts-ignore
+import { Helmet } from "react-helmet"
 
 const C = {
     container: css({
@@ -40,6 +44,11 @@ const GroupList = ({ group_id }: any) => {
             initial={{ opacity: 0, }}
             animate={{ opacity: 1, }}
         >
+            <Outlet />
+
+            <Helmet>
+                <title>{data?.group?.title}</title>
+            </Helmet>
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
                 <VirtuList

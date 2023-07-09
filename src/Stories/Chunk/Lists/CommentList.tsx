@@ -1,17 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
-import ChunkError from 'Stories/Bits/ChunkError/ChunkError'
-import { useParams } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 import useCommentSubTree from 'Hooks/Pull/useCommentSubTree'
 import usePost from 'Hooks/Pull/usePost'
 import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter'
 import VirtuList from '../VirtualList/VirtuList'
-import { textLabel } from 'Global/Mixins'
 import { mainSizeState } from 'State/Data'
-import Online from 'Stories/Bits/Online/Online'
 import { useRecoilValue } from 'recoil'
-import Avatar from 'Stories/Bits/Avatar/Avatar'
 import useCommunityData from 'Hooks/Pull/useCommunityData'
 import { PostHolder } from './PlaceHolders'
 import CommunityPreview from 'Stories/Bits/Preview/CommunityPreview'
@@ -73,6 +69,8 @@ const CommentList = () => {
             animate={{ opacity: 1 }}
 
         >
+            <Outlet />
+
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
                 <VirtuList

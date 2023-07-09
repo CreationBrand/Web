@@ -9,6 +9,7 @@ import CommunityPane from "Stories/Bits/Header/CommunityPane";
 const useCommunity = (community_id: any) => {
 
     const [components, setComponents]: any = useState([])
+    const [data, setData] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [isError, setIsError] = useState(false)
     const [inSync, setSync] = useRecoilState(communitySync(community_id))
@@ -26,6 +27,7 @@ const useCommunity = (community_id: any) => {
                 console.log('%c [SYNC] ', 'font-weight: bold; color: #0F0', `Community: ${inSync?.community.public_id}`);
                 setComponents(<CommunityPane public_id={inSync?.community?.public_id} />)
                 setIsLoading(false)
+                setData(inSync)
                 return
             }
 
@@ -38,6 +40,7 @@ const useCommunity = (community_id: any) => {
                 setComponents(<CommunityPane public_id={req?.community?.public_id} />)
                 setItem(req)
                 setIsLoading(false)
+                setData(req)
             } catch (e) { setIsError(true) }
         })()
     }, [community_id])
@@ -49,7 +52,7 @@ const useCommunity = (community_id: any) => {
         []
     );
 
-    return [isLoading, isError, components]
+    return [isLoading, isError, components,data]
 }
 
 

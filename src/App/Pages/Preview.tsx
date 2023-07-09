@@ -5,7 +5,7 @@ import Tri, { Mobile } from 'Stories/Views/Tri'
 import Nav from 'Stories/Layout/Nav'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { triState } from 'State/atoms'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Link, Outlet, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { memo, useEffect, useLayoutEffect, useState } from 'react'
 import Main from 'Stories/Layout/Main'
@@ -34,7 +34,7 @@ const Preview = () => {
     const [showLogin, setShowLogin] = useState(false)
     const [last, setLast]: any = useState(false)
     const location = useLocation()
-
+    const navigate = useNavigate()
 
     const { width, height } = useWindow()
     //runs on every size change (very inefficient)
@@ -55,10 +55,9 @@ const Preview = () => {
 
 
 
+
     if (layout === 'mobile') return (
         <>
-            {showLogin && <LoginSignup open={showLogin} onClose={() => setShowLogin(false)} />}
-
             <Mobile>
                 <Left>
                     <LogoWithName />
@@ -84,24 +83,24 @@ const Preview = () => {
                         }]}>
                             To participate in discussions and keep up with your preferred communities, set up an account and begin following them.                    </div>
 
-                        <Button
-                            onMouseDown={() => setShowLogin(true)}
-                            sx={{
-                                display: 'inline-flex',
-                                whiteSpace: ' nowrap',
-                                borderRadius: '14px',
-                                background: '#6858f2',
-                                height: '40px',
-                                width: '100%',
-                                marginRight: '8px',
-                                fontSize: '14px',
-                                lineHeight: '12px !important',
-                                fontWeight: '700',
-                            }}
-                            variant="contained" disableElevation>
-                            Join Artram
-                        </Button>
-
+                        <Link to='auth' relative="path">
+                            <Button
+                                sx={{
+                                    display: 'inline-flex',
+                                    whiteSpace: ' nowrap',
+                                    borderRadius: '14px',
+                                    background: '#6858f2',
+                                    height: '40px',
+                                    width: '100%',
+                                    marginRight: '8px',
+                                    fontSize: '14px',
+                                    lineHeight: '12px !important',
+                                    fontWeight: '700',
+                                }}
+                                variant="contained" disableElevation>
+                                Join Artram
+                            </Button>
+                        </Link>
                     </div>
 
                 </Left>
@@ -111,23 +110,23 @@ const Preview = () => {
                         <Search2 />
                         <div css={{ display: 'flex' }}>
 
-                            <Button
-                                onMouseDown={() => setShowLogin(true)}
-                                sx={{
-                                    borderRadius: '20px',
-                                    background: '#0f0e10',
-                                    height: '40px',
-                                    fontSize: '13px',
-                                    lineHeight: '12px !important',
-                                    fontWeight: '700',
-                                    gap: '4px',
+                            <Link to='auth' relative="path">
+                                <Button
+                                    sx={{
+                                        borderRadius: '20px',
+                                        background: '#0f0e10',
+                                        height: '40px',
+                                        fontSize: '13px',
+                                        lineHeight: '12px !important',
+                                        fontWeight: '700',
+                                        gap: '4px',
 
-                                }}
+                                    }}
 
-                                variant="contained" disableElevation>
-                                <DeveloperBoardIcon /> Login
-                            </Button>
-
+                                    variant="contained" disableElevation>
+                                    <DeveloperBoardIcon /> Login
+                                </Button>
+                            </Link>
 
                         </div>
 
@@ -149,7 +148,6 @@ const Preview = () => {
 
     return (
         <>
-            {showLogin && <LoginSignup open={showLogin} onClose={() => setShowLogin(false)} />}
             <Tri left={l} right={false}>
                 <Left>
                     <LogoWithName />
@@ -222,23 +220,22 @@ const Preview = () => {
                         <Search2 />
                         <div css={{ display: 'flex' }}>
 
-                            <Button
-                                onMouseDown={() => setShowLogin(true)}
-                                sx={{
-                                    borderRadius: '20px',
-                                    background: '#0f0e10',
-                                    height: '40px',
-                                    fontSize: '13px',
-                                    lineHeight: '12px !important',
-                                    fontWeight: '700',
-                                    gap: '4px',
+                            <Link to='auth' relative="path">
+                                <Button
+                                    sx={{
+                                        borderRadius: '20px',
+                                        background: '#0f0e10',
+                                        height: '40px',
+                                        fontSize: '13px',
+                                        lineHeight: '12px !important',
+                                        fontWeight: '700',
+                                        gap: '4px',
 
-                                }}
-
-                                variant="contained" disableElevation>
-                                <DeveloperBoardIcon /> Login
-                            </Button>
-
+                                    }}
+                                    variant="contained" disableElevation>
+                                    <DeveloperBoardIcon /> Login
+                                </Button>
+                            </Link>
 
                         </div>
 

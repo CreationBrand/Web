@@ -6,11 +6,11 @@ import AddIcon from '@mui/icons-material/Add';
 
 import { useState } from "react";
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
-import CreateCommunity from "Stories/Popups/CreateCommunity";
 
 import AddGroup from "Stories/Popups/AddGroup";
 import FilterMenu from "Stories/Menu/FilterMenu";
 import LivePermissions from "Stories/Alive/LivePermissions";
+import { Link } from "react-router-dom";
 
 const C = {
     container: css({
@@ -38,7 +38,6 @@ const CommunityControls = () => {
     return <div css={C.container}>
 
 
-        <CreateCommunity open={open1} onClose={handleClose1} />
         <AddGroup open={group} onClose={groupClose} />
 
         <FilterMenu />
@@ -46,16 +45,17 @@ const CommunityControls = () => {
 
 
         <Tooltip title="Create Community" arrow>
-            <IconButton
-                onClick={handleClickOpen1}
-                size="small"
-                color="secondary" sx={{
-                    borderRadius: '4px',
-                    height: '32px',
-                    width: '32px',
-                }}>
-                <AddIcon sx={{ fontSize: '28px' }} />
-            </IconButton>
+            <Link to='create-community' relative="path">
+                <IconButton
+                    size="small"
+                    color="secondary" sx={{
+                        borderRadius: '4px',
+                        height: '32px',
+                        width: '32px',
+                    }}>
+                    <AddIcon sx={{ fontSize: '28px' }} />
+                </IconButton>
+            </Link>
         </Tooltip>
 
 

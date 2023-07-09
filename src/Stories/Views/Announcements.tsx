@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 
 import { bindState } from 'State/atoms';
 import { motion } from 'framer-motion';
+import { Outlet } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 
@@ -46,7 +47,7 @@ const Announcements = () => {
             key={`announcements`}
 
         >
-
+            <Outlet />
 
 
             <div css={C.inner}>

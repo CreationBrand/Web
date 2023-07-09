@@ -2,9 +2,7 @@
 import { css } from '@emotion/react'
 
 import { memo, useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
-import HoverPopover from 'material-ui-popup-state/HoverPopover'
+import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { socketRequest } from 'Service/Socket'
 import Avatar from '../Avatar/Avatar'
@@ -15,6 +13,7 @@ import LiveRoles from 'Stories/Alive/LiveRoles'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import { Tooltip } from '@mui/material'
+import { block } from 'Util/stopPropagation'
 
 const C = {
     underline: css({
@@ -58,6 +57,7 @@ const Author = ({ title, public_id, community_id, global_roles }: any) => {
 
             title={<Preview public_id={public_id} community_id={community_id} />}>
             <Link
+                onClick={block}
                 to={`/p/${public_id}`}
                 css={C.underline}>
                 {title}

@@ -79,7 +79,7 @@ const schema = Joi.object({
 
 
 
-const CreateCommunity = ({ open, onClose }: any) => {
+const CreateCommunity = () => {
 
     const { handleSubmit, control, formState: { errors }, reset, watch } = useForm({
         mode: 'onChange',
@@ -87,9 +87,14 @@ const CreateCommunity = ({ open, onClose }: any) => {
     });
 
     const layoutSize = useRecoilValue(layoutSizeData)
-
     const data = watch()
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate()
+
+    const onClose = () => {
+        reset()
+        navigate(-1)
+    }
 
     const onSubmit = handleSubmit(async (data) => {
 
@@ -110,7 +115,7 @@ const CreateCommunity = ({ open, onClose }: any) => {
 
 
     return (
-        <Modal open={open} onClose={onClose} css={C.container} >
+        <Modal open={true} onClose={onClose} css={C.container} >
             <div css={C.popup}>
 
                 <div
@@ -153,7 +158,7 @@ const CreateCommunity = ({ open, onClose }: any) => {
 
                 <div css={C.content}>
                     <h3 css={textLabel('s')}>description</h3>
-                    <RichInput name='description' control={control}/>
+                    <RichInput name='description' control={control} />
                 </div>
 
                 <div css={C.content}>
@@ -208,10 +213,7 @@ const CreateCommunity = ({ open, onClose }: any) => {
                             fontSize: "17px",
                             fontWeight: 600,
                             lineHeight: "24px",
-
                         }}
-
-
                     >
                         Create Community
                     </LoadingButton>

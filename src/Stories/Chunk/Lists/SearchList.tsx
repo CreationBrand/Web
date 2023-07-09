@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import useSearch from 'Hooks/useSearch';
 import SearchPane from 'Stories/Bits/Filter/SearchPane';
 import GlobalFilter from 'Stories/Bits/Filter/GlobalFilter';
@@ -40,6 +40,8 @@ const SearchList = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
         >
+            <Outlet />
+
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
                 <VirtuList
