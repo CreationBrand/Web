@@ -14,22 +14,10 @@ import { FilterHolder, HeadHolder, PostHolder } from './PlaceHolders'
 import useCommunity from 'Hooks/Pull/useCommunity'
 import useLinkCommunity from 'Hooks/Link/useLinkCommunity'
 
-
 //@ts-ignore
 import { Helmet } from "react-helmet"
+import { baseList } from 'Global/Mixins'
 
-const C = {
-    container: css({
-        height: '100%',
-        width: '100%',
-        position: 'absolute',
-        overflow: 'hidden',
-        display: 'flex',
-        justifyContent: 'center',
-        zIndex: 50,
-        gap: '12px',
-    })
-}
 
 const CommunityList = () => {
 
@@ -46,17 +34,15 @@ const CommunityList = () => {
 
         <motion.div
             key={params.community_id}
-            css={C.container}
-            transition={{ duration: 0.4 }}
+            css={baseList}
+            transition={{ duration: 0.5 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
         >
-            <Outlet />
 
             <Helmet>
                 <title>{data?.community?.title}</title>
                 <meta name="description" content={data?.community?.description} />
-
             </Helmet>
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
@@ -74,6 +60,7 @@ const CommunityList = () => {
                 </div>}
 
         </motion.div>
+
     )
 }
 
