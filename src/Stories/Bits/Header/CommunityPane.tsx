@@ -114,9 +114,8 @@ const C = {
 }
 
 const handleImgError = (e: any) => {
-    e.target.src = 'bannerFB.jpg'
+    e.target.src = 'fbB.webp'
 }
-
 
 const CommunityPane = ({ public_id }: any) => {
 

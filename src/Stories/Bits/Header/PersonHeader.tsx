@@ -116,8 +116,7 @@ const C = {
 }
 
 const handleImgError = (e: any) => {
-    e.target.style.display = 'none'
-    e.target.removeAttribute('src')
+    e.target.src = 'fbB.webp'
 }
 
 

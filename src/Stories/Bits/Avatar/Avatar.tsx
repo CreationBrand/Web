@@ -28,7 +28,7 @@ const C = {
 
 const Avatar = ({ public_id, size }: any) => {
 
-    const handleImgError = (e: any) => e.target.src = 'fb.jpg'
+    const handleImgError = (e: any) => e.target.src = 'fb.webp'
 
     return (
         <img
