@@ -41,7 +41,7 @@ const CommunityList = () => {
         >
 
             <Helmet>
-                <title>{data?.community?.title}</title>
+                <title>{data?.community?.title} | Artram</title>
                 <meta name="description" content={data?.community?.description} />
             </Helmet>
 

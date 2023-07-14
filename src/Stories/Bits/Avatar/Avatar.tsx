@@ -32,6 +32,7 @@ const Avatar = ({ public_id, size }: any) => {
 
     return (
         <img
+            alt={'avatar'}
             style={{
                 objectFit: 'cover',
                 border: '1px solid #181820',

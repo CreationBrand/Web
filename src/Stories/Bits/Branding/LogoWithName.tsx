@@ -41,6 +41,7 @@ const LogoWithName = () => {
         <div css={C.container}>
 
             <img
+                alt={'logo'}
                 css={C.img}
                 src="./android-chrome-192x192.png" />
 
@@ -54,7 +55,7 @@ const LogoWithName = () => {
                 }}>ARTRAM
                     <div
                         css={{
-                            color:"#f2f3f5",
+                            color: "#f2f3f5",
                             fontWeight: 'normal',
                             fontSize: '12px',
                             lineHeight: '12px',

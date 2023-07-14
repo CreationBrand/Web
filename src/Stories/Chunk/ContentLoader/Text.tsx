@@ -61,13 +61,10 @@ const Text = ({ content, public_id, view }: any) => {
     return (
 
         <div
-
             ref={ref}
             id={'text'}
             css={[view === 'list' && C.tailed, C.container]}>
-            <ReactMarkdown
-
-                children={content} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
+            <ReactMarkdown children={content} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
         </div>
 
     )

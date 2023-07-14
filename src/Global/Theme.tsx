@@ -2,21 +2,6 @@
 
 import { createTheme } from '@mui/material/styles';
 
-// "& fieldset": {
-//     border: 'none',
-
-// },
-// outline: '1px solid #464649',
-// border: 'none',
-// background: '#464649',
-// height: '30px',
-// '&:hover': {
-//     outline: `2px solid hsla(0,0%,100%,.1)`
-// },
-// '&:focus': {
-//     outline: '2px solid #9147ff',
-//     background: 'red',
-// }
 const theme: any = createTheme({
 
     components: {
@@ -31,7 +16,7 @@ const theme: any = createTheme({
 
                 },
                 root: {
-                    fontFamily: "system-ui !important",
+                    fontFamily: "noto sans !important",
                     caretColor: 'transparent !important',
                     borderRadius: '8px',
                     border: '2px solid transparent',
@@ -62,7 +47,7 @@ const theme: any = createTheme({
         MuiButton: {
             styleOverrides: {
                 root: {
-                    fontFamily: "system-ui !important",
+                    fontFamily: "noto sans !important",
                     textTransform: 'none',
 
                 },
@@ -79,7 +64,7 @@ const theme: any = createTheme({
                     color: '#b9bbbe',
                     padding: '8px 12px 8px 12px',
                     fontSize: '13px',
-                    fontFamily: "system-ui !important",
+                    fontFamily: "noto sans !important",
                     borderRadius: '8px',
                 },
                 arrow: {

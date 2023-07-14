@@ -156,6 +156,8 @@ let Preview = ({ public_id }: any) => {
                     whiteSpace: "nowrap",
                 }}>
                     <h4 css={{
+                        color: '#f2f3f5',
+
                         fontSize: '16px', textOverflow: "ellipsis",
                         overflow: "hidden",
                         whiteSpace: "nowrap",
@@ -214,7 +216,7 @@ let Preview = ({ public_id }: any) => {
                 </div>
                 <div>
                     <div css={[textLabel('t'), { marginBottom: '4px', color: '#f2f3f5' }]}>Online</div>
-                    <Online public_id={data.community.public_id} />
+                    <Online value={data?.online} />
 
                 </div>
 

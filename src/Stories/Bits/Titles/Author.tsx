@@ -138,6 +138,8 @@ let Preview = ({ public_id, community_id }: any) => {
                     whiteSpace: "nowrap",
                 }}>
                     <h4 css={{
+                        color: '#f2f3f5',
+
                         fontSize: '16px', textOverflow: "ellipsis",
                         overflow: "hidden",
                         whiteSpace: "nowrap",

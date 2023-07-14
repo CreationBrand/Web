@@ -26,6 +26,7 @@ const C = {
         background: '#181820',
         position: 'absolute',
         filter: 'blur(4px) brightness(45%)',
+        objectFit: 'cover',
     }),
     img: css({
         zIndex: 100,
@@ -67,11 +68,13 @@ const Image = ({ url }: any) => {
                 css={C.container}>
 
                 <img
+                    alt='blur'
                     loading="lazy"
                     onError={handleImgError}
                     src={url} css={C.blur} />
 
                 <img
+                    alt='content'
                     loading="lazy"
                     onError={handleImgError}
                     css={C.img} src={url} />

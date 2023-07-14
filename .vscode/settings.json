@@ -1,14 +1,10 @@
 {
     "hide-files.files": [
-        "yarn.lock",
-        ".gitignore",
         ".prettierrc.json",
-        "dockerfile",
         "yarn-error.log",
         "README.md",
         ".storybook",
-        "craco.config.js",
-        "tsconfig.json"
+        "craco.config.js"
     ],
     "files.exclude": {
         "**/.git": true,
@@ -19,14 +15,10 @@
         "**/Thumbs.db": true,
         "node_modules": true,
         "webpack.config.js": true,
-        "yarn.lock": true,
-        ".gitignore": true,
         ".prettierrc.json": true,
-        "dockerfile": true,
         "yarn-error.log": true,
         "README.md": true,
         ".storybook": true,
-        "craco.config.js": true,
-        "tsconfig.json": true
+        "craco.config.js": true
     }
 }

@@ -13,7 +13,7 @@ import { layoutSizeData } from 'State/Data'
 const App = () => {
     const [isAuth, loading] = useAuth()
     const socket = useRecoilValue(socketFlow)
-    const { width, height } = useWindow()
+    const { width } = useWindow()
     const setLayoutSize = useSetRecoilState(layoutSizeData)
 
     useLayoutEffect(() => {

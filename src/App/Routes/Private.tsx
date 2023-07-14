@@ -16,6 +16,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil'
 import EditGroup from 'Stories/Popups/EditGroup'
 import CreateCommunity from 'Stories/Popups/CreateCommunity'
 import AddGroup from 'Stories/Popups/AddGroup'
+import EditCommunity from 'Stories/Views/EditCommunity'
 
 var Private = () => {
 
@@ -52,7 +53,6 @@ var Private = () => {
             case parts[1] === 'notifications':
                 return setContentFlow('notifications')
         }
-
     }, [location.pathname]);
 
 
@@ -126,7 +126,15 @@ var Private = () => {
                         <Route path="create-group" element={<AddGroup />} />
                     </Route>
 
-                    <Route path="/p/:person_id"  >
+                    <Route path="/c/:community_id/edit" >
+                        <Route index element={<EditCommunity />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                    </Route>
+
+
+
+                    <Route path="/p/:person_id" >
                         <Route index element={<PersonList />} />
                         <Route path="create-community" element={<CreateCommunity />} />
                         <Route path="create-group" element={<AddGroup />} />
@@ -138,7 +146,7 @@ var Private = () => {
                         <Route path="create-group" element={<AddGroup />} />
                     </Route>
 
-                    <Route path="/c/:community_id/p/:post_id">
+                    <Route path="/c/:community_id/p/:post_id" >
                         <Route index element={<PostList />} />
                         <Route path="create-community" element={<CreateCommunity />} />
                         <Route path="create-group" element={<AddGroup />} />

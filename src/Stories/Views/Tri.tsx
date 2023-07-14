@@ -1,7 +1,7 @@
 //@ts-nocheck
 
 
-/** @jsxImportSource @emotion/react */
+    /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
 import { useRef, useState, useLayoutEffect } from 'react'
@@ -9,7 +9,7 @@ import theme from 'Global/Theme'
 import { layoutSizeData } from 'State/Data'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import useWindow from 'Hooks/useWindow'
-import { useSpring, animated } from '@react-spring/web'
+    import { useSpring, animated } from '@react-spring/web'
 import { useDrag } from '@use-gesture/react'
 import { authFlow } from 'State/Flow'
 

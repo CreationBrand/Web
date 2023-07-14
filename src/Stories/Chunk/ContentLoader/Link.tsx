@@ -100,7 +100,6 @@ const Link = ({ url }: any) => {
 
 
     // console.log('DATA', data)
-
     try {
 
 
