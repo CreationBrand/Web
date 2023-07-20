@@ -1,0 +1,4 @@
+.MuiSkeleton-root {
+    border-radius: 8px !important;
+    background-color: rgb(24 24 32) !important;
+}
