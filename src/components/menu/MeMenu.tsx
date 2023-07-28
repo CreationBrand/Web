@@ -107,7 +107,7 @@ const MeMenu = () => {
             <Avatar public_id={person.public_id} size="small" />
 
             <div>
-                <div css={{ fontSize: '14px', color: '#f2f3f5', fontWeight: '600', lineHeight: '18px' }}>{person.nickname}</div>
+                <div css={{ fontSize: '14px', color: '#f2f3f5', fontWeight: 'bold', lineHeight: '18px' }}>{person.nickname}</div>
                 <div css={{ fontSize: '12px', color: '#d7dadc', fontWeight: '400', lineHeight: '13px' }}>@{person.username}</div>
             </div>
 

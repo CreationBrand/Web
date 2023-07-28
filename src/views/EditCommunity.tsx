@@ -38,26 +38,9 @@ const schema = Joi.object({
 
 
 const C = {
-    pane: css({
-        width: '100%',
-        height: '100%',
-        background: '#0f0e10',
-        touchAction: 'pan-y',
-        zIndex: 200,
-        position: 'relative',
-
-    }),
     container: css({
-        width: '100%',
-        height: 'calc(100% - 56px)',
-        padding: '22px 0px',
-        scrollbarGutter: 'stable both-edges',
-        overflow: 'auto',
-        background: '#272732',
-        marginTop: '8px',
-        borderRadius: '8px',
-        position: 'relative',
-
+        maxWidth: '800px',
+        margin: '0 auto',
     }),
     inner: css({
         display: 'flex',
@@ -65,8 +48,6 @@ const C = {
         width: '100%',
         maxWidth: '800px',
         margin: '0 auto',
-
-
     }),
     section: css({
         width: '100%',
@@ -211,82 +192,188 @@ const EditCommunity = () => {
             </LoadingButton>
         </section>
 
-        <div css={{ background: bg_3, borderRadius: '8px', marginTop: '12px', padding: '8px 12px' }}>
+        <div css={C.container}>
+
+            <div css={{ background: bg_3, borderRadius: '8px', marginTop: '12px', padding: '8px 12px', }}>
 
 
-            <div css={{
-                margin: "6px 0px",
-                fontWeight: "bold",
-                fontSize: "18px",
-                lineHeight: "22px",
-                wordBreak: "normal",
-                textDecoration: "none",
-                color: '#fff',
-            }}>Display</div>
-            <div css={{
-                fontWeight: "400",
-                fontSize: "14px",
-                lineHeight: "20px",
-                wordBreak: "normal",
-                textDecoration: "none",
-                color: '#b9b6ba',
-            }}>This is how users will see your community.</div>
+                <div css={{
+                    margin: "6px 0px",
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                    lineHeight: "22px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#fff',
+                }}>Display</div>
+                <div css={{
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    lineHeight: "20px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#b9b6ba',
+                }}>This is how users will see your community.</div>
 
-            <section>
-                <h4 css={forumLabel}>TITLE</h4>
-                <FlatInput control={control} name="title" defaultValue={req?.community?.title} maxLength={22} />
-            </section>
+                <section>
+                    <h4 css={forumLabel}>TITLE</h4>
+                    <FlatInput control={control} name="title" defaultValue={req?.community?.title} maxLength={22} />
+                </section>
 
-            <section>
-                <h4 css={forumLabel}>DESCRIPTION</h4>
-                <RichInput control={control} name="description" defaultValue={req?.community?.description} maxLength={800} />
-            </section>
+                <section>
+                    <h4 css={forumLabel}>DESCRIPTION</h4>
+                    <RichInput control={control} name="description" defaultValue={req?.community?.description} maxLength={800} />
+                </section>
 
+                <section>
+                    <h4 css={forumLabel}>Visiability</h4>
+                    <Controller
+                        name='public'
+                        control={control}
+                        defaultValue={req?.community?.public}
+                        render={({ field: { onChange, value }, formState: { errors } }) => (
+                            <>
+                                <RadioGroup
+                                    value={value}
+                                    onChange={onChange}
+                                >
+                                    <FormControlLabel
+                                        sx={{
+                                            margin: '0px',
+                                            borderRadius: '8px',
+                                            width: '100%',
+                                            background: '#181820',
+                                            color: '#f2f3f5 !important',
+                                        }}
+                                        value={false} control={<Radio />} label="Not Safe For Work" />
+                                    <FormControlLabel
+                                        sx={{
+                                            margin: '0px',
+                                            marginTop: '4px',
+                                            borderRadius: '8px',
+                                            width: '100%',
+                                            color: '#f2f3f5 !important',
+                                            background: '#181820',
+
+                                        }}
+
+                                        value={true} control={<Radio />} label="Safe For Work" />
+                                </RadioGroup>
+                            </>
+                        )} />
+                </section>
+
+            </div>
+
+
+            <div css={{ background: bg_3, borderRadius: '8px', marginTop: '12px', padding: '8px 12px' }}>
+
+
+                <div css={{
+                    margin: "6px 0px",
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                    lineHeight: "22px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#fff',
+                }}>Images</div>
+                <div css={{
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    lineHeight: "20px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#b9b6ba',
+                }}>Avatars are 80px by 80px. Community Banners need a min height of 140px. JPEG / JPG ONLY </div>
+
+                <section css={{ display: 'flex', gap: '8px' }} >
+                    <div>
+                        <h3 css={forumLabel}>Avatar</h3>
+                        <ImageEditor type='avatar' api='person-avatar' id={person.public_id} />
+                    </div>
+
+                    <div>
+                        <div css={forumLabel}>Banner</div>
+                        <ImageEditor
+                            width='800'
+                            height='140'
+                            type='banner' api='person-banner' id={person.public_id} />
+                    </div>
+                </section>
+
+
+
+            </div>
+
+
+
+            <div css={{ background: bg_3, borderRadius: '8px', marginTop: '12px', padding: '8px 12px' }}>
+
+
+                <div css={{
+                    margin: "6px 0px",
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                    lineHeight: "22px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#fff',
+                }}>Roles</div>
+                <div css={{
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    lineHeight: "20px",
+                    wordBreak: "normal",
+                    textDecoration: "none",
+                    color: '#b9b6ba',
+                }}>Controls permissions</div>
+
+                <section css={{ display: 'flex', gap: '8px' }} >
+
+
+                <div css={{ background: '#181820', borderRadius: '8px', marginTop:'14px' }}>
+                        {req?.community?.community_roles.map((role: any, index: any) => {
+                            return (
+                                <div
+                                    style={{ color: role.base ? '#ffbf00' : '' }}
+                                    onClick={() => {
+                                        if (role.base) return
+                                        setRole({
+                                            title: role.title,
+                                            color: role.color,
+                                            bitSet: new BitSet(role.permissions),
+                                            public_id: role.public_id,
+                                        })
+                                    }}
+                                    data-value={index}
+                                    key={role.public_id} css={C.role} >
+                                    {role.color && <div css={C.blob} style={{ backgroundColor: "#" + role.color?.toString(16) }}></div>}
+                                    {role.title}</div >
+                            )
+                        })}
+
+                        <div
+                            onClick={() => {
+                                setRole({
+                                    title: '',
+                                    color: false,
+                                    bitSet: new BitSet('000000'),
+                                    public_id: '',
+                                })
+                            }}
+                            key={'create-role'} css={C.role}> <AddCircleOutlineRoundedIcon /> Create New Role</div>
+
+                    </div>
+
+                </section>
+
+
+
+            </div>
 
 
         </div>
-
-
-        <div css={{ background: bg_3, borderRadius: '8px', marginTop: '12px', padding: '8px 12px' }}>
-
-
-            <div css={{
-                margin: "6px 0px",
-                fontWeight: "bold",
-                fontSize: "18px",
-                lineHeight: "22px",
-                wordBreak: "normal",
-                textDecoration: "none",
-                color: '#fff',
-            }}>Images</div>
-            <div css={{
-                fontWeight: "400",
-                fontSize: "14px",
-                lineHeight: "20px",
-                wordBreak: "normal",
-                textDecoration: "none",
-                color: '#b9b6ba',
-            }}>Avatars are 80px by 80px. Community Banners need a min height of 140px. JPEG / JPG ONLY </div>
-
-            <section css={{ display: 'flex', gap: '8px' }} >
-                <div>
-                    <h3 css={forumLabel}>Avatar</h3>
-                    <ImageEditor type='avatar' api='person-avatar' id={person.public_id} />
-                </div>
-
-                <div>
-                    <div css={forumLabel}>Banner</div>
-                    <ImageEditor
-                        width='800'
-                        height='140'
-                        type='banner' api='person-banner' id={person.public_id} />
-                </div>
-            </section>
-
-
-
-        </div>
-
 
     </Pane>
 
@@ -373,40 +460,40 @@ const EditCommunity = () => {
 
     //             <section css={{ padding: '16px 16px 0px 16px' }}>
     //                 <h3 css={textLabel('s')}>Visibility</h3>
-    //                 <Controller
-    //                     name='public'
-    //                     control={control}
-    //                     defaultValue={req?.community?.public}
-    //                     render={({ field: { onChange, value }, formState: { errors } }) => (
-    //                         <>
-    //                             <RadioGroup
-    //                                 value={value}
-    //                                 onChange={onChange}
-    //                             >
-    //                                 <FormControlLabel
-    //                                     sx={{
-    //                                         margin: '0px',
-    //                                         borderRadius: '8px',
-    //                                         width: '100%',
-    //                                         background: '#181820',
-    //                                         color: '#f2f3f5 !important',
-    //                                     }}
-    //                                     value={false} control={<Radio />} label="Not Safe For Work" />
-    //                                 <FormControlLabel
-    //                                     sx={{
-    //                                         margin: '0px',
-    //                                         marginTop: '4px',
-    //                                         borderRadius: '8px',
-    //                                         width: '100%',
-    //                                         color: '#f2f3f5 !important',
-    //                                         background: '#181820',
+    // <Controller
+    //     name='public'
+    //     control={control}
+    //     defaultValue={req?.community?.public}
+    //     render={({ field: { onChange, value }, formState: { errors } }) => (
+    //         <>
+    //             <RadioGroup
+    //                 value={value}
+    //                 onChange={onChange}
+    //             >
+    //                 <FormControlLabel
+    //                     sx={{
+    //                         margin: '0px',
+    //                         borderRadius: '8px',
+    //                         width: '100%',
+    //                         background: '#181820',
+    //                         color: '#f2f3f5 !important',
+    //                     }}
+    //                     value={false} control={<Radio />} label="Not Safe For Work" />
+    //                 <FormControlLabel
+    //                     sx={{
+    //                         margin: '0px',
+    //                         marginTop: '4px',
+    //                         borderRadius: '8px',
+    //                         width: '100%',
+    //                         color: '#f2f3f5 !important',
+    //                         background: '#181820',
 
-    //                                     }}
+    //                     }}
 
-    //                                     value={true} control={<Radio />} label="Safe For Work" />
-    //                             </RadioGroup>
-    //                         </>
-    //                     )} />
+    //                     value={true} control={<Radio />} label="Safe For Work" />
+    //             </RadioGroup>
+    //         </>
+    //     )} />
     //             </section>
 
 
@@ -482,39 +569,39 @@ const EditCommunity = () => {
 
     //             <section css={{ padding: '16px 16px 0px 16px' }}>
 
-    //                 <div css={{ background: '#181820', borderRadius: '8px' }}>
-    //                     {data.community_roles.map((role: any, index: any) => {
-    //                         return (
-    //                             <div
-    //                                 style={{ color: role.base ? '#ffbf00' : '' }}
-    //                                 onClick={() => {
-    //                                     if (role.base) return
-    //                                     setRole({
-    //                                         title: role.title,
-    //                                         color: role.color,
-    //                                         bitSet: new BitSet(role.permissions),
-    //                                         public_id: role.public_id,
-    //                                     })
-    //                                 }}
-    //                                 data-value={index}
-    //                                 key={role.public_id} css={C.role} >
-    //                                 {role.color && <div css={C.blob} style={{ backgroundColor: "#" + role.color?.toString(16) }}></div>}
-    //                                 {role.title}</div >
-    //                         )
-    //                     })}
+                    // <div css={{ background: '#181820', borderRadius: '8px' }}>
+                    //     {data.community_roles.map((role: any, index: any) => {
+                    //         return (
+                    //             <div
+                    //                 style={{ color: role.base ? '#ffbf00' : '' }}
+                    //                 onClick={() => {
+                    //                     if (role.base) return
+                    //                     setRole({
+                    //                         title: role.title,
+                    //                         color: role.color,
+                    //                         bitSet: new BitSet(role.permissions),
+                    //                         public_id: role.public_id,
+                    //                     })
+                    //                 }}
+                    //                 data-value={index}
+                    //                 key={role.public_id} css={C.role} >
+                    //                 {role.color && <div css={C.blob} style={{ backgroundColor: "#" + role.color?.toString(16) }}></div>}
+                    //                 {role.title}</div >
+                    //         )
+                    //     })}
 
-    //                     <div
-    //                         onClick={() => {
-    //                             setRole({
-    //                                 title: '',
-    //                                 color: false,
-    //                                 bitSet: new BitSet('000000'),
-    //                                 public_id: '',
-    //                             })
-    //                         }}
-    //                         key={'create-role'} css={C.role}> <AddCircleOutlineRoundedIcon /> Create New Role</div>
+                    //     <div
+                    //         onClick={() => {
+                    //             setRole({
+                    //                 title: '',
+                    //                 color: false,
+                    //                 bitSet: new BitSet('000000'),
+                    //                 public_id: '',
+                    //             })
+                    //         }}
+                    //         key={'create-role'} css={C.role}> <AddCircleOutlineRoundedIcon /> Create New Role</div>
 
-    //                 </div>
+                    // </div>
 
 
     //             </section>
