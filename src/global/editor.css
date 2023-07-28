@@ -1,0 +1,128 @@
+.text {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Helvetica Neue', Arial, sans-serif !important;
+  font-size: 14px !important;
+  color: #f2f3f5;
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+  max-width: 800px;
+  width: 100%;
+  word-wrap: break-word;
+}
+
+.text  blockquote {
+  border-left: #cabcda 4px solid;
+  padding-left: 8px;
+  margin: 0px !important;
+  font-size: 14px;
+}
+.text ul{
+  padding-left: 20px;
+}
+.text  h1 {
+  font-weight: 600;
+  line-height: 20px !important;
+  font-size: 18px !important;
+  margin: 8px 0 4px !important;
+}
+.text h2 {
+  font-weight: 600;
+  font-size: 16px !important;
+  margin: 4px 0 2px;
+}
+.text  p {
+  line-height: 18px;
+  font-size: 14px !important;
+  color: #f2f3f5;
+  padding-bottom: 0px !important;
+}
+.ql-syntax {
+  font-size: 14px;
+  padding: 12px 8px;
+  background: #181820 !important;
+  border-radius: 8px;
+  width: 100%;
+  text-wrap: wrap;
+  display: inline-block;
+  word-break: break-word;
+}
+
+.text ol {
+  font-size: 14px;
+  padding-left: 22px;
+}
+
+.mention {
+  color: #c6abff;
+}
+
+.ql-mention-list-container {
+  background: #181820;
+  border: 1px solid #0f0e10;
+  padding: 0px 8px;
+  border-radius: 8px;
+  /* width: 100% !important; */
+  z-index: 200;
+}
+#quill-mention-list {
+  padding: 0px !important;
+  display: flex;
+  flex-direction: column;
+}
+.ql-mention-list-item {
+  all: unset !important;
+  padding: 8px !important;
+  line-height: 20px !important;
+  font-size: 12px !important;
+  border-radius: 8px !important;
+}
+.ql-mention-list-item:hover {
+  box-shadow: rgba(2, 2, 2, 0.15) 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0.24) 0px 8px 16px 0px;
+}
+
+/*  ql-mention-list-container-bottom */
+.mention {
+  color: #c6abff !important;
+  cursor: pointer;
+}
+.mention > span > a {
+  color: #c6abff !important;
+  text-decoration: none !important;
+}
+.mention:hover {
+  color: #c6abff !important;
+  text-decoration: underline !important;
+}
+
+.ql-tooltip {
+  background: #0f0e10 !important;
+  align-items: center !important;
+  border-radius: 8px !important;
+  border: 2px solid #996ccc !important;
+  box-shadow: none !important;
+  z-index: 200 !important;
+  position: absolute !important;
+  left: 8px !important;
+  bottom: 8px !important;
+  font-size: 12px !important;
+  height: 32px !important;
+  padding: 0px 8px !important;
+  color: #f2f3f5 !important;
+}
+
+.ql-tooltip > input {
+  background: #0f0e10 !important;
+  border-radius: 8px !important;
+  border: none !important;
+  outline: none !important;
+  color: #f2f3f5 !important;
+
+  /* white-space: pre-wrap !important; */
+}
+
+.text > p > a {
+  font-size: 14px !important;
+  color: #996ccc !important;
+}

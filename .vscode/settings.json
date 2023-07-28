@@ -1,24 +1,6 @@
 {
-    "hide-files.files": [
-        ".prettierrc.json",
-        "yarn-error.log",
-        "README.md",
-        ".storybook",
-        "craco.config.js"
-    ],
+    "hide-files.files": [],
     "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "**/Thumbs.db": true,
-        "node_modules": true,
-        "webpack.config.js": true,
-        ".prettierrc.json": true,
-        "yarn-error.log": true,
-        "README.md": true,
-        ".storybook": true,
-        "craco.config.js": true
+
     }
 }

@@ -1,0 +1,109 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+body {
+  background-color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', sans-serif !important;
+}
+
+*::-webkit-scrollbar {
+  width: 0px;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  margin-top: 12px;
+  /* height: 56px; */
+  border-radius: 8px;
+  border: 4px solid transparent;
+  background-clip: content-box;
+  background-color: #b6b1b5;
+}
+
+.MuiSkeleton-root {
+  border-radius: 8px !important;
+  background-color: rgb(24 24 32) !important;
+}
+.MuiTypography-root {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Helvetica Neue', Arial, sans-serif !important;
+}
+.MuiAccordionSummary-content {
+  padding: 0px !important;
+}
+.MuiAccordionSummary-content {
+  margin: 0px !important;
+}
+.MuiAccordionSummary-root {
+  min-height: 40px !important;
+  height: 40px !important;
+  border: none !important;
+  border-color: transparent !important;
+  font-size: 13px;
+}
+.MuiAccordionDetails-root {
+  /* font-weight: 400px !important; */
+  font-size: 12px !important;
+  font-weight: 300 !important;
+}
+.MuiAccordion-root:before {
+  background-color: transparent !important;
+}
+.MuiAccordion-root:last-of-type {
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+}
+.MuiAccordion-root:first-of-type {
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+}
+
+.MuiMenu-list {
+  padding: 0px !important;
+}
+.MuiMenuItem-root {
+  font-family: 'system-ui', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #d7dadc !important;
+  height: 32px !important;
+  max-height: 32px !important;
+  min-height: 32px !important;
+  border-radius: 4px !important;
+  padding: 6px 8px !important;
+  margin: 2px 0px !important;
+  gap: 8px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+}
+.MuiMenuItem-root:hover {
+  color: #fff !important;
+  /* background: #5b47c4 !important; */
+}
+
+.MuiAutocomplete-paper {
+  border-radius: 8px !important;
+  background-color: #000 !important;
+  margin-top: 2px;
+}
+
+.MuiDataGrid-withBorderColor {
+  border-color: #000 !important;
+}
+.tree {
+  touch-action: pan-y;
+}

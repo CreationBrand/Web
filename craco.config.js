@@ -1,6 +1,11 @@
-const million = require('million/compiler');
+const path = require('path')
+const CracoEsbuildPlugin = require('craco-esbuild')
+
 module.exports = {
-  webpack: {
-    plugins: { add: [million.webpack()] }
-  }
-};
+    plugins: [{ plugin: CracoEsbuildPlugin }],
+    webpack: {
+        alias: {
+            '@': path.resolve(__dirname, 'src'),
+        },
+    },
+}
