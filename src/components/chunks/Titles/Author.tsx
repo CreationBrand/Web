@@ -8,6 +8,9 @@ import { block, cancel } from '@/utils/stopPropagation'
 import { socketRequest } from '@/hooks/util/useSocket'
 import LiveRoles from '../../bits/Alive/LiveRoles'
 import Avatar from '../../bits/Avatar'
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
+import { bg_1 } from '@/global/var'
 
 
 
@@ -71,7 +74,7 @@ export default memo(Author)
 
 const D = {
     container: css({
-        background: '#0f0e10',
+        background: bg_1,
         width: '360px',
         maxWidth: '360px',
         borderRadius: '12px',
@@ -141,7 +144,7 @@ let Preview = ({ public_id, community_id }: any) => {
             {data.about_me &&
                 <div>
                     <div css={{ fontSize: '12px', marginBottom: '4px', color: '#f2f3f5', fontWeight: 'bold', letterSpacing: '.02em' }}>ABOUT ME</div>
-                    {/* <Markup>{data.about_me} </Markup> */}
+                    <ReactMarkdown className='text' children={data.about_me} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
                 </div>
             }
 

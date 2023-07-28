@@ -12,6 +12,7 @@ import VirtuList from '../chunks/VirtualList/VirtuList'
 import { PostHolder } from './PlaceHolders'
 import { mainSize } from '@/state/layout'
 import useLinkPost from '@/hooks/Link/useLinkPost'
+import CommunityPreview from '../chunks/Preview/CommunityPreview'
 
 
 const D = {
@@ -72,7 +73,7 @@ const CommentList = () => {
 
             {size > 0 &&
                 <div css={{ height: 'min-content', marginTop: '12px' }}>
-                    {/* {size === 1 ? null : <CommunityPreview {...data} />} */}
+                    {size === 1 ? null : <CommunityPreview {...data} />}
                     <GlobalFilter />
                 </div>
             }

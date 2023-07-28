@@ -14,7 +14,7 @@ import rehypeRaw from 'rehype-raw'
 import TimeAgo from 'react-timeago'
 import { time } from '@/global/mixins'
 import { formatTime } from '@/utils/formatTime'
-import { text_2 } from '@/global/var'
+import { bg_1, text_2 } from '@/global/var'
 
 
 const C = {
@@ -84,7 +84,7 @@ export default memo(Nickname)
 
 const D = {
     container: css({
-        background: '#0f0e10',
+        background: bg_1,
         width: '360px',
         maxWidth: '360px',
         borderRadius: '12px',

@@ -17,7 +17,7 @@ import rehypeRaw from 'rehype-raw'
 import TimeAgo from 'react-timeago'
 import { time } from '@/global/mixins'
 import { communityList } from '@/state/person'
-import { text_1 } from '@/global/var'
+import { bg_1, text_1 } from '@/global/var'
 
 const C = {
     link: css({
@@ -84,7 +84,7 @@ export default memo(CommunityTitle)
 
 const D = {
     container: css({
-        background: '#0f0e10',
+        background: bg_1,
         width: '360px',
         maxWidth: '360px',
         borderRadius: '16px',
@@ -139,7 +139,7 @@ let Preview = ({ public_id }: any) => {
             <img css={D.banner}
                 onError={handleImgError}
                 // @ts-ignore
-                src={`${import.meta.env.VITE_CLOUDFRONT}/banner/${data.community.public_id}`} />
+                src={`${process.env.REACT_APP_CLOUDFRONT}/banner/${data.community.public_id}`} />
 
             <div css={{
                 display: 'flex',

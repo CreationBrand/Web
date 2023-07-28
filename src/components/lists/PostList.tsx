@@ -24,6 +24,7 @@ import useLinkPost from '@/hooks/Link/useLinkPost'
 import useIsMuted from '@/hooks/useIsMuted'
 import { mainSize } from '@/state/layout'
 import VirtualList from '../chunks/VirtualList/VirtualList'
+import CommunityPreview from '../chunks/Preview/CommunityPreview'
 
 
 
@@ -65,7 +66,7 @@ const PostList = () => {
 
         {size > 0 &&
             <div css={{ height: 'min-content', marginTop: '12px' }}>
-                {/* {size === 1 ? null : <CommunityPreview {...data} />} */}
+                {size === 1 ? null : <CommunityPreview {...data} />}
                 <GlobalFilter />
             </div>
         }

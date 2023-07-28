@@ -130,7 +130,7 @@ const CommunityPane = ({ public_id }: any) => {
     const [active, setActive] = useState(false)
     const communitys = useRecoilValue(communityList)
     const layout = useRecoilValue(layoutSize)
-
+    const auth = useRecoilValue(authFlow)
     const handleEdit = (e: any) => {
         e.stopPropagation()
         navigate(`/c/${public_id}/edit`)
@@ -188,7 +188,7 @@ const CommunityPane = ({ public_id }: any) => {
                 <div css={C.action}>
 
                     <Button
-                        disabled={isAdmin(data?.communityHex)}
+                        disabled={auth === 'guest' || isAdmin(data?.communityHex)}
                         onClick={handleJoin}
                         disableElevation
                         sx={{
