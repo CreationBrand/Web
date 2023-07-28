@@ -21,6 +21,7 @@ import FlatInput from "../forum/FlatInput";
 import src from '@/assets/OIG.webp';
 import RouteModal from "@/layouts/RouteModal";
 import { forumLabel } from '@/global/mixins';
+import { accent } from '@/global/var';
 
 const C = {
     image: css({
@@ -79,6 +80,7 @@ const LoginSignup = () => {
 
     const [loading, setLoading] = useState(false);
     const [view, setView] = useState('login')
+    const layout = useRecoilValue(layoutSize)
 
     const { handleSubmit, control, formState: { errors }, reset, watch, setError } = useForm({
         mode: 'onChange',
@@ -105,7 +107,7 @@ const LoginSignup = () => {
 
         else if (view === 'signup') {
             let status = await signUpCognito(data.username, data.email, data.password)
-            
+
             console.log('status', status)
             if (status === 'User already exists') setError('username', { type: 'custom', message: 'User already exists' });
             if (status === true) setView('verify')
@@ -139,10 +141,15 @@ const LoginSignup = () => {
 
     return (
         <RouteModal>
-            <div css={{
-                display: 'flex',
-                maxWidth: '800px',
-            }}>
+            <div
+
+
+                css={{
+                    width: layout === 'desktop' ? '800px' : '100%',
+                    padding: layout === 'desktop' ? '0px' : '16px',
+                    display: 'flex',
+                    maxWidth: '800px',
+                }}>
                 <div css={C.image}>
                     <img css={{ width: '100%', objectFit: "cover", height: '100%' }} src={src}></img>
                 </div>
@@ -192,7 +199,7 @@ const LoginSignup = () => {
                                             },
 
                                             '&:focus-within': {
-                                                border: '2px solid #996ccc'
+                                                border: `2px solid ${accent}`
                                             },
                                         }}
                                     />
@@ -226,7 +233,7 @@ const LoginSignup = () => {
                                             },
 
                                             '&:focus-within': {
-                                                border: '2px solid #996ccc'
+                                                border: `2px solid ${accent}`
                                             },
                                         }}
                                         endAdornment={

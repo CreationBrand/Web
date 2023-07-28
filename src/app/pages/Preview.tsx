@@ -25,7 +25,8 @@ import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
 // import CommunityList from '@/components/lists/CommunityList'
 import GlobalList from '@/components/lists/GlobalList'
 import CommunityList from '@/components/lists/CommunityList'
-import { bg_1 } from '@/global/var'
+import { bg_1, bg_3 } from '@/global/var'
+import MobileNav from '@/components/chunks/Mobile/MobileNav'
 // import GroupList from '@/components/lists/GroupList'
 
 
@@ -98,30 +99,6 @@ const Preview = () => {
         </Left>
 
         <Main>
-            <Nav>
-                <Search2 />
-                <div css={{ display: 'flex' }}>
-
-                    <Link to='auth' relative="path">
-                        <Button
-                            sx={{
-                                borderRadius: '20px',
-                                background: bg_1,
-                                height: '40px',
-                                fontSize: '13px',
-                                lineHeight: '12px !important',
-                                fontWeight: '700',
-                                gap: '4px',
-
-                            }}
-
-                            variant="contained" disableElevation>
-                            <DeveloperBoardIcon /> Login
-                        </Button>
-                    </Link>
-
-                </div>
-            </Nav>
             <>
                 {last === 'popular' && <GlobalList type="POPULAR" />}
                 {last === 'community' && <CommunityList />}
@@ -129,6 +106,46 @@ const Preview = () => {
             </>
         </Main>
 
+        <div />
+
+        <div css={{
+            background: bg_3,
+            width: '100%',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.9),2px 0px 2px',
+            display: 'flex',
+            gap: '6px',
+            paddingLeft: '8px',
+            paddingRight: '8px',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            zIndex: 400,
+            position: 'relative',
+            height: '48px',
+            borderBottomLeftRadius: '2px',
+            borderBottomRightRadius: '2px',
+
+        }}>
+            <Search2 />
+
+            <Link to='auth' relative="path">
+                <Button
+                    sx={{
+                        borderRadius: '20px',
+                        background: bg_1,
+                        height: '34px',
+                        fontSize: '10px',
+                        fontWeight: '700',
+                        gap: '4px',
+                        padding: '0 12px',
+
+                    }}
+                    variant="contained" disableElevation>
+                    <DeveloperBoardIcon /> Login
+                </Button>
+            </Link>
+
+
+        </div>
 
 
     </Mobile>)

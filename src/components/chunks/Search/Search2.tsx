@@ -303,7 +303,7 @@ const Search2 = () => {
                         (showTag && current) && <div
                             onClick={handleTag}
                             style={{
-                                height: (layout === 'mobile') ? 'calc(30px)' : '34px',
+                                height: (layout === 'mobile') ? 'calc(28px)' : '30px',
                             }}
                             css={C.tag}>
                             <Avatar public_id={current.community.public_id} size='tiny' />
