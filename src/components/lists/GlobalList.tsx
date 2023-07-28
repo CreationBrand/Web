@@ -14,6 +14,7 @@ import Info from '../bits/Info';
 import MainFilter from '../bits/filter/MainFilter'
 import { communityFilter } from '@/state/filters'
 import { FilterHolder, PostHolder } from './PlaceHolders'
+import usePosts from '@/hooks/list/usePosts'
 
 
 
@@ -22,15 +23,15 @@ const GlobalList = ({ type }: any) => {
 
     const size = useRecoilValue(mainSize)
     const filter = useRecoilValue(communityFilter(type))
-    const [isLoading, isError, components] = usePostList('GLOBAL', type, filter)
+    const [isLoading, isError, components] = usePosts('GLOBAL', type, filter)
 
     return (
 
         <motion.div
             key={type}
             css={baseList}
-            transition={{ duration: 0.2 }}
-            initial={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0.5 }}
             animate={{ opacity: 1 }}
         >
 

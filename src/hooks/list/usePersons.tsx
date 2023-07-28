@@ -2,12 +2,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 
-
-
 // @ts-ignore
 import TimeAgo from 'react-timeago'
 import { formatTime } from '@/utils/formatTime';
-
 
 import { useEffect, useState } from "react"
 import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue } from "recoil";
@@ -24,7 +21,7 @@ import { time } from '@/global/mixins';
 import { socketFlow } from '@/state/flow';
 
 
-const usePersonList = (filter: any) => {
+const usePersons= (person_id: any, filter: any) => {
 
     const [components, setComponents]: any = useRecoilState(personList)
     const [cursor, setCursor]: any = useState(false)
@@ -39,25 +36,16 @@ const usePersonList = (filter: any) => {
         if (cursor === null || socket !== 'connected') return
         (async () => {
             if (filter === 'POST') {
-                let req: any = await socketRequest('me-list', { filter, cursor: cursor })
+                let req: any = await socketRequest('person-list', { person_id, filter, cursor: cursor })
                 if (req?.posts?.length < 10) setCursor(null)
                 setList(req.posts)
             }
             else if (filter === 'COMMENT') {
-                let req: any = await socketRequest('me-list', { filter, cursor: cursor })
+                let req: any = await socketRequest('person-list', { person_id, filter, cursor: cursor })
                 if (req?.comments?.length < 25) setCursor(null)
                 setComments(req.comments)
             }
-            else if (filter === 'UPVOTED') {
-                let req: any = await socketRequest('me-list', { filter, cursor: cursor })
-                if (req?.posts?.length < 10) setCursor(null)
-                setList(req.posts)
-            }
-            else if (filter === 'DOWNVOTED') {
-                let req: any = await socketRequest('me-list', { filter, cursor: cursor })
-                if (req?.posts?.length < 10) setCursor(null)
-                setList(req.posts)
-            }
+
         })()
     }, [cursor, filter, socket])
 
@@ -80,15 +68,11 @@ const usePersonList = (filter: any) => {
         }, []
     );
 
-
-
     const fetchNext = async () => {
         if (components?.length === 0 || cursor === null) return
-
         if (filter === 'POST') return setCursor(components[components.length - 1].props.created_at)
         else if (filter === 'COMMENT') return setCursor(components[components.length - 1].props.created_at)
-        else if (filter === 'UPVOTED') return setCursor(components[components.length - 1].props.vote_created_at)
-        else if (filter === 'DOWNVOTED') return setCursor(components[components.length - 1].props.vote_created_at)
+
     }
 
 
@@ -96,7 +80,7 @@ const usePersonList = (filter: any) => {
 }
 
 
-export default usePersonList
+export default usePersons
 
 
 const C = {

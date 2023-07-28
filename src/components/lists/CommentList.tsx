@@ -54,10 +54,9 @@ const CommentList = () => {
         <motion.div
             key={`comment:${params.post_id}`}
             css={overList}
-            transition={{ duration: 0.2 }}
-            initial={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0.5 }}
             animate={{ opacity: 1 }}
-
         >
             <div css={{ maxWidth: '800px', width: '100%' }}>
                 <VirtuList

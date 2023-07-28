@@ -153,9 +153,25 @@ export const FilterHolder = () => {
         <div css={E.inner}>
 
             <div css={{ display: 'flex', gap: '8px', }}>
-                <Skeleton variant="rounded" animation={false} width={80} height={28} />
-                <Skeleton variant="rounded" animation={false} width={80} height={28} />
-                <Skeleton variant="rounded" animation={false} width={80} height={28} />
+                <div css={{
+                    borderRadius: '12px',
+                    width: '80px',
+                    height: '28px',
+                    background: bg_1,
+                }} />
+                <div css={{
+                    borderRadius: '12px',
+                    width: '80px',
+                    height: '28px',
+                    background: bg_1,
+                }} />
+                <div css={{
+                    borderRadius: '12px',
+                    width: '80px',
+                    height: '28px',
+                    background: bg_1,
+                }} />
+
             </div>
 
             <Skeleton variant="rounded" animation={false} width={40} height={28} />

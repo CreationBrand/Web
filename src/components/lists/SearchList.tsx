@@ -29,8 +29,8 @@ const SearchList = () => {
         <motion.div
             key={params.query}
             css={overList}
-            transition={{ duration: 0.2 }}
-            initial={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0.5 }}
             animate={{ opacity: 1 }}
         >
 

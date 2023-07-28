@@ -68,13 +68,11 @@ const Image = ({ url }: any) => {
 
                 <img
                     alt='blur'
-                    loading="lazy"
                     onError={handleImgError}
                     src={url} css={C.blur} />
 
                 <img
                     alt='content'
-                    loading="lazy"
                     onError={handleImgError}
                     css={C.img} src={url} />
             </div>

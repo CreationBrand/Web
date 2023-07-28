@@ -15,7 +15,11 @@ const VirtuList = ({ list, public_id, overscan }: any) => {
     return (
         <Virtuoso
             defaultItemHeight={535}
-            overscan={overscan ? overscan : 1}
+            increaseViewportBy={{
+                top: 0,
+                bottom: 400,
+            }}
+
             css={{
                 '&::-webkit-scrollbar': {
                     display: 'none',

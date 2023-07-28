@@ -13,6 +13,7 @@ import GlobalFilter from '../bits/filter/GlobalFilter'
 import PersonFilter from '../bits/filter/PersonFilter'
 import VirtuList from '../chunks/VirtualList/VirtuList'
 import { HeadHolder, FilterHolder, PostHolder } from './PlaceHolders'
+import usePersons from '@/hooks/list/usePersons'
 
 
 
@@ -22,7 +23,7 @@ const PersonList = () => {
     const size = useRecoilValue(mainSize)
     const filter = useRecoilValue(personFilter)
 
-    const [isLoading1, isError1, components] = usePersonList(params.person_id, filter)
+    const [isLoading1, isError1, components] = usePersons(params.person_id, filter)
     const [isLoading, isError, component] = usePerson(params.person_id)
 
 
@@ -31,8 +32,8 @@ const PersonList = () => {
         <motion.div
             key={params.person_id}
             css={overList}
-            transition={{ duration: 0.2 }}
-            initial={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0.5 }}
             animate={{ opacity: 1 }}
         >
 

@@ -21,16 +21,12 @@ import { postStyle } from '@/state/filters'
 import PreviewLoader from '../ContentLoader/PreviewLoader'
 import PostMenu from '@/components/menu/PostMenu'
 
-// @ts-ignore
-import { Textfit } from 'react-textfit';
-
-
 const C = {
     container: css({
         background: bg_3,
         display: 'flex',
         flexDirection: 'column',
-        marginTop: '12px',
+        // marginTop: '12px',
         gap: '8px',
         padding: '8px',
         borderRadius: '12px',
@@ -60,11 +56,13 @@ const Post = ({ view, ...props }: any) => {
     // proxing data
     const data: any = useRecoilValue(postSync(props.public_id))
     const { visibility, public_id, title, content, created_at, author, community, vote, karma, views, comments, tags, type, community_roles, global_roles } = data
+  
     const navigate = useNavigate();
-    // const seen = useRecoilValue(hasSeen);
     const filter = useRecoilValue(filterFlow)
     const authState = useRecoilValue(authFlow)
+
     const flow: any = useRecoilValue(contentFlow)
+    
     const layout = useRecoilValue(layoutSize)
     const style = useRecoilValue(postStyle)
 

@@ -50,9 +50,8 @@ const PostList = () => {
     >
         <Outlet />
         <div css={{ maxWidth: '800px', width: '100%' }}>
+            
             <VirtualList
-                // public_id={params.post_id}
-                overscan={10}
                 list={
                     (isError || isError2 || isLoading || isLoading2) ? [<PostHolder />, <FilterHolder />, <CommentHolder />, <CommentHolder />] :
                         [

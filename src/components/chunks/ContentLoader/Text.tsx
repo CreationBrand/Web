@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import { bg_3 } from '@/global/var';
 import { css } from '@emotion/react'
 
 import { memo, useEffect, useRef, useState } from "react";
@@ -30,7 +31,7 @@ const C = {
             left: "0",
             height: "40px",
             width: "100%",
-            background: "linear-gradient(rgba(0,0,0,0), #272732)",
+            background: `linear-gradient(rgba(0,0,0,0), ${bg_3})`,
         }
     }),
 

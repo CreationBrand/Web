@@ -254,17 +254,17 @@
 
 // //   HELPERS
 
-// function deleteAllCookies() {
-//     const cookies = document.cookie.split(";");
-//     for (let i = 0; i < cookies.length; i++) {
-//         const cookie = cookies[i];
-//         clearCookie(cookie, window.location.hostname, "/")
-//         // console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'DELETE COOKIE', cookie)
-//         // const eqPos = cookie.indexOf("=");
-//         // const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-//         // document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GT";
-//     }
-// }
+function deleteAllCookies() {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i];
+        clearCookie(cookie, window.location.hostname, "/")
+        // console.log('%c [LOGIN] ', 'background: #000; color: #5555da', 'DELETE COOKIE', cookie)
+        // const eqPos = cookie.indexOf("=");
+        // const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        // document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GT";
+    }
+}
 // function clearCookie(name: string, domain: string, path: string) {
 //     const derivedDomain = domain || document.domain;
 //     const derivedPath = path || "/";
@@ -460,8 +460,12 @@ export function confirmPassword(username, confirmationCode, newPassword) {
 
 export function signOut() {
     const cognitoUser = userPool.getCurrentUser();
-    if (cognitoUser) {
+    try {
         cognitoUser.signOut();
+        deleteAllCookies();
+        window.location.reload();
+    } catch (err) {
+        deleteAllCookies();
         window.location.reload();
     }
 }

@@ -19,6 +19,7 @@ import GlobalFilter from '../bits/filter/GlobalFilter'
 import { communityFilter, postFilter } from '@/state/filters'
 import { mainSize } from '@/state/layout'
 import MainFilter from '../bits/filter/MainFilter'
+import usePosts from '@/hooks/list/usePosts'
 
 
 const CommunityList = () => {
@@ -28,7 +29,7 @@ const CommunityList = () => {
     const size = useRecoilValue(mainSize)
 
     const [isLoading1, isError1, component, data] = useCommunity(params.community_id)
-    const [isLoading, isError, components]: any = usePostList('COMMUNITY', params.community_id, filter)
+    const [isLoading, isError, components]: any = usePosts('COMMUNITY', params.community_id, filter)
 
     // useLinkCommunity(params.community_id, true)
 
@@ -37,8 +38,8 @@ const CommunityList = () => {
         <motion.div
             key={params.community_id}
             css={baseList}
-            transition={{ duration: 0.2 }}
-            initial={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0.5 }}
             animate={{ opacity: 1 }}
         >
 
@@ -49,8 +50,6 @@ const CommunityList = () => {
                             [<HeadHolder key={0} />, <FilterHolder key={1} />, <PostHolder key={2} />, <PostHolder key={3} />, <PostHolder key={5} />, <PostHolder key={6} />] :
                             [component, <MainFilter type={params.community_id} />, ...components]}
                 />
-                {/* <VirtuList list={[component, <MainFilter type={params.community_id} />, ...components]} /> */}
-
             </div>
 
             {size > 0 &&

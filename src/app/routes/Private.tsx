@@ -35,7 +35,7 @@ var Public = () => {
                 </Route>
 
                 <Route path="/me">
-                    <Route index element={<MeList />} />
+                    <Route index element={<EmptyRoute />} />
                     <Route path="create-community" element={<CreateCommunity />} />
                     <Route path="create-group" element={<AddGroup />} />
                 </Route>

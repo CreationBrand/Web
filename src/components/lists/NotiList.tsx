@@ -20,8 +20,8 @@ const NotiList = ({ type }: any) => {
         <motion.div
             key={type}
             css={overList}
-            transition={{ duration: 0.2 }}
-            initial={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0.5 }}
             animate={{ opacity: 1 }}
         >
 

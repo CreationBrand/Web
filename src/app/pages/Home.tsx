@@ -153,14 +153,14 @@ const Home = () => {
 
 
                 </Nav>
-                <>
-                    {last === 'popular' && <GlobalList type="POPULAR" />}
-                    {last === 'me' && <MeList />}
-                    {last === 'home' && <GlobalList type="HOME" />}
-                    {last === 'community' && <CommunityList />}
-                    {last === 'group' && <GroupList />}
-                    <Outlet />
-                </>
+
+                {last === 'popular' && <GlobalList type="POPULAR" />}
+                {last === 'me' && <MeList />}
+                {last === 'home' && <GlobalList type="HOME" />}
+                {last === 'community' && <CommunityList />}
+                {last === 'group' && <GroupList />}
+                <Outlet />
+
             </Main>
             <Right>
                 <GroupTree />

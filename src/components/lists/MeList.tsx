@@ -7,7 +7,7 @@ import { Outlet, useParams } from 'react-router-dom'
 import usePersonList from '@/hooks/usePersonList'
 import { mainSize } from '@/state/layout'
 import { personFilter } from '@/state/filters'
-import { overList } from '@/global/mixins'
+import { baseList, overList } from '@/global/mixins'
 import usePerson from '@/hooks/usePerson'
 import GlobalFilter from '../bits/filter/GlobalFilter'
 import PersonFilter from '../bits/filter/PersonFilter'
@@ -17,42 +17,42 @@ import MeFilter from '../bits/filter/MeFilter'
 import { person } from '@/state/person'
 import useMe from '@/hooks/list/useMe'
 import VirtualList from '../chunks/VirtualList/VirtualList'
+import { memo } from 'react'
 
 
 
-const PersonList = () => {
+const MeList = () => {
 
     const params = useParams()
     const size = useRecoilValue(mainSize)
     const filter = useRecoilValue(personFilter)
     const me = useRecoilValue(person)
 
-    // const [isLoading1, isError1, components] = usePersonList(params.person_id, filter)
     const [isLoading, isError, component] = usePerson(me.public_id)
     const [isLoading1, isError1, components] = useMe(filter)
 
 
+
     return (<>
-        <Outlet />
         <motion.div
             key={params.person_id}
-            css={overList}
-            transition={{ duration: 0.2 }}
-            initial={{ opacity: 0 }}
+            css={baseList}
+            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0.5 }}
             animate={{ opacity: 1 }}
         >
 
 
 
             <div css={{ maxWidth: '800px', width: '100%' }}>
-                <VirtualList
-                    list={
-                        (isLoading || isLoading1) ? [] :
-                            [
-                                component,
-                                <MeFilter />,
-                                ...components
-                            ]} />
+                <VirtuList
+                list={
+                    (isLoading || isLoading1) ? [] :
+                        [
+                            component,
+                            <MeFilter />,
+                            ...components
+                        ]} />
             </div>
 
 
@@ -69,4 +69,4 @@ const PersonList = () => {
 }
 
 
-export default PersonList
+export default memo(MeList)

@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import { bg_1 } from '@/global/var'
 import { css } from '@emotion/react'
 
 import { memo, useEffect, useState } from 'react'
@@ -13,12 +14,13 @@ const C = {
         height: '18px',
         color: '#d7dadc',
         padding: '0px 6px',
-        fontSize: '10px',
-        background: '#181820',
+        fontSize: '9px',
+        background: bg_1,
         borderRadius: '6px',
-        fontWeight: '600',
-        lineHeight: '12px',
+        fontWeight: 'bold',
+        lineHeight: '18px',
         textTransform: 'capitalize',
+
         display: 'flex',
         alignItems: 'center',
         gap: '4px',
