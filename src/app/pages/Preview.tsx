@@ -18,7 +18,7 @@ import Search2 from '@/components/chunks/Search/Search2'
 
 // icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAddressCard, faFire, faScroll } from '@fortawesome/free-solid-svg-icons'
+import { faAddressCard, faFire, faPeopleGroup, faScroll } from '@fortawesome/free-solid-svg-icons'
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
 
@@ -27,8 +27,20 @@ import GlobalList from '@/components/lists/GlobalList'
 import CommunityList from '@/components/lists/CommunityList'
 import { bg_1, bg_3 } from '@/global/var'
 import MobileNav from '@/components/chunks/Mobile/MobileNav'
+import { forumLabel } from '@/global/mixins'
 // import GroupList from '@/components/lists/GroupList'
 
+
+
+
+const C = {
+    theme: css({
+        width: '40px',
+        height: '40px',
+        borderRadius: '50%',
+        cursor: 'pointer',
+    }),
+}
 
 const Preview = () => {
 
@@ -58,6 +70,12 @@ const Preview = () => {
                 icon={<FontAwesomeIcon css={{ fontSize: '18px' }} icon={faFire} />}
                 title='Popular'
                 link='/popular' />
+
+            <Leaf
+                icon={<FontAwesomeIcon css={{ fontSize: '18px' }} icon={faPeopleGroup} />}
+                title='Communitys'
+                link='/communitys' />
+
             <Leaf
                 icon={<FontAwesomeIcon css={{ fontSize: '18px' }} icon={faScroll} />}
                 title='Read Me'
@@ -66,6 +84,14 @@ const Preview = () => {
                 icon={<FontAwesomeIcon css={{ fontSize: '18px' }} icon={faAddressCard} />}
                 title='Contact Us'
                 link='/contact' />
+
+
+            <div css={{ color: '#d7dadc', marginTop: '16px', marginBottom: '8px', fontWeight: 'bold', fontSize: '12px' }}>THEME</div >
+            <div css={{ display: 'flex', gap: '12px', paddingLeft: '12px' }}>
+                <div css={C.theme} style={{ background: '#0b1416', border: '2px solid #538a9c' }} onClick={() => { localStorage.setItem("theme", "reddit"); window.location.reload() }}></div>
+                <div css={C.theme} style={{ background: '#272732', border: '2px solid #996ccc' }} onClick={() => { localStorage.setItem("theme", "dark"); window.location.reload() }}></div>
+                <div css={C.theme} style={{ background: '#313338', border: '2px solid#7289da' }} onClick={() => { localStorage.setItem("theme", "discord"); window.location.reload() }}></div>
+            </div>
 
 
             <div css={{ marginTop: 'auto', padding: '20px 4px 20px' }}>
@@ -160,6 +186,12 @@ const Preview = () => {
                 icon={<FontAwesomeIcon css={{ fontSize: '18px' }} icon={faFire} />}
                 title='Popular'
                 link='/popular' />
+
+            <Leaf
+                icon={<FontAwesomeIcon css={{ fontSize: '18px' }} icon={faPeopleGroup} />}
+                title='Communitys'
+                link='/communitys' />
+
             <Leaf
                 icon={<FontAwesomeIcon css={{ fontSize: '18px' }} icon={faScroll} />}
                 title='Read Me'
@@ -168,6 +200,14 @@ const Preview = () => {
                 icon={<FontAwesomeIcon css={{ fontSize: '18px' }} icon={faAddressCard} />}
                 title='Contact Us'
                 link='/contact' />
+
+
+            <div css={{ color: '#d7dadc', marginTop: '16px', marginBottom: '8px', fontWeight: 'bold', fontSize: '12px' }}>THEME</div >
+            <div css={{ display: 'flex', gap: '12px', paddingLeft: '12px' }}>
+                <div css={C.theme} style={{ background: '#0b1416', border: '2px solid #538a9c' }} onClick={() => { localStorage.setItem("theme", "reddit"); window.location.reload() }}></div>
+                <div css={C.theme} style={{ background: '#272732', border: '2px solid #996ccc' }} onClick={() => { localStorage.setItem("theme", "dark"); window.location.reload() }}></div>
+                <div css={C.theme} style={{ background: '#313338', border: '2px solid#7289da' }} onClick={() => { localStorage.setItem("theme", "discord"); window.location.reload() }}></div>
+            </div>
 
 
             <div css={{ marginTop: 'auto', padding: '20px 4px 20px' }}>

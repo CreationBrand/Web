@@ -47,8 +47,8 @@ const C = {
         display: 'flex',
     }),
     comment: css({
-        marginTop: '16px',
-        // marginBottom: '8px',
+        marginTop: '8px',
+        marginBottom: '8px',
         width: '100%',
     }),
     header: css({
@@ -209,7 +209,7 @@ const Comment = (props: any) => {
 
                 <div css={C.spacers}>{spacers}</div>
 
-                <div css={[C.comment, { marginLeft: layout === 'mobile' ? '4px' : '0px' }]}>
+                <div css={[C.comment, { marginLeft: layout === 'mobile' ? '6px' : '0px' }]}>
 
                     <div style={{ marginBottom: layout === 'mobile' ? '8px' : '0px' }} css={C.header}>
 

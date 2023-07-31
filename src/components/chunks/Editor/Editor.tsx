@@ -10,7 +10,7 @@ import './mention'
 import { socketRequest } from '@/hooks/util/useSocket';
 import throttle from '@/utils/throttle';
 import { layoutSize } from '@/state/layout';
-import { bg_4 } from '@/global/var';
+import { bg_2, bg_3, bg_4 } from '@/global/var';
 
 
 const C = {
@@ -49,7 +49,7 @@ const C = {
             paddingRight: '4px',
             paddingLeft: '4px',
             marginRight: '0px !important',
-            borderRight: '2px solid #4a484c',
+            borderRight: `2px solid ${bg_3}`,
             '&:last-child': {
                 borderRight: 'none',
 

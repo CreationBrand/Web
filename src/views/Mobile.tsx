@@ -77,7 +77,7 @@ export const Mobile = (props: any) => {
                 return api.start({ x: 0 })
             }
         }
-        if (down) return api.start({ x: x, immmediate: down })
+        if (down) return api.start({  x: down ? x : 0, immmediate: true })
     }, {
         target: ref,
         axis: 'x',

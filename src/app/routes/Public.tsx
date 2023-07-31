@@ -9,6 +9,8 @@ import PostList from '@/components/lists/PostList'
 import PersonList from '@/components/lists/PersonList'
 import SearchList from '@/components/lists/SearchList'
 import SearchCommunityList from '@/components/lists/SearchCommunityList'
+import Communitys from '@/views/Communitys'
+import CommentList from '@/components/lists/CommentList'
 
 var Public = () => {
 
@@ -28,6 +30,11 @@ var Public = () => {
                 <Route path="c/:community_id" element={<Outlet />} >
                     <Route path='auth' element={<LoginSignup />} />
                 </Route>
+
+                <Route path="/communitys" element={<Communitys />}  >
+                    <Route path='auth' element={<LoginSignup />} />
+                </Route>
+
 
                 {/* REAL */}
                 <Route path="announcements" element={<Announcements />} >
@@ -51,6 +58,11 @@ var Public = () => {
                 </Route>
 
                 <Route path="c/:community_id/search/:query" element={<SearchCommunityList />}  >
+                    <Route path='auth' element={<LoginSignup />} />
+                </Route>
+
+                <Route path="/c/:community_id/p/:post_id/c/:comment_id" >
+                    <Route index element={<CommentList />} />
                     <Route path='auth' element={<LoginSignup />} />
                 </Route>
 

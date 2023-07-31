@@ -29,6 +29,11 @@ export const errorFlow = atom({
     },
 })
 
+export const loginFlow = atom({
+    key: 'loginFlow',
+    default: 'login',
+})
+
 
 export const filterFlow = atom({
     key: 'filterFlow',

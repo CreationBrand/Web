@@ -10,10 +10,11 @@ import {
 const poolData = {
     UserPoolId: 'us-east-1_uPrAPuIBp',
     ClientId: '2qupv1dhp4ov5sdum1vgd74dr7',
-    Storage: new CookieStorage({ domain: 'localhost', secure: false })
+    Storage: new CookieStorage({ domain: window.location.hostname, secure: false })
 }
-
 const userPool = new CognitoUserPool(poolData)
+
+let cognitoUser = userPool.getCurrentUser();
 
 export function signUpCognito(username, email, password) {
     return new Promise((resolve, reject) => {
@@ -23,10 +24,14 @@ export function signUpCognito(username, email, password) {
             [{ Name: "email", Value: email }],
             null,
             (err, result) => {
-                console.log(err, result)
-                if (err) {
-                    resolve(err.message);
-                    return;
+                try {
+                    if (err) {
+                        resolve(err.message);
+                        return;
+                    }
+                }catch(e){
+                    console.log(e)
+                    resolve(false);
                 }
                 resolve(true);
             }
@@ -36,7 +41,7 @@ export function signUpCognito(username, email, password) {
 
 export function verifyEmail(username, code) {
     return new Promise((resolve, reject) => {
-        const cognitoUser = new CognitoUser({
+        cognitoUser = new CognitoUser({
             Username: username,
             Pool: userPool,
         });
@@ -58,7 +63,7 @@ export function loginCognito(username, password) {
             Password: password,
         });
 
-        const cognitoUser = new CognitoUser({
+        cognitoUser = new CognitoUser({
             Username: username,
             Pool: userPool,
             Storage: new CookieStorage({ domain: window.location.hostname, secure: false })
@@ -69,6 +74,8 @@ export function loginCognito(username, password) {
                 resolve('sucess');
             },
             onFailure: (err) => {
+                console.log(err)
+
                 if (err.code === 'UserNotConfirmedException') {
                     resolve('verify')
                 } else {
@@ -81,14 +88,14 @@ export function loginCognito(username, password) {
 
 export function forgotPassword(username) {
     return new Promise((resolve, reject) => {
-        const cognitoUser = new CognitoUser({
+        cognitoUser = new CognitoUser({
             Username: username,
             Pool: userPool,
         })
 
         cognitoUser.forgotPassword({
             onSuccess: () => {
-                resolve()
+                resolve(true)
             },
             onFailure: (err) => {
                 reject(err)
@@ -99,7 +106,7 @@ export function forgotPassword(username) {
 
 export function confirmPassword(username, confirmationCode, newPassword) {
     return new Promise((resolve, reject) => {
-        const cognitoUser = new CognitoUser({
+        cognitoUser = new CognitoUser({
             Username: username,
             Pool: userPool,
         })
@@ -116,20 +123,21 @@ export function confirmPassword(username, confirmationCode, newPassword) {
 }
 
 export function signOut() {
-    const cognitoUser = userPool.getCurrentUser();
+    cognitoUser = userPool.getCurrentUser();
     try {
         cognitoUser.signOut();
-        deleteAllCookies();
+        // deleteAllCookies();
         window.location.reload();
     } catch (err) {
-        deleteAllCookies();
-        window.location.reload();
+        console.log(err);
+        // deleteAllCookies();
+        // window.location.reload();
     }
 }
 
 export async function getCurrentUser() {
     return new Promise((resolve, reject) => {
-        const cognitoUser = userPool.getCurrentUser();
+        cognitoUser = userPool.getCurrentUser();
 
         if (!cognitoUser) {
             reject(new Error("No user found"));
@@ -158,7 +166,7 @@ export async function getCurrentUser() {
 }
 
 export function getSession() {
-    const cognitoUser = userPool.getCurrentUser();
+    cognitoUser = userPool.getCurrentUser();
     return new Promise((resolve, reject) => {
         if (!cognitoUser) {
             resolve(false);
@@ -176,7 +184,6 @@ export function getSession() {
 
 
 // OLD
-
 export const reSendCode = () => {
     cognitoUser.resendConfirmationCode(function (err: any, result: any) {
         if (err) return false
@@ -184,3 +191,13 @@ export const reSendCode = () => {
     });
 }
 
+
+function deleteAllCookies() {
+    var cookies = document.cookie.split(";");
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+};

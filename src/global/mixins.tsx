@@ -109,5 +109,5 @@ export const forumLabel = css({
     letterSpacing: '.04em',
     marginBottom: '8px',
      color: '#d7dadc',
-    marginTop: '18px'
+    marginTop: '20px'
 })
