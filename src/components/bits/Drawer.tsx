@@ -2,45 +2,52 @@
 import { bg_2 } from '@/global/var';
 import { css } from '@emotion/react'
 
-import { Global } from '@emotion/react';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import { motion } from 'framer-motion';
 
 const drawerBleeding = 56;
 
 
-export default function Drawer({ open, setOpen, children, ...props }: any) {
-    const { window } = props;
+export default function Drawer({ open, setOpen, onClose, children, ...props }: any) {
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
     };
 
-    // This is used only for the example
-    const container = window !== undefined ? () => window().document.body : undefined;
+
+    if (!open) return null;
+
 
     return (
-        <>
-            <SwipeableDrawer
-                sx={{
-                    background: 'transparent',
-                    '.MuiDrawer-paper': {
-                        background: 'transparent !important',
-                        padding: '0px !important',
-                        boxShadow: 'none !important',
-                    }
-                }}
-                container={container}
-                anchor="bottom"
-                open={open}
-                onClose={toggleDrawer(false)}
-                onOpen={toggleDrawer(true)}
-                swipeAreaWidth={drawerBleeding}
-                disableSwipeToOpen={false}
-                ModalProps={{
-                    keepMounted: true,
-                }}
-            >
+        <SwipeableDrawer
+            sx={{
+                background: 'transparent',
+                '.MuiDrawer-paper': {
+                    background: 'transparent !important',
+                    padding: '0px !important',
+                    boxShadow: 'none !important',
+                }
+            }}
+            anchor="bottom"
+            open={open}
+            onClose={toggleDrawer(false)}
+            onOpen={toggleDrawer(true)}
+            swipeAreaWidth={drawerBleeding}
+            disableSwipeToOpen={false}
+            ModalProps={{
+                keepMounted: true,
+            }}
 
+            onClick={() => {
+                console.log('clicked')
+                onClose()
+            }}
+        >
+            <motion.div
+                initial={{ y: 10 }}
+                animate={{ y: 0 }}
+            // transition={{ ease: 'easeInOut' }}
+            >
                 <div
                     css={{
                         width: 60,
@@ -71,7 +78,8 @@ export default function Drawer({ open, setOpen, children, ...props }: any) {
                 >
                     {children}
                 </div>
-            </SwipeableDrawer>
-        </>
+            </motion.div>
+        </SwipeableDrawer>
+
     );
 }

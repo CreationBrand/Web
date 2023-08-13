@@ -21,6 +21,8 @@ import Drawer from '../bits/Drawer';
 import { contentFlow } from '@/state/flow';
 import { layoutSize } from '@/state/layout';
 import { bg_1 } from '@/global/var';
+import { iconButton } from '@/global/mixins';
+import { ConnectingAirportsOutlined } from '@mui/icons-material';
 
 
 
@@ -38,8 +40,6 @@ const StyledPopper = styled(Popper)(({ theme }) => ({
 
 const PostMenu = ({ person_id, community_roles, tags, post_id, community_id }: any) => {
 
-    const flow = useRecoilValue(contentFlow)
-
     const layout = useRecoilValue(layoutSize)
     const [anchorEl, setAnchorEl]: any = useState(null);
 
@@ -48,24 +48,15 @@ const PostMenu = ({ person_id, community_roles, tags, post_id, community_id }: a
         e.stopPropagation()
         setAnchorEl(e.currentTarget);
     };
+
     const handleClose = () => {
-        if (anchorEl) anchorEl.focus();
-        setAnchorEl(null);
+        console.log('close')
+        setAnchorEl(false);
     };
-
-
-
-
 
     return (<div css={{ marginLeft: 'auto' }} onClick={(e) => e.stopPropagation()}>
 
-        <IconButton
-            sx={{
-                height: '40px',
-                width: '40px',
-                color: '#b9b6ba',
-                borderRadius: '8px'
-            }}
+        <div css={iconButton}
             onClick={handleClick}
             onMouseLeave={handleClose}
         >
@@ -116,7 +107,7 @@ const PostMenu = ({ person_id, community_roles, tags, post_id, community_id }: a
                     </ClickAwayListener>
                 </StyledPopper >)}
 
-        </IconButton>
+        </div   >
 
     </div >)
 

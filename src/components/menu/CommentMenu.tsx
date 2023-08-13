@@ -17,6 +17,7 @@ import { contentFlow } from '@/state/flow';
 import { layoutSize } from '@/state/layout';
 import Drawer from '../bits/Drawer';
 import { bg_1 } from '@/global/var';
+import { iconButton } from '@/global/mixins';
 
 
 const StyledPopper = styled(Popper)(() => ({
@@ -43,50 +44,13 @@ const CommentMenu = ({ person_id, comment_id, community_id, tags, global_roles, 
     };
     const handleClose = () => setAnchorEl(null);
 
-    return (<div css={{ marginLeft: 'auto' }} onClick={(e) => e.stopPropagation()}>
+    return (<div onClick={(e) => e.stopPropagation()}>
 
-        <IconButton
-            sx={{
-                height: '34px',
-                width: '34px',
-                color: '#b9bbbe',
-                borderRadius: '8px'
-            }}
+        <div css={iconButton}
             onClick={handleClick}
             onMouseLeave={handleClose}
         >
             <MoreVertIcon />
-
-            {/* {Boolean(anchorEl) && (
-
-
-                <StyledPopper
-                    id='postMenu'
-                    modifiers={[{ name: "offset", options: { offset: [0, -8] } }]}
-                    open={Boolean(anchorEl)} anchorEl={anchorEl} placement='bottom-end'>
-
-                    <ClickAwayListener onClickAway={handleClose}>
-                        <div
-                            css={{
-                                borderRadius: '4px',
-                                boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)',
-                                padding: '6px 8px',
-                                backgroundColor: '#0f0e10',
-                            }}
-                        >
-
-                            <TagMenu community_id={community_id} current={tags} public_id={comment_id} type={'comment'} />
-                            <RoleMenu community_id={community_id} current={community_roles} person_id={person_id} public_id={comment_id} type={'comment'} />
-
-                            <MenuItem disabled={true}>Global Roles <AdminPanelSettingsOutlinedIcon /></MenuItem>
-                            <MenuItem disabled={true}>Moderate <GavelRoundedIcon /></MenuItem>
-                            <MenuItem>Report <ReportGmailerrorredRoundedIcon /></MenuItem>
-                        </div>
-
-                    </ClickAwayListener>
-                </StyledPopper >)} */}
-
-
 
 
             {(layout === "mobile" && Boolean(anchorEl)) && (<Drawer
@@ -127,7 +91,7 @@ const CommentMenu = ({ person_id, comment_id, community_id, tags, global_roles, 
                 </StyledPopper >)}
 
 
-        </IconButton>
+        </div>
 
     </div >)
 }

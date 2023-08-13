@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { bg_2 } from '@/global/var'
+import { bg_1, bg_2 } from '@/global/var'
 import { css } from '@emotion/react'
 import { memo } from 'react'
 
@@ -8,7 +8,7 @@ const s = css({
     borderRadius: '8px',
     height: '100%',
     padding: '8px',
-    background: bg_2,
+    background: bg_1,
     display: 'flex',
     flexDirection: 'column',
 })

@@ -2,8 +2,15 @@
 
 import { css } from '@emotion/react'
 import { useState, memo } from "react";
+
 import { motion } from "framer-motion";
-import { Dialog } from '@mui/material';
+import { Backdrop, Dialog } from '@mui/material';
+import { bg_1, bg_2 } from '@/global/var';
+import { atomFamily, useRecoilState } from 'recoil';
+
+
+import { useSpring, animated } from '@react-spring/web'
+import { useDrag } from '@use-gesture/react'
 
 
 const C = {
@@ -15,13 +22,15 @@ const C = {
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
-        height: '400px',
-        background: '#181820',
+        height: 'auto',
+        background: bg_2,
+        maxHeight: '400px',
+        minHeight: '100px',
 
     }),
     blur: css({
         width: '100%',
-        height: '100%',
+        // height: '100%',
         background: '#181820',
         position: 'absolute',
         filter: 'blur(4px) brightness(45%)',
@@ -42,6 +51,12 @@ const C = {
     }),
 }
 
+export const imageHeights = atomFamily({
+    key: 'imageHeights',
+    default: 'auto' as any,
+})
+
+
 
 
 const Image = ({ url }: any) => {
@@ -55,6 +70,13 @@ const Image = ({ url }: any) => {
 
     const stopDefault = (e: any) => { e.preventDefault(); e.stopPropagation() }
 
+    const [height, setHeight] = useRecoilState(imageHeights(url))
+
+    const onLoad = (e: any) => {
+        setHeight(e.target.offsetHeight)
+    }
+
+
     if (error) return <div css={C.error}>
 
     </div>
@@ -63,6 +85,7 @@ const Image = ({ url }: any) => {
         <div onClick={stopDefault}>
             {open && <Viewer src={url} open={open} onClose={handleClose} />}
             <div
+                style={{ height: height }}
                 onClick={(e) => { handleOpen() }}
                 css={C.container}>
 
@@ -72,9 +95,11 @@ const Image = ({ url }: any) => {
                     src={url} css={C.blur} />
 
                 <img
+                    onLoad={onLoad}
                     alt='content'
                     onError={handleImgError}
-                    css={C.img} src={url} />
+                    css={C.img}
+                    src={url} />
             </div>
         </div >
 
@@ -84,66 +109,44 @@ const Image = ({ url }: any) => {
 
 const Viewer = ({ src, open, onClose }: any) => {
 
-    const [scale, setScale] = useState(1)
 
-    const handleScroll = (e: any) => {
-        setScale(scale + e.deltaY * -0.0005)
-    }
+    const [{ y }, api]: any = useSpring(() => ({ y: 0 }))
 
-    function onPanEnd(event: any, info: { point: { x: any; y: any; }; }) {
-        // console.log(info.point.x, info.point.y)
-        // onClose()
-    }
 
+    const bind = useDrag(({ movement: [x, y], down }: any) => {
+        if (y < -100 && !down) return onClose()
+        if (down) return api.start({ y: y < 0 ? y : 0 })
+    }, {
+    })
 
     return (
-
-        <Dialog
-            open={open}
-            onClose={onClose}
+        <Backdrop
             sx={{
-                borderRadius: '0px',
-                // backgroundColor: 'transparent',
-                // backgroundColor: 'rgba(15,14,16,0.55)',
+                zIndex: 2000,
 
-                '& .MuiDialog-paper': {
-                    backgroundColor: 'transparent !important',
-                    boxShadow: 'none !important',
-                    padding: '0px !important',
-                    margin: '0px !important',
-
-
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-
-                    overflow: 'hidden',
-                    maxWidth: '800px',
-                    maxHeight: '800px',
-
-
-                },
-                Backdrop: {
-                    background: 'rgba(15,14,16,0.90)',
-                }
             }}
-        >
-            <motion.img
-                onClick={onClose}
+            open={true}
+            onClick={onClose}>
+            <animated.img
+
+                {...bind()}
+                style={{ y: y, opacity: y.to([0, -400], [1, 0]) }}
                 src={src}
-                onPan={onPanEnd}
 
                 css={{
                     objectFit: 'contain',
+                    touchAction: 'pan-x',
                     maxHeight: '100%',
                     maxWidth: '100%',
                     height: '80vh',
                     width: '100vw',
+                    zIndex: 100000,
 
                 }}
-            />
-        </Dialog>
 
+            />
+
+        </Backdrop>
     );
 }
 

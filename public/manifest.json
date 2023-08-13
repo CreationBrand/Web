@@ -1,10 +1,10 @@
 {
     "short_name": "Artram",
     "name": "Artram",
-    "start_url": "/popular",
     "display": "standalone",
-    "theme_color": "#0f0e10",
-    "background_color": "#0f0e10",
+    "start_url": "/?standalone=true",
+    "theme_color": "#fff",
+    "background_color": "#fff",
     "icons": [
         {
             "src": "windows11/SmallTile.scale-100.png",

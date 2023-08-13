@@ -45,7 +45,6 @@ const C = {
         fontSize: '16px',
     }),
     banner: css({
-        borderRadius: '8px',
         position: 'absolute',
         width: '100%',
         height: '100%',
@@ -156,7 +155,11 @@ const CommunityPane = ({ public_id }: any) => {
         <>
 
             <div css={C.inner}
-                style={{ marginTop: layout === 'mobile' ? '8px' : '12px' }}
+                style={{
+                    margin: layout === 'mobile' ? '0px 8px' : '0px',
+                    width: layout === 'mobile' ? 'calc(100% - 16px)' : '100%',
+                    marginTop: layout === 'mobile' ? '8px' : '12px'
+                }}
                 onClick={openCommunity}>
 
                 <IconButton

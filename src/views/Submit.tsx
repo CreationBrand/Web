@@ -25,7 +25,7 @@ import { socketRequest } from '@/hooks/util/useSocket';
 import { person as personData } from '@/state/person';
 import DropZone from '@/components/forum/DropZone';
 import Pane from '@/layouts/Pane';
-import { bg_1, bg_2, bg_3 } from '@/global/var';
+import { bg_1, bg_2, bg_3, bg_forum } from '@/global/var';
 
 // VALIDATION
 const schema = Joi.object({
@@ -169,30 +169,37 @@ const Submit = () => {
                                 <div css={C.section}>
                                     <TabList
                                         sx={{
-                                            background: bg_2,
+                                            background: bg_forum,
                                             borderRadius: '8px',
                                             color: 'white',
                                             height: '40px !important',
                                             overflow: 'hidden',
                                             minHeight: '40px !important',
+                                            fontSize: '12px !important',
                                         }}
                                         textColor="secondary"
                                         indicatorColor="secondary"
                                         onChange={(e, v) => { onChange(v); setValue('content', '') }}>
                                         <Tab
-                                            sx={{ height: '40px !important', paddingBottom: '40px' }}
+                                            sx={{
+                                                height: '40px !important', paddingBottom: '40px', fontSize: '12px !important',
+                                            }}
                                             label="Post" value="text"
                                             icon={<FeedRoundedIcon />}
                                             iconPosition="start"
                                         />
                                         <Tab
-                                            sx={{ height: '40px !important', paddingBottom: '40px' }}
+                                            sx={{
+                                                height: '40px !important', paddingBottom: '40px', fontSize: '12px !important',
+                                            }}
                                             label="Link" value="link"
                                             icon={<OpenInNewRoundedIcon />}
                                             iconPosition="start"
                                         />
                                         <Tab
-                                            sx={{ height: '40px !important', paddingBottom: '40px' }}
+                                            sx={{
+                                                height: '40px !important', paddingBottom: '40px', fontSize: '12px !important',
+                                            }}
                                             label="Upload" value="upload"
                                             icon={<BackupRoundedIcon />}
                                             iconPosition="start"

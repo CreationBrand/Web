@@ -11,7 +11,7 @@ const useContent = () => {
     useEffect(() => {
         let parts: any = location.pathname.split('/')
         switch (true) {
-            case parts[1] === 'trending':
+            case parts[1] === 'popular':
                 return setContentFlow('global')
             case parts[1] === 'home':
                 return setContentFlow('global')

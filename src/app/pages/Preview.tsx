@@ -10,8 +10,6 @@ import { Link, Outlet, useLocation } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { desktopControl, layoutSize } from '@/state/layout'
 import LogoWithName from '@/components/bits/LogoWithName'
-import Desktop from '@/views/Desktop'
-import { Mobile } from '@/views/Mobile'
 import { Button, IconButton } from '@mui/material'
 import Leaf from '@/components/chunks/VirtualTree/Leaf'
 import Search2 from '@/components/chunks/Search/Search2'
@@ -25,9 +23,13 @@ import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
 // import CommunityList from '@/components/lists/CommunityList'
 import GlobalList from '@/components/lists/GlobalList'
 import CommunityList from '@/components/lists/CommunityList'
-import { bg_1, bg_3 } from '@/global/var'
-import MobileNav from '@/components/chunks/Mobile/MobileNav'
+import { bg_1, bg_2, bg_3 } from '@/global/var'
 import { forumLabel } from '@/global/mixins'
+import MainMobile from '@/layouts/MainMobile'
+import NavMobile from '@/layouts/NavMobile'
+import SearchM from '@/components/chunks/Search/searchM'
+import Desktop from '@/layouts/Desktop'
+import { Mobile } from '@/layouts/Mobile'
 // import GroupList from '@/components/lists/GroupList'
 
 
@@ -85,15 +87,6 @@ const Preview = () => {
                 title='Contact Us'
                 link='/contact' />
 
-
-            <div css={{ color: '#d7dadc', marginTop: '16px', marginBottom: '8px', fontWeight: 'bold', fontSize: '12px' }}>THEME</div >
-            <div css={{ display: 'flex', gap: '12px', paddingLeft: '12px' }}>
-                <div css={C.theme} style={{ background: '#0b1416', border: '2px solid #538a9c' }} onClick={() => { localStorage.setItem("theme", "reddit"); window.location.reload() }}></div>
-                <div css={C.theme} style={{ background: '#272732', border: '2px solid #996ccc' }} onClick={() => { localStorage.setItem("theme", "dark"); window.location.reload() }}></div>
-                <div css={C.theme} style={{ background: '#313338', border: '2px solid#7289da' }} onClick={() => { localStorage.setItem("theme", "discord"); window.location.reload() }}></div>
-            </div>
-
-
             <div css={{ marginTop: 'auto', padding: '20px 4px 20px' }}>
 
                 <div css={{ padding: '4px 4px 22px 0', color: '#d7dadc' }}>
@@ -124,55 +117,35 @@ const Preview = () => {
 
         </Left>
 
-        <Main>
-            <>
-                {last === 'popular' && <GlobalList type="POPULAR" />}
-                {last === 'community' && <CommunityList />}
-                <Outlet />
-            </>
-        </Main>
+        <MainMobile>
+            <NavMobile>
+
+                <SearchM />
+
+                <Link to='auth' relative="path">
+                    <Button
+                        sx={{
+                            borderRadius: '20px',
+                            background: bg_2,
+                            height: '34px',
+                            fontSize: '10px',
+                            fontWeight: '700',
+                            gap: '4px',
+                            padding: '0 12px',
+
+                        }}
+                        variant="contained" disableElevation>
+                        <DeveloperBoardIcon /> Login
+                    </Button>
+                </Link>
+
+            </NavMobile>
+            {last === 'popular' && <GlobalList type="POPULAR" />}
+            {last === 'community' && <CommunityList />}
+            <Outlet />
+        </MainMobile>
 
         <div />
-
-        <div css={{
-            background: bg_3,
-            width: '100%',
-            boxShadow: '0 1px 2px rgba(0,0,0,0.9),2px 0px 2px',
-            display: 'flex',
-            gap: '6px',
-            paddingLeft: '8px',
-            paddingRight: '8px',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            zIndex: 400,
-            position: 'relative',
-            height: '48px',
-            borderBottomLeftRadius: '2px',
-            borderBottomRightRadius: '2px',
-
-        }}>
-            <Search2 />
-
-            <Link to='auth' relative="path">
-                <Button
-                    sx={{
-                        borderRadius: '20px',
-                        background: bg_1,
-                        height: '34px',
-                        fontSize: '10px',
-                        fontWeight: '700',
-                        gap: '4px',
-                        padding: '0 12px',
-
-                    }}
-                    variant="contained" disableElevation>
-                    <DeveloperBoardIcon /> Login
-                </Button>
-            </Link>
-
-
-        </div>
-
 
     </Mobile>)
 

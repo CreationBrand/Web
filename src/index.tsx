@@ -11,7 +11,6 @@ import './global/editor.css'
 import './global/global.css'
 import './global/markdown.css'
 
-
 const domNode: any = document.getElementById('root');
 const root = createRoot(domNode);
 

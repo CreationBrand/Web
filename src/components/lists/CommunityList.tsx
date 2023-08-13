@@ -17,9 +17,13 @@ import { useRecoilValue } from 'recoil'
 import FilterPane from '../bits/filter/CommunityFilter'
 import GlobalFilter from '../bits/filter/GlobalFilter'
 import { communityFilter, postFilter } from '@/state/filters'
-import { mainSize } from '@/state/layout'
+import { layoutSize, mainSize } from '@/state/layout'
 import MainFilter from '../bits/filter/MainFilter'
 import usePosts from '@/hooks/list/usePosts'
+import { BasePaneD, BasePaneM } from '@/sections/BasePane'
+import { Info } from '@mui/icons-material'
+import { CommunityPaneM } from '@/sections/CommuityPane'
+
 
 
 const CommunityList = () => {
@@ -27,39 +31,41 @@ const CommunityList = () => {
     const params: any = useParams()
     const filter = useRecoilValue(communityFilter(params.community_id))
     const size = useRecoilValue(mainSize)
-
+    const layout = useRecoilValue(layoutSize)
     const [isLoading1, isError1, component, data] = useCommunity(params.community_id)
-    const [isLoading, isError, components]: any = usePosts('COMMUNITY', params.community_id, filter)
+    const [isLoading, isError, components]: any = usePosts('COMMUNITY', params.community_id, filter, 'community')
 
-    // useLinkCommunity(params.community_id, true)
+
+    if (layout === 'mobile') return (
+        <BasePaneM>
+
+            <VirtuList list={(isLoading || isLoading1) ?
+                [<HeadHolder key={0} />, <FilterHolder key={1} />, <PostHolder key={2} />, <PostHolder key={3} />, <PostHolder key={5} />, <PostHolder key={6} />] :
+                [component, <MainFilter type={params.community_id} />, ...components]} />
+
+        </BasePaneM>
+    )
+
+
 
     return (
+        <BasePaneD>
 
-        <motion.div
-            key={params.community_id}
-            css={baseList}
-            transition={{ duration: 0.3 }}
-            initial={{ opacity: 0.5 }}
-            animate={{ opacity: 1 }}
-        >
-
-            <div css={{ maxWidth: '800px', width: '100%' }}>
-                <VirtuList
-                    list={
-                        (isLoading || isLoading1) ?
-                            [<HeadHolder key={0} />, <FilterHolder key={1} />, <PostHolder key={2} />, <PostHolder key={3} />, <PostHolder key={5} />, <PostHolder key={6} />] :
-                            [component, <MainFilter type={params.community_id} />, ...components]}
-                />
-            </div>
+            <VirtuList list={(isLoading || isLoading1) ?
+                [<HeadHolder key={0} />, <FilterHolder key={1} />, <PostHolder key={2} />, <PostHolder key={3} />, <PostHolder key={5} />, <PostHolder key={6} />] :
+                [component, <MainFilter type={params.community_id} />, ...components]} />
 
             {size > 0 &&
                 <div css={{ height: 'min-content', overflow: 'hidden', marginTop: '12px' }}>
                     <GlobalFilter />
                 </div>}
 
-        </motion.div>
-
+        </BasePaneD>
     )
+
+
+
+
 }
 
 

@@ -4,7 +4,7 @@ import { css } from '@emotion/react'
 import { Button } from '@mui/material'
 import { faAddressCard, faLayerGroup, faNewspaper } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { bg_1, bg_3 } from '@/global/var';
+import { bg_3, bg_active } from '@/global/var';
 
 
 const C = {
@@ -19,6 +19,7 @@ const C = {
         maxWidth: '800px',
         alignItems: 'center',
         display: 'flex',
+
     }),
 }
 
@@ -31,6 +32,7 @@ const SearchPane = ({ value, onChange }: any) => {
     return (
 
         <div css={C.container}>
+
             <Button
                 onClick={handleHot}
                 variant="text"
@@ -41,7 +43,7 @@ const SearchPane = ({ value, onChange }: any) => {
                     gap: '6px',
                     borderRadius: '8px',
                     padding: '4px 12px 4px 12px',
-                    background: value === 'post' ? bg_1 : bg_3,
+                    background: value === 'post' ? bg_active : bg_3,
                     color: value === 'post' ? '#fff' : '#d7dadc'
                 }}
             >
@@ -58,7 +60,7 @@ const SearchPane = ({ value, onChange }: any) => {
                     gap: '6px',
                     borderRadius: '8px',
                     padding: '4px 12px 4px 12px',
-                    background: value === 'community' ? bg_1 : bg_3,
+                    background: value === 'community' ? bg_active : bg_3,
                     color: value === 'community' ? '#fff' : '#d7dadc'
                 }}
             >
@@ -75,21 +77,12 @@ const SearchPane = ({ value, onChange }: any) => {
                     gap: '6px',
                     borderRadius: '8px',
                     padding: '4px 12px 4px 12px',
-                    background: value === 'person' ? bg_1 : bg_3,
+                    background: value === 'person' ? bg_active : bg_3,
                     color: value === 'person' ? '#fff' : '#d7dadc'
                 }}>
                 <FontAwesomeIcon icon={faAddressCard} />
                 <div css={{ fontSize: '12px' }}>People</div>
             </Button>
-
-
-
-
-
-
-            {/* {open && <TagFilter anchorEl={anchorEl} onClose={handleClose} />} */}
-
-
 
         </div>
     )

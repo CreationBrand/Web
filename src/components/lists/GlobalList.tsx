@@ -7,14 +7,15 @@ import { useRecoilValue } from 'recoil'
 
 //@ts-ignore
 import { baseList } from '@/global/mixins'
-import { mainSize } from '@/state/layout'
-import usePostList from '@/hooks/usePostList';
+import { layoutSize, mainSize } from '@/state/layout'
 import GlobalFilter from '../bits/filter/GlobalFilter';
 import Info from '../bits/Info';
 import MainFilter from '../bits/filter/MainFilter'
 import { communityFilter } from '@/state/filters'
 import { FilterHolder, PostHolder } from './PlaceHolders'
 import usePosts from '@/hooks/list/usePosts'
+import { BasePaneD, BasePaneM } from '@/sections/BasePane'
+
 
 
 
@@ -23,33 +24,34 @@ const GlobalList = ({ type }: any) => {
 
     const size = useRecoilValue(mainSize)
     const filter = useRecoilValue(communityFilter(type))
-    const [isLoading, isError, components] = usePosts('GLOBAL', type, filter)
+    const [isLoading, isError, components] = usePosts('GLOBAL', type, filter, 'global')
+    const layout = useRecoilValue(layoutSize)
+
+
+    if (layout === 'mobile') return (
+        <BasePaneM>
+            <VirtuList list={isLoading ? [
+                <FilterHolder key={0} />, <PostHolder key={1} />, <PostHolder key={2} />] :
+                [<MainFilter type={type} />, ...components]} public_id={type} />
+        </BasePaneM>
+    )
+
+
 
     return (
+        <BasePaneD>
 
-        <motion.div
-            key={type}
-            css={baseList}
-            transition={{ duration: 0.3 }}
-            initial={{ opacity: 0.5 }}
-            animate={{ opacity: 1 }}
-        >
-
-            <div css={{ maxWidth: '800px', width: '100%' }}>
-                <VirtuList list={
-                    isLoading ? [<FilterHolder key={0} />, <PostHolder key={1} />, <PostHolder key={2} />     ] :
-                        [<MainFilter type={type} />, ...components]} public_id={type} />
-            </div>
+            <VirtuList list={isLoading ? [
+                <FilterHolder key={0} />, <PostHolder key={1} />, <PostHolder key={2} />] :
+                [<MainFilter type={type} />, ...components]} public_id={type} />
 
             {(size > 0) &&
                 <div css={{ height: 'min-content', marginTop: '12px' }}>
-                    {size > 1 && <Info />
-                    }
+                    {size > 1 && <Info />}
                     <GlobalFilter />
                 </div>
             }
-
-        </motion.div>
+        </BasePaneD>
     )
 }
 

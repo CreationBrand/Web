@@ -7,7 +7,7 @@ import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { bg_3 } from '@/global/var';
+import { bg_3, bg_forum } from '@/global/var';
 
 
 const C = {
@@ -68,7 +68,7 @@ const RouteModal = ({ children }: any) => {
                     zIndex: 4,
                     width: "44px",
                     height: "44px",
-                    border: "2px solid #2C2C2C",
+                    border: `2px solid ${bg_forum}`,
                     borderRadius: "50%",
                     fontSize: "0",
                     WebkitTransition: "border-color .2s",

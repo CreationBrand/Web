@@ -1,11 +1,32 @@
 {
-    "hide-files.files": [],
+    "hide-files.files": [
+        "dockerfile",
+        ".env",
+        ".gitignore",
+        ".prettierrc.json",
+        "package.json",
+        "craco.config.js",
+        "tsconfig.paths.json",
+        "webpack.config.js",
+        "tsconfig.json",
+        "yarn.lock"
+    ],
     "files.exclude": {
-        "**/.git": false,
-        "**/.svn": false,
-        "**/.hg": false,
-        "**/CVS": false,
-        "**/.DS_Store": false,
-        "**/Thumbs.db": false
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "dockerfile": true,
+        ".env": true,
+        ".gitignore": true,
+        ".prettierrc.json": true,
+        "package.json": true,
+        "craco.config.js": true,
+        "tsconfig.paths.json": true,
+        "webpack.config.js": true,
+        "tsconfig.json": true,
+        "yarn.lock": true
     }
 }

@@ -26,7 +26,7 @@ export const theme: any = createTheme({
                     },
                     "&.Mui-focused": {
                         border: `2px solid ${accent}`,
-                        background: bg_1,
+                        // background: bg_1,
                     },
                     '&.Mui-error': {
                         border: '2px solid red',

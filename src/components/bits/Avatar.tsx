@@ -5,18 +5,21 @@ import { memo } from 'react'
 import src from '@/assets/fb.webp'
 
 let sizeMap: any = {
-    tiny: '22px',
-    small: '36px',
+    tiny: '24px',
+    small: '32px',
     medium: '40px',
     large: '50px',
     extra: '80px',
+    mobilePost: '26px',
+    
 }
 let radiusMap: any = {
     tiny: '50%',
-    small: '12px',
+    small: '50%',
     medium: '12px',
     large: '16px',
     extra: '12px',
+    mobilePost: '50%',
 }
 
 const C = {

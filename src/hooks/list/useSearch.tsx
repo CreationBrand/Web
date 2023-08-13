@@ -13,19 +13,18 @@ import { useRecoilState, useRecoilTransaction_UNSTABLE, useRecoilValue } from "r
 import rehypeRaw from 'rehype-raw';
 import { socketRequest } from '../util/useSocket';
 import Avatar from '@/components/bits/Avatar';
-import { bg_3 } from '@/global/var';
+import { bg_3, bg_active } from '@/global/var';
 import { searchList } from '@/state/filters';
 
 
 
 const C = {
     container: css({
-        marginTop: '12px',
         width: '100%',
         height: 'auto',
         background: bg_3,
         borderRadius: '8px',
-        padding: '8px',
+        padding: '12px 8px',
         gap: '8px',
         display: 'flex',
         color: '#fff',
@@ -51,7 +50,7 @@ const useSearch = (type: string, query: string) => {
             for (let i = 0; i < listItems.length; i++) {
                 listItems[i].visibility = true
                 set(postSync(listItems[i].public_id), listItems[i]);
-                temp.push(<Post key={i} view='list' {...listItems[i]} />)
+                temp.push(<Post key={i} view='global' {...listItems[i]} />)
             }
             // setComponents([temp])
             set(searchList, temp);
@@ -88,16 +87,26 @@ const useSearch = (type: string, query: string) => {
 
                 let temp = []
                 for (let i in req.communitys) {
-                    temp.push(<div css={C.container} onClick={() => { navigate(`/c/${req.communitys[i].public_id}`) }}>
+                    temp.push(
+                        <>
 
-                        <Avatar public_id={req.communitys[i].public_id} size={'medium'} />
+                            <div css={C.container} onClick={() => { navigate(`/c/${req.communitys[i].public_id}`) }}>
+                                <Avatar public_id={req.communitys[i].public_id} size={'medium'} />
+                                <div>
+                                    <div css={{ fontSize: '16px', fontWeight: 'bold', lineHeight: '20px' }}>{req.communitys[i].title}</div>
+                                    <ReactMarkdown className='text' children={req.communitys[i].description} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
+                                </div>
+                            </div>
 
-                        <div>
-                            <div css={{ fontSize: '18px', fontWeight: 'bold', lineHeight: '20px' }}>{req.communitys[i].title}</div>
-                            <ReactMarkdown className='text' children={req.communitys[i].description} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
-                        </div>
+                            <div css={{
+                                width: 'calc(100% - 16px)',
+                                margin: '0 auto',
+                                height: '2px',
+                                backgroundColor: bg_active,
+                                borderRadius: '4px',
+                            }} />
 
-                    </div>)
+                        </>)
                 }
                 setComponents(temp)
             }

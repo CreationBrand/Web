@@ -13,6 +13,10 @@ export const searchState = atom({
     default: [] as any,
     effects_UNSTABLE: [localStorageEffect('searchState')],
 })
+export const searchQuery = atom({
+    key: 'searchQuery',
+    default: '' as any,
+})
 
 
 export const tagData = atom({

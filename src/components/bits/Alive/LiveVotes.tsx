@@ -13,6 +13,7 @@ import { authFlow } from '@/state/flow'
 import { postSync, commentSync } from '@/state/sync'
 import Ticker from '../Ticker'
 import { bg_2 } from '@/global/var'
+import { block } from '@/utils/stopPropagation'
 
 
 const C = {
@@ -72,7 +73,7 @@ const LiveVotes = ({ karma, public_id, vote, size, type }: any) => {
     else if (vote === -1) { color = '#f04747' }
 
     return (
-        <div css={[C.vote, size === 'small' && C.small]}>
+        <div css={[C.vote, size === 'small' && C.small]} onClick={block}>
 
 
             <ArrowDropUpRoundedIcon

@@ -27,7 +27,7 @@ const GroupList = () => {
     const filter = useRecoilValue(communityFilter(params.group_id))
 
     const [isError1, group, data] = usePullGroup(params.group_id)
-    const [isLoading, isError, components]: any = usePosts('GROUP', params.group_id, filter)
+    const [isLoading, isError, components]: any = usePosts('GROUP', params.group_id, filter,'global')
 
     return (<motion.div
         key={params.group_id}

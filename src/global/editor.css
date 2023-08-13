@@ -2,7 +2,7 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Helvetica Neue', Arial, sans-serif !important;
   font-size: 14px !important;
-  color: #f2f3f5;
+  color: inherit !important;
   margin: 0;
   padding: 0;
   background: transparent !important;
@@ -34,7 +34,7 @@
 .text  p {
   line-height: 18px;
   font-size: 14px !important;
-  color: #f2f3f5;
+  color: inherit !important;
   padding-bottom: 0px !important;
 }
 .ql-syntax {

@@ -5,7 +5,7 @@ import { Input } from '@mui/material';
 import { Controller } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
-import { accent, bg_1, bg_2 } from '@/global/var';
+import { accent, bg_1, bg_2, bg_forum } from '@/global/var';
 
 
 const FlatInput = ({ control, maxLength, name, defaultValue, type }: any) => {
@@ -29,17 +29,17 @@ const FlatInput = ({ control, maxLength, name, defaultValue, type }: any) => {
                         sx={{
                             fontFamily:'system-ui',
                             '&:hover': {
-                                border: `2px solid ${bg_2}`
+                                border: `2px solid ${bg_forum}`
                             },
                             '&:focus-within': {
                                 border: `2px solid ${accent}`
                             },
                             height: "40px",
-                            background: bg_2,
+                            background: bg_forum,
                             borderRadius: '8px',
                             position: 'relative',
 
-                            border: Boolean(errors[name]) ? '2px solid #c84b4b !important' : `2px solid ${bg_2}`,
+                            border: Boolean(errors[name]) ? '2px solid #c84b4b !important' : `2px solid ${bg_forum}`,
                         }}
                         endAdornment=
                         {maxLength &&

@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { bg_3 } from '@/global/var';
+import { bg_3, text_2, text_3 } from '@/global/var';
 import { css } from '@emotion/react'
 
 import { memo, useEffect, useRef, useState } from "react";
@@ -21,13 +21,13 @@ const C = {
 
     tailed: css({
         position: "relative",
-        width: "300px",
-        maxHeight: "300px",
+        width: "100%",
+        maxHeight: "200px",
         overflow: "hidden",
         '&:after': {
             content: "\"\"",
             position: "absolute",
-            top: "260px",
+            top: "160px",
             left: "0",
             height: "40px",
             width: "100%",
@@ -40,9 +40,13 @@ const C = {
 const Text = ({ content, public_id, view }: any) => {
     const ref: any = useRef(null)
     const navigate = useNavigate();
-
+    const [height, setHeight] = useState(0)
     useEffect(() => {
+
+
         if (!ref.current) return;
+
+        setHeight(ref.current.clientHeight)
         ref.current.addEventListener('click', (event: any) => {
             const target: any = event.target;
             target.setAttribute("contentEditable", false);
@@ -59,9 +63,17 @@ const Text = ({ content, public_id, view }: any) => {
     return (
 
         <div
+            style={{ color: text_2 }}
             ref={ref}
-            id={'text'}
-            css={[view === 'list' && C.tailed, C.container]}>
+            css={[(view !== 'post' && height > 200) && C.tailed, C.container]}>
+            {/* {(view !== 'post' && height > 200) && <div style={{
+                position: 'absolute',
+                bottom: 0,
+                right: 0,
+                zIndex: 100,
+                color:text_3,
+                fontSize: '12px',
+            }}>View Full Post</div>} */}
             <ReactMarkdown className='text' children={content} rehypePlugins={[rehypeRaw]}></ReactMarkdown>
         </div>
 

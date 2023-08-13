@@ -48,6 +48,13 @@ export const communityFilter = atomFamily({
         localStorageEffect('communityFilter'),
     ]
 });
+
+export const lists = atomFamily({
+    key: "lists",
+    default: [],
+});
+
+
 export const searchList = atom({
     key: "searchList",
     default: [] as any,

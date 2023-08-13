@@ -2,10 +2,10 @@
 import { css } from '@emotion/react'
 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { memo, useEffect, useLayoutEffect, useState } from 'react'
 
-import { Badge, BadgeProps, IconButton, styled } from '@mui/material'
+import { Badge, BadgeProps, Button, IconButton, styled } from '@mui/material'
 
 // ICONS
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
@@ -22,17 +22,20 @@ import Main from '@/layouts/Main'
 import Nav from '@/layouts/Nav'
 import Right from '@/layouts/Right'
 import { layoutSize, desktopControl } from '@/state/layout'
-import { Mobile } from '@/views/Mobile'
+import { Mobile } from '@/layouts/Mobile'
 import { notificationStateFamily } from '@/state/data'
-import Desktop from '@/views/Desktop'
 import MessengerTree from '@/components/chunks/VirtualTree/MessengerTree'
 import MeMenu from '@/components/menu/MeMenu'
 import GroupTree from '@/components/chunks/VirtualTree/GroupTree'
 import GroupList from '@/components/lists/GroupList'
-import MobileNav from '@/components/chunks/Mobile/MobileNav'
-import { text_2 } from '@/global/var'
+import { bg_2, text_2 } from '@/global/var'
 import { iconButton } from '@/global/mixins'
 import MeList from '@/components/lists/MeList'
+import MobileNav from '@/components/chunks/Mobile/MobileNav'
+import MainMobile from '@/layouts/MainMobile'
+import SearchM from '@/components/chunks/Search/searchM'
+import NavMobile from '@/layouts/NavMobile'
+import Desktop from '@/layouts/Desktop'
 
 const StyledBadge = styled(Badge)<BadgeProps>({
     '& .MuiBadge-badge': {
@@ -87,22 +90,32 @@ const Home = () => {
                 <MessengerTree />
             </Left>
 
-            <Main>
-                <>
-                    {last === 'me' && <MeList />}
-                    {last === 'popular' && <GlobalList type="POPULAR" />}
-                    {last === 'home' && <GlobalList type="HOME" />}
-                    {last === 'community' && <CommunityList />}
-                    {last === 'group' && <GroupList />}
-                    <Outlet />
-                </>
-            </Main>
+            <MainMobile>
+                
+                <NavMobile>
 
+                    <div onClick={submit} css={iconButton}><AddRoundedIcon sx={{ fontSize: '34px' }} /></div>
+
+                    <SearchM />
+
+                    <StyledBadge badgeContent={noti} invisible={!Boolean(noti)}>
+                        <div css={iconButton} onClick={notif}><NotificationsRoundedIcon sx={{ fontSize: '26px' }} /> </div>
+                    </StyledBadge>
+
+                </NavMobile>
+
+                {last === 'me' && <MeList />}
+                {last === 'popular' && <GlobalList type="POPULAR" />}
+                {last === 'home' && <GlobalList type="HOME" />}
+                {last === 'community' && <CommunityList />}
+                {last === 'group' && <GroupList />}
+                <Outlet />
+
+            </MainMobile>
             <Right>
                 <GroupTree />
             </Right>
 
-            <MobileNav />
 
         </Mobile>
     )

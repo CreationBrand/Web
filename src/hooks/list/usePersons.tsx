@@ -19,6 +19,7 @@ import { socketRequest } from '../util/useSocket';
 import { bg_1, bg_2, bg_3 } from '@/global/var';
 import { time } from '@/global/mixins';
 import { socketFlow } from '@/state/flow';
+import Loader from '@/components/lists/Loader';
 
 
 const usePersons= (person_id: any, filter: any) => {
@@ -54,7 +55,7 @@ const usePersons= (person_id: any, filter: any) => {
             for (let i = 0; i < listItems?.length; i++) {
                 listItems[i].visibility = true
                 set(postSync(listItems[i].public_id), listItems[i]);
-                set(personList, (oldList: any) => [...oldList, <Post view='list' key={i} {...listItems[i]} />])
+                set(personList, (oldList: any) => [...oldList, <Post view='global' key={i} {...listItems[i]} />])
             }
         },
         []
@@ -76,7 +77,7 @@ const usePersons= (person_id: any, filter: any) => {
     }
 
 
-    return [false, false, components.concat(<ChunkError variant={cursor !== null ? 'loading' : 'end'} onLoad={fetchNext} />)]
+    return [false, false, components.concat(<Loader variant={cursor !== null ? 'loading' : 'end'} onLoad={fetchNext} />)]
 }
 
 

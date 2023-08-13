@@ -7,7 +7,7 @@ import { useCallback, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone'
 import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded';
 import { socketRequest } from '@/hooks/util/useSocket';
-import { bg_1, bg_2, bg_3, bg_4 } from '@/global/var';
+import { bg_2, bg_forum } from '@/global/var';
 
 const C = {
     container: css({
@@ -17,7 +17,7 @@ const C = {
         justifyContent: 'center',
     }),
     popup: css({
-        background: bg_3,
+        background: bg_forum,
         height: "auto",
         margin: "0 auto",
         borderRadius: "12px",

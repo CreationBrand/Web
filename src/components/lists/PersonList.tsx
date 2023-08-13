@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { useRecoilValue } from 'recoil'
 import { Outlet, useParams } from 'react-router-dom'
 import usePersonList from '@/hooks/usePersonList'
-import { mainSize } from '@/state/layout'
+import { layoutSize, mainSize } from '@/state/layout'
 import { personFilter } from '@/state/filters'
 import { overList } from '@/global/mixins'
 import usePerson from '@/hooks/usePerson'
@@ -14,6 +14,7 @@ import PersonFilter from '../bits/filter/PersonFilter'
 import VirtuList from '../chunks/VirtualList/VirtuList'
 import { HeadHolder, FilterHolder, PostHolder } from './PlaceHolders'
 import usePersons from '@/hooks/list/usePersons'
+import { BasePaneM } from '@/sections/BasePane'
 
 
 
@@ -22,9 +23,23 @@ const PersonList = () => {
     const params = useParams()
     const size = useRecoilValue(mainSize)
     const filter = useRecoilValue(personFilter)
+    const layout = useRecoilValue(layoutSize)
 
     const [isLoading1, isError1, components] = usePersons(params.person_id, filter)
     const [isLoading, isError, component] = usePerson(params.person_id)
+
+    console.log('person list', components, component)
+
+
+    if (layout === 'mobile') return (
+        <BasePaneM>
+            <VirtuList
+                list={
+                    (isError || isLoading || isError1 || isLoading1) ?
+                        [<HeadHolder />, <FilterHolder />, <PostHolder />, <PostHolder />, <PostHolder />, <PostHolder />] :
+                        [component, <PersonFilter key={'filter'} />, ...components]
+                } />
+        </BasePaneM>)
 
 
     return (<>

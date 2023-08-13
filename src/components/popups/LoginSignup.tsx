@@ -22,7 +22,7 @@ import FlatInput from "../forum/FlatInput";
 import src from '@/assets/OIG.webp';
 import RouteModal from "@/layouts/RouteModal";
 import { forumLabel } from '@/global/mixins';
-import { accent } from '@/global/var';
+import { accent, bg_forum } from '@/global/var';
 import { ErrorMessage } from '@hookform/error-message';
 import { use } from 'i18next';
 
@@ -78,42 +78,6 @@ const LoginSignup = () => {
     const layout = useRecoilValue(layoutSize)
 
 
-
-
-    // const onVerify = handleSubmit(async (data) => {
-    //     setLoading(true)
-    //     let status = await verifyEmail(data.username, data.code)
-    //     if (status) {
-    //         var request = await loginCognito(data.username, data.password)
-    //         window.location.reload()
-    //     }
-    //     else setError('code', { type: 'custom', message: 'Invalid code' });
-    //     setLoading(false)
-    // })
-
-
-
-    // const onReset = handleSubmit(async (data) => {
-    //     setLoading(true)
-
-    //     console.log('data', data);
-
-    //     let status = await confirmPassword(data.email, data.code, data.password)
-    //     if (status) {
-    //         var request = await loginCognito(data.email, data.password)
-    //         window.location.reload()
-    //     }
-
-    //     setLoading(false)
-    // })
-
-    // const enterSubmit = (e: any) => {
-    //     if (e.key === 'Enter') {
-    //         e.preventDefault();
-    //         if (view === 'login') onLogin()
-    //     }
-    // }
-
     return (
         <RouteModal>
             <div
@@ -123,6 +87,7 @@ const LoginSignup = () => {
                     display: 'flex',
                     maxWidth: '800px',
                 }}>
+
                 <div css={C.image}>
                     <img css={{ width: '100%', objectFit: "cover", height: '100%' }} src={src}></img>
                 </div>
@@ -132,313 +97,6 @@ const LoginSignup = () => {
                 {view === 'forgot' && <Forgot setView={setView} />}
                 {view === 'signup' && <Signup setView={setView} />}
 
-
-                {/* {view === 'verify' && (
-                        <motion.form
-                            key="login"
-                            transition={{ ease: "easeOut" }}
-                            initial={{ opacity: 0, }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-
-                            css={C.form}>
-                            <div css={{
-                                marginBottom: "26px",
-                                fontSize: "28px",
-                                fontWeight: 500,
-                                lineHeight: "40px",
-                            }}>Enter verification code</div>
-
-                            <h3 css={forumLabel}>Code</h3>
-                            <Controller
-                                name="code"
-                                control={control}
-                                defaultValue=""
-                                rules={{ required: true }}
-                                render={({ field: { onChange, value } }) => (
-                                    <Input
-                                        error={errors.code ? true : false}
-                                        autoComplete="off"
-                                        onChange={onChange}
-                                        value={value}
-                                        disableUnderline
-                                        fullWidth
-                                        sx={{
-                                            height: "42px",
-                                            marginBottom: "26px",
-                                        }}
-                                    />
-                                )}
-                            />
-
-
-                            <LoadingButton
-                                loadingIndicator="Loading…"
-                                loading={loading}
-                                onClick={onVerify}
-                                variant='contained'
-                                fullWidth
-                                disableElevation
-                                sx={{
-                                    display: "flex",
-                                    width: "100%",
-                                    height: "42px",
-                                    borderRadius: "8px",
-                                    fontSize: "17px",
-                                    fontWeight: 600,
-                                    lineHeight: "24px",
-
-                                }}>
-                                Verify Code
-                            </LoadingButton>
-
-
-                            <div css={{
-                                marginTop: "24px",
-                                fontSize: "13px",
-                                fontWeight: 450,
-                                lineHeight: "14px",
-                                color: "rgba(255,255,255,0.75)",
-                                textAlign: "center"
-                            }}>
-                                Dont see the email? {` `}
-                                <span
-                                    onClick={() => reSendCode()}
-                                    css={{
-                                        color: '#fff',
-                                        cursor: 'pointer',
-                                        '&:hover': {
-                                            textDecoration: 'underline',
-                                            textDecorationThickness: '2px',
-
-                                        }
-                                    }}>Resend Code
-                                </span>
-                            </div>
-
-
-
-
-                        </motion.form>
-
-
-                    )}
-                    {view === 'forgot' && (
-                        <motion.form
-                            key="forgot"
-                            transition={{ ease: "easeOut" }}
-                            initial={{ opacity: 0, }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-
-                            css={C.form}>
-                            <div css={{
-                                textAlign: "center",
-                                marginBottom: "26px",
-                                fontSize: "28px",
-                                fontWeight: 500,
-                                lineHeight: "40px",
-                            }}>Reset your password</div>
-
-                            <h3 css={forumLabel}>Email</h3>
-                            <FlatInput control={control} name="email" />
-
-
-                            <LoadingButton
-                                loadingIndicator="Loading…"
-                                loading={loading}
-                                onClick={onForgot}
-                                variant='contained'
-                                fullWidth
-                                disableElevation
-                                sx={{
-                                    marginTop: "24px",
-                                    display: "flex",
-                                    width: "100%",
-                                    height: "42px",
-                                    borderRadius: "8px",
-                                    fontSize: "17px",
-                                    fontWeight: 600,
-                                    lineHeight: "24px",
-                                }}>
-                                Reset Password
-                            </LoadingButton>
-
-                            <div css={{
-                                marginTop: "24px",
-                                fontSize: "13px",
-                                fontWeight: 450,
-                                lineHeight: "14px",
-                                color: "rgba(255,255,255,0.75)",
-                                textAlign: "center"
-                            }}>
-                                Already know your password? {` `}
-                                <span
-                                    onClick={() => { setView('login'); setSchemas(loginSchema) }}
-                                    css={{
-                                        color: '#fff',
-                                        cursor: 'pointer',
-                                        '&:hover': {
-                                            textDecoration: 'underline',
-                                            textDecorationThickness: '2px',
-
-                                        }
-                                    }}>Sign in</span>
-                            </div>
-
-                        </motion.form>
-                    )}
-                    {view === 'reset' && (
-                        <motion.form
-                            key="forgot"
-                            transition={{ ease: "easeOut" }}
-                            initial={{ opacity: 0, }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-
-                            css={C.form}>
-                            <div css={{
-                                textAlign: "center",
-                                marginBottom: "26px",
-                                fontSize: "28px",
-                                fontWeight: 500,
-                                lineHeight: "40px",
-                            }}>Update your password</div>
-
-                            <h3 css={forumLabel}>Code From Email</h3>
-                            <Controller
-                                name="code"
-                                control={control}
-                                defaultValue=""
-                                rules={{ required: true }}
-                                render={({ field: { onChange, value } }) => (
-                                    <Input
-                                        error={errors.code ? true : false}
-                                        autoComplete="off"
-                                        onChange={onChange}
-                                        value={value}
-                                        disableUnderline
-                                        fullWidth
-                                        sx={{
-                                            height: "42px",
-                                            marginBottom: "26px",
-                                        }}
-                                    />
-                                )}
-                            />
-
-
-                            <h3 css={[forumLabel, { position: 'relative' }]}>New Password</h3>
-                            <Controller
-                                name="password"
-                                control={control}
-                                defaultValue=""
-                                rules={{ required: true }}
-                                render={({ field: { onChange, value } }) => (
-                                    <>
-                                        <Input
-                                            onKeyDown={enterSubmit}
-                                            type={showPassword ? 'text' : 'password'}
-                                            error={errors.password ? true : false}
-                                            autoComplete="off"
-                                            onChange={onChange}
-                                            value={value}
-                                            disableUnderline
-                                            fullWidth
-                                            sx={{
-                                                height: "42px",
-                                                // marginBottom: "26px",
-                                                fontSize: "14px",
-                                                '&:hover': {
-                                                    // border: '2px solid #181820'
-                                                },
-
-                                                '&:focus-within': {
-                                                    border: `2px solid ${accent}`
-                                                },
-                                            }}
-                                            endAdornment={
-                                                <InputAdornment position="end">
-                                                    <IconButton
-                                                        sx={{ marginRight: "2px", color: '#dbdee1' }}
-                                                        disableRipple
-                                                        disableFocusRipple
-                                                        aria-label="toggle password visibility"
-                                                        onClick={handleClickShowPassword}
-                                                        onMouseDown={handleMouseDownPassword}
-                                                        edge="end"
-                                                    >
-                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            }
-                                        />
-                                        <ErrorMessage
-                                            errors={errors}
-                                            name={'password'}
-                                            render={({ message }) => <div css={{
-                                                marginTop: '2px',
-                                                color: '#c84b4b',
-                                                fontSize: '12px',
-                                                fontWeight: 400,
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '4px',
-                                                position: 'absolute',
-
-                                            }}>
-                                                <ErrorOutlineRoundedIcon sx={{ fontSize: '18px' }} />{message}</div>} />
-                                    </>
-                                )}
-                            />
-
-
-
-
-                            <LoadingButton
-                                loadingIndicator="Loading…"
-                                loading={loading}
-                                onClick={onReset}
-                                variant='contained'
-                                fullWidth
-                                disableElevation
-                                sx={{
-                                    marginTop: "24px",
-                                    display: "flex",
-                                    width: "100%",
-                                    height: "42px",
-                                    borderRadius: "8px",
-                                    fontSize: "17px",
-                                    fontWeight: 600,
-                                    lineHeight: "24px",
-                                }}>
-                                Reset Password
-                            </LoadingButton>
-
-                            <div css={{
-                                marginTop: "24px",
-                                fontSize: "13px",
-                                fontWeight: 450,
-                                lineHeight: "14px",
-                                color: "rgba(255,255,255,0.75)",
-                                textAlign: "center"
-                            }}>
-                                Already know your password? {` `}
-                                <span
-                                    onClick={() => setView('login')}
-                                    css={{
-                                        color: '#fff',
-                                        cursor: 'pointer',
-                                        '&:hover': {
-                                            textDecoration: 'underline',
-                                            textDecorationThickness: '2px',
-
-                                        }
-                                    }}>Sign in</span>
-                            </div>
-
-                        </motion.form>
-                    )}  */}
 
             </div>
         </RouteModal>
@@ -452,8 +110,8 @@ export default LoginSignup
 
 // LOGIN
 const loginSchema = Joi.object({
-    username: Joi.string(),
-    password: Joi.string(),
+    username: Joi.any(),
+    password: Joi.any(),
 })
 const Login = ({ setView }: any) => {
 
@@ -510,6 +168,7 @@ const Login = ({ setView }: any) => {
                 <div
                     onClick={() => { setView('forgot'); }}
                     css={{
+
                         textTransform: "capitalize",
                         marginTop: "4px",
                         fontSize: "12px",
@@ -544,6 +203,7 @@ const Login = ({ setView }: any) => {
                             disableUnderline
                             fullWidth
                             sx={{
+                                background: bg_forum,
                                 height: "42px",
                                 // marginBottom: "26px",
                                 fontSize: "14px",
@@ -635,6 +295,11 @@ const Login = ({ setView }: any) => {
         </motion.form>
     )
 }
+
+
+
+
+
 
 // SIGNUP
 const signupSchema = Joi.object({

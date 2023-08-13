@@ -1,13 +1,16 @@
 import { css } from "@emotion/react"
-import { bg_1, bg_2, bg_4, text_2, text_highlight } from "./var"
+import { bg_1, bg_2, bg_3, bg_4, text_1, text_2, text_highlight, text_tert } from "./var"
 
 
 
 export const header = css({
-    fontWeight: 'bold',
-    color: '#f2f3f5',
+    fontWeight: '600',
+    color: text_1,
     fontSize: '20px',
-    lineHeight: '20px',
+    lineHeight: '25px',
+    letterSpacing: '.3px',
+    textRendering: 'optimizeLegibility',
+    WebkitFontSmoothing: 'antialiased',
 })
 
 export const subheader = css({
@@ -41,9 +44,9 @@ export const section = css({
 })
 
 export const time = css({
-    fontSize: '14px',
-    color: '#b9bbb3',
-    fontWeight: 500,
+    fontSize: '12px',
+    color: text_tert,
+    // fontWeight: 400,
     textDecoration: 'none !important',
     '$:hover': {
         textDecoration: 'underline !important',
@@ -108,6 +111,6 @@ export const forumLabel = css({
     textTransform: 'uppercase',
     letterSpacing: '.04em',
     marginBottom: '8px',
-     color: '#d7dadc',
+    color: '#d7dadc',
     marginTop: '20px'
 })

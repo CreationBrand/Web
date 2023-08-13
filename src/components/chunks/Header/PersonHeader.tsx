@@ -137,7 +137,11 @@ const PersonHeader = ({ about_me, comments, created_at, global_roles, karma, nic
 
     return (
         <div
-            style={{ marginTop: layout === 'mobile' ? '8px' : '12px' }}
+            style={{
+                margin: layout === 'mobile' ? '0px 8px' : '0px',
+                width: layout === 'mobile' ? 'calc(100% - 16px)' : '100%',
+                marginTop: layout === 'mobile' ? '8px' : '12px'
+            }}
             css={C.container} key={'person'}>
 
             <div css={C.inner}>

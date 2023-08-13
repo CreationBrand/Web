@@ -5,7 +5,7 @@ import { ErrorMessage } from '@hookform/error-message';
 import { Controller } from "react-hook-form";
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 import Editor from '../chunks/Editor/Editor';
-import { accent, bg_2 } from '@/global/var';
+import { accent, bg_2, bg_forum, text_1 } from '@/global/var';
 
 
 const RichInput = ({ control, maxLength, name, defaultValue }: any) => {
@@ -17,7 +17,8 @@ const RichInput = ({ control, maxLength, name, defaultValue }: any) => {
         render={({ field: { onChange, value }, formState: { errors } }) => (
             <>
                 <div css={{
-                    background: bg_2, borderRadius: 8, padding: 8, position: 'relative',
+                    color: text_1,
+                    background: bg_forum, borderRadius: 8, padding: 8, position: 'relative',
                     border: Boolean(errors[name]) ? '2px solid #c84b4b !important' : `2px solid ${bg_2}`,
                     '&:focus-within': {
                         border: `2px solid ${accent}`

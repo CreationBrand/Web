@@ -9,19 +9,22 @@ import Post from '@/components/chunks/Post/Post';
 import { postList, postSync } from '@/state/sync';
 import { socketRequest } from '../util/useSocket';
 import { socketFlow } from '@/state/flow';
+import { lists } from '@/state/filters';
+import Loader from '@/components/lists/Loader';
 
 
-const usePosts = (type: string, community_id: any, filter: any) => {
+
+const usePosts = (type: string, community_id: any, filter: any, view: any) => {
 
     const [isLoading, setIsLoading] = useState(true)
-    const [components, setComponents]: any = useRecoilState(postList)
+    const [components, setComponents]: any = useRecoilState(lists(`${type}_${community_id}_${filter}`))
     const [cursor, setCursor]: any = useState(false)
     const socket = useRecoilValue(socketFlow)
 
     useEffect(() => {
         setCursor(false)
         setIsLoading(true)
-        setComponents([])
+        // setComponents([])
     }, [community_id, filter, type])
 
     useEffect(() => {
@@ -31,6 +34,18 @@ const usePosts = (type: string, community_id: any, filter: any) => {
             let req: any = await socketRequest('posts', { type: type, id: community_id, filter, cursor: cursor })
             if (req?.posts?.length < 10) setCursor(null)
             setList(req.posts)
+
+            const batch = []
+            let listItems = req.posts
+
+            for (let i = 0; i < listItems?.length; i++) {
+                listItems[i].visibility = true
+
+                batch.push(<Post view={view} key={i} {...listItems[i]} />)
+
+            }
+            setComponents(components.concat(batch))
+
             setIsLoading(false)
         })()
 
@@ -41,7 +56,7 @@ const usePosts = (type: string, community_id: any, filter: any) => {
             for (let i = 0; i < listItems?.length; i++) {
                 listItems[i].visibility = true
                 set(postSync(listItems[i].public_id), listItems[i]);
-                set(postList, (oldList: any) => [...oldList, <Post view='list' key={i} {...listItems[i]} />])
+                set(postList, (oldList: any) => [...oldList, <Post view={view} key={i} {...listItems[i]} />])
             }
         },
         []
@@ -58,7 +73,7 @@ const usePosts = (type: string, community_id: any, filter: any) => {
     }
 
 
-    return [isLoading, false, components.concat(<ChunkError variant={cursor !== null ? 'loading' : 'end'} onLoad={fetchNext} />)]
+    return [isLoading, false, components.concat(<Loader variant={cursor !== null ? 'loading' : 'end'} onLoad={fetchNext} />)]
 }
 
 

@@ -10,7 +10,7 @@ import { useRecoilState } from 'recoil'
 import { personFilter } from '@/state/filters';
 import FilterMenu from '@/components/menu/FilterMenu';
 import StyleMenu from '@/components/menu/StyleMenu';
-import { bg_1, bg_3 } from '@/global/var';
+import { bg_1, bg_3, bg_active } from '@/global/var';
 
 const C = {
     container: css({
@@ -48,8 +48,7 @@ const FilterPane = () => {
 
     const handlePost = () => onChange('POST')
     const handleComment = () => onChange('COMMENT')
-    const handleUPVOTE = () => onChange('UPVOTE')
-    const handleDOWNVOTE = () => onChange('DOWNVOTE')
+
 
     return (
 
@@ -66,7 +65,7 @@ const FilterPane = () => {
                         gap: '6px',
                         borderRadius: '8px',
                         padding: '4px 12px 4px 12px',
-                        background: value === 'POST' ? bg_1 : bg_3,
+                        background: value === 'POST' ? bg_active : bg_3,
                         color: value === 'POST' ? '#fff' : '#d7dadc'
                     }}
                 >
@@ -84,8 +83,8 @@ const FilterPane = () => {
                         gap: '6px',
                         borderRadius: '8px',
                         padding: '4px 12px 4px 12px',
-                        background: value === 'COMMENT' ? bg_1 : bg_3,
-                        color: value === 'COMMENT' ? '#fff' : '#d7dadc'
+                        background: value === 'COMMENT' ? bg_active : bg_3,
+                        color: value === 'COMMENT' ? '#fff' : '#d7dadc',
                     }}
                 >
                     <div css={{ fontSize: '12px' }}>

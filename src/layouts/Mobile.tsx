@@ -7,7 +7,7 @@ import { useRecoilValue } from "recoil";
 
 import { useSpring, animated } from '@react-spring/web'
 import { useDrag } from '@use-gesture/react'
-import { bg_1 } from '@/global/var';
+import { base, bg_1, radius } from '@/global/var';
 import useWindow from '@/hooks/util/useWindow';
 
 const C = {
@@ -15,9 +15,9 @@ const C = {
         // minHeight: '100vh',
         display: 'flex',
         position: 'fixed',
-        top: 48,
+        top: 0,
         touchAction: 'none',
-        background: bg_1,
+        background: base,
     }),
     left: css({
         width: '240px',
@@ -38,6 +38,7 @@ const C = {
         width: '100%',
         height: '100%',
         touchAction: 'none',
+        position: 'relative',
         // padding: 4,
     }),
 }
@@ -77,7 +78,7 @@ export const Mobile = (props: any) => {
                 return api.start({ x: 0 })
             }
         }
-        if (down) return api.start({  x: down ? x : 0, immmediate: true })
+        if (down) return api.start({ x: down ? x : 0, immmediate: true })
     }, {
         target: ref,
         axis: 'x',
@@ -89,15 +90,15 @@ export const Mobile = (props: any) => {
 
     return (
         <>
-            {props.children[3]}
-            <div css={C.container} ref={ref} style={{ height: height - 48, width: `auto`, left: -side }}>
-
-
+            <div css={C.container} ref={ref} style={{ height: height, width: `auto`, left: -side }}>
                 <animated.div css={C.left} style={{ x: x, height: '100%', width: side }}>{props.children[0]}</animated.div>
                 <animated.div css={C.center} style={{
-                    width: width, height: '100%', x: x,
-                    transition: 'filter 0.3s ease-in-out',
-                    // filter: xPos !== 1 ? 'brightness(40%)' : '',
+                    width: width, x: x,
+                    transition: 'margin 0.2s ease-in-out',
+                    height: xPos !== 1 ? 'calc(100vh - 16px)' : '100%',
+                    overflow: xPos !== 1 ? 'hidden' : 'auto',
+                    margin: xPos !== 1 ? '8px 0px' : '0px',
+                    borderRadius: xPos !== 1 ? radius : '0px',
                     touchAction: xPos !== 1 ? 'pan-y' : 'all',
                     pointerEvents: xPos !== 1 ? 'none' : 'all',
                 }}>{props.children[1]}</animated.div>

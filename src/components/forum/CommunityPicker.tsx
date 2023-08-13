@@ -19,7 +19,7 @@ import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 import { communityList } from '@/state/person';
 import Avatar from '../bits/Avatar';
 import { Autocomplete, InputBase, TextField } from '@mui/material';
-import { bg_1, bg_2 } from '@/global/var';
+import { bg_1, bg_2, bg_active, bg_forum, bg_hover } from '@/global/var';
 
 
 const CommunityPicker = ({ control, name }: any) => {
@@ -37,16 +37,16 @@ const CommunityPicker = ({ control, name }: any) => {
                         onChange={(_, newValue) => { onChange(newValue.public_id) }}
                         sx={{
                             width: 300,
-                            background: bg_2,
+                            background: bg_forum,
                             borderRadius: '8px',
                             height: '40px',
                             FormControl: {
-                                background: bg_2,
+                                background: bg_forum,
                                 borderRadius: '8px',
                                 height: '40px',
                             },
                             paper: {
-                                background: bg_2,
+                                background: bg_forum,
                             },
                         }}
                         options={communitys}
@@ -73,22 +73,22 @@ const CommunityPicker = ({ control, name }: any) => {
                                 sx={{
                                     fontFamily: 'system-ui !important',
                                     '.MuiInputBase-root': {
-                                        background: bg_2,
+                                        background: bg_forum,
                                         borderRadius: '8px',
                                         height: '40px',
                                         padding: '0px 8px !important',
                                         borderBottom: '0px !important',
                                         '&:hover': {
-                                            background: bg_2,
+                                            background: bg_hover,
                                         },
                                         '&:focus': {
-                                            background: bg_1,
+                                            background: bg_active,
                                         },
                                         '&:active': {
-                                            background: bg_1,
+                                            background: bg_active,
                                         },
                                         '&:focus-within': {
-                                            background: bg_1,
+                                            background: bg_active,
                                         }
 
                                     },

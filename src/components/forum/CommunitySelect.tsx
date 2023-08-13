@@ -1,6 +1,6 @@
 
 /** @jsxImportSource @emotion/react */
-import { bg_1 } from '@/global/var';
+import { bg_1, bg_forum } from '@/global/var';
 import { communityList as communityListData } from '@/state/person';
 import { css } from '@emotion/react'
 
@@ -14,7 +14,7 @@ import { useRecoilValue } from 'recoil';
 
 const C = {
   container: css({
-    background: bg_1,
+    background: bg_forum,
     border: 'none !important',
     borderRadius: '8px',
     padding: '4px',

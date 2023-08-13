@@ -34,7 +34,7 @@ import { commentSync, pathExistsSelector, pathSelector } from '@/state/sync';
 import Avatar from '@/components/bits/Avatar';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
-import { bg_1, bg_3, bg_4 } from '@/global/var';
+import { bg_1, bg_3, bg_4, text_2 } from '@/global/var';
 import CommentMenu from '@/components/menu/CommentMenu';
 
 const C = {
@@ -234,7 +234,7 @@ const Comment = (props: any) => {
                                 person_id={author.public_id}
                                 tags={tags}
                                 comment_id={public_id}
-                                global_roles={global_roles} c
+                                global_roles={global_roles} 
                                 community_roles={community_roles} />}
 
 
@@ -246,7 +246,7 @@ const Comment = (props: any) => {
 
                         {layout === 'desktop' && <div onClick={handleSpacer} data-key={depth - 2} css={C.defaultSpacer} style={{ background: colors[depth - 2] }} />}
 
-                        <div>
+                        <div style={{ color: text_2 }} >
 
                             {!(tags && tags.some((obj: any) => filter.includes(obj.public_id))) && <ReactMarkdown className='text' children={content} rehypePlugins={[rehypeRaw]}></ReactMarkdown>}
 

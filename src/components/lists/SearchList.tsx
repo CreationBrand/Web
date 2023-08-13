@@ -14,7 +14,7 @@ import GlobalFilter from '../bits/filter/GlobalFilter';
 import SearchPane from '../bits/filter/SearchPane';
 import VirtuList from '../chunks/VirtualList/VirtuList';
 import { FilterHolder, PostHolder } from './PlaceHolders';
-import { mainSize } from '@/state/layout';
+import { layoutSize, mainSize } from '@/state/layout';
 import useSearch from '@/hooks/list/useSearch';
 
 
@@ -24,6 +24,29 @@ const SearchList = () => {
     const [filter, setFilter] = useState('community')
     const [isLoading, isError, components] = useSearch(filter, params.query)
     const size = useRecoilValue(mainSize)
+    const layout = useRecoilValue(layoutSize)
+
+    if (layout === 'mobile') return (
+        <div css={overList}        >
+            <motion.div
+                css={{ width: '100%' }}
+                key={`${params.query}${filter}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1, ease: 'easeInOut', duration: 0.2 }}>
+
+                <div css={{ maxWidth: '800px', width: '100%' }}>
+                    <VirtuList
+                        list={[
+                            <SearchPane value={filter} onChange={setFilter} />,
+                            ...components
+                        ]}
+                    />
+                </div>
+
+            </motion.div>
+        </div >
+    )
 
     return (
         <motion.div
@@ -46,7 +69,7 @@ const SearchList = () => {
                 />
             </div>
 
-            {size> 0 &&
+            {size > 0 &&
                 <div css={{ height: 'min-content', overflow: 'hidden', marginTop: '16px' }}>
                     <GlobalFilter />
                 </div>}

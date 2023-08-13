@@ -12,6 +12,9 @@ import { socketRequest } from './util/useSocket';
 import Comment from '@/components/chunks/Comment/Comment';
 import { socketFlow } from '@/state/flow';
 import { bg_3 } from '@/global/var';
+import { layoutSize } from '@/state/layout';
+import CommentM from '@/components/chunks/Comment/CommentM';
+import Loader from '@/components/lists/Loader';
 
 let end: boolean = false
 
@@ -23,6 +26,8 @@ const usePostList = (post_id: any) => {
     const [isLoading, setIsLoading] = useState(true)
     const [isError, setIsError] = useState(false)
     const filter = 'HOT'
+
+    const layout = useRecoilValue(layoutSize)
 
     useEffect(() => {
         end = false
@@ -67,8 +72,8 @@ const usePostList = (post_id: any) => {
                 } catch (e) { listItems[i].hasChildren = false }
 
                 set(commentSync(listItems[i].public_id), listItems[i]);
-                set(commentList, (oldList: any) => [...oldList, <Comment {...listItems[i]} key={i} />])
-
+                if (layout === 'desktop') set(commentList, (oldList: any) => [...oldList, <Comment {...listItems[i]} key={i} />])
+                else set(commentList, (oldList: any) => [...oldList, <CommentM {...listItems[i]} key={i} />])
             }
 
             setIsLoading(false)
@@ -83,6 +88,9 @@ const usePostList = (post_id: any) => {
         return setCursor(last.props.sort_path)
     }
 
+    if(layout === 'mobile') return [isLoading, isError, components.concat(<Loader key='error' variant={end ? 'end' : 'loading'} onLoad={fetchNext} onReset={fetchNext} />)]
+
+    
     let temp = components.length > 0 ? [<div
         css={{
             width: '100%',

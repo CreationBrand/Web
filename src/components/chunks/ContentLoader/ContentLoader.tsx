@@ -36,9 +36,9 @@ const ContentLoader = ({ type, content, public_id, view }: any) => {
     if (type === 'link') {
         let t1 = content.slice(-4)
         if (t1 === '.mp4') return <Player url={`${proxy}/${content}`} />
-        else if (t1 === ".jpg") return <Image url={`${proxy}/${content}`} />
-        else if (t1 === ".png") return <Image url={`${proxy}/${content}`} />
-        else if (t1 === ".gif") return <Image url={`${proxy}/${content}`} />
+        else if (t1 === ".jpg") return <Image key={public_id}  url={`${proxy}/${content}`} />
+        else if (t1 === ".png") return <Image key={public_id}  url={`${proxy}/${content}`} />
+        else if (t1 === ".gif") return <Image key={public_id}   url={`${proxy}/${content}`} />
         let t2 = content.slice(-5)
         if (t2 === ".jpeg") return <Image url={`${proxy}/${content}`} />
         else if (t2 === ".webp") return <Image url={`${proxy}/${content}`} />
@@ -55,7 +55,7 @@ const ContentLoader = ({ type, content, public_id, view }: any) => {
 
     if (type === 'upload' && content.type === 'video') return <Player url={content.source} />
     else if (type === 'upload' && content.type === 'image' && content?.source?.length > 1) return (<Carousel images={content.source} />)
-    else if (type === 'upload' && content.type === 'image' && content?.source?.length === 1) return (<Image url={content.source[0]} />)
+    else if (type === 'upload' && content.type === 'image' && content?.source?.length === 1) return (<Image key={public_id} url={content.source[0]} />)
 
     return <div css={C.error}></div>
 

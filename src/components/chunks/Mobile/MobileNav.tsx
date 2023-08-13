@@ -10,13 +10,13 @@ import { useRecoilValue } from 'recoil'
 import styled from '@emotion/styled'
 import { Badge, BadgeProps } from '@mui/material'
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
-import { bg_3 } from '@/global/var'
+import { bg_3, shadow_1 } from '@/global/var'
 
 const C = {
     container: css({
         background: bg_3,
         width: '100%',
-        boxShadow: '0 1px 2px rgba(0,0,0,0.9),2px 0px 2px',
+        boxShadow: shadow_1,
         display: 'flex',
         gap: '6px',
         paddingLeft: '8px',
@@ -26,8 +26,7 @@ const C = {
         zIndex: 400,
         position: 'relative',
         height: '48px',
-        borderBottomLeftRadius: '2px',
-        borderBottomRightRadius: '2px',
+
     }),
 
 }
