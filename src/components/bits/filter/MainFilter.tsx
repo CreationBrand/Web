@@ -11,12 +11,13 @@ const C = {
     container: css({
         width: '100%',
         margin: '12px 0px 0px 0px',
-        height: '40px',
+        // height: '40px',
         borderRadius: '8px',
         padding: '0px 8px',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
+        gap: '8px',
     }),
 }
 
@@ -36,11 +37,10 @@ const MainFilter = ({ type }: any) => {
     }}>
 
         <SortMenu community_id={type} />
+        <StyleMenu />
+        <div css={{ marginLeft: 'auto' }} />
+        <FilterMenu />
 
-        <div css={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-            <FilterMenu />
-            <StyleMenu />
-        </div>
     </div>
 }
 

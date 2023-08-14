@@ -17,11 +17,12 @@ const s = css({
 
 
 
-export const BasePaneM = ({ children }: any) => {
+export const BasePaneM = ({ children, id }: any) => {
 
     return (
 
         <motion.div
+            key={id}
             css={s}
             transition={{ duration: 0.2 }}
             initial={{ x: '100%' }}

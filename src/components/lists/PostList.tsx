@@ -3,7 +3,7 @@
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
 
-import { memo } from 'react'
+import { memo, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
@@ -55,12 +55,14 @@ const PostList = () => {
     const layout = useRecoilValue(layoutSize)
 
 
+
+
     if (layout === 'mobile') return (
         <OverPaneM>
 
 
 
-            <NavMobile>
+            <NavMobile >
                 <div css={iconButton} onClick={() => { navigate(-1) }}> <ArrowBackRoundedIcon /></div>
 
                 <div onClick={() => { navigate(`/c/${cData?.community?.public_id}`) }} css={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
@@ -82,7 +84,7 @@ const PostList = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, ease: 'easeInOut' }}>
-                <VirtuList list={[component, ...components]} />
+                <VirtuList list={[<div css={{ height: '48px' }} />, component, ...components]} />
             </motion.div>
 
             <Outlet />

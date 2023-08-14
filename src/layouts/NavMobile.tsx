@@ -1,13 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
-import { bg_1, bg_3, bg_4, shadow_1, text_2 } from '@/global/var'
-import { layoutSize } from '@/state/layout'
+import { bg_1, bg_3, text_2 } from '@/global/var'
+import { navOffset } from '@/state/data'
 import { css } from '@emotion/react'
 import { memo } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { useNavigate } from 'react-router-dom'
-import { iconButton } from '@/global/mixins'
 const s = css({
     background: bg_3,
     borderBottom: `1px solid ${bg_1}`,
@@ -17,20 +15,21 @@ const s = css({
     paddingLeft: '8px',
     paddingRight: '8px',
     alignItems: 'center',
-    position: 'relative',
+    position: 'absolute',
+    top: 0,
+    left: 0,
     height: '48px',
     color: text_2,
-
-
+    zIndex: 500,
 })
+
 
 
 const Nav = ({ children }: any) => {
 
-    const layout = useRecoilValue(layoutSize)
+    const offset = useRecoilValue(navOffset)
 
-
-    return <div css={s}>
+    return <div css={s} style={{ top:- offset }}>
         {children}
     </div>
 }

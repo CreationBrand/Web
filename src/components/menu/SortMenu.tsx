@@ -13,9 +13,9 @@ import ReportGmailerrorredRoundedIcon from '@mui/icons-material/ReportGmailerror
 import { memo, useState } from 'react';
 import { layoutSize } from '@/state/layout';
 import Drawer from '../bits/Drawer';
-import { faChartLine, faFire, faNewspaper } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faChartLine, faFire, faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { bg_1, bg_2, bg_3, bg_4, text_2 } from '@/global/var';
+import { base, bg_1, bg_2, bg_3, bg_4, bg_active, bg_hover, text_1, text_2, text_3 } from '@/global/var';
 import { communityFilter } from '@/state/filters';
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
 
@@ -58,22 +58,25 @@ const SortMenu = ({ community_id }: any) => {
     return (<div>
 
         <div onClick={handleClick} onMouseLeave={handleClose} css={{
-            padding: '8px 4px', fontSize: '13px', gap: '6px', fontWeight: 'bold', color: text_2, display: 'flex', alignItems: 'center',
+            background: bg_active,
+            padding: '6px 10px',
+            borderRadius: '12px',
+            fontSize: '12px',
+            gap: '7px',
+            fontWeight: 500,
+            color: text_1,
+            display: 'flex',
+            alignItems: 'center',
         }}>
 
-            {filter === 'BEST' && <><FontAwesomeIcon icon={faFire} css={{ fontSize: '16px' }} /> Best</>}
-            {filter === 'NEW' && <><FontAwesomeIcon icon={faNewspaper} css={{ fontSize: '16px' }} />New</>}
-            {filter === 'TOP' && <><FontAwesomeIcon icon={faChartLine} css={{ fontSize: '16px' }} />Top</>}
-            {filter === 'TOPY' && <><FontAwesomeIcon icon={faChartLine} css={{ fontSize: '16px' }} />Top • Year</>}
-            {filter === 'TOPM' && <><FontAwesomeIcon icon={faChartLine} css={{ fontSize: '16px' }} />Top • Month</>}
-            {filter === 'TOPD' && <><FontAwesomeIcon icon={faChartLine} css={{ fontSize: '16px' }} />Top • Day</>}
+            {filter === 'BEST' && <><FontAwesomeIcon icon={faFire} /> Best</>}
+            {filter === 'NEW' && <><FontAwesomeIcon icon={faNewspaper} />New</>}
+            {filter === 'TOP' && <><FontAwesomeIcon icon={faChartLine} />Top</>}
+            {filter === 'TOPY' && <><FontAwesomeIcon icon={faChartLine} />Top • Year</>}
+            {filter === 'TOPM' && <><FontAwesomeIcon icon={faChartLine} />Top • Month</>}
+            {filter === 'TOPD' && <><FontAwesomeIcon icon={faChartLine} />Top • Day</>}
 
-            <ExpandMoreRoundedIcon sx={{
-                fontSize: '26px',
-                position: 'relative',
-                left: '-6px',
-                top: '1px',
-            }} />
+            <FontAwesomeIcon icon={faCaretDown} />
 
 
             {(layout === "mobile" && Boolean(anchorEl)) && (<Drawer
@@ -81,12 +84,12 @@ const SortMenu = ({ community_id }: any) => {
                 setOpen={setAnchorEl}
                 onClose={handleClose}
             >
-                <MenuItem data-test='BEST' onClick={onChange}>Best<FontAwesomeIcon icon={faFire} /></MenuItem>
-                <MenuItem data-test='NEW' onClick={onChange}>New <FontAwesomeIcon icon={faNewspaper} /></MenuItem>
-                <MenuItem data-test='TOP' onClick={onChange}>Top • All Time <FontAwesomeIcon icon={faChartLine} /></MenuItem>
-                <MenuItem data-test='TOPY' onClick={onChange}>Top • Past Year <FontAwesomeIcon icon={faChartLine} /></MenuItem>
-                <MenuItem data-test='TOPM' onClick={onChange}>Top • Past Month <FontAwesomeIcon icon={faChartLine} /></MenuItem>
-                <MenuItem data-test='TOPD' onClick={onChange}>Top • Past Day <FontAwesomeIcon icon={faChartLine} /></MenuItem>
+                <MenuItem data-test='BEST' selected={filter === 'BEST'} onClick={onChange}>Best<FontAwesomeIcon icon={faFire} /></MenuItem>
+                <MenuItem data-test='NEW' selected={filter === 'NEW'} onClick={onChange}>New <FontAwesomeIcon icon={faNewspaper} /></MenuItem>
+                <MenuItem data-test='TOP' selected={filter === 'TOP'} onClick={onChange}>Top • All Time <FontAwesomeIcon icon={faChartLine} /></MenuItem>
+                <MenuItem data-test='TOPY' selected={filter === 'TOPY'} onClick={onChange}>Top • Past Year <FontAwesomeIcon icon={faChartLine} /></MenuItem>
+                <MenuItem data-test='TOPM' selected={filter === 'TOPM'} onClick={onChange}>Top • Past Month <FontAwesomeIcon icon={faChartLine} /></MenuItem>
+                <MenuItem data-test='TOPD' selected={filter === 'TOPD'} onClick={onChange}>Top • Past Day <FontAwesomeIcon icon={faChartLine} /></MenuItem>
             </Drawer>
 
             )}

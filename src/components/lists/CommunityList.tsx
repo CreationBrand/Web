@@ -37,12 +37,10 @@ const CommunityList = () => {
 
 
     if (layout === 'mobile') return (
-        <BasePaneM>
-
+        <BasePaneM id={`COMMUNITY/${params.community_id}/${filter}/community`}>
             <VirtuList list={(isLoading || isLoading1) ?
                 [<HeadHolder key={0} />, <FilterHolder key={1} />, <PostHolder key={2} />, <PostHolder key={3} />, <PostHolder key={5} />, <PostHolder key={6} />] :
-                [component, <MainFilter type={params.community_id} />, ...components]} />
-
+                [<div css={{ height: '48px' }} />, <CommunityPaneM {...data} />, <MainFilter type={params.community_id} />, ...components]} />
         </BasePaneM>
     )
 

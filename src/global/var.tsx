@@ -21,7 +21,8 @@ export let text_tert = '#aaa2b2'
 
 export let text_1 = '#f2f4f5'
 export let text_2 = '#d7dadc'
-export let text_3 = '#8a94a8'
+export let text_3 = '#b9bbb3'
+export let text_4 = '#a3b6db'
 
 export let text_highlight = '#fff'
 export let shadow_1 = '0px 1px 2px rgba(0, 0, 0, 0.9)'

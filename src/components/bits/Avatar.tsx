@@ -11,6 +11,7 @@ let sizeMap: any = {
     large: '50px',
     extra: '80px',
     mobilePost: '26px',
+    headerMobile: '48px',
     
 }
 let radiusMap: any = {
@@ -20,6 +21,7 @@ let radiusMap: any = {
     large: '16px',
     extra: '12px',
     mobilePost: '50%',
+    headerMobile: '16px',
 }
 
 const C = {

@@ -1,6 +1,6 @@
 
 import { motion } from 'framer-motion'
-import { memo } from 'react'
+import { memo, useState } from 'react'
 import VirtuList from '../chunks/VirtualList/VirtuList'
 import { useRecoilValue } from 'recoil'
 
@@ -27,12 +27,11 @@ const GlobalList = ({ type }: any) => {
     const [isLoading, isError, components] = usePosts('GLOBAL', type, filter, 'global')
     const layout = useRecoilValue(layoutSize)
 
-
     if (layout === 'mobile') return (
-        <BasePaneM>
+        <BasePaneM id={`GLOBAL/${type}/${filter}/global`}>
             <VirtuList list={isLoading ? [
                 <FilterHolder key={0} />, <PostHolder key={1} />, <PostHolder key={2} />] :
-                [<MainFilter type={type} />, ...components]} public_id={type} />
+                [<div css={{ height: '48px' }} />, <MainFilter type={type} />, ...components]} public_id={type} />
         </BasePaneM>
     )
 

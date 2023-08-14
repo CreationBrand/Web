@@ -1,7 +1,6 @@
 {
     "hide-files.files": [
         "dockerfile",
-        ".env",
         ".gitignore",
         ".prettierrc.json",
         "package.json",
@@ -19,7 +18,6 @@
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         "dockerfile": true,
-        ".env": true,
         ".gitignore": true,
         ".prettierrc.json": true,
         "package.json": true,

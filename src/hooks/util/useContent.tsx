@@ -1,3 +1,4 @@
+import { navOffset } from "@/state/data";
 import { contentFlow } from "@/state/flow";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -7,8 +8,10 @@ const useContent = () => {
 
     const location = useLocation()
     const setContentFlow = useSetRecoilState(contentFlow)
-
+    const setOffset = useSetRecoilState(navOffset)
     useEffect(() => {
+
+        setOffset(0)
         let parts: any = location.pathname.split('/')
         switch (true) {
             case parts[1] === 'popular':

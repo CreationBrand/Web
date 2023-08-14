@@ -18,6 +18,12 @@ export const searchQuery = atom({
     default: '' as any,
 })
 
+export const navOffset = atom({
+    key: 'navOffset',
+    default: 0,
+})
+
+
 
 export const tagData = atom({
     key: 'tagData',

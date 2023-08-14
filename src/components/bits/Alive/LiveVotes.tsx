@@ -12,8 +12,10 @@ import { socketRequest } from '@/hooks/util/useSocket'
 import { authFlow } from '@/state/flow'
 import { postSync, commentSync } from '@/state/sync'
 import Ticker from '../Ticker'
-import { bg_2 } from '@/global/var'
+import { bg_2, text_3 } from '@/global/var'
 import { block } from '@/utils/stopPropagation'
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 const C = {
@@ -23,13 +25,16 @@ const C = {
         background: bg_2,
         width: 'min-content',
         borderRadius: '12px',
-        // alignItems: 'center',
+        alignItems: 'center',
         overflow: 'hidden',
-        gap: '2px',
+        gap: '10px',
         height: '30px',
         fontSize: '14px',
         fontWeight: 'bold',
-        color: '#b9bbb3',
+        color: text_3,
+        padding: ' 8px',
+
+
     }),
     small: css({
         flexDirection: 'row',
@@ -68,7 +73,7 @@ const LiveVotes = ({ karma, public_id, vote, size, type }: any) => {
         else if (vote === -1) { setvote(1, 0); socketRequest('vote', { vote: 0, public_id: public_id, type: type }) }
     }
 
-    let color = '#b9bbbe'
+    let color = text_3
     if (vote === 1) { color = '#43b581' }
     else if (vote === -1) { color = '#f04747' }
 
@@ -76,28 +81,32 @@ const LiveVotes = ({ karma, public_id, vote, size, type }: any) => {
         <div css={[C.vote, size === 'small' && C.small]} onClick={block}>
 
 
-            <ArrowDropUpRoundedIcon
+            <FontAwesomeIcon icon={faCaretUp}
                 onClick={increase}
-                sx={{
+                css={{
+                    marginTop: '1px',
                     cursor: 'pointer',
-                    fontSize: '30px !important',
-                    color: vote === 1 ? '#43b581' : '#b9bbbe'
+                    fontSize: '16px !important',
+                    color: vote === 1 ? '#43b581' : text_3
                 }}
             />
 
-            <Ticker value={karma} color={color} />
-
-            <ArrowDropUpRoundedIcon
+            <div style={{
+                fontSize: '14px',
+                fontWeight: 'bold',
+                color: color
+            }}>{karma}</div>
+            <FontAwesomeIcon icon={faCaretDown}
                 onClick={decrease}
-                sx={{
-                    rotate: '180deg',
+                css={{
+                    marginBottom: '1px',
                     cursor: 'pointer',
-                    fontSize: '30px !important',
-                    color: vote === -1 ? '#f04747' : '#b9bbbe'
+                    fontSize: '16px !important',
+                    color: vote === -1 ? '#f04747' : text_3
                 }}
             />
 
-        </div>
+        </div >
     )
 }
 

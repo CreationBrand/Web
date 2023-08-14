@@ -81,7 +81,6 @@ const Home = () => {
     }, [location])
 
 
-
     if (layout === 'mobile') return (
         <Mobile left={l} right={r}>
 
@@ -91,17 +90,13 @@ const Home = () => {
             </Left>
 
             <MainMobile>
-                
+
                 <NavMobile>
-
-                    <div onClick={submit} css={iconButton}><AddRoundedIcon sx={{ fontSize: '34px' }} /></div>
-
+                    <div onClick={submit} css={iconButton}><AddRoundedIcon sx={{ fontSize: '32px' }} /></div>
                     <SearchM />
-
                     <StyledBadge badgeContent={noti} invisible={!Boolean(noti)}>
                         <div css={iconButton} onClick={notif}><NotificationsRoundedIcon sx={{ fontSize: '26px' }} /> </div>
                     </StyledBadge>
-
                 </NavMobile>
 
                 {last === 'me' && <MeList />}

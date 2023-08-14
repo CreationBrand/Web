@@ -1,5 +1,5 @@
 import { css } from "@emotion/react"
-import { bg_1, bg_2, bg_3, bg_4, text_1, text_2, text_highlight, text_tert } from "./var"
+import { bg_1, bg_2, bg_3, bg_4, text_1, text_2, text_3, text_highlight, text_tert } from "./var"
 
 
 
@@ -45,8 +45,7 @@ export const section = css({
 
 export const time = css({
     fontSize: '12px',
-    color: text_tert,
-    // fontWeight: 400,
+    color: text_3,
     textDecoration: 'none !important',
     '$:hover': {
         textDecoration: 'underline !important',
@@ -61,7 +60,7 @@ export const iconButton = css({
     width: '28px !important',
     minWidth: '28px !important',
     fontSize: '14px !important',
-    color: text_2,
+    color: text_3,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

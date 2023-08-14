@@ -47,10 +47,11 @@ const CommentMenu = ({ person_id, comment_id, community_id, tags, global_roles, 
     return (<div onClick={(e) => e.stopPropagation()}>
 
         <div css={iconButton}
+
             onClick={handleClick}
             onMouseLeave={handleClose}
         >
-            <MoreVertIcon />
+            <MoreVertIcon sx={{ fontSize: '18px' }} />
 
 
             {(layout === "mobile" && Boolean(anchorEl)) && (<Drawer

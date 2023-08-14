@@ -73,7 +73,7 @@ const GroupTree = () => {
                 data={tree}
                 openByDefault={false}
                 width={'100%'}
-                height={layout === 'desktop' ? height - 108 : height - 156}
+                height={layout === 'desktop' ? height - 108 : height - 108}
                 indent={24}
                 rowHeight={40}
                 overscanCount={1}

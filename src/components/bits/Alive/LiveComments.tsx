@@ -4,7 +4,7 @@ import { css } from '@emotion/react'
 import { memo } from 'react'
 import { faFolderOpen } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { bg_2 } from '@/global/var'
+import { bg_2, text_3 } from '@/global/var'
 
 const C = {
     container: css({
@@ -15,9 +15,10 @@ const C = {
         borderRadius: '12px',
         gap: '4px',
         padding: '10px 10px',
-        color: '#b9bbbe',
+        color: text_3,
         fontWeight: 'bold',
         lineHeight: '10px',
+
     }),
 
 }

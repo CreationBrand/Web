@@ -37,7 +37,7 @@ const PersonList = () => {
                 list={
                     (isError || isLoading || isError1 || isLoading1) ?
                         [<HeadHolder />, <FilterHolder />, <PostHolder />, <PostHolder />, <PostHolder />, <PostHolder />] :
-                        [component, <PersonFilter key={'filter'} />, ...components]
+                        [<div css={{ height: '48px' }} />,component, <PersonFilter key={'filter'} />, ...components]
                 } />
         </BasePaneM>)
 

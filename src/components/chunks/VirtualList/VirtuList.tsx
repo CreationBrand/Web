@@ -1,48 +1,55 @@
 
 /** @jsxImportSource @emotion/react */
 import { PostHolder } from '@/components/lists/PlaceHolders'
-import { bg_list } from '@/global/var'
 import useWindow from '@/hooks/util/useWindow'
+import { navOffset } from '@/state/data'
 import { layoutSize } from '@/state/layout'
-import { css } from '@emotion/react'
-import { motion } from 'framer-motion'
 
-import { memo, useEffect, useRef, useState } from 'react'
+
+import { memo, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 const VirtuList = ({ list, public_id, overscan, header }: any) => {
     const { height } = useWindow()
     const layout = useRecoilValue(layoutSize)
 
+    const [lastScroll, setLastScroll] = useState(0)
+    const [offset, setOffset] = useRecoilState(navOffset)
+
     return (
         <Virtuoso
-            increaseViewportBy={{ top: 2000, bottom: 300 }}
-            // components={{ ScrollSeekPlaceholder: ScrollSeekPlaceholder }}
-            // scrollSeekConfiguration={{
-            //     enter: (velocity) => Math.abs(velocity) > 300,
-            //     exit: (velocity) => {
-            //         const shouldExit = Math.abs(velocity) < 300;
-            //         return shouldExit;
-            //     },
-            // }}
             defaultItemHeight={100}
+            increaseViewportBy={{ top: 2000, bottom: 1000 }}
+
+
+            onScroll={(e: any) => {
+
+                let delta = offset - (lastScroll - e.target.scrollTop)
+
+                if (delta > 0) {
+                    setOffset(delta > 48 ? 48 : delta)
+                }
+                else {
+                    setOffset(delta < 0 ? 0 : delta)
+                }
+
+                setLastScroll(e.target.scrollTop)
+            }}
 
 
             css={{
                 '&::-webkit-scrollbar': {
-                    display: 'none',
-                    scrollbarWidth: 'none',
+                    // display: 'none',
+                    // scrollbarWidth: 'none',
                 },
             }}
 
             style={{
                 overflowX: 'hidden',
-                maxWidth: '800px',
                 width: '100%',
                 overflowAnchor: 'none',
-                height: layout === 'desktop' ? (height - 72) : (height - 48),
-                marginBottom: 8,
+                height: height,
                 touchAction: 'pan-y',
             }}
             data={list}
@@ -55,10 +62,4 @@ const VirtuList = ({ list, public_id, overscan, header }: any) => {
 
 export default memo(VirtuList)
 
-
-
-const ScrollSeekPlaceholder = ({ height, index }: any) => (
-
-    <PostHolder />
-)
 

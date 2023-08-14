@@ -11,6 +11,7 @@ const s = css({
     background: bg_2,
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'space-between',
 })
 
 const Right = ({ children }: any) => {
