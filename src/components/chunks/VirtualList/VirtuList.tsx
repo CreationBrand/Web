@@ -20,7 +20,7 @@ const VirtuList = ({ list, public_id, overscan, header }: any) => {
     return (
         <Virtuoso
             defaultItemHeight={100}
-            increaseViewportBy={{ top: 2000, bottom: 1000 }}
+            // increaseViewportBy={{ top: 2000, bottom: 1000 }}
 
 
             onScroll={(e: any) => {

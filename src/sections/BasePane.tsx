@@ -1,6 +1,7 @@
 import { bg_1, bg_2 } from "@/global/var";
 import { css } from "@emotion/react";
 import { motion } from "framer-motion";
+import { Outlet } from "react-router-dom";
 
 
 const s = css({
@@ -20,26 +21,16 @@ const s = css({
 export const BasePaneM = ({ children, id }: any) => {
 
     return (
-
-        <motion.div
-            key={id}
-            css={s}
-            transition={{ duration: 0.2 }}
-            initial={{ x: '100%' }}
-            animate={{ x: '0%' }}
-            exit={{ opacity: 0 }}>
-
+        <div css={s}>
             <motion.div
+                key={id}
                 css={{ height: '100%', width: '100%' }}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, ease: 'easeInOut' }}>
-
+                transition={{ delay: 0.1, duration: 0.4, ease: 'easeInOut' }}>
                 {children}
-
             </motion.div>
-
-        </motion.div>
+        </div>
     )
 };
 

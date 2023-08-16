@@ -83,7 +83,7 @@ const PostList = () => {
             <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, ease: 'easeInOut' }}>
+                transition={{ delay: 0.4, ease: 'easeInOut' }}>
                 <VirtuList list={[<div css={{ height: '48px' }} />, component, ...components]} />
             </motion.div>
 

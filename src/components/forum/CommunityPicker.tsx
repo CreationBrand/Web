@@ -20,11 +20,12 @@ import { communityList } from '@/state/person';
 import Avatar from '../bits/Avatar';
 import { Autocomplete, InputBase, TextField } from '@mui/material';
 import { bg_1, bg_2, bg_active, bg_forum, bg_hover } from '@/global/var';
+import { layoutSize } from '@/state/layout';
 
 
 const CommunityPicker = ({ control, name }: any) => {
     const communitys: any = useRecoilValue(communityList)
-
+    const layout = useRecoilValue(layoutSize)
     return (
         <Controller
             name={name}
@@ -36,7 +37,7 @@ const CommunityPicker = ({ control, name }: any) => {
                         value={value}
                         onChange={(_, newValue) => { onChange(newValue.public_id) }}
                         sx={{
-                            width: 300,
+                            width: layout === 'mobile' ? '100%' : 300,
                             background: bg_forum,
                             borderRadius: '8px',
                             height: '40px',
@@ -48,6 +49,11 @@ const CommunityPicker = ({ control, name }: any) => {
                             paper: {
                                 background: bg_forum,
                             },
+                            Popper: {
+
+                                background: bg_forum,
+                            },
+
                         }}
                         options={communitys}
                         // autoHighlight

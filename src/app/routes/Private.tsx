@@ -25,129 +25,132 @@ var Public = () => {
     const location = useLocation();
 
     return (
-        <Routes >
-            <Route path="/" element={<Home />}>
+        <AnimatePresence mode="wait">
 
-                <Route path="/" element={<Navigate to="/popular" replace={true} />} />
+            <Routes>
+                <Route path="/" element={<Home />}>
 
-
-                <Route path="/popular" >
-                    <Route index element={<Outlet />} />
-                    <Route path="create-community" element={<CreateCommunity />} />
-                    <Route path="create-group" element={<AddGroup />} />
-                    <Route path='typeahead' element={<Typeahead />} />
-                </Route>
-
-                <Route path="/me">
-                    <Route index element={<EmptyRoute />} />
-                    <Route path="create-community" element={<CreateCommunity />} />
-                    <Route path="create-group" element={<AddGroup />} />
-                    <Route path='typeahead' element={<Typeahead />} />
-                </Route>
-
-                <Route path="/home">
-                    <Route index element={<div />} />
-                    <Route path="create-community" element={<CreateCommunity />} />
-                    <Route path="create-group" element={<AddGroup />} />
-                    <Route path='typeahead' element={<Typeahead />} />
-                </Route>
-
-                <Route path="/c/:community_id" >
-                    <Route index element={<div />} />
-                    <Route path="create-community" element={<CreateCommunity />} />
-                    <Route path="create-group" element={<AddGroup />} />
-                    <Route path='typeahead' element={<Typeahead />} />
-                </Route>
-
-                <Route path="/g/:group_id">
-                    <Route index element={<div />} />
-                    <Route path="create-community" element={<CreateCommunity />} />
-                    <Route path="create-group" element={<AddGroup />} />
-                    <Route path='typeahead' element={<Typeahead />} />
-                </Route>
-
-                {/* real */}
-                <Route path="/settings">
-                    <Route index element={<EditPerson />} />
-                    <Route path="create-community" element={<CreateCommunity />} />
-                    <Route path="create-group" element={<AddGroup />} />
-                    <Route path='typeahead' element={<Typeahead />} />
-                </Route>
-
-                <Route path="/submit">
-                    <Route index element={<Submit />} />
-                    <Route path="create-community" element={<CreateCommunity />} />
-                    <Route path="create-group" element={<AddGroup />} />
-                    <Route path='typeahead' element={<Typeahead />} />
-                </Route>
+                    <Route path="/" element={<Navigate to="/popular" replace={true} />} />
 
 
-                <Route path="/notifications">
-                    <Route index element={<NotiList />} />
-                    <Route path="create-community" element={<CreateCommunity />} />
-                    <Route path="create-group" element={<AddGroup />} />
-                    <Route path='typeahead' element={<Typeahead />} />
-                </Route>
+                    <Route path="/popular" >
+                        <Route index element={<Outlet />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                        <Route path='typeahead' element={<Typeahead />} />
+                    </Route>
+
+                    <Route path="/me">
+                        <Route index element={<EmptyRoute />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                        <Route path='typeahead' element={<Typeahead />} />
+                    </Route>
+
+                    <Route path="/home">
+                        <Route index element={<div />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                        <Route path='typeahead' element={<Typeahead />} />
+                    </Route>
+
+                    <Route path="/c/:community_id" >
+                        <Route index element={<div />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                        <Route path='typeahead' element={<Typeahead />} />
+                    </Route>
+
+                    <Route path="/g/:group_id">
+                        <Route index element={<div />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                        <Route path='typeahead' element={<Typeahead />} />
+                    </Route>
+
+                    {/* real */}
+                    <Route path="/settings">
+                        <Route index element={<EditPerson />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                        <Route path='typeahead' element={<Typeahead />} />
+                    </Route>
+
+                    <Route path="/submit">
+                        <Route index element={<Submit />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                        <Route path='typeahead' element={<Typeahead />} />
+                    </Route>
 
 
-                <Route path="/search/:query" >
-                    <Route index element={<SearchList />} />
-                    <Route path="create-community" element={<CreateCommunity />} />
-                    <Route path="create-group" element={<AddGroup />} />
-                    <Route path='typeahead' element={<Typeahead />} />
-                </Route>
+                    <Route path="/notifications">
+                        <Route index element={<NotiList />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                        <Route path='typeahead' element={<Typeahead />} />
+                    </Route>
 
 
-                <Route path="/c/:community_id/search/:query" >
-                    <Route index element={<SearchCommunityList />} />
-                    <Route path="create-community" element={<CreateCommunity />} />
-                    <Route path="create-group" element={<AddGroup />} />
-                    <Route path='typeahead' element={<Typeahead />} />
-                </Route>
+                    <Route path="/search/:query" >
+                        <Route index element={<SearchList />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                        <Route path='typeahead' element={<Typeahead />} />
+                    </Route>
 
 
-                <Route path="/c/:community_id/edit" >
-                    <Route index element={<EditCommunity />} />
-                    <Route path="create-community" element={<CreateCommunity />} />
-                    <Route path="create-group" element={<AddGroup />} />
-                    <Route path='typeahead' element={<Typeahead />} />
-                </Route>
+                    <Route path="/c/:community_id/search/:query" >
+                        <Route index element={<SearchCommunityList />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                        <Route path='typeahead' element={<Typeahead />} />
+                    </Route>
 
 
-                <Route path="/p/:person_id" >
-                    <Route index element={<PersonList />} />
-                    <Route path="create-community" element={<CreateCommunity />} />
-                    <Route path="create-group" element={<AddGroup />} />
-                    <Route path='typeahead' element={<Typeahead />} />
-                </Route>
+                    <Route path="/c/:community_id/edit" >
+                        <Route index element={<EditCommunity />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                        <Route path='typeahead' element={<Typeahead />} />
+                    </Route>
 
-                {/* <Route path="/m/:messenger_id"  >
+
+                    <Route path="/p/:person_id" >
+                        <Route index element={<PersonList />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                        <Route path='typeahead' element={<Typeahead />} />
+                    </Route>
+
+                    {/* <Route path="/m/:messenger_id"  >
                     <Route index element={<MessengerList />} />
                     <Route path="create-community" element={<CreateCommunity />} />
                     <Route path="create-group" element={<AddGroup />} />
                 </Route> */}
 
-                <Route path="/c/:community_id/p/:post_id" >
-                    <Route index element={<PostList />} />
-                    <Route path="create-community" element={<CreateCommunity />} />
-                    <Route path="create-group" element={<AddGroup />} />
-                    <Route path='typeahead' element={<Typeahead />} />
+                    <Route path="/c/:community_id/p/:post_id" >
+                        <Route index element={<PostList />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                        <Route path='typeahead' element={<Typeahead />} />
+                    </Route>
+
+                    <Route path="/c/:community_id/p/:post_id/c/:comment_id" >
+                        <Route index element={<CommentList />} />
+                        <Route path="create-community" element={<CreateCommunity />} />
+                        <Route path="create-group" element={<AddGroup />} />
+                        <Route path='typeahead' element={<Typeahead />} />
+                    </Route>
+
+
+
                 </Route>
 
-                <Route path="/c/:community_id/p/:post_id/c/:comment_id" >
-                    <Route index element={<CommentList />} />
-                    <Route path="create-community" element={<CreateCommunity />} />
-                    <Route path="create-group" element={<AddGroup />} />
-                    <Route path='typeahead' element={<Typeahead />} />
-                </Route>
 
-
-
-            </Route>
-
-
-            <Route path="*" element={<Navigate to="/popular" replace={true} />} />
-        </Routes >
+                <Route path="*" element={<Navigate to="/popular" replace={true} />} />
+            </Routes >
+        </AnimatePresence>
     )
 }
 export default memo(Public)
@@ -156,3 +159,4 @@ export default memo(Public)
 const EmptyRoute = memo(() => {
     return <AnimatePresence>        <Outlet /></AnimatePresence>;
 })
+

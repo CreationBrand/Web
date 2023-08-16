@@ -8,7 +8,7 @@ export const header = css({
     color: text_1,
     fontSize: '20px',
     lineHeight: '25px',
-    letterSpacing: '.3px',
+    letterSpacing: '1px',
     textRendering: 'optimizeLegibility',
     WebkitFontSmoothing: 'antialiased',
 })
@@ -33,10 +33,10 @@ export const label = css({
 
 export const roundButton = {
     background: bg_4,
-    marginLeft: '8px',
-    fontSize: '13px',
+    fontSize: '12px',
     fontWeight: '600',
     borderRadius: '20px',
+    padding: '4px 12px',
 }
 
 export const section = css({

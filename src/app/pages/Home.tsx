@@ -36,6 +36,7 @@ import MainMobile from '@/layouts/MainMobile'
 import SearchM from '@/components/chunks/Search/searchM'
 import NavMobile from '@/layouts/NavMobile'
 import Desktop from '@/layouts/Desktop'
+import { AnimatePresence } from 'framer-motion'
 
 const StyledBadge = styled(Badge)<BadgeProps>({
     '& .MuiBadge-badge': {
@@ -90,7 +91,6 @@ const Home = () => {
             </Left>
 
             <MainMobile>
-
                 <NavMobile>
                     <div onClick={submit} css={iconButton}><AddRoundedIcon sx={{ fontSize: '32px' }} /></div>
                     <SearchM />
@@ -104,7 +104,10 @@ const Home = () => {
                 {last === 'home' && <GlobalList type="HOME" />}
                 {last === 'community' && <CommunityList />}
                 {last === 'group' && <GroupList />}
-                <Outlet />
+
+                {/* <AnimatePresence mode="wait"> */}
+                    <Outlet />
+                {/* </AnimatePresence> */}
 
             </MainMobile>
             <Right>

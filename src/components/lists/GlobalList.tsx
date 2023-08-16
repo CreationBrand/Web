@@ -15,6 +15,8 @@ import { communityFilter } from '@/state/filters'
 import { FilterHolder, PostHolder } from './PlaceHolders'
 import usePosts from '@/hooks/list/usePosts'
 import { BasePaneD, BasePaneM } from '@/sections/BasePane'
+import VirtualList from '../chunks/VirtualList/VirtualList'
+import { ScrollRestoration } from 'react-router-dom'
 
 
 
@@ -29,9 +31,11 @@ const GlobalList = ({ type }: any) => {
 
     if (layout === 'mobile') return (
         <BasePaneM id={`GLOBAL/${type}/${filter}/global`}>
-            <VirtuList list={isLoading ? [
-                <FilterHolder key={0} />, <PostHolder key={1} />, <PostHolder key={2} />] :
-                [<div css={{ height: '48px' }} />, <MainFilter type={type} />, ...components]} public_id={type} />
+            <VirtualList
+                public_id={type}
+                list={isLoading ? [
+                    <FilterHolder key={0} />, <PostHolder key={1} />, <PostHolder key={2} />] :
+                    [<div css={{ height: '48px' }} />, <MainFilter type={type} />, ...components]} />
         </BasePaneM>
     )
 

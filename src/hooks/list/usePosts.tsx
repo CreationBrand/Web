@@ -16,14 +16,14 @@ import Loader from '@/components/lists/Loader';
 
 const usePosts = (type: string, community_id: any, filter: any, view: any) => {
 
-    const [isLoading, setIsLoading] = useState(true)
+    // const [isLoading, setIsLoading] = useState(true)
     const [components, setComponents]: any = useRecoilState(lists(`${type}_${community_id}_${filter}`))
     const [cursor, setCursor]: any = useState(false)
     const socket = useRecoilValue(socketFlow)
 
     useEffect(() => {
-        setCursor(false)
-        setIsLoading(true)
+        // setCursor(false)
+        // setIsLoading(true)
         // setComponents([])
     }, [community_id, filter, type])
 
@@ -31,6 +31,7 @@ const usePosts = (type: string, community_id: any, filter: any, view: any) => {
         if (cursor === null || socket !== 'connected' || !community_id || !type) return
 
         (async () => {
+            console.log('fetching posts', cursor)
             let req: any = await socketRequest('posts', { type: type, id: community_id, filter, cursor: cursor })
             if (req?.posts?.length < 10) setCursor(null)
             setList(req.posts)
@@ -40,13 +41,12 @@ const usePosts = (type: string, community_id: any, filter: any, view: any) => {
 
             for (let i = 0; i < listItems?.length; i++) {
                 listItems[i].visibility = true
-
                 batch.push(<Post view={view} key={i} {...listItems[i]} />)
-
             }
+
             setComponents(components.concat(batch))
 
-            setIsLoading(false)
+            // setIsLoading(false)
         })()
 
     }, [cursor, community_id, filter, type, socket])
@@ -73,7 +73,8 @@ const usePosts = (type: string, community_id: any, filter: any, view: any) => {
     }
 
 
-    return [isLoading, false, components.concat(<Loader variant={cursor !== null ? 'loading' : 'end'} onLoad={fetchNext} />)]
+
+    return [false, false, components.concat(<Loader variant={cursor !== null ? 'loading' : 'end'} onLoad={fetchNext} />)]
 }
 
 

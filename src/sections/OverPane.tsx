@@ -31,7 +31,8 @@ export const OverPaneM = ({ children }: any) => {
                 top: 0,
                 left: 0,
             }}
-            transition={{ duration: 0.2 }}
+
+            transition={{ duration: 0.4, ease: [0.2, 0, 0, 1] }}
             initial={{ x: '100%' }}
             animate={{ x: '0%' }}
             exit={{ opacity: 0 }}

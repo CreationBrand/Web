@@ -20,12 +20,16 @@ import ContentLoader from '@/components/chunks/ContentLoader/ContentLoader';
 import CommunityPicker from '@/components/forum/CommunityPicker';
 import FlatInput from '@/components/forum/FlatInput';
 import RichInput from '@/components/forum/RichInput';
-import { header, roundButton, section, label, forumLabel } from '@/global/mixins';
+import { header, roundButton, section, label, forumLabel, iconButton } from '@/global/mixins';
 import { socketRequest } from '@/hooks/util/useSocket';
 import { person as personData } from '@/state/person';
 import DropZone from '@/components/forum/DropZone';
 import Pane from '@/layouts/Pane';
 import { bg_1, bg_2, bg_3, bg_forum } from '@/global/var';
+import { layoutSize } from '@/state/layout';
+import { OverPaneD, OverPaneM } from '@/sections/OverPane';
+import { motion } from 'framer-motion';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 
 // VALIDATION
 const schema = Joi.object({
@@ -93,7 +97,7 @@ const Submit = () => {
     const [loading, setLoading] = useState(false);
     const data = watch()
     const navigate = useNavigate()
-
+    const layout = useRecoilValue(layoutSize);
     const onSubmit = async () => {
         setLoading(true)
         console.log(data)
@@ -106,6 +110,158 @@ const Submit = () => {
     };
 
 
+    if (layout === 'mobile') return (<OverPaneM>
+
+
+        <motion.div
+            css={{ padding: '12px 8px' }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, ease: 'easeInOut' }}>
+
+
+            <section css={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div css={iconButton} onClick={() => navigate(-1)}><CancelRoundedIcon /></div>
+
+                <div css={header}>Create Post</div>
+
+                <LoadingButton
+                    loadingIndicator="Loading…"
+                    loading={loading}
+                    disabled={Boolean(Object.keys(errors).length) || data.title === '' || data.community_id === undefined}
+                    disableElevation
+                    sx={roundButton}
+                    onMouseDown={onSubmit}
+                    variant='contained'
+                >
+                    Create
+                </LoadingButton>
+            </section>
+
+            <h4 css={forumLabel}>SELECT A COMMUNITY</h4>
+            <CommunityPicker name="community_id" control={control} />
+
+            <h4 css={forumLabel}>TITLE</h4>
+            <FlatInput name='title' maxLength={150} control={control}></FlatInput>
+
+            <h4 css={forumLabel}>TYPE</h4>
+            <Controller
+                name="type"
+                control={control}
+                defaultValue="text"
+                render={({ field: { onChange, value } }) =>
+                    <TabContext value={value}>
+                        <div css={C.section}>
+                            <TabList
+                                sx={{
+                                    background: bg_forum,
+                                    borderRadius: '8px',
+                                    color: 'white',
+                                    height: '40px !important',
+                                    overflow: 'hidden',
+                                    minHeight: '40px !important',
+                                    fontSize: '12px !important',
+                                }}
+                                textColor="secondary"
+                                indicatorColor="secondary"
+                                onChange={(e, v) => { onChange(v); setValue('content', '') }}>
+                                <Tab
+                                    sx={{
+                                        height: '40px !important', paddingBottom: '40px', fontSize: '12px !important',
+                                    }}
+                                    label="Post" value="text"
+                                    icon={<FeedRoundedIcon />}
+                                    iconPosition="start"
+                                />
+                                <Tab
+                                    sx={{
+                                        height: '40px !important', paddingBottom: '40px', fontSize: '12px !important',
+                                    }}
+                                    label="Link" value="link"
+                                    icon={<OpenInNewRoundedIcon />}
+                                    iconPosition="start"
+                                />
+                                <Tab
+                                    sx={{
+                                        height: '40px !important', paddingBottom: '40px', fontSize: '12px !important',
+                                    }}
+                                    label="Upload" value="upload"
+                                    icon={<BackupRoundedIcon />}
+                                    iconPosition="start"
+
+                                />
+                            </TabList>
+                        </div>
+
+
+                        <section css={{ marginTop: 16 }}>
+                            <TabPanel
+                                sx={{ padding: '0' }}
+                                value="text" >
+                                <div css={forumLabel}>Content</div>
+                                <RichInput
+                                    name='content'
+                                    control={control}
+                                    maxLength={10000} />
+
+                            </TabPanel>
+                        </section>
+
+
+                        <section css={{ marginTop: 16 }}>
+                            <TabPanel
+                                sx={{ padding: '0' }}
+                                value="upload">
+                                <Controller
+                                    name="content"
+                                    control={control}
+                                    render={({ field: { onChange, value } }) =>
+                                        <DropZone
+                                            value={value}
+                                            onChange={onChange}
+                                        />
+
+                                    }
+                                />
+                            </TabPanel>
+                        </section>
+
+
+                        <section css={{ marginTop: 16 }}>
+                            <TabPanel value="link" sx={{ padding: 0 }}>
+                                <div css={forumLabel}>link</div>
+                                <FlatInput name='content' maxLength={300} control={control}></FlatInput>
+                            </TabPanel>
+                        </section>
+
+                    </TabContext>
+                } />
+
+
+            <h4 css={forumLabel}>PREVIEW</h4>
+
+            <div css={{
+                maxWidth: '800px', width: '100%', overflow: 'hidden',
+                whiteSpace: 'normal',
+                wordBreak: 'break-word',
+                gap: '8px',
+                display: 'flex',
+                flexDirection: 'column',
+            }}>
+                <div css={{
+                    all: 'unset',
+                    color: '#f2f4f5',
+                    fontSize: '20px',
+                    lineHeight: '24px',
+                    fontWeight: 'bold',
+                }}>{data.title && data.title}</div>
+                <ContentLoader type={data.type} content={data.content} />
+            </div>
+
+
+        </motion.div>
+
+    </OverPaneM>)
 
 
     return (<Pane>
